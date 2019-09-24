@@ -1,22 +1,7 @@
-# Twig component
-Includes twig template engine for OXID eShop
+# Change Log for OXID twig engine component
 
-## Requirements
+All notable changes to this project will be documented in this file.
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
 
-* OXID eShop compilation ^v6.2.0
-
-## Installation
-
-Run the following command to install module:
-
-```bash
-composer require oxid-esales/twig-component
-```
-Also we recommend to install the twig theme for the admin area:
-
-```bash
-composer require oxid-esales/twig-admin-theme
-```
-## License
-
-See LICENSE file for license details.
+## [1.0.0] - Unreleased
