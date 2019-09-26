@@ -7,7 +7,6 @@
 namespace OxidEsales\Twig\Extensions;
 
 use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\AssignAdvancedLogic;
-use OxidEsales\EshopCommunity\Internal\Application\ContainerFactory;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -56,9 +55,7 @@ class AssignAdvancedExtension extends AbstractExtension
      */
     public function assignAdvanced(string $value): string
     {
-        /** @var AssignAdvancedLogic $oxgetseourlLogic */
-        $assignAdvancedLogic = ContainerFactory::getInstance()->getContainer()->get(AssignAdvancedLogic::class);
-        $formattedValue = $assignAdvancedLogic->formatValue($value);
+        $formattedValue = $this->assignAdvancedLogic->formatValue($value);
 
         return $formattedValue;
     }
