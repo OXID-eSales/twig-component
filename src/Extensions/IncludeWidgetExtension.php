@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Extensions;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\IncludeWidgetLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\IncludeWidgetLogic;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\TruncateLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TruncateLogic;
 use OxidEsales\Twig\Extensions\Filters\TruncateExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 

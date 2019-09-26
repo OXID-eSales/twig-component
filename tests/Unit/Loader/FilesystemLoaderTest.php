@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Unit\Loader;
 
-use OxidEsales\EshopCommunity\Internal\Templating\TemplateLoaderInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateLoaderInterface;
 use OxidEsales\Twig\Loader\FilesystemLoader;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

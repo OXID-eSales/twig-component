@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\TranslateSalutationLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateSalutationLogic;
 use OxidEsales\Twig\Extensions\Filters\TranslateSalutationExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 

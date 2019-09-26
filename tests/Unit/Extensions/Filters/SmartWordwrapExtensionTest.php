@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Unit\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\SmartWordwrapLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\SmartWordwrapLogic;
 use OxidEsales\Twig\Extensions\Filters\SmartWordwrapExtension;
 use OxidEsales\EshopCommunity\Tests\Unit\Application\Controller\contentTest_oxUtilsView;
 use PHPUnit\Framework\TestCase;

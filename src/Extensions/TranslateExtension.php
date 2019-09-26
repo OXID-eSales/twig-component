@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Extensions;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\TranslateFunctionLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateFunctionLogic;
 use phpDocumentor\Reflection\Types\Mixed_;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

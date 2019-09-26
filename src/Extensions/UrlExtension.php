@@ -6,8 +6,8 @@
 
 namespace OxidEsales\Twig\Extensions;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\AddUrlParametersLogic;
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\SeoUrlLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\AddUrlParametersLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\SeoUrlLogic;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;

@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\FormatCurrencyLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatCurrencyLogic;
 use OxidEsales\Twig\Extensions\Filters\FormatCurrencyExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 

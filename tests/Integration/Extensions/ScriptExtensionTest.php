@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\ScriptLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ScriptLogic;
 use OxidEsales\Twig\Extensions\ScriptExtension;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;

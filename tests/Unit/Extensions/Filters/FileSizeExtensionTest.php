@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Unit\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\FileSizeLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FileSizeLogic;
 use OxidEsales\Twig\Extensions\Filters\FileSizeExtension;
 use PHPUnit\Framework\TestCase;
 

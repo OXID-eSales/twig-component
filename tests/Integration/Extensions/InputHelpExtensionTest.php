@@ -6,7 +6,7 @@
 
 namespace OxidEsales\EshopCommunity\Tests\Integration\Internal\Adapter;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\InputHelpLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\InputHelpLogic;
 use OxidEsales\Twig\Extensions\InputHelpExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 use PHPUnit\Framework\TestCase;

@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\FormatPriceLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatPriceLogic;
 use OxidEsales\Twig\Extensions\FormatPriceExtension;
 
 class FormatPriceExtensionTest extends AbstractExtensionTest

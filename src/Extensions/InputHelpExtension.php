@@ -6,8 +6,7 @@
 
 namespace OxidEsales\Twig\Extensions;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\InputHelpLogic;
-use OxidEsales\Twig\TwigEngine;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\InputHelpLogic;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

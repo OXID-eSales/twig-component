@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\SmartWordwrapLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\SmartWordwrapLogic;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 

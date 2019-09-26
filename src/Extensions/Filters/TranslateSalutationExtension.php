@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\TranslateSalutationLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateSalutationLogic;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 

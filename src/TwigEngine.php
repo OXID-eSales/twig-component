@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig;
 
-use OxidEsales\EshopCommunity\Internal\Templating\TemplateEngineInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface;
 use OxidEsales\Twig\Escaper\EscaperInterface;
 use Twig\Environment;
 use Twig\Extension\CoreExtension;

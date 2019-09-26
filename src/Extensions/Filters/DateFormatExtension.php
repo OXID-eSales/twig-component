@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\DateFormatHelper;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\DateFormatHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 

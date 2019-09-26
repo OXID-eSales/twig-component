@@ -7,7 +7,7 @@
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\EshopCommunity\Core\Registry;
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\TranslateFunctionLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateFunctionLogic;
 use OxidEsales\Twig\Extensions\TranslateExtension;
 use PHPUnit\Framework\TestCase;
 

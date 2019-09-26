@@ -7,7 +7,7 @@
 namespace OxidEsales\Twig\Tests\Unit\Loader;
 
 use OxidEsales\EshopCommunity\Application\Model\Content;
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\ContentFactory;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory;
 use OxidEsales\Twig\Loader\ContentTemplateLoader;
 use OxidEsales\Twig\TemplateLoaderNameParser;
 use PHPUnit\Framework\MockObject\MockBuilder;

@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Extensions;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\ScriptLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ScriptLogic;
 use Twig\Error\Error;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

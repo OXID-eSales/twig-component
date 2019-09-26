@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Unit\Extension;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\IncludeWidgetLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\IncludeWidgetLogic;
 use OxidEsales\Twig\Extensions\IncludeWidgetExtension;
 use PHPUnit\Framework\TestCase;
 

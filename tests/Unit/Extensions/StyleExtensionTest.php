@@ -6,14 +6,14 @@
 
 namespace OxidEsales\Twig\Tests\Unit\Extensions;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\StyleLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\StyleLogic;
 use OxidEsales\Twig\Extensions\StyleExtension;
 use \PHPUnit\Framework\TestCase;
 
 class StyleExtensionTest extends TestCase
 {
     /**
-     * @covers       \OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\StyleLogic::collectStyleSheets
+     * @covers       \OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\StyleLogic::collectStyleSheets
      * @dataProvider dataProvider
      *
      * @param $params
@@ -53,7 +53,7 @@ class StyleExtensionTest extends TestCase
     private function getStyleExtensionMock($params, $isDynamic)
     {
         /** @var StyleLogic $styleLogic */
-        $styleLogic = $this->getMockBuilder('OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\StyleLogic')->disableOriginalConstructor()->getMock();
+        $styleLogic = $this->getMockBuilder('OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\StyleLogic')->disableOriginalConstructor()->getMock();
         $styleLogic->method('collectStyleSheets')->willReturn([]);
         $styleLogic->expects($this->once())->method('collectStyleSheets')->with($params, $isDynamic);
         $styleExtension = new StyleExtension($styleLogic);

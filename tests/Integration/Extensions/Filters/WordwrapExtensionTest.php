@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\WordwrapLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\WordwrapLogic;
 use OxidEsales\Twig\Extensions\Filters\WordwrapExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 

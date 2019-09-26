@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Unit\Extensions;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\AssignAdvancedLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\AssignAdvancedLogic;
 use OxidEsales\Twig\Extensions\AssignAdvancedExtension;
 use \PHPUnit\Framework\TestCase;
 

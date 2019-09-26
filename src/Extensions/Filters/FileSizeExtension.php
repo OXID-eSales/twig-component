@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\FileSizeLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FileSizeLogic;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 

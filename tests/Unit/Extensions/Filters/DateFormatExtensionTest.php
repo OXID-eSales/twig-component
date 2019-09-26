@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Unit\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\DateFormatHelper;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\DateFormatHelper;
 use OxidEsales\Twig\Extensions\Filters\DateFormatExtension;
 use PHPUnit\Framework\TestCase;
 

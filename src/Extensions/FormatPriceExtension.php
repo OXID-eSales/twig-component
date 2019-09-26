@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Extensions;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\FormatPriceLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatPriceLogic;
 use phpDocumentor\Reflection\Types\Integer;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

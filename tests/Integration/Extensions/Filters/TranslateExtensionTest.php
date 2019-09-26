@@ -8,7 +8,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\Eshop\Core\Field;
 use OxidEsales\EshopCommunity\Core\Registry;
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\TranslateFilterLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateFilterLogic;
 use OxidEsales\Twig\Extensions\Filters\TranslateExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 

@@ -7,7 +7,7 @@
 namespace OxidEsales\Twig\Loader;
 
 use OxidEsales\EshopCommunity\Application\Model\Content;
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\ContentFactory;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory;
 use OxidEsales\Twig\TemplateLoaderNameParser;
 use Twig\Error\LoaderError;
 use Twig\Loader\LoaderInterface;

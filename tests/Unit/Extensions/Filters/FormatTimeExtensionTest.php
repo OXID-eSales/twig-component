@@ -6,7 +6,7 @@
 
 namespace OxidEsales\Twig\Tests\Unit\Extensions\Filters;
 
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\FormatTimeLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatTimeLogic;
 use OxidEsales\Twig\Extensions\Filters\FormatTimeExtension;
 use PHPUnit\Framework\TestCase;
 

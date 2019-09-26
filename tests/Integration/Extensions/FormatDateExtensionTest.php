@@ -7,7 +7,7 @@
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Eshop\Core\Field;
-use OxidEsales\EshopCommunity\Internal\Adapter\TemplateLogic\FormatDateLogic;
+use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatDateLogic;
 use OxidEsales\Twig\Extensions\Filters\FormatDateExtension;
 
 /**
