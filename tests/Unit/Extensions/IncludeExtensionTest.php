@@ -12,8 +12,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class IncludeExtensionTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class IncludeExtensionTest extends TestCase
 {

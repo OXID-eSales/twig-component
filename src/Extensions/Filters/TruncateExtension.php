@@ -9,8 +9,6 @@ use Twig\TwigFunction;
 
 /**
  * Class TruncateExtension
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class TruncateExtension extends AbstractExtension
 {

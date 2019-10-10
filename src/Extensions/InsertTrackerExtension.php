@@ -14,7 +14,6 @@ use Twig\Environment;
  * Class InsertTrackerExtension
  *
  * @package OxidEsales\Twig\Extensions
- * @author  Jędrzej Skoczek
  */
 class InsertTrackerExtension extends AbstractExtension
 {

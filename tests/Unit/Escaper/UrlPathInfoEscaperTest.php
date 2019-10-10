@@ -12,8 +12,6 @@ use Twig\Environment;
 
 /**
  * Class UrlPathInfoEscaperTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class UrlPathInfoEscaperTest extends \PHPUnit\Framework\TestCase
 {

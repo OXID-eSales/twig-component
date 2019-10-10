@@ -12,8 +12,6 @@ use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 
 /**
  * Class FormatCurrencyExtensionTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class FormatCurrencyExtensionTest extends AbstractExtensionTest
 {

@@ -12,8 +12,6 @@ use Twig\Environment;
  * Class NonStdEscaper
  *
  * Escape non-standard chars, such as ms document quotes
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class NonStdEscaper implements EscaperInterface
 {

@@ -12,8 +12,6 @@ use Twig\Environment;
 
 /**
  * Class MailEscaperTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class MailEscaperTest extends \PHPUnit\Framework\TestCase
 {

@@ -11,8 +11,6 @@ namespace OxidEsales\Twig;
  *
  * Parses following strings:
  * loaderName::key::value?param1=value1&param2=value2
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class TemplateLoaderNameParser
 {

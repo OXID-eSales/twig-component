@@ -12,8 +12,6 @@ use OxidEsales\Twig\Extensions\Filters\FormatDateExtension;
 
 /**
  * Class FormatDateExtensionTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class FormatDateExtensionTest extends AbstractExtensionTest
 {

@@ -9,8 +9,6 @@ use Twig\TwigFunction;
 
 /**
  * Class WordwrapExtension
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class WordwrapExtension extends AbstractExtension
 {

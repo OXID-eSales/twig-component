@@ -15,7 +15,6 @@ use Twig\TwigFunction;
  * Class InsertNewBasketItemExtension
  *
  * @package OxidEsales\Twig\Extensions
- * @author  Jędrzej Skoczek
  */
 class InsertNewBasketItemExtension extends AbstractExtension
 {

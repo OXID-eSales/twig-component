@@ -12,8 +12,6 @@ use Twig\Environment;
 
 /**
  * Class QuotesEscaperTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class QuotesEscaperTest extends \PHPUnit\Framework\TestCase
 {

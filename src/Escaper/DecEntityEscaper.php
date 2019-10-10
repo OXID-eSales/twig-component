@@ -10,8 +10,6 @@ use Twig\Environment;
 
 /**
  * Class DecEntityEscaper
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class DecEntityEscaper implements EscaperInterface
 {

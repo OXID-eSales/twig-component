@@ -14,8 +14,6 @@ use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 
 /**
  * Class TranslateExtensionTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class TranslateExtensionTest extends AbstractExtensionTest
 {

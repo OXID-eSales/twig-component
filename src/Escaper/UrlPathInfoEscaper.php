@@ -10,8 +10,6 @@ use Twig\Environment;
 
 /**
  * Class UrlPathInfoEscaper
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class UrlPathInfoEscaper implements EscaperInterface
 {

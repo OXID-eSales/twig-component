@@ -12,8 +12,6 @@ use Twig\Environment;
  * Class HexEscaper
  *
  * Escape every character into hex
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class HexEscaper implements EscaperInterface
 {

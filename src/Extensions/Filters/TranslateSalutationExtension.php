@@ -12,8 +12,6 @@ use Twig\TwigFilter;
 
 /**
  * Class TranslateSalutationExtension
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class TranslateSalutationExtension extends AbstractExtension
 {

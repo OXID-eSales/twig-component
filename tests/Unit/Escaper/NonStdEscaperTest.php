@@ -12,8 +12,6 @@ use Twig\Environment;
 
 /**
  * Class NonStdEscaperTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class NonStdEscaperTest extends \PHPUnit\Framework\TestCase
 {

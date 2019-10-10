@@ -15,8 +15,6 @@ use Twig\Test\NodeTestCase;
 
 /**
  * Class IfContentNodeTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class IfContentNodeTest extends NodeTestCase
 {

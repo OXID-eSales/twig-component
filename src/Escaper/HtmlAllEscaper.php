@@ -10,8 +10,6 @@ use Twig\Environment;
 
 /**
  * Class HtmlAllEscaper
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class HtmlAllEscaper implements EscaperInterface
 {

@@ -13,8 +13,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Class TwigEscaperPassTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class TwigEscaperPassTest extends TestCase
 {

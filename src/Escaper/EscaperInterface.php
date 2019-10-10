@@ -10,8 +10,6 @@ use Twig\Environment;
 
 /**
  * Class EscaperInterface
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 interface EscaperInterface
 {

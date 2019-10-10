@@ -13,7 +13,6 @@ use Twig\TwigFunction;
  * Class GetRequestVariablesExtension
  *
  * @package OxidEsales\Twig\Extensions
- * @author  Jędrzej Skoczek
  */
 class GetRequestVariablesExtension extends AbstractExtension
 {

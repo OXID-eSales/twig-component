@@ -13,8 +13,6 @@ use Twig\Loader\ArrayLoader;
 
 /**
  * Class ScriptExtensionTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class ScriptExtensionTest extends AbstractExtensionTest
 {

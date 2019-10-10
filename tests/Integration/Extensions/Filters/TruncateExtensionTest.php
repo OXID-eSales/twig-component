@@ -12,8 +12,6 @@ use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 
 /**
  * Class TruncateExtensionTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class TruncateExtensionTest extends AbstractExtensionTest
 {

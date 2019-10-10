@@ -16,8 +16,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ContentTemplateLoaderTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class ContentTemplateLoaderTest extends TestCase
 {

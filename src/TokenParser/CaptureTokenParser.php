@@ -16,7 +16,6 @@ use Twig\TokenStream;
  * Class CaptureTokenParser
  *
  * @package OxidEsales\Twig\TokenParser
- * @author  Jędrzej Skoczek
  */
 class CaptureTokenParser extends AbstractTokenParser
 {

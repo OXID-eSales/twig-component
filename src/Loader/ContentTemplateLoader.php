@@ -15,8 +15,6 @@ use Twig\Source;
 
 /**
  * Class ContentSnippetLoader
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class ContentTemplateLoader implements LoaderInterface
 {

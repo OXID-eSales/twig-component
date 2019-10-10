@@ -13,7 +13,6 @@ use Twig\TwigFilter;
  * Class EncloseExtension
  *
  * @package OxidEsales\Twig\Extensions
- * @author  Jędrzej Skoczek
  */
 class EncloseExtension extends AbstractExtension
 {

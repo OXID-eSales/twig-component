@@ -12,8 +12,6 @@ use Twig\Compiler;
 
 /**
  * Class IfContentNode
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class IfContentNode extends Node
 {

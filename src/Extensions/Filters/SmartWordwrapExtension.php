@@ -14,7 +14,6 @@ use Twig\TwigFilter;
  * Class SmartWordwrapExtension
  *
  * @package OxidEsales\Twig\Extensions\Filters
- * @author  Jędrzej Skoczek
  */
 class SmartWordwrapExtension extends AbstractExtension
 {

@@ -10,8 +10,6 @@ use Twig\Environment;
 
 /**
  * Class MailEscaper
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class MailEscaper implements EscaperInterface
 {

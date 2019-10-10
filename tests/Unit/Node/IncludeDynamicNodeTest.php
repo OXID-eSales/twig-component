@@ -16,8 +16,6 @@ use Twig\Test\NodeTestCase;
 
 /**
  * Class IncludeDynamicNodeTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class IncludeDynamicNodeTest extends NodeTestCase
 {

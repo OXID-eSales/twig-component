@@ -10,8 +10,6 @@ use Twig\Environment;
 
 /**
  * Class HexEntityEscaper
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class HexEntityEscaper implements EscaperInterface
 {

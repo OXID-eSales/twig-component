@@ -9,8 +9,6 @@ use Twig\TwigFunction;
 
 /**
  * Class TranslateExtension
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class TranslateExtension extends AbstractExtension
 {

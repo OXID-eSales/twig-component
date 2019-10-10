@@ -15,8 +15,6 @@ use Twig\Test\NodeTestCase;
 
 /**
  * Class HasRightsNodeTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class HasRightsNodeTest extends NodeTestCase
 {

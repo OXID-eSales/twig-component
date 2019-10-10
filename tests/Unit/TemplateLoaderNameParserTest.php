@@ -11,8 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class TemplateLoaderNameParserTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class TemplateLoaderNameParserTest extends TestCase
 {

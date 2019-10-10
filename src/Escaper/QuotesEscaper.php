@@ -12,8 +12,6 @@ use Twig\Environment;
  * Class QuotesEscaper
  *
  * Escape unescaped single quotes
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class QuotesEscaper implements EscaperInterface
 {

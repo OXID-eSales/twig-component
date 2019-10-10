@@ -12,8 +12,6 @@ use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 
 /**
  * Class WordwrapExtensionTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class WordwrapExtensionTest extends AbstractExtensionTest
 {

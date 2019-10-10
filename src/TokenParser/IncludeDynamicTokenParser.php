@@ -12,8 +12,6 @@ use Twig\TokenParser\IncludeTokenParser;
 
 /**
  * Class IncludeDynamicTokenParser
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class IncludeDynamicTokenParser extends IncludeTokenParser
 {

@@ -15,8 +15,6 @@ use Twig\Loader\FilesystemLoader as TwigLoader;
 
 /**
  * Class ContentSnippetLoader
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class FilesystemLoader extends TwigLoader
 {

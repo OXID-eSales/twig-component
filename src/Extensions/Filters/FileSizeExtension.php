@@ -14,7 +14,6 @@ use Twig\TwigFilter;
  * Class FileSizeExtension
  *
  * @package OxidEsales\Twig\Filters
- * @author  Jędrzej Skoczek
  */
 class FileSizeExtension extends AbstractExtension
 {

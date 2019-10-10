@@ -13,8 +13,6 @@ use Twig\TokenParser\TokenParserInterface;
 
 /**
  * Class IfContentExtension
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class IfContentExtension extends AbstractExtension
 {

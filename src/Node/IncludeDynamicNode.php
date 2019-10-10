@@ -12,8 +12,6 @@ use Twig\Compiler;
 
 /**
  * Class IncludeDynamic
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class IncludeDynamicNode extends IncludeNode
 {

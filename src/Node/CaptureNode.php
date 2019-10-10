@@ -13,7 +13,6 @@ use Twig\Compiler;
  * Class CaptureNode
  *
  * @package OxidEsales\Twig\Node
- * @author  Jędrzej Skoczek
  */
 class CaptureNode extends Node
 {

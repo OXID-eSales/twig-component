@@ -12,8 +12,6 @@ use OxidEsales\Twig\Extensions\UrlExtension;
 
 /**
  * Class UrlExtensionTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class UrlExtensionTest extends AbstractExtensionTest
 {

@@ -15,8 +15,6 @@ use Twig\Token;
 
 /**
  * Class IfContentNodeParser
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class IfContentTokenParser extends AbstractTokenParser
 {

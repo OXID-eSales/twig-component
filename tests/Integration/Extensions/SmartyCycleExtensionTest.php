@@ -10,8 +10,6 @@ use OxidEsales\Twig\Extensions\SmartyCycleExtension;
 
 /**
  * Class SmartyCycleExtensionTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class SmartyCycleExtensionTest extends AbstractExtensionTest
 {

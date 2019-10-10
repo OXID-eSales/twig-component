@@ -13,8 +13,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class FilesystemLoaderTest
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class FilesystemLoaderTest extends TestCase
 {

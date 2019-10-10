@@ -9,8 +9,6 @@ use Twig\TwigFunction;
 
 /**
  * Class FormatCurrencyExtension
- *
- * @author Tomasz Kowalewski (t.kowalewski@createit.pl)
  */
 class FormatCurrencyExtension extends AbstractExtension
 {
