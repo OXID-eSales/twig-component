@@ -7,8 +7,8 @@
 namespace OxidEsales\Twig\Loader;
 
 use OxidEsales\Eshop\Core\Config;
-use OxidEsales\Eshop\Core\Exception\SystemComponentException;
 use OxidEsales\EshopCommunity\Core\Registry;
+use OxidEsales\EshopCommunity\Internal\Framework\Templating\Exception\TemplateFileNotFoundException;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateLoaderInterface;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader as TwigLoader;
@@ -76,14 +76,14 @@ class FilesystemLoader extends TwigLoader
         if ($this->config->isAdmin()) {
             try{
                $template = $this->adminLoader->getPath($name);
-            } catch (SystemComponentException $e) {
+            } catch (TemplateFileNotFoundException $e) {
                 //let twig engine handle template loading and error throwing.
                 return null;
             }
         } else {
             try {
                 $template = $this->loader->getPath($name);
-            } catch (SystemComponentException $e) {
+            } catch (TemplateFileNotFoundException $e) {
                 //let twig engine handle template loading and error throwing.
                 return null;
             }
