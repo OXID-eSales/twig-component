@@ -9,7 +9,7 @@ namespace OxidEsales\Twig\Loader;
 use OxidEsales\Eshop\Core\Config;
 use OxidEsales\EshopCommunity\Core\Registry;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Exception\TemplateFileNotFoundException;
-use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateLoaderInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Templating\Loader\TemplateLoaderInterface;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader as TwigLoader;
 

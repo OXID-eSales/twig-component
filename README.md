@@ -20,3 +20,7 @@ composer require oxid-esales/twig-admin-theme
 ## License
 
 See LICENSE file for license details.
+
+## Bugs and Issues
+
+If you experience any bugs or issues, please report them in the section **Twig engine** of https://bugs.oxid-esales.com.
