@@ -298,3 +298,8 @@ services:
       - !tagged twig.extension
       - !tagged twig.escaper
     public: false
+
+  OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolverInterface:
+    class: OxidEsales\Twig\Resolver\TemplateNameResolver
+    arguments:
+      - '@OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolver'
