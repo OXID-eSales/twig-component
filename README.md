@@ -23,4 +23,4 @@ See LICENSE file for license details.
 
 ## Bugs and Issues
 
-If you experience any bugs or issues, please report them in the section **Twig engine** of https://bugs.oxid-esales.com.
+If you experience any bugs or issues, please report them in the section **OXID eShop (all versions)** under category **Twig engine** of https://bugs.oxid-esales.com
