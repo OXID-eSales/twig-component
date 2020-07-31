@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
@@ -10,14 +13,8 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\AddUrlPa
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\SeoUrlLogic;
 use OxidEsales\Twig\Extensions\UrlExtension;
 
-/**
- * Class UrlExtensionTest
- */
-class UrlExtensionTest extends AbstractExtensionTest
+final class UrlExtensionTest extends AbstractExtensionTest
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();

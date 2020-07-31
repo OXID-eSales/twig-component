@@ -10,7 +10,7 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\IncludeW
 use OxidEsales\Twig\Extensions\IncludeWidgetExtension;
 use PHPUnit\Framework\TestCase;
 
-class IncludeWidgetExtensionTest extends TestCase
+final class IncludeWidgetExtensionTest extends TestCase
 {
     /**
      * @var IncludeWidgetExtension

@@ -1,28 +1,28 @@
 <?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
+declare(strict_types=1);
+
 namespace OxidEsales\Twig\Tests\Unit\Escaper;
 
 use OxidEsales\Twig\Escaper\EscaperInterface;
 use OxidEsales\Twig\Escaper\QuotesEscaper;
+use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 
-/**
- * Class QuotesEscaperTest
- */
-class QuotesEscaperTest extends \PHPUnit\Framework\TestCase
+final class QuotesEscaperTest extends TestCase
 {
-
     /** @var EscaperInterface */
     private $escaper;
 
     /** @var Environment */
     private $environment;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->escaper = new QuotesEscaper();

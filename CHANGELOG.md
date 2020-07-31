@@ -6,8 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.0.0] - Unreleased
 
+### Added
+- Twig templates multi inheritance for modules
+- Support for PHP v8
+
+### Changed
+- Switched to Twig v3
+
 ### Removed
 - Support for `assign_adv` plugin
+- Support for PHP < v7.4
+- `Resolver\TemplateNameResolver`
+- Method:
+  - `TwigEngine::getDefaultFileExtension()`
 
 ## [1.1.0] - Unreleased
 

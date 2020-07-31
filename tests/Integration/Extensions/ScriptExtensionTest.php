@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
@@ -10,15 +13,10 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ScriptLo
 use OxidEsales\Twig\Extensions\ScriptExtension;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
+use Twig\Template;
 
-/**
- * Class ScriptExtensionTest
- */
-class ScriptExtensionTest extends AbstractExtensionTest
+final class ScriptExtensionTest extends AbstractExtensionTest
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -112,9 +110,9 @@ HTML
     /**
      * @param string $template
      *
-     * @return \Twig_Template
+     * @return Template
      */
-    protected function getTemplate(string $template): \Twig_Template
+    protected function getTemplate(string $template): Template
     {
         $loader = new ArrayLoader(['index' => $template]);
 
@@ -122,6 +120,6 @@ HTML
         $twig->addGlobal('__oxid_include_dynamic', true);
         $twig->addExtension($this->extension);
 
-        return $twig->loadTemplate('index');
+        return $twig->loadTemplate($twig->getTemplateClass('index'), 'index');
     }
 }

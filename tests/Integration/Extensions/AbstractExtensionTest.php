@@ -1,34 +1,38 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
+declare(strict_types=1);
+
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Eshop\Core\Registry;
+use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\Loader\ArrayLoader;
+use Twig\Template;
 
-abstract class AbstractExtensionTest extends \PHPUnit\Framework\TestCase
+abstract class AbstractExtensionTest extends TestCase
 {
-    /** @var AbstractExtension */
-    protected $extension;
+    protected AbstractExtension $extension;
 
     /**
      * @param string $template
      *
-     * @return \Twig_Template
+     * @return Template
      */
-    protected function getTemplate(string $template): \Twig_Template
+    protected function getTemplate(string $template): Template
     {
         $loader = new ArrayLoader(['index' => $template]);
 
         $twig = new Environment($loader, ['debug' => true, 'cache' => false]);
         $twig->addExtension($this->extension);
 
-        return $twig->loadTemplate('index');
+        return $twig->loadTemplate($twig->getTemplateClass('index'), 'index');
     }
 
     /**
@@ -36,9 +40,9 @@ abstract class AbstractExtensionTest extends \PHPUnit\Framework\TestCase
      *
      * @param int $languageId
      */
-    public function setLanguage($languageId)
+    public function setLanguage($languageId): void
     {
-        $oxLang = \OxidEsales\Eshop\Core\Registry::getLang();
+        $oxLang = Registry::getLang();
         $oxLang->setBaseLanguage($languageId);
         $oxLang->setTplLanguage($languageId);
     }
@@ -48,7 +52,7 @@ abstract class AbstractExtensionTest extends \PHPUnit\Framework\TestCase
      *
      * @param bool $adminMode set to admin mode TRUE / FALSE.
      */
-    public function setAdminMode($adminMode)
+    public function setAdminMode($adminMode): void
     {
         Registry::getConfig()->setAdminMode($adminMode);
     }

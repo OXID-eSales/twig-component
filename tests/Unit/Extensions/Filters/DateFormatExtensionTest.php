@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Extensions\Filters;
 
@@ -10,19 +13,9 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\DateForm
 use OxidEsales\Twig\Extensions\Filters\DateFormatExtension;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class DateFormatExtensionTest
- *
- * Test overrides DIRECTORY_SEPARATOR const
- *
- * @package OxidEsales\Twig\Tests\Unit\Extensions\Filters
- */
-class DateFormatExtensionTest extends TestCase
+final class DateFormatExtensionTest extends TestCase
 {
-    /**
-     * @var DateFormatExtension
-     */
-    private $dateFormatExtension;
+    private DateFormatExtension $dateFormatExtension;
 
     protected function setUp(): void
     {
@@ -31,10 +24,7 @@ class DateFormatExtensionTest extends TestCase
         $this->dateFormatExtension = new DateFormatExtension($dateFormatHelper);
     }
 
-    /**
-     * @return array
-     */
-    public function provider()
+    public function provider(): array
     {
         return [
 
@@ -67,7 +57,7 @@ class DateFormatExtensionTest extends TestCase
      * @dataProvider provider
      * @covers       \OxidEsales\Twig\Extensions\Filters\DateFormatExtension::dateFormat
      */
-    public function testDateFormat($string, $format, $default_date, $expectedDate)
+    public function testDateFormat($string, $format, $default_date, $expectedDate): void
     {
         $actualDate = $this->dateFormatExtension->dateFormat($string, $format, $default_date);
         $this->assertEquals($expectedDate, $actualDate);

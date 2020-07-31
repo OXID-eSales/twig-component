@@ -15,10 +15,7 @@ use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 
 final class InputHelpExtensionTest extends AbstractExtensionTest
 {
-    /**
-     * @var InputHelpExtension
-     */
-    private $inputHelpExtension;
+    private InputHelpExtension $inputHelpExtension;
 
     protected function setUp(): void
     {
@@ -30,7 +27,7 @@ final class InputHelpExtensionTest extends AbstractExtensionTest
     /**
      * @return array
      */
-    public function getIdentProvider()
+    public function getIdentProvider(): array
     {
         return [
             [null, 1, false, null],
@@ -47,7 +44,7 @@ final class InputHelpExtensionTest extends AbstractExtensionTest
      * @dataProvider getIdentProvider
      * @covers       \OxidEsales\Twig\Extensions\InputHelpExtension::getHelpId
      */
-    public function testGetIdent($params, $iLang, $blAdmin, $expected)
+    public function testGetIdent($params, $iLang, $blAdmin, $expected): void
     {
         $this->setLanguage($iLang);
         $this->setAdminMode($blAdmin);
@@ -57,7 +54,7 @@ final class InputHelpExtensionTest extends AbstractExtensionTest
     /**
      * @return array
      */
-    public function getHelpTextProvider()
+    public function getHelpTextProvider(): array
     {
         return [
             [null, 1, false, null],
@@ -76,22 +73,11 @@ final class InputHelpExtensionTest extends AbstractExtensionTest
      * @dataProvider getHelpTextProvider
      * @covers       \OxidEsales\Twig\Extensions\InputHelpExtension::getHelpText
      */
-    public function testgetHelpText($params, $iLang, $blAdmin, $expected)
+    public function testGetHelpText($params, $iLang, $blAdmin, $expected): void
     {
         $this->setLanguage($iLang);
         $this->setAdminMode($blAdmin);
         $this->assertEquals($expected, $this->inputHelpExtension->getHelpText($params));
     }
 
-    /**
-     * Sets language
-     *
-     * @param int $languageId
-     */
-    public function setLanguage($languageId)
-    {
-        $oxLang = \OxidEsales\Eshop\Core\Registry::getLang();
-        $oxLang->setBaseLanguage($languageId);
-        $oxLang->setTplLanguage($languageId);
-    }
 }
