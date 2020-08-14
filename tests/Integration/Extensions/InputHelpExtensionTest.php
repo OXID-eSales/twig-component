@@ -1,17 +1,19 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\EshopCommunity\Tests\Integration\Internal\Adapter;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\InputHelpLogic;
 use OxidEsales\Twig\Extensions\InputHelpExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
-use PHPUnit\Framework\TestCase;
 
-class InputHelpExtensionTest extends AbstractExtensionTest
+final class InputHelpExtensionTest extends AbstractExtensionTest
 {
     /**
      * @var InputHelpExtension
@@ -30,10 +32,10 @@ class InputHelpExtensionTest extends AbstractExtensionTest
      */
     public function getIdentProvider()
     {
-        return array(
+        return [
             [null, 1, false, null],
             ['FIRST_NAME', 1, false, 'FIRST_NAME']
-        );
+        ];
     }
 
     /**
@@ -57,14 +59,12 @@ class InputHelpExtensionTest extends AbstractExtensionTest
      */
     public function getHelpTextProvider()
     {
-        return array(
+        return [
             [null, 1, false, null],
             ['FIRST_NAME', 1, false, 'First name'],
             ['FIRST_NAME', 0, false, 'Vorname'],
-            ['GENERAL_SAVE', 1, true, 'Save'],
-            ['GENERAL_SAVE', 0, true, 'Speichern'],
             ['VAT', 1, false, 'VAT'],
-        );
+        ];
     }
 
     /**
@@ -94,5 +94,4 @@ class InputHelpExtensionTest extends AbstractExtensionTest
         $oxLang->setBaseLanguage($languageId);
         $oxLang->setTplLanguage($languageId);
     }
-
 }

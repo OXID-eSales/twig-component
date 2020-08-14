@@ -16,5 +16,7 @@
       "OxidEsales\\Twig\\": "src",
       "OxidEsales\\Twig\\Test\\": "tests"
     }
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

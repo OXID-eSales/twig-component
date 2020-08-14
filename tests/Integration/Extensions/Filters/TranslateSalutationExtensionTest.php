@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
@@ -13,7 +16,7 @@ use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 /**
  * Class TranslateSalutationExtensionTest
  */
-class TranslateSalutationExtensionTest extends AbstractExtensionTest
+final class TranslateSalutationExtensionTest extends AbstractExtensionTest
 {
     /** @var TranslateSalutationExtension */
     protected $extension;
@@ -22,7 +25,6 @@ class TranslateSalutationExtensionTest extends AbstractExtensionTest
     {
         parent::setUp();
         $this->setLanguage(0);
-        $this->extension = new TranslateSalutationExtension(new TranslateSalutationLogic());
     }
 
     public function translateSalutationProvider(): array
@@ -41,6 +43,14 @@ class TranslateSalutationExtensionTest extends AbstractExtensionTest
      */
     public function testTranslateSalutation(string $template, string $expected): void
     {
+        $translateSalutationLogic = $this->getMockBuilder(TranslateSalutationLogic::class)
+            ->setMethods(['translateSalutation'])->getMock();
+
+        $translateSalutationLogic->expects($this->once())->method('translateSalutation')->will(
+            $this->returnValue($expected)
+        );
+        $this->extension = new TranslateSalutationExtension($translateSalutationLogic);
+
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 }
