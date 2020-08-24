@@ -1,28 +1,36 @@
 <?php
 
+/**
+ * Copyright © OXID eSales AG. All rights reserved.
+ * See LICENSE file for license details.
+ */
+
+declare(strict_types=1);
+
 namespace OxidEsales\Twig\Resolver;
 
-use OxidEsales\EshopCommunity\Internal\Framework\Templating\Provider\NamespaceHierarchyProviderInterface;
+use OxidEsales\Twig\Resolver\ModuleTemplateChainResolverInterface;
 use Twig\Loader\FilesystemLoader;
+use Twig\Loader\LoaderInterface;
 
 class TemplateHierarchyResolver implements TemplateHierarchyResolverInterface
 {
-    /** @var NamespaceHierarchyProviderInterface */
-    private $namespaceHierarchyProvider;
+    /** @var ModuleTemplateChainResolverInterface */
+    private $moduleTemplateChainResolver;
 
-    public function __construct(NamespaceHierarchyProviderInterface $namespaceHierarchyProvider)
+    public function __construct(ModuleTemplateChainResolverInterface $moduleTemplateChainResolver)
     {
-        $this->namespaceHierarchyProvider = $namespaceHierarchyProvider;
+        $this->moduleTemplateChainResolver = $moduleTemplateChainResolver;
     }
 
     /** @inheritDoc */
     public function getParentForTemplate(string $templateName, string $ancestorTemplateName): string
     {
-        if (!$this->hasHierarchy() || $this->lastInHierarchy($templateName)) {
+        if (!$this->hasHierarchy($templateName) || $this->lastInHierarchy($templateName)) {
             return $ancestorTemplateName;
         }
 
-        return "@{$this->getParentNamespace($templateName)}/{$this->extractName($templateName)}";
+        return $this->getParentTemplate($templateName);
     }
 
     private function lastInHierarchy(string $templateName): bool
@@ -31,19 +39,20 @@ class TemplateHierarchyResolver implements TemplateHierarchyResolverInterface
             && $this->extractNamespace($templateName) === FilesystemLoader::MAIN_NAMESPACE;
     }
 
-    private function hasHierarchy(): bool
+    private function hasHierarchy(string $templateName): bool
     {
-        return !empty($this->namespaceHierarchyProvider->getHierarchyAscending());
+        return !empty($this->moduleTemplateChainResolver->getChain($templateName));
     }
 
-    private function getParentNamespace(string $templateName): string
+    private function getParentTemplate(string $templateName): string
     {
-        $namespaceHierarchy = $this->namespaceHierarchyProvider->getHierarchyAscending();
+        $namespaceHierarchy = $this->moduleTemplateChainResolver->getChain($this->extractName($templateName));
+
         $currentPosition = !$this->hasNamespace($templateName)
             ? 0
-            : array_search($this->extractNamespace($templateName), $namespaceHierarchy, true);
+            : array_search($templateName, $namespaceHierarchy, true);
 
-        return $namespaceHierarchy[++$currentPosition] ?? FilesystemLoader::MAIN_NAMESPACE;
+        return $namespaceHierarchy[++$currentPosition] ?? $this->getTemplateWithMainNamespace($templateName);
     }
 
 
@@ -81,5 +90,10 @@ class TemplateHierarchyResolver implements TemplateHierarchyResolverInterface
         $parts = explode('/', $name);
         unset($parts[0]);
         return implode('/', $parts);
+    }
+
+    private function getTemplateWithMainNamespace(string $templateName): string
+    {
+        return '@' . FilesystemLoader::MAIN_NAMESPACE . '/' . $this->extractName($templateName);
     }
 }
