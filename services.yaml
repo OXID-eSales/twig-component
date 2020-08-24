@@ -262,3 +262,11 @@ services:
   OxidEsales\Twig\Resolver\TemplateHierarchyResolverInterface:
     class: OxidEsales\Twig\Resolver\TemplateHierarchyResolver
     autowire: true
+
+  OxidEsales\Twig\Resolver\ModuleTemplateChainResolverInterface:
+    class: OxidEsales\Twig\Resolver\ModuleTemplateChainResolver
+    autowire: true
+
+  OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolverInterface:
+    class: OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolver
+    autowire: true
