@@ -11,8 +11,7 @@
     "php": ">=7.1",
     "twig/twig": "^2.5",
     "oxid-esales/twig-theme": "^1.0",
-    "oxid-esales/twig-admin-theme": "^1.0",
-    "oxid-esales/oxideshop-ce": ">=6.2"
+    "oxid-esales/twig-admin-theme": "^1.0"
   },
   "autoload": {
     "psr-4": {
