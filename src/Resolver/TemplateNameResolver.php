@@ -46,9 +46,7 @@ class TemplateNameResolver implements TemplateNameResolverInterface
     private function getFileNameWithoutExtension(string $fileName): string
     {
         $fileName = $this->stripExtension($fileName, '.tpl');
-        $fileName = $this->stripExtension($fileName, '.html.twig');
-
-        return $fileName;
+        return $this->stripExtension($fileName, '.html.twig');
     }
 
     /**
