@@ -59,7 +59,7 @@ class TwigLoaderPass implements CompilerPassInterface
             throw new LogicException('No twig loaders found. You need to tag at least one loader with "twig.loader"');
         }
 
-        if (1 === $found) {
+        if (1 === $found && isset($id)) {
             $container->setAlias('twig.loader', $id)->setPrivate(true);
         } else {
             $chainLoader = $container->getDefinition('twig.loader.chain');
