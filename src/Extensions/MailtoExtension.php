@@ -37,8 +37,8 @@ class MailtoExtension extends AbstractExtension
      */
     public function mailto(string $address, array $parameters = []): string
     {
-        $text = isset($parameters['text']) ? $parameters['text'] : $address;
-        $extra = isset($parameters['extra']) ? $parameters['extra'] : '';
+        $text = $parameters['text'] ?? $address;
+        $extra = $parameters['extra'] ?? '';
 
         $address .= $this->prepareMailParametersString($parameters);
 
