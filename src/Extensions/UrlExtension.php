@@ -75,7 +75,7 @@ class UrlExtension extends AbstractExtension
     {
         $url = $this->seoUrlLogic->seoUrl($parameters);
 
-        $dynamicParameters = isset($parameters['params']) ? $parameters['params'] : false;
+        $dynamicParameters = $parameters['params'] ?? false;
         if ($dynamicParameters) {
             $url = $this->addUrlParameters($url, $dynamicParameters);
         }
