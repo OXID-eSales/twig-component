@@ -6,6 +6,8 @@
 
 namespace OxidEsales\Twig;
 
+use Exception;
+
 /**
  * Class TemplateNameParser
  *
@@ -23,7 +25,7 @@ class TemplateLoaderNameParser
      */
     public function isValidName(string $name): bool
     {
-        return count(explode('::', $name)) == 3;
+        return count(explode('::', $name)) === 3;
     }
 
     /**
@@ -98,7 +100,7 @@ class TemplateLoaderNameParser
     private function getNamePart(string $name, int $index): string
     {
         if (!$this->isValidName($name)) {
-            throw new \Exception("Invalid template name.");
+            throw new Exception("Invalid template name.");
         }
 
         $nameParts = explode('?', $name)[0];
