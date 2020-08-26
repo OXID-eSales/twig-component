@@ -89,8 +89,8 @@ class FilesystemLoader extends TwigLoader
 
         if (!$template && isset($error)) {
             throw $error;
-        } else {
-            return $template;
         }
+
+        return $template;
     }
 }
