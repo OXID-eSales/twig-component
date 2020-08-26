@@ -165,7 +165,7 @@ class MailtoExtension extends AbstractExtension
         }
 
         $addressEncode = '';
-        for ($x = 0; $x < strlen($address); $x++) {
+        for ($x = 0, $xMax = strlen($address); $x < $xMax; $x++) {
             if (preg_match('!\w!', $address[$x])) {
                 $addressEncode .= '%' . bin2hex($address[$x]);
             } else {
@@ -174,7 +174,7 @@ class MailtoExtension extends AbstractExtension
         }
 
         $textEncode = '';
-        for ($x = 0; $x < strlen($text); $x++) {
+        for ($x = 0, $xMax = strlen($text); $x < $xMax; $x++) {
             $textEncode .= '&#x' . bin2hex($text[$x]) . ';';
         }
 
