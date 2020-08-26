@@ -40,11 +40,11 @@ class TruncateExtension extends AbstractExtension
     }
 
     /**
-     * @param string $string
-     * @param int    $length
+     * @param string|null $string $string
+     * @param int $length
      * @param string $suffix
-     * @param bool   $breakWords
-     * @param bool   $middle
+     * @param bool $breakWords
+     * @param bool $middle
      *
      * @return string
      */
