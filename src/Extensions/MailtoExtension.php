@@ -113,7 +113,7 @@ class MailtoExtension extends AbstractExtension
         $string = "document.write('<a href=\"mailto:$address\" $extra>$text</a>');";
 
         $jsEncode = '';
-        for ($x = 0; $x < strlen($string); $x++) {
+        for ($x = 0, $xMax = strlen($string); $x < $xMax; $x++) {
             $jsEncode .= '%' . bin2hex($string[$x]);
         }
 
