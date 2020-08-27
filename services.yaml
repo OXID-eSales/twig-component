@@ -10,6 +10,8 @@ services:
 
   OxidEsales\Twig\TwigContextInterface:
     class: OxidEsales\Twig\TwigContext
+    arguments:
+      $activeAdminTheme: '%oxid_esales.theme.admin.name%'
     autowire: true
     public: true
 

@@ -9,20 +9,25 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Resolver;
 
+use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Service\ActiveModulesDataProviderInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\DataObject\OxidEshopPackage;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Service\ModuleActivationServiceInterface;
 use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
+use OxidEsales\Twig\Resolver\ModuleTemplateChainResolver;
 use OxidEsales\Twig\Resolver\ModuleTemplateChainResolverInterface;
+use OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolverInterface;
+use OxidEsales\Twig\TwigContextInterface;
 use PHPUnit\Framework\TestCase;
 
-final class ModuleTemplateDirectoryResolverTest extends TestCase
+final class ModuleTemplateChainResolverTest extends TestCase
 {
     use ContainerTrait;
 
     public function testGetChainWithNoActiveModules(): void
     {
-        $this->installTestModules();
+        $this->installModule('moduleWithoutTwigExtension');
+        $this->installModule('moduleWithTwigExtension');
 
         /** @var ModuleTemplateChainResolverInterface $chainResolver */
         $chainResolver = $this->get(ModuleTemplateChainResolverInterface::class);
@@ -35,7 +40,8 @@ final class ModuleTemplateDirectoryResolverTest extends TestCase
 
     public function testGetChainWithActiveModules(): void
     {
-        $this->installTestModules();
+        $this->installModule('moduleWithoutTwigExtension');
+        $this->installModule('moduleWithTwigExtension');
 
         /** @var ModuleActivationServiceInterface $moduleActivator */
         $moduleActivator = $this->get(ModuleActivationServiceInterface::class);
@@ -51,19 +57,38 @@ final class ModuleTemplateDirectoryResolverTest extends TestCase
         );
     }
 
-    private function installTestModules(): void
+
+    public function testGetChainIfModuleOverwritesActiveTheme(): void
+    {
+        $this->installModule('moduleWithTwigExtensionForTheme');
+
+        /** @var ModuleActivationServiceInterface $moduleActivator */
+        $moduleActivator = $this->get(ModuleActivationServiceInterface::class);
+        $moduleActivator->activate('moduleWithTwigExtensionForTheme', 1);
+
+        $twigContext = $this->getMockBuilder(TwigContextInterface::class)->getMock();
+        $twigContext->method('getActiveThemeId')->willReturn('customTheme');
+
+        $chainResolver = new ModuleTemplateChainResolver(
+            $this->get(ActiveModulesDataProviderInterface::class),
+            $this->get(ModuleTemplateDirectoryResolverInterface::class),
+            $twigContext
+        );
+
+        $this->assertEquals(
+            ['@moduleWithTwigExtensionForTheme/customTheme/some-template.html.twig'],
+            $chainResolver->getChain('some-template.html.twig')
+        );
+    }
+
+    private function installModule(string $moduleId): void
     {
         /** @var ModuleInstallerInterface $moduleInstaller */
         $moduleInstaller = $this->get(ModuleInstallerInterface::class);
 
         $moduleInstaller->install(new OxidEshopPackage(
-                'moduleWithoutTwigExtension',
-                __DIR__ . '/Fixtures/moduleWithoutTwigExtension')
-        );
-
-        $moduleInstaller->install(new OxidEshopPackage(
-                'moduleWithTwigExtension',
-                __DIR__ . '/Fixtures/moduleWithTwigExtension')
+                $moduleId,
+                __DIR__ . '/Fixtures/' . $moduleId)
         );
     }
 }

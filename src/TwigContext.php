@@ -27,15 +27,15 @@ class TwigContext implements TwigContextInterface
     private $utilsView;
 
     /**
-     * Context constructor.
-     *
-     * @param Config    $config
-     * @param UtilsView $utilsView
+     * @var string
      */
-    public function __construct(Config $config, UtilsView $utilsView)
+    private $activeAdminTheme;
+
+    public function __construct(Config $config, UtilsView $utilsView, string $activeAdminTheme)
     {
         $this->config = $config;
         $this->utilsView = $utilsView;
+        $this->activeAdminTheme = $activeAdminTheme;
     }
 
     /**
@@ -67,5 +67,18 @@ class TwigContext implements TwigContextInterface
     public function getCacheDir(): string
     {
         return $this->config->getConfigParam('sCompileDir') . '/twig';
+    }
+
+    public function getActiveThemeId(): string
+    {
+        return $this->config->isAdmin()
+            ? $this->activeAdminTheme
+            : $this->getFrontendActiveThemeId();
+    }
+
+    private function getFrontendActiveThemeId(): string
+    {
+        return $this->config->getConfigParam('sCustomTheme')
+            ?: $this->config->getConfigParam('sTheme');
     }
 }
