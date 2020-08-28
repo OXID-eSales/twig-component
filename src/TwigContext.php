@@ -72,13 +72,18 @@ class TwigContext implements TwigContextInterface
     public function getActiveThemeId(): string
     {
         return $this->config->isAdmin()
-            ? $this->activeAdminTheme
-            : $this->getFrontendActiveThemeId();
+            ? $this->getActiveAdminThemeId()
+            : $this->getActiveFrontendThemeId();
     }
 
-    private function getFrontendActiveThemeId(): string
+    private function getActiveFrontendThemeId(): string
     {
         return $this->config->getConfigParam('sCustomTheme')
             ?: $this->config->getConfigParam('sTheme');
+    }
+
+    private function getActiveAdminThemeId(): string
+    {
+        return $this->activeAdminTheme;
     }
 }
