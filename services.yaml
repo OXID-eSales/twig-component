@@ -272,3 +272,9 @@ services:
   OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolverInterface:
     class: OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolver
     autowire: true
+
+  OxidEsales\Twig\Subscriber\InvalidateCacheEventSubscriber:
+    class: OxidEsales\Twig\Subscriber\InvalidateCacheEventSubscriber
+    autowire: true
+    tags:
+      - { name: kernel.event_subscriber }
