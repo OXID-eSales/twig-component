@@ -41,7 +41,7 @@ class TemplateHierarchyResolver implements TemplateHierarchyResolverInterface
 
     private function hasHierarchy(string $templateName): bool
     {
-        return !empty($this->moduleTemplateChainResolver->getChain($templateName));
+        return !empty($this->moduleTemplateChainResolver->getChain($this->extractName($templateName)));
     }
 
     private function getParentTemplate(string $templateName): string
