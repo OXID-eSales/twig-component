@@ -11,6 +11,7 @@ namespace OxidEsales\Twig\Loader;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Dao\ShopConfigurationDaoInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ModuleConfiguration;
+use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolverInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\Resolver\ModuleTemplateChainResolverInterface;
 use OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolverInterface;
@@ -39,28 +40,37 @@ class ModuleTemplateLoader extends TwigLoader
      */
     private $moduleTemplateDirectoryResolver;
 
+    /**
+     * @var TemplateNameResolverInterface
+     */
+    private $templateNameResolver;
+
     public function __construct(
         ModuleTemplateChainResolverInterface $moduleTemplateChainResolver,
         ContextInterface $context,
         ShopConfigurationDaoInterface $shopConfigurationDao,
-        ModuleTemplateDirectoryResolverInterface $moduleTemplateDirectoryResolverInterface
+        ModuleTemplateDirectoryResolverInterface $moduleTemplateDirectoryResolverInterface,
+        TemplateNameResolverInterface $templateNameResolver
     ) {
         parent::__construct();
         $this->moduleTemplateChainResolver = $moduleTemplateChainResolver;
         $this->context = $context;
         $this->shopConfigurationDao = $shopConfigurationDao;
         $this->moduleTemplateDirectoryResolver = $moduleTemplateDirectoryResolverInterface;
+        $this->templateNameResolver = $templateNameResolver;
         $this->registerModuleTemplateDirectories();
     }
 
     public function findTemplate($name, $throw = true)
     {
-        if ($this->isModuleTemplate($name)) {
-            return parent::findTemplate($name, $throw);
+        $templateName = $this->templateNameResolver->resolve($name);
+
+        if ($this->isModuleTemplate($templateName)) {
+            return parent::findTemplate($templateName, $throw);
         }
 
-        if (!$this->isModuleTemplate($name) && $this->hasModuleParentTemplates($name)) {
-            return parent::findTemplate($this->getFirstModuleParentTemplate($name), $throw);
+        if (!$this->isModuleTemplate($templateName) && $this->hasModuleParentTemplates($templateName)) {
+            return parent::findTemplate($this->getFirstModuleParentTemplate($templateName), $throw);
         }
     }
 

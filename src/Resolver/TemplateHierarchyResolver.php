@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver;
 
+use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolverInterface;
 use OxidEsales\Twig\Resolver\ModuleTemplateChainResolverInterface;
 use Twig\Loader\FilesystemLoader;
 use Twig\Loader\LoaderInterface;
@@ -18,14 +19,24 @@ class TemplateHierarchyResolver implements TemplateHierarchyResolverInterface
     /** @var ModuleTemplateChainResolverInterface */
     private $moduleTemplateChainResolver;
 
-    public function __construct(ModuleTemplateChainResolverInterface $moduleTemplateChainResolver)
-    {
+    /**
+     * @var TemplateNameResolverInterface
+     */
+    private $templateNameResolver;
+
+    public function __construct(
+        ModuleTemplateChainResolverInterface $moduleTemplateChainResolver,
+        TemplateNameResolverInterface $templateNameResolver
+    ) {
         $this->moduleTemplateChainResolver = $moduleTemplateChainResolver;
+        $this->templateNameResolver = $templateNameResolver;
     }
 
     /** @inheritDoc */
     public function getParentForTemplate(string $templateName, string $ancestorTemplateName): string
     {
+        $templateName = $this->templateNameResolver->resolve($templateName);
+
         if (!$this->hasHierarchy($templateName) || $this->lastInHierarchy($templateName)) {
             return $ancestorTemplateName;
         }
@@ -55,33 +66,17 @@ class TemplateHierarchyResolver implements TemplateHierarchyResolverInterface
         return $namespaceHierarchy[++$currentPosition] ?? $this->getTemplateWithMainNamespace($templateName);
     }
 
-
-    /**
-     * @todo extract to a separate class
-     * @param string $name
-     * @return bool
-     */
     private function hasNamespace(string $name): bool
     {
         return $name[0] === '@';
     }
 
-    /**
-     * @todo extract to a separate class
-     * @param string $name
-     * @return string
-     */
     private function extractNamespace(string $name): string
     {
         $parts = explode('/', $name);
         return ltrim($parts[0], '@');
     }
 
-    /**
-     * @todo extract to a separate class
-     * @param string $name
-     * @return string
-     */
     private function extractName(string $name): string
     {
         if (!$this->hasNamespace($name)) {

@@ -72,6 +72,18 @@ final class ModuleTemplateLoaderTest extends TestCase
         );
     }
 
+    public function testLoadsModuleTemplateWithBCShopTemplateNameAndModuleParentTemplate(): void
+    {
+        $this->installModuleAndActivateTestModule();
+
+        $BCShopTemplateName = 'some-template.tpl';
+
+        $this->assertEquals(
+            $this->getModuleTemplateAbsolutePath(),
+            $this->getLoader()->findTemplate($BCShopTemplateName)
+        );
+    }
+
     private function installModuleAndActivateTestModule(): void
     {
         /** @var ModuleInstallerInterface $moduleInstaller */
