@@ -12,7 +12,6 @@ namespace OxidEsales\Twig\Resolver;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolverInterface;
 use OxidEsales\Twig\Resolver\ModuleTemplateChainResolverInterface;
 use Twig\Loader\FilesystemLoader;
-use Twig\Loader\LoaderInterface;
 
 class TemplateHierarchyResolver implements TemplateHierarchyResolverInterface
 {
