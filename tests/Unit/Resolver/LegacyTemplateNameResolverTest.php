@@ -1,17 +1,19 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
+declare(strict_types=1);
+
 namespace OxidEsales\Twig\Tests\Unit\Resolver;
 
-use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolver;
 use OxidEsales\Twig\Resolver\TemplateNameResolver as TwigTemplateNameResolver;
 use PHPUnit\Framework\TestCase;
 
-class TemplateNameResolverTest extends TestCase
+class LegacyTemplateNameResolverTest extends TestCase
 {
     /**
      * @param string $templateName
@@ -22,9 +24,7 @@ class TemplateNameResolverTest extends TestCase
     public function testResolveSmartyTemplate(string $templateName, string $response): void
     {
         $resolver = new TwigTemplateNameResolver(
-            new TemplateNameResolver(
-                $this->getTemplateEngineMock('tpl')
-            )
+            new TemplateNameResolver('tpl')
         );
 
         $this->assertSame($response, $resolver->resolve($templateName));
@@ -84,9 +84,7 @@ class TemplateNameResolverTest extends TestCase
     public function testResolveTwigTemplate(string $templateName, string $response): void
     {
         $resolver = new TwigTemplateNameResolver(
-            new TemplateNameResolver(
-                $this->getTemplateEngineMock('html.twig')
-            )
+            new TemplateNameResolver('html.twig')
         );
 
         $this->assertSame($response, $resolver->resolve($templateName));
@@ -127,24 +125,5 @@ class TemplateNameResolverTest extends TestCase
                 ''
             ]
         ];
-    }
-
-    /**
-     * @param string $extension
-     *
-     * @return TemplateEngineInterface
-     */
-    private function getTemplateEngineMock(string $extension): TemplateEngineInterface
-    {
-        $engine = $this
-            ->getMockBuilder('OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $engine->expects($this->any())
-            ->method('getDefaultFileExtension')
-            ->will($this->returnValue($extension));
-
-        return $engine;
     }
 }
