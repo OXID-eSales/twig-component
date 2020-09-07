@@ -6,6 +6,7 @@ namespace OxidEsales\Twig\TokenParser;
 
 use OxidEsales\Twig\Resolver\TemplateHierarchyResolverInterface;
 use Twig\Error\SyntaxError;
+use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Node;
 use Twig\Token;
 use Twig\TokenParser\AbstractTokenParser;
@@ -37,11 +38,13 @@ class ExtendsHierarchyTokenParser extends AbstractTokenParser
         $stream = $this->parser->getStream();
         $extendsExpression = $this->parser->getExpressionParser()->parseExpression();
 
-        $parentInHierarchy = $this->templateHierarchyResolver->getParentForTemplate(
-            $stream->getSourceContext()->getName(),
-            $extendsExpression->getAttribute('value')
-        );
-        $extendsExpression->setAttribute('value', $parentInHierarchy);
+        if ($extendsExpression instanceof ConstantExpression) {
+            $parentInHierarchy = $this->templateHierarchyResolver->getParentForTemplate(
+                $stream->getSourceContext()->getName(),
+                $extendsExpression->getAttribute('value')
+            );
+            $extendsExpression->setAttribute('value', $parentInHierarchy);
+        }
 
         $this->parser->setParent($extendsExpression);
         $stream->expect(Token::BLOCK_END_TYPE);
