@@ -29,7 +29,10 @@ class ModuleHierarchyTest extends TestCase
     ];
     /** @var BasicContext */
     private $context;
-    private const FIXTURE_TEMPLATE_NAME = 'some-template.html.twig';
+    private const FIXTURE_TEMPLATE_WITH_EXTENDS = 'template-with-extends.html.twig';
+    private const FIXTURE_TEMPLATE_WITH_CONDITIONAL_EXTENDS = 'template-with-conditional-extends.html.twig';
+    private const FIXTURE_TEMPLATE_WITH_ARRAY_EXTENDS = 'template-with-array-extends.html.twig';
+
     /** @var array */
     private $testPackageNames = [];
 
@@ -52,7 +55,7 @@ class ModuleHierarchyTest extends TestCase
         $this->installModuleFixture('module1');
         $this->activateModule('module1');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_NAME);
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertContains('<shop-header><shop-content>', $actual);
         $this->assertContains('<module-1-content>', $actual);
@@ -64,7 +67,7 @@ class ModuleHierarchyTest extends TestCase
         $this->activateModule('module1');
         $this->deactivateModule('module1');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_NAME);
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertContains('<shop-header><shop-content>', $actual);
         $this->assertNotContains('<module-1-content>', $actual);
@@ -77,7 +80,7 @@ class ModuleHierarchyTest extends TestCase
         $this->activateModule('module1');
         $this->activateModule('module2');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_NAME);
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertContains('<shop-header><shop-content>', $actual);
         $this->assertContains('<module-1-content>', $actual);
@@ -93,7 +96,7 @@ class ModuleHierarchyTest extends TestCase
         $this->activateModule('module2');
         $this->activateModule('module3');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_NAME);
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertContains('<shop-header><shop-content>', $actual);
         $this->assertContains('<module-1-content>', $actual);
@@ -111,12 +114,28 @@ class ModuleHierarchyTest extends TestCase
         $this->activateModule('module3');
         $this->deactivateModule('module2');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_NAME);
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertContains('<shop-header><shop-content>', $actual);
         $this->assertContains('<module-1-content>', $actual);
         $this->assertNotContains('<module-2-content>', $actual);
         $this->assertContains('<module-3-content>', $actual);
+    }
+
+    public function testEngineRenderWithConditionalExtends(): void
+    {
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_CONDITIONAL_EXTENDS);
+
+        $this->assertContains('<shop-header><shop-content>', $actual);
+        $this->assertContains('<template_with_conditional_extends-content>', $actual);
+    }
+
+    public function testEngineRenderWithArrayExtends(): void
+    {
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_ARRAY_EXTENDS);
+
+        $this->assertContains('<shop-header><shop-content>', $actual);
+        $this->assertContains('<template_with_array_extends-content>', $actual);
     }
 
     private function installModuleFixture(string $moduleName): void

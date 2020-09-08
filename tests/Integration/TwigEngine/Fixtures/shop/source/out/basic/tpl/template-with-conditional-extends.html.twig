@@ -1,0 +1,4 @@
+{# 'extends' condition evaluates to TRUE so the first template will be chosen #}
+{% set condition = true %}
+{% extends condition ? 'template-with-extends.html.twig' : 'does-not-matter.html.twig'  %}
+{% block extendable_block %}{{ parent() }}<template_with_conditional_extends-content>{% endblock %}
