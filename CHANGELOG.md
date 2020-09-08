@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.0.0] - Unreleased
 
+### Added
+- Twig templates multi inheritance for modules
+
 ### Removed
 - Support for `assign_adv` plugin
 
