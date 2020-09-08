@@ -13,7 +13,6 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\DataObject\OxidE
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Service\ModuleActivationServiceInterface;
 use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
-use OxidEsales\TestingLibrary\Services\Library\DatabaseRestorer\DatabaseRestorer;
 use OxidEsales\Twig\Loader\ModuleTemplateLoader;
 use OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolverInterface;
 use PHPUnit\Framework\TestCase;
@@ -23,25 +22,16 @@ final class ModuleTemplateLoaderTest extends TestCase
 {
     use ContainerTrait;
 
-    /**
-     * @var DatabaseRestorer
-     */
-    private $databaseRestorer;
-
-    public function setUp()
+    protected function tearDown(): void
     {
-        $this->databaseRestorer = new DatabaseRestorer();
-        $this->databaseRestorer->dumpDB(__CLASS__);
-    }
-
-    protected function tearDown()
-    {
-        $this->databaseRestorer->restoreDB(__CLASS__);
+        $this->unInstallTestModule();
+        parent::tearDown();
     }
 
     public function testModuleTemplateLoading(): void
     {
-        $this->installModuleAndActivateTestModule();
+        $this->installTestModule();
+        $this->activateTestModule();
 
         $moduleTemplateName = '@moduleWithTwigExtension/some-template.html.twig';
 
@@ -51,9 +41,23 @@ final class ModuleTemplateLoaderTest extends TestCase
         );
     }
 
+    public function testFindTemplateWithInactiveModule(): void
+    {
+        $this->installTestModule();
+        $this->activateTestModule();
+        $this->deactivateTestModule();
+
+        $moduleTemplateName = '@moduleWithTwigExtension/some-template.html.twig';
+
+        $this->assertNull(
+            $this->getLoader()->findTemplate($moduleTemplateName)
+        );
+    }
+
     public function testLoadModuleTemplateWithShopTemplateNameIfModuleParentTemplateExists(): void
     {
-        $this->installModuleAndActivateTestModule();
+        $this->installTestModule();
+        $this->activateTestModule();
 
         $shopTemplateName = 'some-template.html.twig';
 
@@ -74,7 +78,8 @@ final class ModuleTemplateLoaderTest extends TestCase
 
     public function testLoadsModuleTemplateWithBCShopTemplateNameAndModuleParentTemplate(): void
     {
-        $this->installModuleAndActivateTestModule();
+        $this->installTestModule();
+        $this->activateTestModule();
 
         $BCShopTemplateName = 'some-template.tpl';
 
@@ -84,19 +89,27 @@ final class ModuleTemplateLoaderTest extends TestCase
         );
     }
 
-    private function installModuleAndActivateTestModule(): void
+    private function installTestModule(): void
     {
-        /** @var ModuleInstallerInterface $moduleInstaller */
-        $moduleInstaller = $this->get(ModuleInstallerInterface::class);
+        $this->get(ModuleInstallerInterface::class)
+            ->install($this->getTestPackage());
+    }
 
-        $moduleInstaller->install(new OxidEshopPackage(
-            'moduleWithTwigExtension',
-            __DIR__ . '/Fixtures/moduleWithTwigExtension'
-        ));
-
-        $this
-            ->get(ModuleActivationServiceInterface::class)
+    private function unInstallTestModule(): void
+    {
+        $this->get(ModuleInstallerInterface::class)
+            ->uninstall($this->getTestPackage());
+    }
+    private function activateTestModule(): void
+    {
+        $this->get(ModuleActivationServiceInterface::class)
             ->activate('moduleWithTwigExtension', 1);
+    }
+
+    private function deactivateTestModule(): void
+    {
+        $this->get(ModuleActivationServiceInterface::class)
+            ->deactivate('moduleWithTwigExtension', 1);
     }
 
     private function getLoader(): ModuleTemplateLoader
@@ -110,5 +123,11 @@ final class ModuleTemplateLoaderTest extends TestCase
             $this->get(ModuleTemplateDirectoryResolverInterface::class)->getAbsolutePath('moduleWithTwigExtension'),
             'some-template.html.twig'
         );
+    }
+
+    private function getTestPackage(): OxidEshopPackage
+    {
+        $packageFixturePath = __DIR__ . '/Fixtures/moduleWithTwigExtension';
+        return new OxidEshopPackage('moduleWithTwigExtension', $packageFixturePath);
     }
 }
