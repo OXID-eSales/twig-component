@@ -9,13 +9,10 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Loader;
 
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Dao\ShopConfigurationDaoInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ModuleConfiguration;
+use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Service\ActiveModulesDataProviderInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolverInterface;
-use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\Resolver\ModuleTemplateChainResolverInterface;
 use OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolverInterface;
-use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader as TwigLoader;
 
 class ModuleTemplateLoader extends TwigLoader
@@ -24,16 +21,6 @@ class ModuleTemplateLoader extends TwigLoader
      * @var ModuleTemplateChainResolverInterface
      */
     private $moduleTemplateChainResolver;
-
-    /**
-     * @var ContextInterface
-     */
-    private $context;
-
-    /**
-     * @var ShopConfigurationDaoInterface
-     */
-    private $shopConfigurationDao;
 
     /**
      * @var ModuleTemplateDirectoryResolverInterface
@@ -45,19 +32,22 @@ class ModuleTemplateLoader extends TwigLoader
      */
     private $templateNameResolver;
 
+    /**
+     * @var ActiveModulesDataProviderInterface
+     */
+    private $activeModulesDataProvider;
+
     public function __construct(
         ModuleTemplateChainResolverInterface $moduleTemplateChainResolver,
-        ContextInterface $context,
-        ShopConfigurationDaoInterface $shopConfigurationDao,
         ModuleTemplateDirectoryResolverInterface $moduleTemplateDirectoryResolverInterface,
-        TemplateNameResolverInterface $templateNameResolver
+        TemplateNameResolverInterface $templateNameResolver,
+        ActiveModulesDataProviderInterface $activeModulesDataProvider
     ) {
         parent::__construct();
         $this->moduleTemplateChainResolver = $moduleTemplateChainResolver;
-        $this->context = $context;
-        $this->shopConfigurationDao = $shopConfigurationDao;
         $this->moduleTemplateDirectoryResolver = $moduleTemplateDirectoryResolverInterface;
         $this->templateNameResolver = $templateNameResolver;
+        $this->activeModulesDataProvider = $activeModulesDataProvider;
         $this->registerModuleTemplateDirectories();
     }
 
@@ -76,26 +66,14 @@ class ModuleTemplateLoader extends TwigLoader
 
     private function registerModuleTemplateDirectories(): void
     {
-        foreach ($this->getModuleConfigurations() as $moduleConfiguration) {
-            $moduleTemplateDirectory = $this
-                ->moduleTemplateDirectoryResolver
-                ->getAbsolutePath($moduleConfiguration->getId());
+        foreach ($this->activeModulesDataProvider->getModuleIds() as $moduleId) {
+            $moduleTemplateDirectory = $this->moduleTemplateDirectoryResolver
+                ->getAbsolutePath($moduleId);
 
             if (is_dir($moduleTemplateDirectory)) {
-                $this->prependPath($moduleTemplateDirectory, $moduleConfiguration->getId());
+                $this->prependPath($moduleTemplateDirectory, $moduleId);
             }
         }
-    }
-
-    /**
-     * @return ModuleConfiguration[]
-     */
-    private function getModuleConfigurations(): array
-    {
-        return $this
-            ->shopConfigurationDao
-            ->get($this->context->getCurrentShopId())
-            ->getModuleConfigurations();
     }
 
     private function isModuleTemplate(string $name): bool
