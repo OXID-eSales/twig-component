@@ -27,11 +27,12 @@ class ModuleHierarchyTest extends TestCase
         'module2',
         'module3',
     ];
-    /** @var BasicContext */
-    private $context;
+    private const FIXTURE_THEME = 'testTheme';
     private const FIXTURE_TEMPLATE_WITH_EXTENDS = 'template-with-extends.html.twig';
     private const FIXTURE_TEMPLATE_WITH_CONDITIONAL_EXTENDS = 'template-with-conditional-extends.html.twig';
     private const FIXTURE_TEMPLATE_WITH_ARRAY_EXTENDS = 'template-with-array-extends.html.twig';
+    /** @var BasicContext */
+    private $context;
 
     /** @var array */
     private $testPackageNames = [];
@@ -166,6 +167,8 @@ class ModuleHierarchyTest extends TestCase
     {
         $mockedShopPath = __DIR__ . '/Fixtures/shop/source/';
         Registry::getConfig()->setConfigParam('sShopDir', $mockedShopPath);
+        Registry::getConfig()->setConfigParam('sTheme', self::FIXTURE_THEME);
+
     }
 
     private function generateUniquePackageNames(): void
