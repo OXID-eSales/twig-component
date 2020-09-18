@@ -75,10 +75,12 @@ class DateFormatExtension extends AbstractExtension
      */
     private function getTimestamp($string)
     {
+        $isNumeric = is_numeric($string);
+
         if (empty($string)) {
             // use "now":
             $time = time();
-        } elseif (is_numeric($string) && strlen((string)$string) === 14) {
+        } elseif ($isNumeric && strlen((string)$string) === 14) {
             // it is mysql timestamp format of YYYYMMDDHHMMSS?
             $string = (string)$string;
             $time = mktime(
@@ -89,7 +91,7 @@ class DateFormatExtension extends AbstractExtension
                 substr($string, 6, 2),
                 substr($string, 0, 4)
             );
-        } elseif (is_numeric($string)) {
+        } elseif ($isNumeric) {
             // it is a numeric string, we handle it as timestamp
             $time = (int) $string;
         } else {

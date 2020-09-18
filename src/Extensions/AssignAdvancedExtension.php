@@ -55,8 +55,6 @@ class AssignAdvancedExtension extends AbstractExtension
      */
     public function assignAdvanced(string $value): string
     {
-        $formattedValue = $this->assignAdvancedLogic->formatValue($value);
-
-        return $formattedValue;
+        return $this->assignAdvancedLogic->formatValue($value);
     }
 }

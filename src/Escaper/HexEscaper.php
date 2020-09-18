@@ -36,7 +36,7 @@ class HexEscaper implements EscaperInterface
     {
         $return = '';
 
-        for ($i = 0; $i < strlen($string); $i++) {
+        for ($i = 0, $iMax = strlen($string); $i < $iMax; $i++) {
             $return .= '%' . bin2hex($string[$i]);
         }
 

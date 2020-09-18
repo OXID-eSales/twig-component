@@ -50,13 +50,8 @@ class StyleExtension extends AbstractExtension
     public function style(Environment $env, $params = [])
     {
         $globals = $env->getGlobals();
-        $isDynamic = false;
-        if (isset($globals['__oxid_include_dynamic'])) {
-            $isDynamic = $globals['__oxid_include_dynamic'];
-        }
+        $isDynamic = $globals['__oxid_include_dynamic'] ?? false;
 
-        $output = $this->styleLogic->collectStyleSheets($params, $isDynamic);
-
-        return $output;
+        return $this->styleLogic->collectStyleSheets($params, $isDynamic);
     }
 }

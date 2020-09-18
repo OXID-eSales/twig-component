@@ -31,7 +31,5 @@ class TwigEscaperPass implements CompilerPassInterface
         foreach ($escapers as $id => $attributes) {
             $twigEngine->addMethodCall('addEscaper', [new Reference($id)]);
         }
-
-        return;
     }
 }

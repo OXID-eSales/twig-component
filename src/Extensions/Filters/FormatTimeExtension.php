@@ -47,8 +47,6 @@ class FormatTimeExtension extends AbstractExtension
      */
     public function formatTime(int $seconds): string
     {
-        $formattedTime = $this->formatTimeLogic->getFormattedTime($seconds);
-
-        return $formattedTime;
+        return $this->formatTimeLogic->getFormattedTime($seconds);
     }
 }
