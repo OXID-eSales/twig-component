@@ -32,7 +32,7 @@ class DecEntityEscaper implements EscaperInterface
     {
         $return = '';
 
-        for ($i = 0, $iMax = strlen($string); $i < $iMax; $i++) {
+        for ($i = 0, $stringLength = strlen($string); $i < $stringLength; $i++) {
             $return .= '&#' . ord($string[$i]) . ';';
         }
 
