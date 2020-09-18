@@ -37,12 +37,12 @@ class NonStdEscaper implements EscaperInterface
         $return = '';
 
         for ($i = 0, $length = strlen($string); $i < $length; $i++) {
-            $ord = ord(substr($string, $i, 1));
+            $ord = ord($string[$i]);
             // non-standard char, escape it
             if ($ord >= 126) {
                 $return .= '&#' . $ord . ';';
             } else {
-                $return .= substr($string, $i, 1);
+                $return .= $string[$i];
             }
         }
 

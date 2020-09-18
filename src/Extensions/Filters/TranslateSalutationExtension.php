@@ -43,7 +43,7 @@ class TranslateSalutationExtension extends AbstractExtension
     }
 
     /**
-     * @param string $ident
+     * @param string|null $ident
      *
      * @return string
      */

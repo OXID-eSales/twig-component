@@ -58,10 +58,7 @@ class ContentTemplateLoader implements LoaderInterface
         $content = $this->getContent($name);
 
         if ($content) {
-            $field = "oxcontent";
-            if (isset($parameters['field'])) {
-                $field = $parameters['field'];
-            }
+            $field = $parameters['field'] ?? "oxcontent";
 
             $property = 'oxcontents__' . $field;
             $code = $content->$property->value;
@@ -85,9 +82,7 @@ class ContentTemplateLoader implements LoaderInterface
     {
         $content = $this->getContent($name);
 
-        $cacheKey = sprintf("%s(%s)", $name, $content->getLanguage());
-
-        return $cacheKey;
+        return sprintf("%s(%s)", $name, $content->getLanguage());
     }
 
     /**

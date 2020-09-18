@@ -53,13 +53,10 @@ class HasRightsTokenParser extends AbstractTokenParser
             // create subtree until the decideMyTagFork() callback returns true
             $body = $this->parser->subparse([$this, 'decideMyTagFork']);
 
-            $tag = $stream->next()->getValue();
-            switch ($tag) {
-                case 'endhasrights':
-                    $continue = false;
-                    break;
-                default:
-                    throw new SyntaxError(sprintf('Unexpected end of template. Twig was looking for the following tags "endhasrights" to close the "hasrights" block started at line %d)', $lineno), -1);
+            if ($stream->next()->getValue() === 'endhasrights') {
+                $continue = false;
+            } else {
+                throw new SyntaxError(sprintf('Unexpected end of template. Twig was looking for the following tags "endhasrights" to close the "hasrights" block started at line %d)', $lineno), -1);
             }
 
             $stream->expect(Token::BLOCK_END_TYPE);

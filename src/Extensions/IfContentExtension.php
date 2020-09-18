@@ -40,8 +40,8 @@ class IfContentExtension extends AbstractExtension
     }
 
     /**
-     * @param string $sIdent
-     * @param string $sOxid
+     * @param string|null $sIdent
+     * @param string|null $sOxid
      *
      * @return mixed
      */

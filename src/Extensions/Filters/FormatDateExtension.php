@@ -40,8 +40,8 @@ class FormatDateExtension extends AbstractExtension
 
     /**
      * @param object $convObject
-     * @param string $fieldType
-     * @param bool   $passedValue
+     * @param string|null $fieldType
+     * @param bool $passedValue
      *
      * @return string
      */

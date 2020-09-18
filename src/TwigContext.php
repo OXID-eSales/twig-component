@@ -44,14 +44,13 @@ class TwigContext implements TwigContextInterface
     public function getTemplateDirectories(): array
     {
         $templateDirectory = $this->utilsView->getTemplateDirs();
-        $directories = array_filter(
+
+        return array_filter(
             $templateDirectory,
-            function ($directory) {
+            static function ($directory) {
                 return is_dir($directory);
             }
         );
-
-        return $directories;
     }
 
     /**

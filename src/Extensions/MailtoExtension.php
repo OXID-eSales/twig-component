@@ -37,8 +37,8 @@ class MailtoExtension extends AbstractExtension
      */
     public function mailto(string $address, array $parameters = []): string
     {
-        $text = isset($parameters['text']) ? $parameters['text'] : $address;
-        $extra = isset($parameters['extra']) ? $parameters['extra'] : '';
+        $text = $parameters['text'] ?? $address;
+        $extra = $parameters['extra'] ?? '';
 
         $address .= $this->prepareMailParametersString($parameters);
 
@@ -113,7 +113,7 @@ class MailtoExtension extends AbstractExtension
         $string = "document.write('<a href=\"mailto:$address\" $extra>$text</a>');";
 
         $jsEncode = '';
-        for ($x = 0; $x < strlen($string); $x++) {
+        for ($x = 0, $xMax = strlen($string); $x < $xMax; $x++) {
             $jsEncode .= '%' . bin2hex($string[$x]);
         }
 
@@ -165,7 +165,7 @@ class MailtoExtension extends AbstractExtension
         }
 
         $addressEncode = '';
-        for ($x = 0; $x < strlen($address); $x++) {
+        for ($x = 0, $xMax = strlen($address); $x < $xMax; $x++) {
             if (preg_match('!\w!', $address[$x])) {
                 $addressEncode .= '%' . bin2hex($address[$x]);
             } else {
@@ -174,7 +174,7 @@ class MailtoExtension extends AbstractExtension
         }
 
         $textEncode = '';
-        for ($x = 0; $x < strlen($text); $x++) {
+        for ($x = 0, $xMax = strlen($text); $x < $xMax; $x++) {
             $textEncode .= '&#x' . bin2hex($text[$x]) . ';';
         }
 

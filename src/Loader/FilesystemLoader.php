@@ -36,10 +36,10 @@ class FilesystemLoader extends TwigLoader
     /**
      * FilesystemLoader constructor.
      *
-     * @param array                   $paths
-     * @param string|null             $rootPath
-     * @param TemplateLoaderInterface $loader
-     * @param TemplateLoaderInterface $adminLoader
+     * @param array $paths
+     * @param string|null $rootPath
+     * @param TemplateLoaderInterface|null $loader
+     * @param TemplateLoaderInterface|null $adminLoader
      */
     public function __construct(
         $paths = [],
@@ -89,8 +89,8 @@ class FilesystemLoader extends TwigLoader
 
         if (!$template && isset($error)) {
             throw $error;
-        } else {
-            return $template;
         }
+
+        return $template;
     }
 }

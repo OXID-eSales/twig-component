@@ -34,11 +34,7 @@ class GetRequestVariablesExtension extends AbstractExtension
      */
     public function getGlobalCookie(string $key)
     {
-        $cookie = null;
-        if (isset($_COOKIE[$key])) {
-            $cookie = $_COOKIE[$key];
-        }
-        return $cookie;
+        return $_COOKIE[$key] ?? null;
     }
 
     /**
@@ -48,10 +44,6 @@ class GetRequestVariablesExtension extends AbstractExtension
      */
     public function getGlobalGet(string $key)
     {
-        $get = null;
-        if (isset($_GET[$key])) {
-            $get = $_GET[$key];
-        }
-        return $get;
+        return $_GET[$key] ?? null;
     }
 }

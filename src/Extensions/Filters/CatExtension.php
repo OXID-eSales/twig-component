@@ -26,7 +26,7 @@ class CatExtension extends AbstractExtension
 
     /**
      * @param string $string
-     * @param string $cat
+     * @param string|null $cat
      *
      * @return string
      */
