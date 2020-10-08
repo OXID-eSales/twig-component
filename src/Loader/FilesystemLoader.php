@@ -10,6 +10,7 @@ use OxidEsales\Eshop\Core\Config;
 use OxidEsales\EshopCommunity\Core\Registry;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Exception\TemplateFileNotFoundException;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Loader\TemplateLoaderInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolverInterface;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader as TwigLoader;
 
@@ -19,39 +20,16 @@ use Twig\Loader\FilesystemLoader as TwigLoader;
 class FilesystemLoader extends TwigLoader
 {
     /**
-     * @var Config
+     * @var TemplateNameResolverInterface
      */
-    private $config;
+    private $templateNameResolver;
 
-    /**
-     * @var TemplateLoaderInterface
-     */
-    private $loader;
-
-    /**
-     * @var TemplateLoaderInterface
-     */
-    private $adminLoader;
-
-    /**
-     * FilesystemLoader constructor.
-     *
-     * @param array $paths
-     * @param string|null $rootPath
-     * @param TemplateLoaderInterface|null $loader
-     * @param TemplateLoaderInterface|null $adminLoader
-     */
     public function __construct(
         $paths = [],
-        string $rootPath = null,
-        TemplateLoaderInterface $loader = null,
-        TemplateLoaderInterface $adminLoader = null
+        TemplateNameResolverInterface $templateNameResolver
     ) {
-        parent::__construct($paths, $rootPath);
-
-        $this->config = Registry::getConfig();
-        $this->loader = $loader;
-        $this->adminLoader = $adminLoader;
+        parent::__construct($paths);
+        $this->templateNameResolver = $templateNameResolver;
     }
 
     /**
@@ -60,37 +38,8 @@ class FilesystemLoader extends TwigLoader
      *
      * @return string|null
      */
-    public function findTemplate($name, $throw = true)
+    protected function findTemplate($name, $throw = true)
     {
-        try {
-            $template = parent::findTemplate($name, $throw);
-
-            if ($template) {
-                return $template;
-            }
-        } catch (LoaderError $error) {
-        }
-
-        if ($this->config->isAdmin()) {
-            try{
-               $template = $this->adminLoader->getPath($name);
-            } catch (TemplateFileNotFoundException $e) {
-                //let twig engine handle template loading and error throwing.
-                return null;
-            }
-        } else {
-            try {
-                $template = $this->loader->getPath($name);
-            } catch (TemplateFileNotFoundException $e) {
-                //let twig engine handle template loading and error throwing.
-                return null;
-            }
-        }
-
-        if (!$template && isset($error)) {
-            throw $error;
-        }
-
-        return $template;
+        return parent::findTemplate($this->templateNameResolver->resolve($name), $throw);
     }
 }

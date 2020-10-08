@@ -39,18 +39,24 @@ services:
     public: true
 
   # Loaders
+  oxid_esales.templating.template.loader:
+    class: OxidEsales\Twig\Loader\TwigChainLoaderAdapter
+    arguments:
+      - '@twig.loader.chain'
 
-  twig.loader.filesystem:
-    class: OxidEsales\Twig\Loader\FilesystemLoader
+  twig.loader.chain:
+    class: Twig\Loader\ChainLoader
+    calls:
+      - [addLoader, ['@OxidEsales\Twig\Loader\ModuleTemplateLoader']]
+      - [addLoader, ['@OxidEsales\Twig\Loader\FilesystemLoader']]
+      - [addLoader, ['@OxidEsales\Twig\Loader\ContentTemplateLoader']]
+
+  OxidEsales\Twig\Loader\FilesystemLoader:
     arguments:
       - "@=service('OxidEsales\\\\Twig\\\\TwigContextInterface').getTemplateDirectories()"
-      - null
-      - "@oxid_esales.templating.template.loader"
-      - "@oxid_esales.templating.admin.template.loader"
     tags: ['twig.loader']
 
   OxidEsales\Twig\Loader\ModuleTemplateLoader:
-    class: OxidEsales\Twig\Loader\ModuleTemplateLoader
     tags: [ 'twig.loader' ]
 
   OxidEsales\Twig\Loader\ContentTemplateLoader:
@@ -58,13 +64,6 @@ services:
       - '@OxidEsales\Twig\TemplateLoaderNameParser'
       - '@OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory'
     tags: ['twig.loader']
-
-  twig.loader.chain:
-    class: Twig\Loader\ChainLoader
-    calls:
-      - [addLoader, ['@OxidEsales\Twig\Loader\ModuleTemplateLoader']]
-      - [addLoader, ['@twig.loader.filesystem']]
-      - [addLoader, ['@OxidEsales\Twig\Loader\ContentTemplateLoader']]
 
   # Escapers
 
