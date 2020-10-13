@@ -11,10 +11,10 @@ namespace OxidEsales\Twig\Tests\Unit\Resolver;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Path\ModulePathResolverInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
-use OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolver;
+use OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolver;
 use PHPUnit\Framework\TestCase;
 
-final class ModuleTemplateDirectoryResolverTest extends TestCase
+final class ModulesTemplateDirectoryResolverTest extends TestCase
 {
     public function testGetAbsolutePath(): void
     {
@@ -26,7 +26,7 @@ final class ModuleTemplateDirectoryResolverTest extends TestCase
 
         $this->assertEquals(
             'module-path/views/twig/tpl',
-            (new ModuleTemplateDirectoryResolver($modulePathResolver, $context))->getAbsolutePath('someModule')
+            (new ModulesTemplateDirectoryResolver($modulePathResolver, $context))->getAbsolutePath('someModule')
         );
     }
 }

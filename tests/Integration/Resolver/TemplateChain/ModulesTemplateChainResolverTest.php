@@ -7,20 +7,21 @@
 
 declare(strict_types=1);
 
-namespace OxidEsales\Twig\Tests\Integration\Resolver;
+namespace OxidEsales\Twig\Tests\Integration\Resolver\TemplateChain;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Service\ActiveModulesDataProviderInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\DataObject\OxidEshopPackage;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Service\ModuleActivationServiceInterface;
 use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
-use OxidEsales\Twig\Resolver\ModuleTemplateChainResolver;
-use OxidEsales\Twig\Resolver\ModuleTemplateChainResolverInterface;
-use OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolverInterface;
+use OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolverInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\ModulesTemplateChain;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface;
 use OxidEsales\Twig\TwigContextInterface;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Filesystem\Filesystem;
 
-final class ModuleTemplateChainResolverTest extends TestCase
+final class ModulesTemplateChainResolverTest extends TestCase
 {
     use ContainerTrait;
 
@@ -29,8 +30,8 @@ final class ModuleTemplateChainResolverTest extends TestCase
         $this->installModule('moduleWithoutTwigExtension');
         $this->installModule('moduleWithTwigExtension');
 
-        /** @var ModuleTemplateChainResolverInterface $chainResolver */
-        $chainResolver = $this->get(ModuleTemplateChainResolverInterface::class);
+        /** @var TemplateChainInterface $chainResolver */
+        $chainResolver = $this->get(TemplateChainInterface::class);
 
         $this->assertEquals(
             [],
@@ -48,15 +49,14 @@ final class ModuleTemplateChainResolverTest extends TestCase
         $moduleActivator->activate('moduleWithoutTwigExtension', 1);
         $moduleActivator->activate('moduleWithTwigExtension', 1);
 
-        /** @var ModuleTemplateChainResolverInterface $chainResolver */
-        $chainResolver = $this->get(ModuleTemplateChainResolverInterface::class);
+        /** @var TemplateChainInterface $chainResolver */
+        $chainResolver = $this->get(TemplateChainInterface::class);
 
         $this->assertEquals(
             ['@moduleWithTwigExtension/some-template.html.twig'],
             $chainResolver->getChain('some-template.html.twig')
         );
     }
-
 
     public function testGetChainIfModuleOverwritesActiveTheme(): void
     {
@@ -68,11 +68,14 @@ final class ModuleTemplateChainResolverTest extends TestCase
 
         $twigContext = $this->getMockBuilder(TwigContextInterface::class)->getMock();
         $twigContext->method('getActiveThemeId')->willReturn('customTheme');
+        $filesystem = $this->createMock(\Symfony\Component\Filesystem\Filesystem::class);
+        $filesystem->method('exists')->willReturn(true);
 
-        $chainResolver = new ModuleTemplateChainResolver(
+        $chainResolver = new ModulesTemplateChain(
             $this->get(ActiveModulesDataProviderInterface::class),
-            $this->get(ModuleTemplateDirectoryResolverInterface::class),
-            $twigContext
+            $this->get(ModulesTemplateDirectoryResolverInterface::class),
+            $twigContext,
+            new Filesystem()
         );
 
         $this->assertEquals(
@@ -86,9 +89,11 @@ final class ModuleTemplateChainResolverTest extends TestCase
         /** @var ModuleInstallerInterface $moduleInstaller */
         $moduleInstaller = $this->get(ModuleInstallerInterface::class);
 
-        $moduleInstaller->install(new OxidEshopPackage(
+        $moduleInstaller->install(
+            new OxidEshopPackage(
                 $moduleId,
-                __DIR__ . '/Fixtures/' . $moduleId)
+                __DIR__ . "/Fixtures/moduleTemplateChainResolverTest/$moduleId"
+            )
         );
     }
 }
