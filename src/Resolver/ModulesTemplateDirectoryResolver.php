@@ -13,7 +13,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Path\ModulePathResolverI
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use Webmozart\PathUtil\Path;
 
-class ModuleTemplateDirectoryResolver implements ModuleTemplateDirectoryResolverInterface
+class ModulesTemplateDirectoryResolver implements ModulesTemplateDirectoryResolverInterface
 {
     /**
      * @var ModulePathResolverInterface
@@ -25,8 +25,10 @@ class ModuleTemplateDirectoryResolver implements ModuleTemplateDirectoryResolver
      */
     private $context;
 
-    public function __construct(ModulePathResolverInterface $modulePathResolver, BasicContextInterface $context)
-    {
+    public function __construct(
+        ModulePathResolverInterface $modulePathResolver,
+        BasicContextInterface $context
+    ) {
         $this->modulePathResolver = $modulePathResolver;
         $this->context = $context;
     }

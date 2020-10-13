@@ -17,8 +17,9 @@ use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterf
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContext;
 use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
 use PHPUnit\Framework\TestCase;
+use Twig\Error\SyntaxError;
 
-class ModuleHierarchyTest extends TestCase
+class ModulesTemplateChainTest extends TestCase
 {
     use ContainerTrait;
 
@@ -29,8 +30,10 @@ class ModuleHierarchyTest extends TestCase
     ];
     private const FIXTURE_THEME = 'testTheme';
     private const FIXTURE_TEMPLATE_WITH_EXTENDS = 'template-with-extends.html.twig';
+    private const FIXTURE_TEMPLATE_WITH_INVALID_EXTENDS = 'template-with-invalid-extends.html.twig';
     private const FIXTURE_TEMPLATE_WITH_CONDITIONAL_EXTENDS = 'template-with-conditional-extends.html.twig';
     private const FIXTURE_TEMPLATE_WITH_ARRAY_EXTENDS = 'template-with-array-extends.html.twig';
+    private const FIXTURE_TEMPLATE_WITH_INCLUDE = 'template-with-include.html.twig';
     /** @var BasicContext */
     private $context;
 
@@ -56,7 +59,7 @@ class ModuleHierarchyTest extends TestCase
         $this->installModuleFixture('module1');
         $this->activateModule('module1');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
+        $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertContains('<shop-header><shop-content>', $actual);
         $this->assertContains('<module-1-content>', $actual);
@@ -68,7 +71,7 @@ class ModuleHierarchyTest extends TestCase
         $this->activateModule('module1');
         $this->deactivateModule('module1');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
+        $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertContains('<shop-header><shop-content>', $actual);
         $this->assertNotContains('<module-1-content>', $actual);
@@ -81,7 +84,7 @@ class ModuleHierarchyTest extends TestCase
         $this->activateModule('module1');
         $this->activateModule('module2');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
+        $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertContains('<shop-header><shop-content>', $actual);
         $this->assertContains('<module-1-content>', $actual);
@@ -97,7 +100,7 @@ class ModuleHierarchyTest extends TestCase
         $this->activateModule('module2');
         $this->activateModule('module3');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
+        $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertContains('<shop-header><shop-content>', $actual);
         $this->assertContains('<module-1-content>', $actual);
@@ -115,7 +118,7 @@ class ModuleHierarchyTest extends TestCase
         $this->activateModule('module3');
         $this->deactivateModule('module2');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
+        $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertContains('<shop-header><shop-content>', $actual);
         $this->assertContains('<module-1-content>', $actual);
@@ -137,6 +140,26 @@ class ModuleHierarchyTest extends TestCase
 
         $this->assertContains('<shop-header><shop-content>', $actual);
         $this->assertContains('<template_with_array_extends-content>', $actual);
+    }
+
+    public function testEngineRenderWithIncludeAndMultipleModulesWillRenderLastInChain(): void
+    {
+        $this->installModuleFixture('module1');
+        $this->activateModule('module1');
+
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_INCLUDE);
+
+        $this->assertContains('<shop-header><module-1-included-content><shop-content>', $actual);
+    }
+
+    public function testEngineRenderWithInvalidExtendsValue(): void
+    {
+        $this->installModuleFixture('module1');
+        $this->activateModule('module1');
+
+        $this->expectException(SyntaxError::class);
+
+        $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_INVALID_EXTENDS);
     }
 
     private function installModuleFixture(string $moduleName): void
@@ -168,7 +191,6 @@ class ModuleHierarchyTest extends TestCase
         $mockedShopPath = __DIR__ . '/Fixtures/shop/source/';
         Registry::getConfig()->setConfigParam('sShopDir', $mockedShopPath);
         Registry::getConfig()->setConfigParam('sTheme', self::FIXTURE_THEME);
-
     }
 
     private function generateUniquePackageNames(): void

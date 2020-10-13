@@ -1,36 +1,35 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
+declare(strict_types=1);
+
 namespace OxidEsales\Twig;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface;
 use OxidEsales\Twig\Escaper\EscaperInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use Twig\Environment;
 use Twig\Extension\CoreExtension;
 use Twig\Extension\DebugExtension;
 
-/**
- * Class TwigEngine
- */
 class TwigEngine implements TemplateEngineInterface
 {
-    /**
-     * @var \Twig_Environment
-     */
+    /** @var \Twig_Environment */
     private $engine;
+    /** @var TemplateChainResolverInterface */
+    private $templateChainResolver;
 
-    /**
-     * TwigEngine constructor.
-     *
-     * @param Environment $engine
-     * @param \iterable    $twigExtensions
-     * @param \iterable    $twigEscaper
-     */
-    public function __construct(Environment $engine, iterable $twigExtensions = [], iterable $twigEscaper = [])
-    {
+    public function __construct(
+        Environment $engine,
+        TemplateChainResolverInterface $templateChainResolver,
+        iterable $twigExtensions = [],
+        iterable $twigEscaper = []
+    ) {
+        $this->templateChainResolver = $templateChainResolver;
         $this->engine = $engine;
 
         foreach ($twigExtensions as $extension) {
@@ -66,7 +65,10 @@ class TwigEngine implements TemplateEngineInterface
      */
     public function render(string $name, array $context = []): string
     {
-        return $this->engine->render($name, $context);
+        return $this->engine->render(
+            $this->templateChainResolver->getLastChild($name),
+            $context
+        );
     }
 
     /**

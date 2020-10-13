@@ -3,6 +3,8 @@ parameters:
   oxid_esales.templating.engine_template_extension: 'html.twig'
 
 services:
+  _defaults:
+    autowire: true
   OxidEsales\Eshop\Core\Config:
     factory: ['OxidEsales\Eshop\Core\Registry', getConfig]
 
@@ -13,7 +15,6 @@ services:
     class: OxidEsales\Twig\TwigContext
     arguments:
       $activeAdminTheme: '%oxid_esales.theme.admin.name%'
-    autowire: true
     public: true
 
   OxidEsales\Twig\TwigEngineConfigurationInterface:
@@ -35,7 +36,6 @@ services:
 
   OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateRendererBridgeInterface:
     class: OxidEsales\Twig\Bridge\TwigTemplateRendererBridge
-    autowire: true
     public: true
 
   # Loaders
@@ -48,12 +48,10 @@ services:
       - "@oxid_esales.templating.template.loader"
       - "@oxid_esales.templating.admin.template.loader"
     tags: ['twig.loader']
-    autowire: true
 
   OxidEsales\Twig\Loader\ModuleTemplateLoader:
     class: OxidEsales\Twig\Loader\ModuleTemplateLoader
     tags: [ 'twig.loader' ]
-    autowire: true
 
   OxidEsales\Twig\Loader\ContentTemplateLoader:
     arguments:
@@ -250,15 +248,14 @@ services:
   OxidEsales\Twig\Extensions\GetRequestVariablesExtension:
     tags: ['twig.extension']
 
-  OxidEsales\Twig\Extensions\InheritanceHierarchyExtension:
-    arguments:
-      - '@OxidEsales\Twig\Resolver\TemplateHierarchyResolverInterface'
+  OxidEsales\Twig\Extensions\ExtendsExtension:
     tags: ['twig.extension']
 
   OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface:
     class: OxidEsales\Twig\TwigEngine
     arguments:
       - '@twig'
+      - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface'
       - !tagged twig.extension
       - !tagged twig.escaper
     public: false
@@ -267,20 +264,30 @@ services:
     class: OxidEsales\Twig\Resolver\TemplateNameResolver
     arguments:
       - '@OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolver'
-  OxidEsales\Twig\Resolver\TemplateHierarchyResolverInterface:
-    class: OxidEsales\Twig\Resolver\TemplateHierarchyResolver
-    autowire: true
 
-  OxidEsales\Twig\Resolver\ModuleTemplateChainResolverInterface:
-    class: OxidEsales\Twig\Resolver\ModuleTemplateChainResolver
-    autowire: true
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface:
+    class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolver
 
-  OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolverInterface:
-    class: OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolver
-    autowire: true
+  OxidEsales\Twig\Resolver\TemplateNameConverterInterface:
+    class: OxidEsales\Twig\Resolver\TemplateNameConverter
+
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidatorInterface:
+    class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidator
+
+  OxidEsales\Twig\Resolver\TemplateChain\ShopTemplateChain:
+  OxidEsales\Twig\Resolver\TemplateChain\ModulesTemplateChain:
+
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface:
+    class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainAggregate
+    arguments:
+      -
+        - '@OxidEsales\Twig\Resolver\TemplateChain\ModulesTemplateChain'
+        - '@OxidEsales\Twig\Resolver\TemplateChain\ShopTemplateChain'
+
+  OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolverInterface:
+    class: OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolver
 
   OxidEsales\Twig\Subscriber\InvalidateCacheEventSubscriber:
     class: OxidEsales\Twig\Subscriber\InvalidateCacheEventSubscriber
-    autowire: true
     tags:
       - { name: kernel.event_subscriber }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver;
 
-interface ModuleTemplateDirectoryResolverInterface
+interface ModulesTemplateDirectoryResolverInterface
 {
     public function getAbsolutePath(string $moduleId): string;
 }
