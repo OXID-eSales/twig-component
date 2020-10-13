@@ -5,9 +5,9 @@
  * See LICENSE file for license details.
  */
 
-namespace OxidEsales\Twig\Resolver;
+namespace OxidEsales\Twig\Resolver\TemplateChain;
 
-interface ModuleTemplateChainResolverInterface
+interface TemplateChainInterface
 {
     /**
      * @param string $templateName

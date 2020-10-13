@@ -7,15 +7,15 @@
 
 declare(strict_types=1);
 
-namespace OxidEsales\Twig\Resolver;
+namespace OxidEsales\Twig\Resolver\TemplateChain;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Service\ActiveModulesDataProviderInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Path\ModulePathResolverInterface;
-use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
+use OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolverInterface;
 use OxidEsales\Twig\TwigContextInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Webmozart\PathUtil\Path;
 
-class ModuleTemplateChainResolver implements ModuleTemplateChainResolverInterface
+class ModulesTemplateChain implements TemplateChainInterface
 {
     /**
      * @var ActiveModulesDataProviderInterface
@@ -23,7 +23,7 @@ class ModuleTemplateChainResolver implements ModuleTemplateChainResolverInterfac
     private $activeModulesDataProvider;
 
     /**
-     * @var ModuleTemplateDirectoryResolverInterface
+     * @var ModulesTemplateDirectoryResolverInterface
      */
     private $moduleTemplateDirectoryResolver;
 
@@ -32,14 +32,21 @@ class ModuleTemplateChainResolver implements ModuleTemplateChainResolverInterfac
      */
     private $twigContext;
 
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
     public function __construct(
         ActiveModulesDataProviderInterface $activeModulesDataProvider,
-        ModuleTemplateDirectoryResolverInterface $moduleTemplateDirectoryResolver,
-        TwigContextInterface $twigContext
+        ModulesTemplateDirectoryResolverInterface $moduleTemplateDirectoryResolver,
+        TwigContextInterface $twigContext,
+        Filesystem $filesystem
     ) {
         $this->activeModulesDataProvider = $activeModulesDataProvider;
         $this->moduleTemplateDirectoryResolver = $moduleTemplateDirectoryResolver;
         $this->twigContext = $twigContext;
+        $this->filesystem = $filesystem;
     }
 
     /** @inheritDoc */
@@ -49,7 +56,7 @@ class ModuleTemplateChainResolver implements ModuleTemplateChainResolverInterfac
         foreach ($this->activeModulesDataProvider->getModuleIds() as $moduleId) {
             if ($this->moduleHasTemplateForActiveTheme($moduleId, $templateName)) {
                 $templateChain[] = "@$moduleId/{$this->twigContext->getActiveThemeId()}/$templateName";
-            } elseif (file_exists($this->getAbsoluteTemplatePath($moduleId, $templateName))) {
+            } elseif ($this->moduleHasTemplate($moduleId, $templateName)) {
                 $templateChain[] = "@$moduleId/$templateName";
             }
         }
@@ -75,6 +82,11 @@ class ModuleTemplateChainResolver implements ModuleTemplateChainResolverInterfac
 
     private function moduleHasTemplateForActiveTheme(string $moduleId, string $templateName): bool
     {
-        return file_exists($this->getAbsoluteTemplatePathForTheme($moduleId, $templateName));
+        return $this->filesystem->exists($this->getAbsoluteTemplatePathForTheme($moduleId, $templateName));
+    }
+
+    private function moduleHasTemplate(string $moduleId, string $templateName): bool
+    {
+        return $this->filesystem->exists($this->getAbsoluteTemplatePath($moduleId, $templateName));
     }
 }

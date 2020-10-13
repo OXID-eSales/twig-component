@@ -14,7 +14,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleIn
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Service\ModuleActivationServiceInterface;
 use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
 use OxidEsales\Twig\Loader\ModuleTemplateLoader;
-use OxidEsales\Twig\Resolver\ModuleTemplateDirectoryResolverInterface;
+use OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolverInterface;
 use PHPUnit\Framework\TestCase;
 use Webmozart\PathUtil\Path;
 
@@ -49,30 +49,8 @@ final class ModuleTemplateLoaderTest extends TestCase
 
         $moduleTemplateName = '@moduleWithTwigExtension/some-template.html.twig';
 
-        $this->assertNull(
-            $this->getLoader()->findTemplate($moduleTemplateName)
-        );
-    }
-
-    public function testLoadModuleTemplateWithShopTemplateNameIfModuleParentTemplateExists(): void
-    {
-        $this->installTestModule();
-        $this->activateTestModule();
-
-        $shopTemplateName = 'some-template.html.twig';
-
-        $this->assertEquals(
-            $this->getModuleTemplateAbsolutePath(),
-            $this->getLoader()->findTemplate($shopTemplateName)
-        );
-    }
-
-    public function testDoesNotLoadAnythingWithShopTemplateNameAndNoModuleParentTemplate(): void
-    {
-        $shopTemplateName = 'some-template.html.twig';
-
-        $this->assertNull(
-            $this->getLoader()->findTemplate($shopTemplateName)
+        $this->assertFalse(
+            $this->getLoader()->findTemplate($moduleTemplateName, false)
         );
     }
 
@@ -81,7 +59,7 @@ final class ModuleTemplateLoaderTest extends TestCase
         $this->installTestModule();
         $this->activateTestModule();
 
-        $BCShopTemplateName = 'some-template.tpl';
+        $BCShopTemplateName = '@moduleWithTwigExtension/some-template.tpl';
 
         $this->assertEquals(
             $this->getModuleTemplateAbsolutePath(),
@@ -120,7 +98,7 @@ final class ModuleTemplateLoaderTest extends TestCase
     private function getModuleTemplateAbsolutePath(): string
     {
         return Path::join(
-            $this->get(ModuleTemplateDirectoryResolverInterface::class)->getAbsolutePath('moduleWithTwigExtension'),
+            $this->get(ModulesTemplateDirectoryResolverInterface::class)->getAbsolutePath('moduleWithTwigExtension'),
             'some-template.html.twig'
         );
     }
