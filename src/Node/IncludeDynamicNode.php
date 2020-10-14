@@ -63,9 +63,13 @@ class IncludeDynamicNode extends IncludeNode
         $compiler->write("echo \$this");
         $compiler->raw("->extensions['" . IncludeExtension::class . "']");
         if ($this->hasNode('variables')) {
-            $compiler->raw("->renderForCache(\$parameters);\n");
+            $compiler->raw("->renderForCache(array_merge(\$parameters, ['file' => ");
+            $compiler->subcompile($this->getNode('expr'));
+            $compiler->raw("]));\n");
         } else {
-            $compiler->raw("->renderForCache([]);\n");
+            $compiler->raw("->renderForCache(['file' => ");
+            $compiler->subcompile($this->getNode('expr'));
+            $compiler->raw("]);\n");
         }
     }
 
