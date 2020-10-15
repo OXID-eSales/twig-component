@@ -9,32 +9,25 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
-use OxidEsales\Twig\Resolver\TemplateNameConverterInterface;
-
 class TemplateChainAggregate implements TemplateChainInterface
 {
     /** @var TemplateChainInterface[] */
     private $templateResolvers;
-    /** @var TemplateNameConverterInterface */
-    private $templateNameConverter;
 
-    public function __construct(
-        array $templateResolvers,
-        TemplateNameConverterInterface $templateNameConverter
-    ) {
+    public function __construct(array $templateResolvers)
+    {
         $this->templateResolvers = $templateResolvers;
-        $this->templateNameConverter = $templateNameConverter;
     }
 
     /** @inheritDoc */
-    public function getChain(string $templateName): array
+    public function getChain(string $templatePath): array
     {
         $templateChain = [];
         foreach ($this->templateResolvers as $templateResolver) {
-            $resolvedChain = $templateResolver->getChain(
-                $this->templateNameConverter->trimNamespace($templateName)
+            $templateChain = \array_merge(
+                $templateChain,
+                $templateResolver->getChain($templatePath)
             );
-            $templateChain = \array_merge($templateChain, $resolvedChain);
         }
         return $templateChain;
     }

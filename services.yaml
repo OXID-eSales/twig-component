@@ -267,8 +267,8 @@ services:
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolver
 
-  OxidEsales\Twig\Resolver\TemplateNameConverterInterface:
-    class: OxidEsales\Twig\Resolver\TemplateNameConverter
+  OxidEsales\Twig\Resolver\TemplatePathConverterInterface:
+    class: OxidEsales\Twig\Resolver\TemplatePathConverter
 
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidatorInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidator

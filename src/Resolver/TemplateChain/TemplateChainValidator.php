@@ -9,18 +9,18 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
-use OxidEsales\Twig\Resolver\TemplateNameConverterInterface;
+use OxidEsales\Twig\Resolver\TemplatePathConverterInterface;
 
 class TemplateChainValidator implements TemplateChainValidatorInterface
 {
     /** @var TemplateChainInterface */
     private $templateChain;
-    /** @var TemplateNameConverterInterface */
+    /** @var TemplatePathConverterInterface */
     private $templateNameConverter;
 
     public function __construct(
         TemplateChainInterface $templateChain,
-        TemplateNameConverterInterface $templateNameConverter
+        TemplatePathConverterInterface $templateNameConverter
     ) {
         $this->templateChain = $templateChain;
         $this->templateNameConverter = $templateNameConverter;

@@ -10,8 +10,8 @@ namespace OxidEsales\Twig\Resolver\TemplateChain;
 interface TemplateChainInterface
 {
     /**
-     * @param string $templateName
+     * @param string $templatePath
      * @return string[]
      */
-    public function getChain(string $templateName): array;
+    public function getChain(string $templatePath): array;
 }
