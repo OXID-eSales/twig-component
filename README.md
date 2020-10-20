@@ -21,6 +21,21 @@ Run the following command to install the module manually:
 composer require oxid-esales/twig-component
 ```
 
+## Running tests
+
+To run this module tests, add the tests directory in your test config.yaml file:
+
+```
+    ...    
+    run_tests_for_shop: false
+    run_tests_for_modules: false
+    ...
+    additional_test_paths: ./vendor/oxid-esales/twig-component/tests
+    ...
+```
+
+and run ``vendor/bin/runtests``
+
 ## License
 
 See LICENSE file for license details.
