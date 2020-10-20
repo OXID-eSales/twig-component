@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Various coding style improvements [PR-2](https://github.com/OXID-eSales/twig-component/pull/2)
+- Fix not working include_dynamic tag [PR-3](https://github.com/OXID-eSales/twig-component/pull/3)
 
 ## [1.0.0] - 2019-11-21
 
