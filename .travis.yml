@@ -22,7 +22,7 @@ install:
   - sed -i "s|\$this->edition = ''|\$this->edition = 'CE'|" source/config.inc.php
   - COMPOSER_MEMORY_LIMIT=-1 SHOP_PATH='source' SHOP_TESTS_PATH='tests' MODULES_PATH='' composer install
   - composer config repositories.oxid-esales/twig-component path $(echo $TRAVIS_BUILD_DIR)
-  - composer require oxid-esales/twig-component
+  - composer require oxid-esales/twig-component:*
   - sed -i "s|run_tests_for_shop:\ true|run_tests_for_shop:\ false|" test_config.yml
   - sed -i "s|additional_test_paths:\ '|additional_test_paths:\ '$(echo $TRAVIS_BUILD_DIR)/tests,|" test_config.yml
   - cat test_config.yml 
