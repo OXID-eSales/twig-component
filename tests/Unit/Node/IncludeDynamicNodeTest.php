@@ -46,26 +46,9 @@ class IncludeDynamicNodeTest extends NodeTestCase
         $tests[] = [$node, <<<EOF
 // line 1
 if (!empty(\$context["_render4cache"])) {
-    echo \$this->extensions['$includeExtensionClass']->renderForCache([]);
+    echo \$this->extensions['$includeExtensionClass']->renderForCache(['file' => "foo.twig"]);
 } else {
     \$this->loadTemplate("foo.twig", null, 1)->display(\$context);
-}
-EOF
-        ];
-
-        $expr = new ConditionalExpression(
-            new ConstantExpression(true, 1),
-            new ConstantExpression('foo', 1),
-            new ConstantExpression('foo', 1),
-            0
-        );
-        $node = new IncludeDynamicNode($expr, null, false, false, 1);
-        $tests[] = [$node, <<<EOF
-// line 1
-if (!empty(\$context["_render4cache"])) {
-    echo \$this->extensions['$includeExtensionClass']->renderForCache([]);
-} else {
-    \$this->loadTemplate(((true) ? ("foo") : ("foo")), null, 1)->display(\$context);
 }
 EOF
         ];
@@ -77,7 +60,7 @@ EOF
 // line 1
 \$parameters = ["foo" => true];
 if (!empty(\$context["_render4cache"])) {
-    echo \$this->extensions['$includeExtensionClass']->renderForCache(\$parameters);
+    echo \$this->extensions['$includeExtensionClass']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
 } else {
     \$parameters = \$this->extensions['$includeExtensionClass']->includeDynamicPrefix(\$parameters);
     \$this->loadTemplate("foo.twig", null, 1)->display(array_merge(\$context, \$parameters));
@@ -90,7 +73,7 @@ EOF
 // line 1
 \$parameters = ["foo" => true];
 if (!empty(\$context["_render4cache"])) {
-    echo \$this->extensions['$includeExtensionClass']->renderForCache(\$parameters);
+    echo \$this->extensions['$includeExtensionClass']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
 } else {
     \$parameters = \$this->extensions['$includeExtensionClass']->includeDynamicPrefix(\$parameters);
     \$this->loadTemplate("foo.twig", null, 1)->display(\$parameters);
@@ -104,7 +87,7 @@ EOF
 try {
     \$parameters = ["foo" => true];
     if (!empty(\$context["_render4cache"])) {
-        echo \$this->extensions['$includeExtensionClass']->renderForCache(\$parameters);
+        echo \$this->extensions['$includeExtensionClass']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
     } else {
         \$parameters = \$this->extensions['$includeExtensionClass']->includeDynamicPrefix(\$parameters);
         \$this->loadTemplate("foo.twig", null, 1)->display(\$parameters);
