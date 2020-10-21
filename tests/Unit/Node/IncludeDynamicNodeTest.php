@@ -68,6 +68,7 @@ if (!empty(\$context["_render4cache"])) {
 EOF
         ];
 
+        $expr = new ConstantExpression('foo.twig', 1);
         $node = new IncludeDynamicNode($expr, $vars, true, false, 1);
         $tests[] = [$node, <<<EOF
 // line 1
@@ -81,6 +82,7 @@ if (!empty(\$context["_render4cache"])) {
 EOF
         ];
 
+        $expr = new ConstantExpression('foo.twig', 1);
         $node = new IncludeDynamicNode($expr, $vars, true, true, 1);
         $tests[] = [$node, <<<EOF
 // line 1
