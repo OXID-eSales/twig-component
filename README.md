@@ -1,4 +1,7 @@
 # Twig component
+
+[![Build Status](https://travis-ci.com/OXID-eSales/twig-component.svg?branch=master)](https://travis-ci.com/OXID-eSales/twig-component) 
+
 Includes twig template engine for OXID eShop
 
 ## Requirements
