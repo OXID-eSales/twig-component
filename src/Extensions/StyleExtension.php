@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Extensions;
 
@@ -11,11 +14,6 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Twig\Environment;
 
-/**
- * Class AssignAdvancedExtension
- *
- * @package OxidEsales\Twig\Extensions
- */
 class StyleExtension extends AbstractExtension
 {
     /**
@@ -23,11 +21,6 @@ class StyleExtension extends AbstractExtension
      */
     private $styleLogic;
 
-    /**
-     * StyleExtension constructor.
-     *
-     * @param StyleLogic $styleLogic
-     */
     public function __construct(StyleLogic $styleLogic)
     {
         $this->styleLogic = $styleLogic;

@@ -135,12 +135,6 @@ services:
       - '@OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\AddUrlParametersLogic'
     tags: ['twig.extension']
 
-  OxidEsales\Twig\Extensions\AssignAdvancedExtension:
-    class: OxidEsales\Twig\Extensions\AssignAdvancedExtension
-    arguments:
-      - '@OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\AssignAdvancedLogic'
-    tags: ['twig.extension']
-
   Twig_Extension_StringLoader:
     class: Twig_Extension_StringLoader
     tags: ['twig.extension']
