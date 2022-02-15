@@ -121,11 +121,6 @@ services:
       - '@OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\AddUrlParametersLogic'
     tags: ['twig.extension']
 
-  OxidEsales\Twig\Extensions\AssignAdvancedExtension:
-    arguments:
-      - '@OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\AssignAdvancedLogic'
-    tags: ['twig.extension']
-
   Twig_Extension_StringLoader:
     class: Twig_Extension_StringLoader
     tags: ['twig.extension']
@@ -266,9 +261,6 @@ services:
     arguments:
       - '@OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolver'
 
-  OxidEsales\Twig\Resolver\TemplateHierarchyResolverInterface:
-    class: OxidEsales\Twig\Resolver\TemplateHierarchyResolver
-
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolver
 
@@ -279,8 +271,12 @@ services:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidator
 
   OxidEsales\Twig\Resolver\TemplateChain\ShopTemplateChain:
+    arguments:
+      Symfony\Component\Filesystem\Filesystem: '@oxid_esales.symfony.file_system'
 
   OxidEsales\Twig\Resolver\TemplateChain\ModulesTemplateChain:
+    arguments:
+      Symfony\Component\Filesystem\Filesystem: '@oxid_esales.symfony.file_system'
 
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainAggregate
@@ -293,6 +289,7 @@ services:
     class: OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolver
 
   OxidEsales\Twig\Subscriber\InvalidateCacheEventSubscriber:
-    class: OxidEsales\Twig\Subscriber\InvalidateCacheEventSubscriber
+    arguments:
+      Symfony\Component\Filesystem\Filesystem: '@oxid_esales.symfony.file_system'
     tags:
       - { name: kernel.event_subscriber }
