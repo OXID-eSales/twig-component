@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Service\ActiveModulesDataProviderInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Module\Facade\ActiveModulesDataProviderInterface;
 use OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolverInterface;
 use OxidEsales\Twig\TwigContextInterface;
 use Symfony\Component\Filesystem\Filesystem;
