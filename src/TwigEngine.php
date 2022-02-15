@@ -13,8 +13,8 @@ use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterf
 use OxidEsales\Twig\Escaper\EscaperInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use Twig\Environment;
-use Twig\Extension\CoreExtension;
 use Twig\Extension\DebugExtension;
+use Twig\Extension\EscaperExtension;
 
 class TwigEngine implements TemplateEngineInterface
 {
@@ -125,8 +125,8 @@ class TwigEngine implements TemplateEngineInterface
      */
     public function addEscaper(EscaperInterface $escaper)
     {
-        /** @var CoreExtension $coreExtension */
-        $coreExtension = $this->engine->getExtension(CoreExtension::class);
-        $coreExtension->setEscaper($escaper->getStrategy(), [$escaper, 'escape']);
+        /** @var EscaperExtension $escaperExtension */
+        $escaperExtension = $this->engine->getExtension(EscaperExtension::class);
+        $escaperExtension->setEscaper($escaper->getStrategy(), [$escaper, 'escape']);
     }
 }

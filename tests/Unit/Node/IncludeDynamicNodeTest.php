@@ -94,7 +94,7 @@ try {
         \$parameters = \$this->extensions['$includeExtensionClass']->includeDynamicPrefix(\$parameters);
         \$this->loadTemplate("foo.twig", null, 1)->display(\$parameters);
     }
-} catch (Twig_Error_Loader \$e) {
+} catch (\Twig\Error\LoaderError \$e) {
     // ignore missing template
 }
 EOF

@@ -121,8 +121,7 @@ services:
       - '@OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\AddUrlParametersLogic'
     tags: ['twig.extension']
 
-  Twig_Extension_StringLoader:
-    class: Twig_Extension_StringLoader
+  Twig\Extension\StringLoaderExtension:
     tags: ['twig.extension']
 
   OxidEsales\Twig\Extensions\HasRightsExtension:
