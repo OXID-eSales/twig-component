@@ -9,45 +9,43 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
-use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolverInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolverInterface;
 
 class TemplateChainResolver implements TemplateChainResolverInterface
 {
-    /** @var TemplateChainInterface */
-    private $templateChain;
-    /** @var TemplateNameResolverInterface */
-    private $templateNameResolver;
+    private TemplateChainInterface $templateChain;
+    private TemplateFileResolverInterface $templateFileResolver;
 
     public function __construct(
         TemplateChainInterface $templateChain,
-        TemplateNameResolverInterface $templateNameResolver
+        TemplateFileResolverInterface $templateFileResolver
     ) {
         $this->templateChain = $templateChain;
-        $this->templateNameResolver = $templateNameResolver;
+        $this->templateFileResolver = $templateFileResolver;
     }
 
     /** @inheritDoc */
     public function getParent(string $templateName): string
     {
-        $templateName = $this->templateNameResolver->resolve($templateName);
-        $chain = $this->templateChain->getChain($templateName);
-        $position = array_search($templateName, $chain, true);
+        $filename = $this->templateFileResolver->getFilename($templateName);
+        $chain = $this->templateChain->getChain($filename);
+        $position = array_search($filename, $chain, true);
         return $chain[++$position];
     }
 
     /** @inheritDoc */
     public function getLastChild(string $templateName): string
     {
-        $templateName = $this->templateNameResolver->resolve($templateName);
-        $templateChain = $this->templateChain->getChain($templateName);
+        $filename = $this->templateFileResolver->getFilename($templateName);
+        $templateChain = $this->templateChain->getChain($filename);
         return $templateChain[0];
     }
 
     /** @inheritDoc */
     public function hasParent(string $templateName): bool
     {
-        $templateName = $this->templateNameResolver->resolve($templateName);
-        $chain = $this->templateChain->getChain($templateName);
-        return $templateName !== end($chain);
+        $filename = $this->templateFileResolver->getFilename($templateName);
+        $chain = $this->templateChain->getChain($filename);
+        return $filename !== end($chain);
     }
 }

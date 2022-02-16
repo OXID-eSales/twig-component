@@ -1,6 +1,7 @@
 parameters:
   oxid_esales.theme.admin.name: 'admin_twig'
   oxid_esales.templating.engine_template_extension: 'html.twig'
+  oxid_esales.templating.engine_legacy_template_extension: 'tpl'
 
 services:
   _defaults:
@@ -255,13 +256,17 @@ services:
       - !tagged twig.escaper
     public: false
 
-  OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolverInterface:
-    class: OxidEsales\Twig\Resolver\TemplateNameResolver
-    arguments:
-      - '@OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolver'
-
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolver
+
+  OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolverInterface:
+    class: OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolver
+    arguments:
+      - [
+        '%oxid_esales.templating.engine_legacy_template_extension%',
+        '%oxid_esales.templating.engine_template_extension%'
+      ]
+      - '%oxid_esales.templating.engine_template_extension%'
 
   OxidEsales\Twig\Resolver\TemplateNameConverterInterface:
     class: OxidEsales\Twig\Resolver\TemplateNameConverter

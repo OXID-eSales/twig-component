@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Resolver\TemplateChain;
 
-use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolverInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolverInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolver;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
@@ -24,20 +24,20 @@ final class TemplateChainResolverTest extends TestCase
     private $nextTemplate = 'some-next-template';
     /** @var TemplateChainInterface|ObjectProphecy */
     private $templateChain;
-    /** @var TemplateNameResolverInterface|ObjectProphecy */
-    private $templateNameResolver;
+    /** @var TemplateFileResolverInterface|ObjectProphecy */
+    private $templateFileResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->templateChain = $this->prophesize(TemplateChainInterface::class);
-        $this->templateNameResolver = $this->prophesize(TemplateNameResolverInterface::class);
+        $this->templateFileResolver = $this->prophesize(TemplateFileResolverInterface::class);
     }
 
     public function testGetParent(): void
     {
-        $this->templateNameResolver->resolve($this->someTestedTemplate)->willReturn($this->someResolvedTemplate);
+        $this->templateFileResolver->getFilename($this->someTestedTemplate)->willReturn($this->someResolvedTemplate);
         $this->templateChain->getChain($this->someResolvedTemplate)->willReturn(
             [
                 $this->previousTemplate,
@@ -53,7 +53,7 @@ final class TemplateChainResolverTest extends TestCase
 
     public function testGetLastChild(): void
     {
-        $this->templateNameResolver->resolve($this->someTestedTemplate)->willReturn($this->someResolvedTemplate);
+        $this->templateFileResolver->getFilename($this->someTestedTemplate)->willReturn($this->someResolvedTemplate);
         $this->templateChain->getChain($this->someResolvedTemplate)->willReturn(
             [
                 $this->previousTemplate,
@@ -69,7 +69,7 @@ final class TemplateChainResolverTest extends TestCase
 
     public function testHasParentWithParentPresent(): void
     {
-        $this->templateNameResolver->resolve($this->someTestedTemplate)->willReturn($this->someResolvedTemplate);
+        $this->templateFileResolver->getFilename($this->someTestedTemplate)->willReturn($this->someResolvedTemplate);
         $this->templateChain->getChain($this->someResolvedTemplate)->willReturn(
             [
                 $this->previousTemplate,
@@ -85,7 +85,7 @@ final class TemplateChainResolverTest extends TestCase
 
     public function testHasParentWithLastInChain(): void
     {
-        $this->templateNameResolver->resolve($this->someTestedTemplate)->willReturn($this->someResolvedTemplate);
+        $this->templateFileResolver->getFilename($this->someTestedTemplate)->willReturn($this->someResolvedTemplate);
         $this->templateChain->getChain($this->someResolvedTemplate)->willReturn(
             [
                 $this->previousTemplate,
@@ -102,7 +102,7 @@ final class TemplateChainResolverTest extends TestCase
     {
         return new TemplateChainResolver(
             $this->templateChain->reveal(),
-            $this->templateNameResolver->reveal()
+            $this->templateFileResolver->reveal()
         );
     }
 }

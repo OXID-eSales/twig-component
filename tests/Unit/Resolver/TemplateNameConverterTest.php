@@ -13,7 +13,7 @@ use OxidEsales\Twig\Resolver\TemplateNameConverter;
 use PHPUnit\Framework\TestCase;
 use Twig\Loader\FilesystemLoader;
 
-class TemplateNameConverterTest extends TestCase
+final class TemplateNameConverterTest extends TestCase
 {
     public function testTrimNamespaceWithoutNamespace(): void
     {
