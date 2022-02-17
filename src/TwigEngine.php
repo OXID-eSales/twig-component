@@ -18,7 +18,7 @@ use Twig\Extension\EscaperExtension;
 
 class TwigEngine implements TemplateEngineInterface
 {
-    /** @var \Twig_Environment */
+    /** @var Environment */
     private $engine;
     /** @var TemplateChainResolverInterface */
     private $templateChainResolver;
@@ -41,16 +41,6 @@ class TwigEngine implements TemplateEngineInterface
         if ($this->engine->isDebug()) {
             $this->engine->addExtension(new DebugExtension());
         }
-    }
-
-    /**
-     * Returns the template file extension.
-     *
-     * @return string
-     */
-    public function getDefaultFileExtension(): string
-    {
-        return 'html.twig';
     }
 
     /**

@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 - Support for `assign_adv` plugin
 - Support for PHP < v7.4
+- Method:
+  - `TwigEngine::getDefaultFileExtension()`
 
 ## [1.0.1] - Unreleased
 
