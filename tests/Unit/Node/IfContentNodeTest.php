@@ -1,8 +1,11 @@
 <?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Node;
 
@@ -13,15 +16,8 @@ use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\TextNode;
 use Twig\Test\NodeTestCase;
 
-/**
- * Class IfContentNodeTest
- */
-class IfContentNodeTest extends NodeTestCase
+final class IfContentNodeTest extends NodeTestCase
 {
-
-    /**
-     * Test constructor
-     */
     public function testConstructor(): void
     {
         $body = new TextNode('Lorem Ipsum', 1);
@@ -42,9 +38,6 @@ class IfContentNodeTest extends NodeTestCase
         $this->assertFalse($node->hasNode('ident'));
     }
 
-    /**
-     * @return array
-     */
     public function getTests(): array
     {
         $ifContentExtensionClass = IfContentExtension::class;

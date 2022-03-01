@@ -1,25 +1,26 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\WordwrapLogic;
 use OxidEsales\Twig\Extensions\Filters\WordwrapExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
+use Twig\Extension\AbstractExtension;
 
-/**
- * Class WordwrapExtensionTest
- */
-class WordwrapExtensionTest extends AbstractExtensionTest
+final class WordwrapExtensionTest extends AbstractExtensionTest
 {
-    /** @var WordwrapExtension */
-    protected $extension;
+    protected AbstractExtension $extension;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
+        parent::setUp();
         $this->extension = new WordwrapExtension(new WordwrapLogic());
     }
 
@@ -44,7 +45,7 @@ class WordwrapExtensionTest extends AbstractExtensionTest
      *
      * @dataProvider nonAsciiProvider
      */
-    public function testWordWrapWithNonAscii($template, $expected)
+    public function testWordWrapWithNonAscii(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
@@ -78,7 +79,7 @@ class WordwrapExtensionTest extends AbstractExtensionTest
      *
      * @dataProvider asciiProvider
      */
-    public function testWordWrapAscii($template, $expected)
+    public function testWordWrapAscii(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }

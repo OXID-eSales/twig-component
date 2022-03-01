@@ -16,24 +16,20 @@ use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
 use OxidEsales\TestingLibrary\Services\Library\DatabaseRestorer\DatabaseRestorer;
 use OxidEsales\Twig\TwigContextInterface;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Filesystem\Filesystem;
 
 final class InvalidateCacheEventSubscriberTest extends TestCase
 {
     use ContainerTrait;
 
-    /**
-     * @var DatabaseRestorer
-     */
-    private $databaseRestorer;
+    private DatabaseRestorer $databaseRestorer;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->databaseRestorer = new DatabaseRestorer();
         $this->databaseRestorer->dumpDB(__CLASS__);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->databaseRestorer->restoreDB(__CLASS__);
     }
@@ -77,9 +73,10 @@ final class InvalidateCacheEventSubscriberTest extends TestCase
 
     private function installTestModule(): void
     {
-        $this->get(ModuleInstallerInterface::class)->install(new OxidEshopPackage(
-                'testModule',
-                __DIR__ . '/Fixtures/testModule')
+        $this->get(ModuleInstallerInterface::class)->install(
+            new OxidEshopPackage(
+                __DIR__ . '/Fixtures/testModule'
+            )
         );
     }
 }

@@ -14,13 +14,17 @@ use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use OxidEsales\Twig\TwigEngine;
 use OxidEsales\Twig\TwigEngineConfigurationInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
-class TwigEngineTest extends TestCase
+final class TwigEngineTest extends TestCase
 {
-    private $templateDirPath;
-    private $template;
+    use ProphecyTrait;
+
+    private string $templateDirPath;
+    private string $template;
     /** @var TemplateChainResolverInterface|ObjectProphecy */
     private $templateChainResolver;
 
@@ -80,7 +84,7 @@ class TwigEngineTest extends TestCase
                 'cache_dir' => 'foo',
             ]);
 
-        $loader = new \Twig_Loader_Filesystem($this->templateDirPath);
+        $loader = new FilesystemLoader($this->templateDirPath);
 
         $engine = new Environment($loader);
         $this->templateChainResolver = $this->prophesize(TemplateChainResolverInterface::class);

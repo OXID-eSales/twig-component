@@ -19,7 +19,8 @@ use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
 use PHPUnit\Framework\TestCase;
 use Twig\Error\SyntaxError;
 
-class ModulesTemplateChainTest extends TestCase
+/** @runTestsInSeparateProcesses */
+final class ModulesTemplateChainTest extends TestCase
 {
     use ContainerTrait;
 
@@ -34,11 +35,9 @@ class ModulesTemplateChainTest extends TestCase
     private const FIXTURE_TEMPLATE_WITH_CONDITIONAL_EXTENDS = 'template-with-conditional-extends.html.twig';
     private const FIXTURE_TEMPLATE_WITH_ARRAY_EXTENDS = 'template-with-array-extends.html.twig';
     private const FIXTURE_TEMPLATE_WITH_INCLUDE = 'template-with-include.html.twig';
-    /** @var BasicContext */
-    private $context;
 
-    /** @var array */
-    private $testPackageNames = [];
+    private BasicContext $context;
+    private array $testPackageNames = [];
 
     protected function setUp(): void
     {
@@ -61,8 +60,8 @@ class ModulesTemplateChainTest extends TestCase
 
         $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
-        $this->assertContains('<shop-header><shop-content>', $actual);
-        $this->assertContains('<module-1-content>', $actual);
+        $this->assertStringContainsString('<shop-header><shop-content>', $actual);
+        $this->assertStringContainsString('<module-1-content>', $actual);
     }
 
     public function testEngineRenderWithInactiveModule(): void
@@ -73,8 +72,8 @@ class ModulesTemplateChainTest extends TestCase
 
         $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
-        $this->assertContains('<shop-header><shop-content>', $actual);
-        $this->assertNotContains('<module-1-content>', $actual);
+        $this->assertStringContainsString('<shop-header><shop-content>', $actual);
+        $this->assertStringNotContainsString('<module-1-content>', $actual);
     }
 
     public function testEngineRenderWith2ActiveModules(): void
@@ -86,9 +85,9 @@ class ModulesTemplateChainTest extends TestCase
 
         $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
-        $this->assertContains('<shop-header><shop-content>', $actual);
-        $this->assertContains('<module-1-content>', $actual);
-        $this->assertContains('<module-2-content>', $actual);
+        $this->assertStringContainsString('<shop-header><shop-content>', $actual);
+        $this->assertStringContainsString('<module-1-content>', $actual);
+        $this->assertStringContainsString('<module-2-content>', $actual);
     }
 
     public function testEngineRenderWith3ActiveModules(): void
@@ -102,10 +101,10 @@ class ModulesTemplateChainTest extends TestCase
 
         $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
-        $this->assertContains('<shop-header><shop-content>', $actual);
-        $this->assertContains('<module-1-content>', $actual);
-        $this->assertContains('<module-2-content>', $actual);
-        $this->assertContains('<module-3-content>', $actual);
+        $this->assertStringContainsString('<shop-header><shop-content>', $actual);
+        $this->assertStringContainsString('<module-1-content>', $actual);
+        $this->assertStringContainsString('<module-2-content>', $actual);
+        $this->assertStringContainsString('<module-3-content>', $actual);
     }
 
     public function testEngineRenderWith3ModulesAndDeactivation(): void
@@ -120,26 +119,26 @@ class ModulesTemplateChainTest extends TestCase
 
         $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
-        $this->assertContains('<shop-header><shop-content>', $actual);
-        $this->assertContains('<module-1-content>', $actual);
-        $this->assertNotContains('<module-2-content>', $actual);
-        $this->assertContains('<module-3-content>', $actual);
+        $this->assertStringContainsString('<shop-header><shop-content>', $actual);
+        $this->assertStringContainsString('<module-1-content>', $actual);
+        $this->assertStringNotContainsString('<module-2-content>', $actual);
+        $this->assertStringContainsString('<module-3-content>', $actual);
     }
 
     public function testEngineRenderWithConditionalExtends(): void
     {
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_CONDITIONAL_EXTENDS);
 
-        $this->assertContains('<shop-header><shop-content>', $actual);
-        $this->assertContains('<template_with_conditional_extends-content>', $actual);
+        $this->assertStringContainsString('<shop-header><shop-content>', $actual);
+        $this->assertStringContainsString('<template_with_conditional_extends-content>', $actual);
     }
 
     public function testEngineRenderWithArrayExtends(): void
     {
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_ARRAY_EXTENDS);
 
-        $this->assertContains('<shop-header><shop-content>', $actual);
-        $this->assertContains('<template_with_array_extends-content>', $actual);
+        $this->assertStringContainsString('<shop-header><shop-content>', $actual);
+        $this->assertStringContainsString('<template_with_array_extends-content>', $actual);
     }
 
     public function testEngineRenderWithIncludeAndMultipleModulesWillRenderLastInChain(): void
@@ -149,7 +148,7 @@ class ModulesTemplateChainTest extends TestCase
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_INCLUDE);
 
-        $this->assertContains('<shop-header><module-1-included-content><shop-content>', $actual);
+        $this->assertStringContainsString('<shop-header><module-1-included-content><shop-content>', $actual);
     }
 
     public function testEngineRenderWithInvalidExtendsValue(): void
@@ -171,7 +170,7 @@ class ModulesTemplateChainTest extends TestCase
     private function getTestPackage(string $moduleName): OxidEshopPackage
     {
         $packageFixturePath = __DIR__ . "/Fixtures/$moduleName/";
-        return new OxidEshopPackage($this->testPackageNames[$moduleName], $packageFixturePath);
+        return new OxidEshopPackage($packageFixturePath);
     }
 
     private function activateModule(string $moduleId): void

@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
@@ -11,17 +14,15 @@ use OxidEsales\EshopCommunity\Core\Registry;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateFilterLogic;
 use OxidEsales\Twig\Extensions\Filters\TranslateExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
+use Twig\Extension\AbstractExtension;
 
-/**
- * Class TranslateExtensionTest
- */
-class TranslateExtensionTest extends AbstractExtensionTest
+final class TranslateExtensionTest extends AbstractExtensionTest
 {
-    /** @var TranslateExtension */
-    protected $extension;
+    protected AbstractExtension $extension;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
+        parent::setUp();
         $this->extension = new TranslateExtension(new TranslateFilterLogic());
     }
 

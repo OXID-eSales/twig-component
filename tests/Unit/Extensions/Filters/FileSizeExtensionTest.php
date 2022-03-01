@@ -10,7 +10,7 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FileSize
 use OxidEsales\Twig\Extensions\Filters\FileSizeExtension;
 use PHPUnit\Framework\TestCase;
 
-class FileSizeExtensionTest extends TestCase
+final class FileSizeExtensionTest extends TestCase
 {
 
     public function provider()

@@ -13,11 +13,14 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\IncludeD
 use OxidEsales\Twig\Extensions\IncludeExtension;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
-class IncludeExtensionTest extends TestCase
+final class IncludeExtensionTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var IncludeExtension */
-    private $includeExtension;
+    private IncludeExtension $includeExtension;
 
     public function setUp(): void
     {

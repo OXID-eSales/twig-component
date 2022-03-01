@@ -1,8 +1,11 @@
 <?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Node;
 
@@ -13,13 +16,9 @@ use Twig\Node\Node;
 use Twig\Node\TextNode;
 use Twig\Test\NodeTestCase;
 
-/**
- * Class HasRightsNodeTest
- */
-class HasRightsNodeTest extends NodeTestCase
+final class HasRightsNodeTest extends NodeTestCase
 {
-
-    public function test__construct()
+    public function testConstruct(): void
     {
         $parameters = [];
         $parameters[] = new ConstantExpression('name', 1);
@@ -33,17 +32,11 @@ class HasRightsNodeTest extends NodeTestCase
         $this->assertEquals($parametersNode, $node->getNode('parameters'));
     }
 
-    /**
-     * @return array
-     */
     public function getTests(): array
     {
         return array_merge($this->getNonNestedBlocksTests(), $this->getNestedBlocksTests());
     }
 
-    /**
-     * @return array
-     */
     private function getNonNestedBlocksTests(): array
     {
         $tests = [];
@@ -64,9 +57,6 @@ EOF
         return $tests;
     }
 
-    /**
-     * @return array
-     */
     private function getNestedBlocksTests(): array
     {
         $tests = [];

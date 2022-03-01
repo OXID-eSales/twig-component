@@ -1,19 +1,20 @@
 <?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
+declare(strict_types=1);
+
 namespace OxidEsales\Twig\Tests\Unit\Escaper;
 
 use OxidEsales\Twig\Escaper\DecEntityEscaper;
 use OxidEsales\Twig\Escaper\EscaperInterface;
+use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 
-/**
- * Class DecEntityEscaperTest
- */
-class DecEntityEscaperTest extends \PHPUnit\Framework\TestCase
+final class DecEntityEscaperTest extends TestCase
 {
     /** @var EscaperInterface */
     private $escaper;
@@ -21,7 +22,7 @@ class DecEntityEscaperTest extends \PHPUnit\Framework\TestCase
     /** @var Environment */
     private $environment;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->escaper = new DecEntityEscaper();
@@ -47,12 +48,12 @@ class DecEntityEscaperTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider escapeProvider
      */
-    public function testEscape($string, $expected)
+    public function testEscape($string, $expected): void
     {
         $this->assertEquals($expected, $this->escaper->escape($this->environment, $string, 'UTF-8'));
     }
 
-    public function testGetStrategy()
+    public function testGetStrategy(): void
     {
         $this->assertEquals('decentity', $this->escaper->getStrategy());
     }

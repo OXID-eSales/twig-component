@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
@@ -10,10 +13,7 @@ use OxidEsales\Eshop\Core\Field;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatDateLogic;
 use OxidEsales\Twig\Extensions\Filters\FormatDateExtension;
 
-/**
- * Class FormatDateExtensionTest
- */
-class FormatDateExtensionTest extends AbstractExtensionTest
+final class FormatDateExtensionTest extends AbstractExtensionTest
 {
     protected function setUp(): void
     {
@@ -22,7 +22,7 @@ class FormatDateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @covers FormatDateExtension::form_date
+     * @covers FormatDateExtension::formatDate
      */
     public function testFormDateWithDatetime(): void
     {
@@ -33,7 +33,7 @@ class FormatDateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @covers FormatDateExtension::form_date
+     * @covers FormatDateExtension::formatDate
      */
     public function testFormDateWithTimestamp(): void
     {
@@ -44,7 +44,7 @@ class FormatDateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @covers FormatDateExtension::form_date
+     * @covers FormatDateExtension::formatDate
      */
     public function testFormDateWithDate(): void
     {
@@ -55,7 +55,7 @@ class FormatDateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @covers FormatDateExtension::form_date
+     * @covers FormatDateExtension::formatDate
      */
     public function testFormDateUsingObject(): void
     {

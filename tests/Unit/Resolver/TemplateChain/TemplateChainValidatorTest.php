@@ -14,9 +14,12 @@ use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidator;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateNotInChainException;
 use OxidEsales\Twig\Resolver\TemplateNameConverterInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
-class TemplateChainValidatorTest extends TestCase
+final class TemplateChainValidatorTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testIsInChainWithNameNotInChain(): void
     {
         $templateName = 'template.twig.html';

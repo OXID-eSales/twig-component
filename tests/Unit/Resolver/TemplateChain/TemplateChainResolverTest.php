@@ -14,14 +14,17 @@ use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolver;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 final class TemplateChainResolverTest extends TestCase
 {
-    private $previousTemplate = 'some-previous-template';
-    private $someTestedTemplate = 'some-template';
-    private $someResolvedTemplate = 'some-resolved-template';
-    private $nextTemplate = 'some-next-template';
+    use ProphecyTrait;
+
+    private string $previousTemplate = 'some-previous-template';
+    private string $someTestedTemplate = 'some-template';
+    private string $someResolvedTemplate = 'some-resolved-template';
+    private string $nextTemplate = 'some-next-template';
     /** @var TemplateChainInterface|ObjectProphecy */
     private $templateChain;
     /** @var TemplateFileResolverInterface|ObjectProphecy */

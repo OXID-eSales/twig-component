@@ -91,7 +91,6 @@ final class ModulesTemplateChainResolverTest extends TestCase
 
         $moduleInstaller->install(
             new OxidEshopPackage(
-                $moduleId,
                 __DIR__ . "/Fixtures/moduleTemplateChainResolverTest/$moduleId"
             )
         );

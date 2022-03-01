@@ -19,7 +19,7 @@ use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface;
 use PHPUnit\Framework\TestCase;
 use Twig\Loader\FilesystemLoader;
 
-class TemplateChainResolverAggregateTest extends TestCase
+final class TemplateChainResolverAggregateTest extends TestCase
 {
     use ContainerTrait;
 
@@ -37,7 +37,7 @@ class TemplateChainResolverAggregateTest extends TestCase
     private $context;
 
     /** @var array */
-    private $testPackageNames = [];
+    private array $testPackageNames = [];
 
     protected function setUp(): void
     {
@@ -125,7 +125,7 @@ class TemplateChainResolverAggregateTest extends TestCase
     private function getTestPackage(string $moduleName): OxidEshopPackage
     {
         $packageFixturePath = __DIR__ . "/Fixtures/templateChainResolverAggregateTest/$moduleName/";
-        return new OxidEshopPackage($this->testPackageNames[$moduleName], $packageFixturePath);
+        return new OxidEshopPackage($packageFixturePath);
     }
 
     private function activateModule(string $moduleId): void
