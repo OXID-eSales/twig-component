@@ -24,9 +24,8 @@ class DateFormatExtensionTest extends TestCase
      */
     private $dateFormatExtension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->markTestSkipped('TODO: please fix it');
         parent::setUp();
         $dateFormatHelper = new DateFormatHelper();
         $this->dateFormatExtension = new DateFormatExtension($dateFormatHelper);

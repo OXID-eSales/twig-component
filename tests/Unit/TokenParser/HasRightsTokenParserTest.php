@@ -4,7 +4,7 @@
  * See LICENSE file for license details.
  */
 
-namespace OxidEsales\Twig\Tests\Unit\Extensions\HasRightsExtension;
+namespace OxidEsales\Twig\Tests\Unit\TokenParser;
 
 use OxidEsales\Twig\Extensions\HasRightsExtension;
 use OxidEsales\Twig\Node\HasRightsNode;
@@ -12,6 +12,7 @@ use OxidEsales\Twig\TokenParser\HasRightsTokenParser;
 use PHPUnit\Framework\TestCase;
 use Twig\Compiler;
 use Twig\Environment;
+use Twig\Error\SyntaxError;
 use Twig\Loader\ArrayLoader;
 use Twig\Loader\LoaderInterface;
 use Twig\Parser;
@@ -26,7 +27,7 @@ class HasRightsTokenParserTest extends TestCase
      */
     private $hasRightsParser;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $env = $this->getEnv();
         $parser = new Parser($env);
@@ -85,7 +86,6 @@ class HasRightsTokenParserTest extends TestCase
 
     /**
      * @covers \OxidEsales\Twig\TokenParser\HasRightsParser:parse
-     * @expectedException \Twig_Error_Syntax
      */
     public function testParseException()
     {
@@ -96,10 +96,9 @@ class HasRightsTokenParserTest extends TestCase
         $env = new Environment($loader, array('cache' => false, 'autoescape' => false));
         $env->addExtension(new HasRightsExtension(new HasRightsTokenParser(HasRightsNode::class)));
 
-        $stream = $env->parse($env->tokenize(new Source('{% hasrights {\'id\' : \'1\'} %}{% foo %}', 'index')));
-        $stream->compile(new Compiler($env));
-
-        $this->expectExceptionMessage('Twig_Error_Syntax : Unexpected "foo" tag (expecting closing tag for the "hasrights" tag defined near line 1) in "index" at line 1.');
+        $this->expectException(SyntaxError::class);
+        $this->expectExceptionMessage('Unexpected "foo" tag (expecting closing tag for the "hasrights" tag defined near line 1) in "index" at line 1.');
+        $env->parse($env->tokenize(new Source('{% hasrights {\'id\' : \'1\'} %}{% foo %}', 'index')));
     }
 
     /**

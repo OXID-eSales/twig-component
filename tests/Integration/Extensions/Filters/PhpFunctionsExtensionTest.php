@@ -10,13 +10,14 @@ use OxidEsales\Twig\Extensions\Filters\PhpFunctionsExtension;
 use OxidEsales\TestingLibrary\UnitTestCase;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
+use Twig\Template;
 
 class PhpFunctionsExtensionTest extends UnitTestCase
 {
     /** @var PhpFunctionsExtension */
     protected $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->extension = new PhpFunctionsExtension();
     }
@@ -37,21 +38,16 @@ class PhpFunctionsExtensionTest extends UnitTestCase
 
     /**
      * @param string $template
-     * @param string $expected
+     * @param mixed $expected
      *
      * @dataProvider dummyTemplateProvider
      */
-    public function testIfPhpFunctionsAreCallable(string $template, string $expected)
+    public function testIfPhpFunctionsAreCallable(string $template, $expected)
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * @param string $template
-     *
-     * @return \Twig_Template
-     */
-    private function getTemplate(string $template): \Twig_Template
+    private function getTemplate(string $template): Template
     {
         $loader = new ArrayLoader(['index' => $template]);
 

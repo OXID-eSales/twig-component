@@ -9,6 +9,7 @@ namespace OxidEsales\Twig\Tests\Unit\TokenParser;
 use OxidEsales\Twig\TokenParser\CaptureTokenParser;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
+use Twig\Error\SyntaxError;
 use Twig\Loader\LoaderInterface;
 use Twig\Parser;
 use Twig\Source;
@@ -29,11 +30,11 @@ class CaptureTokenParserTest extends TestCase
     /**
      * Set up
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         /** @var LoaderInterface $loader */
         $loader = $this->getMockBuilder('Twig_LoaderInterface')->getMock();
-        $this->environment = new \Twig_Environment($loader, ['cache' => false]);
+        $this->environment = new Environment($loader, ['cache' => false]);
 
         $this->captureTokenParser = new CaptureTokenParser();
         $this->environment->addTokenParser($this->captureTokenParser);
@@ -97,27 +98,28 @@ class CaptureTokenParserTest extends TestCase
     }
 
     /**
-     * @covers       CaptureTokenParser::parse
-     * @expectedException \Twig_Error_Syntax
+     * @covers CaptureTokenParser::parse
      */
     public function testTwigErrorSyntaxIsThrown()
     {
         $source = '{% capture %}foo{% /endcapture %}';
-
         $stream = $this->environment->tokenize(new Source($source, 'index'));
+
+        $this->expectException(SyntaxError::class);
         $this->parser->parse($stream);
     }
 
     /**
      * @covers CaptureTokenParser::parse
-     * @expectedException \Twig_Error_Syntax
      */
     public function testParseException()
     {
         $source = "{% capture foo = \"foo\" %}Lorem Ipsum{% endcapture %}";
 
         $stream = $this->environment->tokenize(new Source($source, 'index'));
-        $this->parser->parse($stream);
+
+        $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage("Incorrect attribute name. Possible attribute names are: 'name', 'assign' and 'append'");
+        $this->parser->parse($stream);
     }
 }

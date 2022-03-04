@@ -11,7 +11,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNam
 use OxidEsales\Twig\Resolver\TemplateNameResolver as TwigTemplateNameResolver;
 use PHPUnit\Framework\TestCase;
 
-class TemplateNameResolverTest extends TestCase
+class LegacyTemplateNameResolverTest extends TestCase
 {
     /**
      * @param string $templateName

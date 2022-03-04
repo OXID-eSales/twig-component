@@ -17,7 +17,7 @@ class IncludeWidgetExtensionTest extends TestCase
      */
     protected $includeWidgetExtension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $includeWidgetLogic = new IncludeWidgetLogic();

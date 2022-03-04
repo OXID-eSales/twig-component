@@ -20,7 +20,7 @@ final class InputHelpExtensionTest extends AbstractExtensionTest
      */
     private $inputHelpExtension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $inputHelpLogic = new InputHelpLogic();

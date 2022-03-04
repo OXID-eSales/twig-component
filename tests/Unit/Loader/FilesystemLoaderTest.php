@@ -10,6 +10,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Templating\Loader\TemplateLoade
 use OxidEsales\Twig\Loader\FilesystemLoader;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Twig\Error\LoaderError;
 
 /**
  * Class FilesystemLoaderTest
@@ -23,9 +24,6 @@ class FilesystemLoaderTest extends TestCase
         $this->assertEquals([], $loader->getPaths());
     }
 
-    /**
-     * @expectedException Twig\Error\LoaderError
-     */
     public function testFindTemplateLoadError()
     {
         /** @var TemplateLoaderInterface|MockObject $internalLoader */
@@ -34,6 +32,7 @@ class FilesystemLoaderTest extends TestCase
 
         $loader = new FilesystemLoader([], null, $internalLoader, $internalLoader);
 
+        $this->expectException(LoaderError::class);
         $loader->getSourceContext('foo')->getCode();
     }
 
