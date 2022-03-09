@@ -8,9 +8,7 @@ namespace OxidEsales\Twig\Resolver;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateNameResolverInterface;
 
-/**
- * Class TemplateNameResolver
- */
+/** @deprecated class will be removed in v2.0 */
 class TemplateNameResolver implements TemplateNameResolverInterface
 {
     /**
