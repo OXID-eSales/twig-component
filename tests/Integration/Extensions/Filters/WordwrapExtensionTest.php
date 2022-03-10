@@ -18,7 +18,7 @@ class WordwrapExtensionTest extends AbstractExtensionTest
     /** @var WordwrapExtension */
     protected $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->extension = new WordwrapExtension(new WordwrapLogic());
     }

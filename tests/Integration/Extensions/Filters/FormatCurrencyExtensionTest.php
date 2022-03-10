@@ -18,7 +18,7 @@ class FormatCurrencyExtensionTest extends AbstractExtensionTest
     /** @var FormatCurrencyExtension */
     protected $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->extension = new FormatCurrencyExtension(new FormatCurrencyLogic());
     }

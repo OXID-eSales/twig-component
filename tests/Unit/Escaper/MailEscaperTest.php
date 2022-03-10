@@ -22,7 +22,7 @@ class MailEscaperTest extends \PHPUnit\Framework\TestCase
     /** @var Environment */
     private $environment;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->escaper = new MailEscaper();

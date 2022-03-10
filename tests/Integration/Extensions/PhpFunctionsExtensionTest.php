@@ -14,7 +14,7 @@ class PhpFunctionsExtensionTest extends AbstractExtensionTest
     /** @var PhpFunctionsExtension */
     protected $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->extension = new PhpFunctionsExtension();
     }
@@ -34,12 +34,12 @@ class PhpFunctionsExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
+     * @param string   $template
+     * @param int|bool $expected
      *
      * @dataProvider dummyTemplateProvider
      */
-    public function testIfPhpFunctionsAreCallable(string $template, string $expected)
+    public function testIfPhpFunctionsAreCallable(string $template, $expected)
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }

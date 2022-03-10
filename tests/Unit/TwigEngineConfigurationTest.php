@@ -10,8 +10,10 @@ namespace OxidEsales\Twig\Tests\Unit;
 
 use OxidEsales\Twig\TwigEngineConfiguration;
 use OxidEsales\Twig\TwigContextInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class TwigEngineConfigurationTest extends \PHPUnit\Framework\TestCase
+class TwigEngineConfigurationTest extends TestCase
 {
 
     public function testGetParameters(): void
@@ -23,9 +25,9 @@ class TwigEngineConfigurationTest extends \PHPUnit\Framework\TestCase
 
     private function getEngineConfiguration(): TwigEngineConfiguration
     {
-        /** @var TwigContextInterface $context */
+        /** @var TwigContextInterface|MockObject $context */
         $context = $this->getMockBuilder('OxidEsales\Twig\TwigContextInterface')->getMock();
-        $context->method('getIsDebug')->willReturn('dummy_is_debug');
+        $context->method('getIsDebug')->willReturn(true);
         $context->method('getCacheDir')->willReturn('dummy_cache_dir');
         return new TwigEngineConfiguration($context);
     }

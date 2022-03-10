@@ -17,7 +17,7 @@ class TwigEngineTest extends \PHPUnit\Framework\TestCase
     private $templateDirPath;
     private $template;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $templateDir = vfsStream::setup($this->getTemplateDir());
