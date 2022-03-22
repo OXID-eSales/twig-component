@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Extensions\Filters;
 
@@ -10,23 +13,10 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\DateForm
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-/**
- * Class DateFormatExtension
- *
- * @package OxidEsales\Twig\Extensions\Filters
- */
 class DateFormatExtension extends AbstractExtension
 {
-    /**
-     * @var DateFormatHelper
-     */
-    private $dateFormatHelper;
+    private DateFormatHelper $dateFormatHelper;
 
-    /**
-     * DateFormatExtension constructor.
-     *
-     * @param DateFormatHelper $dateFormatHelper
-     */
     public function __construct(DateFormatHelper $dateFormatHelper)
     {
         $this->dateFormatHelper = $dateFormatHelper;

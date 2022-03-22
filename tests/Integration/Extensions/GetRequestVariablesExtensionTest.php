@@ -1,26 +1,30 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
+declare(strict_types=1);
+
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Twig\Extensions\GetRequestVariablesExtension;
+use Twig\Extension\AbstractExtension;
 
-class GetRequestVariablesExtensionTest extends AbstractExtensionTest
+final class GetRequestVariablesExtensionTest extends AbstractExtensionTest
 {
     /** @var GetRequestVariablesExtension */
-    protected $extension;
+    protected AbstractExtension $extension;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->extension = new GetRequestVariablesExtension();
         $_COOKIE['foo'] = 'bar';
         $_GET['foo'] = 'bar';
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
         unset($_COOKIE['foo']);
@@ -46,7 +50,7 @@ class GetRequestVariablesExtensionTest extends AbstractExtensionTest
      *
      * @dataProvider dummyTemplateProvider
      */
-    public function testIfPhpFunctionsAreCallable(string $template, string $expected)
+    public function testIfPhpFunctionsAreCallable(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }

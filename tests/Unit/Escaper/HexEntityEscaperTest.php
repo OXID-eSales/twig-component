@@ -1,19 +1,20 @@
 <?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
+declare(strict_types=1);
+
 namespace OxidEsales\Twig\Tests\Unit\Escaper;
 
 use OxidEsales\Twig\Escaper\EscaperInterface;
 use OxidEsales\Twig\Escaper\HexEntityEscaper;
+use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 
-/**
- * Class HexEntityEscaperTest
- */
-class HexEntityEscaperTest extends \PHPUnit\Framework\TestCase
+final class HexEntityEscaperTest extends TestCase
 {
 
     /** @var EscaperInterface */
@@ -22,7 +23,7 @@ class HexEntityEscaperTest extends \PHPUnit\Framework\TestCase
     /** @var Environment */
     private $environment;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->escaper = new HexEntityEscaper();

@@ -1,8 +1,11 @@
 <?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Loader;
 
@@ -13,24 +16,17 @@ use OxidEsales\Twig\TemplateLoaderNameParser;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Twig\Error\LoaderError;
 
-/**
- * Class ContentTemplateLoaderTest
- */
-class ContentTemplateLoaderTest extends TestCase
+final class ContentTemplateLoaderTest extends TestCase
 {
-
-    /** @var ContentTemplateLoader */
-    private $contentTemplateLoader;
-
+    private ContentTemplateLoader $contentTemplateLoader;
     /** @var MockBuilder */
     private $contentMockBuilder;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp(): void
     {
+        parent::setUp();
         $this->contentMockBuilder = $this->getMockBuilder(Content::class)->setMethods(['getLanguage']);
 
         $validContentMock = $this->prepareContentMock(
@@ -79,7 +75,7 @@ class ContentTemplateLoaderTest extends TestCase
     }
 
     /**
-     * @throws \Twig\Error\LoaderError
+     * @throws LoaderError
      */
     public function testGetSourceContext(): void
     {
@@ -113,7 +109,7 @@ class ContentTemplateLoaderTest extends TestCase
     }
 
     /**
-     * @throws \Twig\Error\LoaderError
+     * @throws LoaderError
      */
     public function testIsFresh(): void
     {
@@ -126,7 +122,7 @@ class ContentTemplateLoaderTest extends TestCase
     }
 
     /**
-     * @throws \Twig\Error\LoaderError
+     * @throws LoaderError
      */
     public function testGetCacheKey(): void
     {

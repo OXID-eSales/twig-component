@@ -10,7 +10,7 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatTi
 use OxidEsales\Twig\Extensions\Filters\FormatTimeExtension;
 use PHPUnit\Framework\TestCase;
 
-class FormatTimeExtensionTest extends TestCase
+final class FormatTimeExtensionTest extends TestCase
 {
     public function provider(): array
     {
