@@ -13,7 +13,7 @@ use OxidEsales\Twig\TwigContextInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class TwigEngineConfigurationTest extends TestCase
+class TwigEngineConfigurationTest extends TestCase
 {
 
     public function testGetParameters(): void

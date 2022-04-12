@@ -10,7 +10,7 @@ use OxidEsales\Twig\Node\CaptureNode;
 use Twig\Node\TextNode;
 use Twig\Test\NodeTestCase;
 
-final class CaptureNodeTest extends NodeTestCase
+class CaptureNodeTest extends NodeTestCase
 {
 
     private $variableName = 'foo';

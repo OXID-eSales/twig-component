@@ -1,24 +1,24 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
-
-declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TruncateLogic;
 use OxidEsales\Twig\Extensions\Filters\TruncateExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
-use Twig\Extension\AbstractExtension;
 
-final class TruncateExtensionTest extends AbstractExtensionTest
+/**
+ * Class TruncateExtensionTest
+ */
+class TruncateExtensionTest extends AbstractExtensionTest
 {
-    protected AbstractExtension $extension;
+    /** @var TruncateExtension */
+    protected $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         $this->extension = new TruncateExtension(new TruncateLogic());
         parent::setUp();

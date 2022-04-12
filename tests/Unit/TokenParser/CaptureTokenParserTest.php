@@ -1,11 +1,8 @@
 <?php
-
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
-
-declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\TokenParser;
 
@@ -18,17 +15,25 @@ use Twig\Parser;
 use Twig\Source;
 use Twig\Token;
 
-final class CaptureTokenParserTest extends TestCase
+class CaptureTokenParserTest extends TestCase
 {
-    private Environment $environment;
-    private Parser $parser;
-    private CaptureTokenParser $captureTokenParser;
 
+    /** @var Environment */
+    private $environment;
+
+    /** @var Parser */
+    private $parser;
+
+    /** @var CaptureTokenParser */
+    private $captureTokenParser;
+
+    /**
+     * Set up
+     */
     protected function setUp(): void
     {
-        parent::setUp();
         /** @var LoaderInterface $loader */
-        $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
+        $loader = $this->getMockBuilder('Twig_LoaderInterface')->getMock();
         $this->environment = new Environment($loader, ['cache' => false]);
 
         $this->captureTokenParser = new CaptureTokenParser();
@@ -37,14 +42,18 @@ final class CaptureTokenParserTest extends TestCase
         $this->parser = new Parser($this->environment);
     }
 
-    /** @covers CaptureTokenParser::getTag */
-    public function testGetTag(): void
+    /**
+     * @covers CaptureTokenParser::getTag
+     */
+    public function testGetTag()
     {
         $this->assertEquals('capture', $this->captureTokenParser->getTag());
     }
 
-    /** @covers CaptureTokenParser::decideBlockEnd */
-    public function testDecideBlockEnd(): void
+    /**
+     * @covers CaptureTokenParser::decideBlockEnd
+     */
+    public function testDecideBlockEnd()
     {
         $token = new Token(Token::NAME_TYPE, 'foo', 1);
         $this->assertEquals(false, $this->captureTokenParser->decideBlockEnd($token));
@@ -59,7 +68,7 @@ final class CaptureTokenParserTest extends TestCase
      * @covers       CaptureTokenParser::parse
      * @dataProvider templateSourceCodeProvider
      */
-    public function testParse($source): void
+    public function testParse($source)
     {
         $stream = $this->environment->tokenize(new Source($source, 'index'));
         $node = $this->parser->parse($stream);
@@ -67,7 +76,7 @@ final class CaptureTokenParserTest extends TestCase
         $this->assertTrue($node->hasNode('body'));
         $bodyNode = $node->getNode('body');
 
-        $captureNode = $bodyNode->getNode('0');
+        $captureNode = $bodyNode->getNode(0);
         $this->assertTrue($captureNode->hasAttribute('attributeName'));
         $this->assertTrue($captureNode->hasAttribute('variableName'));
 
@@ -76,7 +85,10 @@ final class CaptureTokenParserTest extends TestCase
         $this->assertTrue($ifContentNode->hasNode('body'));
     }
 
-    public function templateSourceCodeProvider(): array
+    /**
+     * @return array
+     */
+    public function templateSourceCodeProvider()
     {
         return [
             ["{% capture name = \"foo\" %}Lorem Ipsum{% endcapture %}"],
@@ -85,8 +97,10 @@ final class CaptureTokenParserTest extends TestCase
         ];
     }
 
-    /** @covers CaptureTokenParser::parse */
-    public function testTwigErrorSyntaxIsThrown(): void
+    /**
+     * @covers CaptureTokenParser::parse
+     */
+    public function testTwigErrorSyntaxIsThrown()
     {
         $source = '{% capture %}foo{% /endcapture %}';
         $stream = $this->environment->tokenize(new Source($source, 'index'));
@@ -95,10 +109,13 @@ final class CaptureTokenParserTest extends TestCase
         $this->parser->parse($stream);
     }
 
-    /** @covers CaptureTokenParser::parse */
-    public function testParseException(): void
+    /**
+     * @covers CaptureTokenParser::parse
+     */
+    public function testParseException()
     {
         $source = "{% capture foo = \"foo\" %}Lorem Ipsum{% endcapture %}";
+
         $stream = $this->environment->tokenize(new Source($source, 'index'));
 
         $this->expectException(SyntaxError::class);

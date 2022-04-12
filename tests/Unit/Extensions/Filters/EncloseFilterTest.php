@@ -9,7 +9,7 @@ namespace OxidEsales\Twig\Tests\Unit\Filters;
 use OxidEsales\Twig\Extensions\Filters\EncloseExtension;
 use PHPUnit\Framework\TestCase;
 
-final class EncloseFilterTest extends TestCase
+class EncloseFilterTest extends TestCase
 {
     /**
      * @covers \OxidEsales\Twig\Extensions\Filters\EncloseExtension::enclose

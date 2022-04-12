@@ -1,24 +1,21 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
-declare(strict_types=1);
-
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Twig\Extensions\PhpFunctionsExtension;
+use PHPUnit\Framework\TestCase;
 
-final class PhpFunctionsExtensionTest extends AbstractExtensionTest
+class PhpFunctionsExtensionTest extends AbstractExtensionTest
 {
     /** @var PhpFunctionsExtension */
-    protected \Twig\Extension\AbstractExtension $extension;
+    protected $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
-        parent::setUp();
         $this->extension = new PhpFunctionsExtension();
     }
 
@@ -42,7 +39,7 @@ final class PhpFunctionsExtensionTest extends AbstractExtensionTest
      *
      * @dataProvider dummyTemplateProvider
      */
-    public function testIfPhpFunctionsAreCallable(string $template, $expected): void
+    public function testIfPhpFunctionsAreCallable(string $template, $expected)
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }

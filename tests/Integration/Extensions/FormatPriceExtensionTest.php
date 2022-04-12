@@ -1,18 +1,15 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
-
-declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatPriceLogic;
 use OxidEsales\Twig\Extensions\FormatPriceExtension;
 
-final class FormatPriceExtensionTest extends AbstractExtensionTest
+class FormatPriceExtensionTest extends AbstractExtensionTest
 {
     protected function setUp(): void
     {
@@ -35,7 +32,7 @@ final class FormatPriceExtensionTest extends AbstractExtensionTest
     /**
      *
      * @dataProvider priceProvider
-     * @covers FormatPriceExtension::formatPrice
+     * @covers \OxidEsales\Twig\Extensions\FormatPriceExtension::formatPrice
      */
     public function testFormatPrice($template, $expected): void
     {

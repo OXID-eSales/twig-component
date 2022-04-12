@@ -1,11 +1,8 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
-
-declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
@@ -15,13 +12,13 @@ use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use Twig\Template;
 
-final class PhpFunctionsExtensionTest extends UnitTestCase
+class PhpFunctionsExtensionTest extends UnitTestCase
 {
-    protected PhpFunctionsExtension $extension;
+    /** @var PhpFunctionsExtension */
+    protected $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
-        parent::setUp();
         $this->extension = new PhpFunctionsExtension();
     }
 
@@ -45,16 +42,11 @@ final class PhpFunctionsExtensionTest extends UnitTestCase
      *
      * @dataProvider dummyTemplateProvider
      */
-    public function testIfPhpFunctionsAreCallable(string $template, $expected): void
+    public function testIfPhpFunctionsAreCallable(string $template, $expected)
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * @param string $template
-     *
-     * @return Template
-     */
     private function getTemplate(string $template): Template
     {
         $loader = new ArrayLoader(['index' => $template]);
@@ -63,6 +55,6 @@ final class PhpFunctionsExtensionTest extends UnitTestCase
         $twig->addExtension($this->extension);
         $twig->addGlobal('date', date_create("2013-03-15"));
 
-        return $twig->loadTemplate($twig->getTemplateClass('index'), 'index');
+        return $twig->loadTemplate('index');
     }
 }

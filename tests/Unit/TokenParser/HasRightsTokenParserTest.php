@@ -1,11 +1,8 @@
 <?php
-
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
-
-declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\TokenParser;
 
@@ -22,9 +19,13 @@ use Twig\Parser;
 use Twig\Source;
 use Twig\Token;
 
-final class HasRightsTokenParserTest extends TestCase
+class HasRightsTokenParserTest extends TestCase
 {
-    private HasRightsTokenParser $hasRightsParser;
+
+    /**
+     * @var HasRightsTokenParser
+     */
+    private $hasRightsParser;
 
     protected function setUp(): void
     {
@@ -35,62 +36,74 @@ final class HasRightsTokenParserTest extends TestCase
         parent::setUp();
     }
 
-    /** @covers ::HasRightsTokenParser:getTag */
-    public function testGetTag(): void
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\HasRightsParser:getTag
+     */
+    public function testGetTag()
     {
         $this->assertEquals('hasrights', $this->hasRightsParser->getTag());
     }
 
-    /** @covers ::HasRightsTokenParser:decideMyTagFork */
-    public function testDecideMyTagForkIncorrect(): void
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\HasRightsParser:decideMyTagFork
+     */
+    public function testDecideMyTagForkIncorrect()
     {
         $token = new Token(Token::TEXT_TYPE, 1, 1);
         $this->assertEquals(false, $this->hasRightsParser->decideMyTagFork($token));
     }
 
-    /** @covers ::HasRightsTokenParser:decideMyTagFork */
-    public function testDecideMyTagForkCorrect(): void
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\HasRightsParser:decideMyTagFork
+     */
+    public function testDecideMyTagForkCorrect()
     {
         $token = new Token(5, 'endhasrights', 1);
         $this->assertEquals(true, $this->hasRightsParser->decideMyTagFork($token));
     }
 
-    /** @covers ::HasRightsTokenParser:parse */
-    public function testParse(): void
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\HasRightsParser:parse
+     */
+    public function testParse()
     {
-        /** @var LoaderInterface $loader */
-        $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
+        /**
+         * @var \Twig_LoaderInterface $loader
+         */
+        $loader = $this->getMockBuilder('Twig_LoaderInterface')->getMock();
         $env = new Environment($loader, array('cache' => false, 'autoescape' => false));
         $env->addExtension(new HasRightsExtension(new HasRightsTokenParser(HasRightsNode::class)));
 
         $stream = $env->parse($env->tokenize(new Source('{% hasrights {\'id\' : \'1\'} %}{% endhasrights %}', 'index')));
         $stream->compile(new Compiler($env));
 
-        $tags = [];
-        foreach ($env->getTokenParsers() as $tokenParser) {
-            $tags[] = $tokenParser->getTag();
-        }
+        $tokens = $env->getTags();
         $extensions = $env->getExtensions();
 
-        $this->assertContains('hasrights', $tags);
-        $this->assertTrue(isset($extensions[HasRightsExtension::class]));
+        $this->assertTrue(isset($tokens['hasrights']));
+        $this->assertTrue(isset($extensions['OxidEsales\Twig\Extensions\HasRightsExtension']));
     }
 
-    /** @covers ::HasRightsParser:parse */
-    public function testParseException(): void
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\HasRightsParser:parse
+     */
+    public function testParseException()
     {
-        /** @var LoaderInterface $loader */
-        $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
-        $env = new Environment($loader, ['cache' => false, 'autoescape' => false]);
+        /**
+         * @var LoaderInterface $loader
+         */
+        $loader = $this->getMockBuilder('Twig_LoaderInterface')->getMock();
+        $env = new Environment($loader, array('cache' => false, 'autoescape' => false));
         $env->addExtension(new HasRightsExtension(new HasRightsTokenParser(HasRightsNode::class)));
 
         $this->expectException(SyntaxError::class);
         $this->expectExceptionMessage('Unexpected "foo" tag (expecting closing tag for the "hasrights" tag defined near line 1) in "index" at line 1.');
-
         $env->parse($env->tokenize(new Source('{% hasrights {\'id\' : \'1\'} %}{% foo %}', 'index')));
     }
 
-    /** @return Environment */
+    /**
+     * @return Environment
+     */
     private function getEnv(): Environment
     {
         $loader = new ArrayLoader(['tokens' => 'foo']);

@@ -1,20 +1,22 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
-declare(strict_types=1);
-
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
+use OxidEsales\EshopCommunity\Core\Registry;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateFunctionLogic;
 use OxidEsales\Twig\Extensions\TranslateExtension;
+use PHPUnit\Framework\TestCase;
 
-final class TranslateExtensionTest extends AbstractExtensionTest
+class TranslateExtensionTest extends AbstractExtensionTest
 {
-    private TranslateExtension $translateExtension;
+    /**
+     * @var TranslateExtension
+     */
+    private $translateExtension;
 
     protected function setUp(): void
     {
@@ -24,7 +26,7 @@ final class TranslateExtensionTest extends AbstractExtensionTest
         parent::setUp();
     }
 
-    public function dataProvider(): array
+    public function dataProvider()
     {
         return [
             [[], 'ERROR: Translation for IDENT MISSING not found!'],
@@ -42,7 +44,7 @@ final class TranslateExtensionTest extends AbstractExtensionTest
      * @dataProvider dataProvider
      * @covers       \OxidEsales\Twig\Extensions\TranslateExtension::translate
      */
-    public function testTranslate($params, $expectedTranslation): void
+    public function testTranslate($params, $expectedTranslation)
     {
         $actualTranslation = $this->translateExtension->translate($params);
         $this->assertEquals($actualTranslation, $expectedTranslation);

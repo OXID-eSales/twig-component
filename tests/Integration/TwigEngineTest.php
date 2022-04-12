@@ -1,51 +1,39 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
-declare(strict_types=1);
-
 namespace OxidEsales\Twig\Tests\Integration;
 
 use org\bovigo\vfs\vfsStream;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use OxidEsales\Twig\TwigEngine;
 use OxidEsales\Twig\TwigEngineConfigurationInterface;
-use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 
-final class TwigEngineTest extends TestCase
+class TwigEngineTest extends \PHPUnit\Framework\TestCase
 {
-    use ProphecyTrait;
-
-    private string $templateDirPath;
-    private string $template;
-    /** @var TemplateChainResolverInterface|ObjectProphecy */
-    private $templateChainResolver;
+    private $templateDir;
+    private $templateDirPath;
+    private $template;
 
     protected function setUp(): void
     {
         parent::setUp();
         $templateDir = vfsStream::setup($this->getTemplateDir());
-        $this->template = vfsStream::newFile(
-            $this->getTemplateName()
-        )->at($templateDir)->setContent("{{ 'twig' }}")->url();
+        $this->template = vfsStream::newFile($this->getTemplateName())->at($templateDir)->setContent("{{ 'twig' }}")->url();
+        $this->templateDir = $templateDir;
         $this->templateDirPath = vfsStream::url($this->getTemplateDir());
     }
 
-    public function testExists(): void
+    public function testExists()
     {
         $engine = $this->getEngine();
         $this->assertTrue($engine->exists($this->getTemplateName()));
         $this->assertFalse($engine->exists('foo'));
     }
 
-    public function testAddGlobal(): void
+    public function testAddGlobal()
     {
         $engine = $this->getEngine();
         $engine->addGlobal('foo', 'bar');
@@ -53,55 +41,43 @@ final class TwigEngineTest extends TestCase
         $this->assertNotEquals(['not_foo' => 'not_bar'], $engine->getGlobals());
     }
 
-    public function testRender(): void
+    public function testRender()
     {
         $engine = $this->getEngine();
-        $this->templateChainResolver->getLastChild($this->getTemplateName())->willReturn($this->getTemplateName());
-
         $this->assertTrue(file_exists($this->template));
-
         $rendered = $engine->render($this->getTemplateName());
-
         $this->assertEquals('twig', $rendered);
         $this->assertNotEquals('foo', $rendered);
     }
 
-    public function testRenderFragment(): void
+    public function testRenderFragment()
     {
         $engine = $this->getEngine();
         $rendered = $engine->renderFragment("{{ 'twig' }}", 'ox:testid');
         $this->assertEquals('twig', $rendered);
     }
 
-    private function getEngine(): TwigEngine
+    private function getEngine($engine_type = 'twig')
     {
         /** @var TwigEngineConfigurationInterface $configuration */
-        $configuration = $this->getMockBuilder(TwigEngineConfigurationInterface::class)->getMock();
-        $configuration->method('getParameters')
-            ->willReturn([
-                'template_dir' => [$this->templateDirPath],
-                'is_debug' => 'false',
-                'cache_dir' => 'foo',
-            ]);
+        $configuration = $this->getMockBuilder('OxidEsales\Twig\TwigEngineConfigurationInterface')->getMock();
+        $configuration->method('getParameters')->willReturn(['template_dir' => [$this->templateDirPath], 'is_debug' => 'false', 'cache_dir' => 'foo']);
 
-        $loader = new FilesystemLoader($this->templateDirPath);
+        $loader = new \Twig_Loader_Filesystem($this->templateDirPath);
 
         $engine = new Environment($loader);
-        $this->templateChainResolver = $this->prophesize(TemplateChainResolverInterface::class);
 
-        return new TwigEngine(
-            $engine,
-            $this->templateChainResolver->reveal()
-        );
+        return new TwigEngine($engine);
     }
 
-    private function getTemplateName(): string
+    private function getTemplateName()
     {
         return 'testTwigTemplate.twig';
     }
 
-    private function getTemplateDir(): string
+    private function getTemplateDir()
     {
         return 'testTemplateDir';
     }
+
 }

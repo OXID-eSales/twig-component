@@ -1,24 +1,30 @@
 <?php
-
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
-
-declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit;
 
 use OxidEsales\Twig\TemplateLoaderNameParser;
 use PHPUnit\Framework\TestCase;
 
-final class TemplateLoaderNameParserTest extends TestCase
+/**
+ * Class TemplateLoaderNameParserTest
+ */
+class TemplateLoaderNameParserTest extends TestCase
 {
-    private TemplateLoaderNameParser $templateLoaderNameParser;
 
+    /**
+     * @var TemplateLoaderNameParser
+     */
+    private $templateLoaderNameParser;
+
+    /**
+     * {@inheritdoc}
+     */
     protected function setUp(): void
     {
-        parent::setUp();
         $this->templateLoaderNameParser = new TemplateLoaderNameParser();
     }
 

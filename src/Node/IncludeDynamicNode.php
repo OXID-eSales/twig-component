@@ -123,7 +123,7 @@ class IncludeDynamicNode extends IncludeNode
         if ($this->getAttribute('ignore_missing')) {
             $compiler
                 ->outdent()
-                ->write("} catch (\Twig\Error\LoaderError \$e) {\n")
+                ->write("} catch (Twig_Error_Loader \$e) {\n")
                 ->indent()
                 ->write("// ignore missing template\n")
                 ->outdent()

@@ -1,34 +1,34 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
-declare(strict_types=1);
-
 namespace OxidEsales\Twig\Extensions;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\IncludeDynamicLogic;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
-use OxidEsales\Twig\TokenParser\IncludeChainTokenParser;
 use OxidEsales\Twig\TokenParser\IncludeDynamicTokenParser;
 use Twig\Extension\AbstractExtension;
 use Twig\TokenParser\TokenParserInterface;
 
+/**
+ * Class IncludeExtension
+ */
 class IncludeExtension extends AbstractExtension
 {
-    /** @var IncludeDynamicLogic */
+    /**
+     * @var IncludeDynamicLogic
+     */
     private $includeDynamicLogic;
-    /** @var TemplateChainResolverInterface */
-    private $templateChainResolver;
 
-    public function __construct(
-        IncludeDynamicLogic $includeDynamicLogic,
-        TemplateChainResolverInterface $templateChainResolver
-    ) {
+    /**
+     * IncludeExtension constructor.
+     *
+     * @param IncludeDynamicLogic $includeDynamicLogic
+     */
+    public function __construct(IncludeDynamicLogic $includeDynamicLogic)
+    {
         $this->includeDynamicLogic = $includeDynamicLogic;
-        $this->templateChainResolver = $templateChainResolver;
     }
 
     /**
@@ -36,12 +36,7 @@ class IncludeExtension extends AbstractExtension
      */
     public function getTokenParsers(): array
     {
-        return [
-            new IncludeChainTokenParser(
-                $this->templateChainResolver
-            ),
-            new IncludeDynamicTokenParser(),
-        ];
+        return [new IncludeDynamicTokenParser()];
     }
 
     /**

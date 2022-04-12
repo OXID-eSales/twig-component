@@ -11,7 +11,7 @@ use OxidEsales\Twig\Node\HasRightsNode;
 use OxidEsales\Twig\TokenParser\HasRightsTokenParser;
 use PHPUnit\Framework\TestCase;
 
-final class HasRightsExtensionTest extends TestCase
+class HasRightsExtensionTest extends TestCase
 {
     /**
      * @var HasRightsExtension

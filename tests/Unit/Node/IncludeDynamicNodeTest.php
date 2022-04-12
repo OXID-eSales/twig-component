@@ -1,11 +1,8 @@
 <?php
-
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
-
-declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Node;
 
@@ -13,11 +10,16 @@ namespace OxidEsales\Twig\Tests\Unit\Node;
 use OxidEsales\Twig\Extensions\IncludeExtension;
 use OxidEsales\Twig\Node\IncludeDynamicNode;
 use Twig\Node\Expression\ArrayExpression;
+use Twig\Node\Expression\ConditionalExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Test\NodeTestCase;
 
-final class IncludeDynamicNodeTest extends NodeTestCase
+/**
+ * Class IncludeDynamicNodeTest
+ */
+class IncludeDynamicNodeTest extends NodeTestCase
 {
+
     public function testConstructor(): void
     {
         $expr = new ConstantExpression('foo.twig', 1);
@@ -92,7 +94,7 @@ try {
         \$parameters = \$this->extensions['$includeExtensionClass']->includeDynamicPrefix(\$parameters);
         \$this->loadTemplate("foo.twig", null, 1)->display(\$parameters);
     }
-} catch (\Twig\Error\LoaderError \$e) {
+} catch (Twig_Error_Loader \$e) {
     // ignore missing template
 }
 EOF

@@ -9,7 +9,7 @@ namespace OxidEsales\Twig\Tests\Unit\Filters;
 use OxidEsales\Twig\Extensions\Filters\CatExtension;
 use PHPUnit\Framework\TestCase;
 
-final class CatExtensionTest extends TestCase
+class CatExtensionTest extends TestCase
 {
     /**
      * @covers \OxidEsales\Twig\Extensions\Filters\CatExtension::cat

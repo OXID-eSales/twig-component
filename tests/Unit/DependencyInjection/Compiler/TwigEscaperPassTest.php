@@ -1,11 +1,8 @@
 <?php
-
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
-
-declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\DependencyInjection\Compiler;
 
@@ -14,9 +11,13 @@ use OxidEsales\Twig\TwigEngine;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-final class TwigEscaperPassTest extends TestCase
+/**
+ * Class TwigEscaperPassTest
+ */
+class TwigEscaperPassTest extends TestCase
 {
-    public function testEscaperPass(): void
+
+    public function testEscaperPass()
     {
         $builder = new ContainerBuilder();
         $builder->register(TwigEngine::class);

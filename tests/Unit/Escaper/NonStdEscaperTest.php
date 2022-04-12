@@ -1,28 +1,28 @@
 <?php
-
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
-declare(strict_types=1);
-
 namespace OxidEsales\Twig\Tests\Unit\Escaper;
 
 use OxidEsales\Twig\Escaper\EscaperInterface;
 use OxidEsales\Twig\Escaper\NonStdEscaper;
-use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 
-final class NonStdEscaperTest extends TestCase
+/**
+ * Class NonStdEscaperTest
+ */
+class NonStdEscaperTest extends \PHPUnit\Framework\TestCase
 {
+
     /** @var EscaperInterface */
     private $escaper;
 
     /** @var Environment */
     private $environment;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->escaper = new NonStdEscaper();

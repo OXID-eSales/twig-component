@@ -1,35 +1,36 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
-declare(strict_types=1);
-
 namespace OxidEsales\Twig;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface;
 use OxidEsales\Twig\Escaper\EscaperInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use Twig\Environment;
+use Twig\Extension\CoreExtension;
 use Twig\Extension\DebugExtension;
-use Twig\Extension\EscaperExtension;
 
+/**
+ * Class TwigEngine
+ */
 class TwigEngine implements TemplateEngineInterface
 {
-    /** @var Environment */
+    /**
+     * @var \Twig_Environment
+     */
     private $engine;
-    /** @var TemplateChainResolverInterface */
-    private $templateChainResolver;
 
-    public function __construct(
-        Environment $engine,
-        TemplateChainResolverInterface $templateChainResolver,
-        iterable $twigExtensions = [],
-        iterable $twigEscaper = []
-    ) {
-        $this->templateChainResolver = $templateChainResolver;
+    /**
+     * TwigEngine constructor.
+     *
+     * @param Environment $engine
+     * @param \iterable    $twigExtensions
+     * @param \iterable    $twigEscaper
+     */
+    public function __construct(Environment $engine, iterable $twigExtensions = [], iterable $twigEscaper = [])
+    {
         $this->engine = $engine;
 
         foreach ($twigExtensions as $extension) {
@@ -44,6 +45,16 @@ class TwigEngine implements TemplateEngineInterface
     }
 
     /**
+     * Returns the template file extension.
+     *
+     * @return string
+     */
+    public function getDefaultFileExtension(): string
+    {
+        return 'html.twig';
+    }
+
+    /**
      * Renders a template.
      *
      * @param string $name    A template name
@@ -55,10 +66,7 @@ class TwigEngine implements TemplateEngineInterface
      */
     public function render(string $name, array $context = []): string
     {
-        return $this->engine->render(
-            $this->templateChainResolver->getLastChild($name),
-            $context
-        );
+        return $this->engine->render($name, $context);
     }
 
     /**
@@ -115,8 +123,8 @@ class TwigEngine implements TemplateEngineInterface
      */
     public function addEscaper(EscaperInterface $escaper)
     {
-        /** @var EscaperExtension $escaperExtension */
-        $escaperExtension = $this->engine->getExtension(EscaperExtension::class);
-        $escaperExtension->setEscaper($escaper->getStrategy(), [$escaper, 'escape']);
+        /** @var CoreExtension $coreExtension */
+        $coreExtension = $this->engine->getExtension(CoreExtension::class);
+        $coreExtension->setEscaper($escaper->getStrategy(), [$escaper, 'escape']);
     }
 }

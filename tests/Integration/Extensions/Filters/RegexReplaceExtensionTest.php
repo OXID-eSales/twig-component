@@ -1,25 +1,21 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
-declare(strict_types=1);
-
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\Twig\Extensions\Filters\RegexReplaceExtension;
-use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
-use Twig\Template;
 
-final class RegexReplaceExtensionTest extends TestCase
+class RegexReplaceExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    protected RegexReplaceExtension $extension;
+    /** @var RegexReplaceExtension */
+    protected $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         $this->extension = new RegexReplaceExtension();
     }
@@ -48,15 +44,15 @@ final class RegexReplaceExtensionTest extends TestCase
     /**
      * @param string $template
      *
-     * @return Template
+     * @return \Twig_Template
      */
-    private function getTemplate(string $template): Template
+    private function getTemplate(string $template): \Twig_Template
     {
         $loader = new ArrayLoader(['index' => $template]);
 
         $twig = new Environment($loader, ['debug' => true, 'cache' => false]);
         $twig->addExtension($this->extension);
 
-        return $twig->loadTemplate($twig->getTemplateClass('index'), 'index');
+        return $twig->loadTemplate('index');
     }
 }

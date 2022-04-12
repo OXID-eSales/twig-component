@@ -12,11 +12,14 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateSalutationLogic;
 use OxidEsales\Twig\Extensions\Filters\TranslateSalutationExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
-use Twig\Extension\AbstractExtension;
 
+/**
+ * Class TranslateSalutationExtensionTest
+ */
 final class TranslateSalutationExtensionTest extends AbstractExtensionTest
 {
-    protected AbstractExtension $extension;
+    /** @var TranslateSalutationExtension */
+    protected $extension;
 
     protected function setUp(): void
     {
@@ -43,8 +46,8 @@ final class TranslateSalutationExtensionTest extends AbstractExtensionTest
         $translateSalutationLogic = $this->getMockBuilder(TranslateSalutationLogic::class)
             ->setMethods(['translateSalutation'])->getMock();
 
-        $translateSalutationLogic->expects($this->once())->method('translateSalutation')->willReturn(
-            $expected
+        $translateSalutationLogic->expects($this->once())->method('translateSalutation')->will(
+            $this->returnValue($expected)
         );
         $this->extension = new TranslateSalutationExtension($translateSalutationLogic);
 

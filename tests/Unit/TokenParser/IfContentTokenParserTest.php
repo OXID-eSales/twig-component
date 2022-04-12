@@ -1,11 +1,8 @@
 <?php
-
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
-
-declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\TokenParser;
 
@@ -17,17 +14,26 @@ use Twig\Parser;
 use Twig\Source;
 use Twig\Token;
 
-final class IfContentTokenParserTest extends TestCase
+class IfContentTokenParserTest extends TestCase
 {
-    private Environment $environment;
-    private Parser $parser;
-    private IfContentTokenParser $ifContentParser;
 
+    /** @var Environment */
+    private $environment;
+
+    /** @var Parser */
+    private $parser;
+
+    /** @var IfContentTokenParser */
+    private $ifContentParser;
+
+    /**
+     * Set up
+     */
     protected function setUp(): void
     {
         /** @var LoaderInterface $loader */
-        $loader = $this->getMockBuilder(\Twig\Loader\LoaderInterface::class)->getMock();
-        $this->environment = new Environment($loader, ['cache' => false]);
+        $loader = $this->getMockBuilder('Twig_LoaderInterface')->getMock();
+        $this->environment = new \Twig_Environment($loader, ['cache' => false]);
 
         $this->ifContentParser = new IfContentTokenParser();
         $this->environment->addTokenParser($this->ifContentParser);

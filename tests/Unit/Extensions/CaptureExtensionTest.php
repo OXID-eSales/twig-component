@@ -10,7 +10,7 @@ use OxidEsales\Twig\Extensions\CaptureExtension;
 use OxidEsales\Twig\TokenParser\CaptureTokenParser;
 use PHPUnit\Framework\TestCase;
 
-final class CaptureExtensionTest extends TestCase
+class CaptureExtensionTest extends TestCase
 {
     /**
      * @var CaptureExtension
