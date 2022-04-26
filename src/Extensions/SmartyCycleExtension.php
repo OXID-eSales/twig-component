@@ -36,7 +36,7 @@ class SmartyCycleExtension extends AbstractExtension
     {
         $name = (empty($parameters['name'])) ? 'default' : $parameters['name'];
         $advance = (isset($parameters['advance'])) ? (bool) $parameters['advance'] : true;
-        $reset = (isset($parameters['reset'])) ? (bool) $parameters['reset'] : false;
+        $reset = isset($parameters['reset']) && (bool) $parameters['reset'];
         $return = (isset($parameters['print'])) ? (bool) $parameters['print'] : true;
 
         if (empty($values)) {

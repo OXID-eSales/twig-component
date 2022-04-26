@@ -37,7 +37,6 @@ final class ModulesTemplateChainTest extends TestCase
     private const FIXTURE_TEMPLATE_WITH_INCLUDE = 'template-with-include.html.twig';
 
     private BasicContext $context;
-    private array $testPackageNames = [];
 
     protected function setUp(): void
     {
@@ -190,13 +189,6 @@ final class ModulesTemplateChainTest extends TestCase
         $mockedShopPath = __DIR__ . '/Fixtures/shop/source/';
         Registry::getConfig()->setConfigParam('sShopDir', $mockedShopPath);
         Registry::getConfig()->setConfigParam('sTheme', self::FIXTURE_THEME);
-    }
-
-    private function generateUniquePackageNames(): void
-    {
-        foreach (self::FIXTURE_MODULE_NAMES as $moduleName) {
-            $this->testPackageNames[$moduleName] = uniqid('package_', true);
-        }
     }
 
     private function cleanUpTestData(): void

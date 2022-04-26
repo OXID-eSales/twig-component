@@ -35,14 +35,10 @@ final class TemplateChainResolverAggregateTest extends TestCase
     private const MODULE_NAMESPACE = '@' . self::MODULE_ID . '/';
     private BasicContext $context;
 
-    /** @var array */
-    private array $testPackageNames = [];
-
     protected function setUp(): void
     {
         parent::setUp();
         $this->context = new BasicContext();
-        $this->generateUniquePackageNames();
         $this->updateShopConfig();
     }
 
@@ -144,13 +140,6 @@ final class TemplateChainResolverAggregateTest extends TestCase
         $mockedShopPath = __DIR__ . '/Fixtures/templateChainResolverAggregateTest/shop/source/';
         Registry::getConfig()->setConfigParam('sShopDir', $mockedShopPath);
         Registry::getConfig()->setConfigParam('sTheme', self::FIXTURE_THEME);
-    }
-
-    private function generateUniquePackageNames(): void
-    {
-        foreach (self::FIXTURE_MODULE_NAMES as $moduleName) {
-            $this->testPackageNames[$moduleName] = uniqid('package_', true);
-        }
     }
 
     private function cleanUpTestData(): void

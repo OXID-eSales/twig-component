@@ -36,7 +36,7 @@ class ScriptExtension extends AbstractExtension
      */
     public function script(array $context = [], array $parameters = []): string
     {
-        $isDynamic = isset($context['__oxid_include_dynamic']) ? (bool) $context['__oxid_include_dynamic'] : false;
+        $isDynamic = isset($context['__oxid_include_dynamic']) && (bool) $context['__oxid_include_dynamic'];
         $priority = !empty($parameters['priority']) ? $parameters['priority'] : 3;
         $widget = !empty($parameters['widget']) ? $parameters['widget'] : '';
         $isInWidget = !empty($parameters['inWidget']) ? $parameters['inWidget'] : false;
