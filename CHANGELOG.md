@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 - Support for `assign_adv` plugin
-- Support for PHP < v7.4
+- Support for PHP v7
 - `Resolver\TemplateNameResolver`
 - Method:
   - `TwigEngine::getDefaultFileExtension()`
