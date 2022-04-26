@@ -73,5 +73,4 @@ final class InputHelpExtensionTest extends AbstractExtensionTest
         $this->setAdminMode($blAdmin);
         $this->assertEquals($expected, $this->inputHelpExtension->getHelpText($params));
     }
-
 }

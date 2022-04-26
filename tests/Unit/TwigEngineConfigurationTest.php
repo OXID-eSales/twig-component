@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
 
 final class TwigEngineConfigurationTest extends TestCase
 {
-
     public function testGetParameters(): void
     {
         $engineConfiguration = $this->getEngineConfiguration();

@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Extension;
 
@@ -36,5 +39,4 @@ final class IncludeWidgetExtensionTest extends TestCase
         $actual = $this->includeWidgetExtension->includeWidget(['cl' => 'oxwTagCloud', 'blShowTags' => 1]);
         $this->assertEquals('html', $actual);
     }
-
 }

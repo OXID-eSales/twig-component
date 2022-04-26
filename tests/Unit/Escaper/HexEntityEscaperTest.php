@@ -16,7 +16,6 @@ use Twig\Environment;
 
 final class HexEntityEscaperTest extends TestCase
 {
-
     private EscaperInterface $escaper;
 
     private Environment $environment;

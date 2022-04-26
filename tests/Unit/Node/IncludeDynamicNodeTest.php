@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Node;
 
-
 use OxidEsales\Twig\Extensions\IncludeExtension;
 use OxidEsales\Twig\Node\IncludeDynamicNode;
 use Twig\Node\Expression\ArrayExpression;

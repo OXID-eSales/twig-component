@@ -88,7 +88,7 @@ final class TemplateLoaderNameParserTest extends TestCase
         ];
 
         return array_map(
-            fn($name) => [$name, ['valid' => false]],
+            fn ($name) => [$name, ['valid' => false]],
             $invalidNames
         );
     }

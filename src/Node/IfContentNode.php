@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Node;
 
@@ -44,6 +47,6 @@ class IfContentNode extends Node
 
         $compiler
             ->subcompile($this->getNode('body'))
-            ->write("unset(")->subcompile($this->getNode('variable'))->raw(");\n");;
+            ->write("unset(")->subcompile($this->getNode('variable'))->raw(");\n");
     }
 }

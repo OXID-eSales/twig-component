@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Extensions\Filters;
 
@@ -12,7 +15,6 @@ use PHPUnit\Framework\TestCase;
 
 final class FileSizeExtensionTest extends TestCase
 {
-
     public function provider()
     {
         return [

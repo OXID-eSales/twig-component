@@ -12,7 +12,6 @@ use Twig\Test\NodeTestCase;
 
 final class CaptureNodeTest extends NodeTestCase
 {
-
     private string $variableName = 'foo';
     private int $line = 1;
     private string $tag = 'capture';

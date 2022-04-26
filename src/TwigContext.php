@@ -27,7 +27,7 @@ class TwigContext implements TwigContextInterface
 
         return array_filter(
             $templateDirectory,
-            static fn($directory) => is_dir($directory)
+            static fn ($directory) => is_dir($directory)
         );
     }
 
