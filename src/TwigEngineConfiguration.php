@@ -1,31 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
+declare(strict_types=1);
+
 namespace OxidEsales\Twig;
 
-/**
- * Class TwigEngineConfiguration
- *
- * @package OxidEsales\Twig
- */
 class TwigEngineConfiguration implements TwigEngineConfigurationInterface
 {
-    /**
-     * @var TwigContextInterface
-     */
-    private $context;
-
-    /**
-     * TemplateEngineConfiguration constructor.
-     *
-     * @param TwigContextInterface $context
-     */
-    public function __construct(TwigContextInterface $context)
+    public function __construct(private TwigContextInterface $context)
     {
-        $this->context = $context;
     }
 
     /**

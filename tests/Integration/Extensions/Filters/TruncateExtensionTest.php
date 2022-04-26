@@ -25,9 +25,6 @@ final class TruncateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     *
      * @dataProvider truncateProvider
      */
     public function testTruncate(string $template, string $expected): void
@@ -35,9 +32,6 @@ final class TruncateExtensionTest extends AbstractExtensionTest
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * @return array
-     */
     public function truncateProvider(): array
     {
         return [
@@ -57,9 +51,6 @@ final class TruncateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     *
      * @dataProvider truncateProviderWithLength
      */
     public function testTruncateWithLength(string $template, string $expected): void
@@ -67,9 +58,6 @@ final class TruncateExtensionTest extends AbstractExtensionTest
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * @return array
-     */
     public function truncateProviderWithLength(): array
     {
         return [
@@ -89,9 +77,6 @@ final class TruncateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     *
      * @dataProvider truncateProviderWithSuffix
      */
     public function testTruncateWithSuffix(string $template, string $expected): void
@@ -99,9 +84,6 @@ final class TruncateExtensionTest extends AbstractExtensionTest
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * @return array
-     */
     public function truncateProviderWithSuffix(): array
     {
         return [
@@ -113,9 +95,6 @@ final class TruncateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     *
      * @dataProvider truncateProviderWithBreakWords
      */
     public function testTruncateWithBreakWords(string $template, string $expected): void
@@ -123,9 +102,6 @@ final class TruncateExtensionTest extends AbstractExtensionTest
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * @return array
-     */
     public function truncateProviderWithBreakWords(): array
     {
         return [

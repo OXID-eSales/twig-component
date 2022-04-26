@@ -15,19 +15,10 @@ use Twig\TokenParser\ExtendsTokenParser;
 
 class ExtendsChainTokenParser extends AbstractTokenParser
 {
-    /** @var TemplateChainResolverInterface */
-    private $templateChainResolver;
-    /** @var Token */
-    private $token;
-    /** @var TemplateChainValidatorInterface */
-    private $templateChainValidator;
+    private ?Token $token = null;
 
-    public function __construct(
-        TemplateChainResolverInterface $templateChainResolver,
-        TemplateChainValidatorInterface $templateChainValidator
-    ) {
-        $this->templateChainResolver = $templateChainResolver;
-        $this->templateChainValidator = $templateChainValidator;
+    public function __construct(private TemplateChainResolverInterface $templateChainResolver, private TemplateChainValidatorInterface $templateChainValidator)
+    {
     }
 
     /**

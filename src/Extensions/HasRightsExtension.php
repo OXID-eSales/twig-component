@@ -10,26 +10,10 @@ use Twig\Extension\AbstractExtension;
 use Twig\TokenParser\AbstractTokenParser;
 use Twig\TokenParser\TokenParserInterface;
 
-/**
- * Class HasRightsExtension
- *
- * @package OxidEsales\Twig\Extensions
- */
 class HasRightsExtension extends AbstractExtension
 {
-    /**
-     * @var AbstractTokenParser
-     */
-    protected $hasRightsTokenParser;
-
-    /**
-     * HasRightsExtension constructor.
-     *
-     * @param AbstractTokenParser $hasRightsTokenParser
-     */
-    public function __construct(AbstractTokenParser $hasRightsTokenParser)
+    public function __construct(protected AbstractTokenParser $hasRightsTokenParser)
     {
-        $this->hasRightsTokenParser = $hasRightsTokenParser;
     }
 
     /**

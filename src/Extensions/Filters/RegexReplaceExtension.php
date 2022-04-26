@@ -9,11 +9,6 @@ namespace OxidEsales\Twig\Extensions\Filters;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-/**
- * Class RegexReplaceExtension
- *
- * @package OxidEsales\Twig\Extensions
- */
 class RegexReplaceExtension extends AbstractExtension
 {
     /**

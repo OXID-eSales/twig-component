@@ -13,9 +13,9 @@ use Twig\Test\NodeTestCase;
 final class CaptureNodeTest extends NodeTestCase
 {
 
-    private $variableName = 'foo';
-    private $line = 1;
-    private $tag = 'capture';
+    private string $variableName = 'foo';
+    private int $line = 1;
+    private string $tag = 'capture';
     private $body;
 
     public function __construct($name = null, array $data = [], $dataName = '')
@@ -49,6 +49,7 @@ EOF
 
     private function getTestForCaptureWithAttributeAssign()
     {
+        $tests = [];
         $nodeForCaptureAssign = new CaptureNode('assign', $this->variableName, $this->body, $this->line, $this->tag);
         $tests[] = [$nodeForCaptureAssign, <<<EOF
 // line 1
@@ -67,6 +68,7 @@ EOF
 
     private function getTestForCaptureWithAttributeAppend()
     {
+        $tests = [];
         $nodeForCaptureAssign = new CaptureNode('append', $this->variableName, $this->body, $this->line, $this->tag);
         $tests[] = [$nodeForCaptureAssign, <<<EOF
 // line 1

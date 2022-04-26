@@ -25,8 +25,7 @@ final class TwigEngineTest extends TestCase
 
     private string $templateDirPath;
     private string $template;
-    /** @var TemplateChainResolverInterface|ObjectProphecy */
-    private $templateChainResolver;
+    private ObjectProphecy|TemplateChainResolverInterface|null $templateChainResolver = null;
 
     protected function setUp(): void
     {

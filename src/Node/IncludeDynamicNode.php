@@ -10,9 +10,6 @@ use OxidEsales\Twig\Extensions\IncludeExtension;
 use Twig\Node\IncludeNode;
 use Twig\Compiler;
 
-/**
- * Class IncludeDynamic
- */
 class IncludeDynamicNode extends IncludeNode
 {
     /**

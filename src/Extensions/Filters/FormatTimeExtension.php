@@ -10,26 +10,10 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatTi
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-/**
- * Class FormatTimeExtension
- *
- * @package OxidEsales\Twig\Filters
- */
 class FormatTimeExtension extends AbstractExtension
 {
-    /**
-     * @var FormatTimeLogic
-     */
-    private $formatTimeLogic;
-
-    /**
-     * FormatTimeExtension constructor.
-     *
-     * @param FormatTimeLogic $formatTimeLogic
-     */
-    public function __construct(FormatTimeLogic $formatTimeLogic)
+    public function __construct(private FormatTimeLogic $formatTimeLogic)
     {
-        $this->formatTimeLogic = $formatTimeLogic;
     }
 
     /**

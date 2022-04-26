@@ -16,14 +16,8 @@ use Twig\Environment;
 
 class StyleExtension extends AbstractExtension
 {
-    /**
-     * @var StyleLogic
-     */
-    private $styleLogic;
-
-    public function __construct(StyleLogic $styleLogic)
+    public function __construct(private StyleLogic $styleLogic)
     {
-        $this->styleLogic = $styleLogic;
     }
 
     /**

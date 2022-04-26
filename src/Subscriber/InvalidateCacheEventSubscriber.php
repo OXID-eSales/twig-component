@@ -18,20 +18,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class InvalidateCacheEventSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var TwigContextInterface
-     */
-    private $twigContext;
-
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    public function __construct(TwigContextInterface $twigContext, Filesystem $filesystem)
+    public function __construct(private TwigContextInterface $twigContext, private Filesystem $filesystem)
     {
-        $this->twigContext = $twigContext;
-        $this->filesystem = $filesystem;
     }
 
     public function invalidateCache(ModuleSetupEvent $event)

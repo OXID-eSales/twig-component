@@ -7,24 +7,10 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-/**
- * Class TruncateExtension
- */
 class TruncateExtension extends AbstractExtension
 {
-    /**
-     * @var TruncateLogic
-     */
-    private $truncateLogic;
-
-    /**
-     * TruncateExtension constructor.
-     *
-     * @param TruncateLogic $truncateLogic
-     */
-    public function __construct(TruncateLogic $truncateLogic)
+    public function __construct(private TruncateLogic $truncateLogic)
     {
-        $this->truncateLogic = $truncateLogic;
     }
 
     /**

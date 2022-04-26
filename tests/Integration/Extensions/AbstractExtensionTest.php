@@ -20,11 +20,6 @@ abstract class AbstractExtensionTest extends TestCase
 {
     protected AbstractExtension $extension;
 
-    /**
-     * @param string $template
-     *
-     * @return Template
-     */
     protected function getTemplate(string $template): Template
     {
         $loader = new ArrayLoader(['index' => $template]);

@@ -6,24 +6,10 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatDa
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-/**
- * Class FormatDateExtension
- */
 class FormatDateExtension extends AbstractExtension
 {
-    /**
-     * @var FormatDateLogic
-     */
-    private $formatDateLogic;
-
-    /**
-     * FormatDateExtension constructor.
-     *
-     * @param FormatDateLogic $formatDateLogic
-     */
-    public function __construct(FormatDateLogic $formatDateLogic)
+    public function __construct(private FormatDateLogic $formatDateLogic)
     {
-        $this->formatDateLogic = $formatDateLogic;
     }
 
     /**

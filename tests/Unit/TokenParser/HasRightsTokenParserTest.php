@@ -90,7 +90,6 @@ final class HasRightsTokenParserTest extends TestCase
         $env->parse($env->tokenize(new Source('{% hasrights {\'id\' : \'1\'} %}{% foo %}', 'index')));
     }
 
-    /** @return Environment */
     private function getEnv(): Environment
     {
         $loader = new ArrayLoader(['tokens' => 'foo']);

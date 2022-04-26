@@ -9,11 +9,6 @@ namespace OxidEsales\Twig\Extensions\Filters;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-/**
- * Class EncloseExtension
- *
- * @package OxidEsales\Twig\Extensions
- */
 class EncloseExtension extends AbstractExtension
 {
     /**

@@ -18,20 +18,12 @@ use Twig\Extension\EscaperExtension;
 
 class TwigEngine implements TemplateEngineInterface
 {
-    /** @var Environment */
-    private $engine;
-    /** @var TemplateChainResolverInterface */
-    private $templateChainResolver;
-
     public function __construct(
-        Environment $engine,
-        TemplateChainResolverInterface $templateChainResolver,
+        private Environment $engine,
+        private TemplateChainResolverInterface $templateChainResolver,
         iterable $twigExtensions = [],
         iterable $twigEscaper = []
     ) {
-        $this->templateChainResolver = $templateChainResolver;
-        $this->engine = $engine;
-
         foreach ($twigExtensions as $extension) {
             $this->engine->addExtension($extension);
         }

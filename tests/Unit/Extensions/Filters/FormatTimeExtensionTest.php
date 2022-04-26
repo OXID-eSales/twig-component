@@ -22,9 +22,6 @@ final class FormatTimeExtensionTest extends TestCase
     }
 
     /**
-     * @param int    $seconds
-     * @param string $expectedTime
-     *
      * @dataProvider provider
      */
     public function testFormatTime(int $seconds, string $expectedTime): void

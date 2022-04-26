@@ -10,9 +10,6 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Twig\Error\RuntimeError;
 
-/**
- * Class MailtoExtension
- */
 class MailtoExtension extends AbstractExtension
 {
     /**
@@ -47,20 +44,12 @@ class MailtoExtension extends AbstractExtension
             throw new RuntimeError("mailto: 'encode' parameter must be none, javascript or hex");
         }
 
-        switch ($encode) {
-            case 'javascript':
-                return $this->mailJavascript($address, $text, $extra);
-
-            case 'javascript_charcode':
-                return $this->mailJavascriptCharcode($address, $text, $extra);
-
-            case 'hex':
-                return $this->mailHex($address, $text, $extra);
-
-            default:
-                // no encoding
-                return "<a href=\"mailto:$address\" $extra>$text</a>";
-        }
+        return match ($encode) {
+            'javascript' => $this->mailJavascript($address, $text, $extra),
+            'javascript_charcode' => $this->mailJavascriptCharcode($address, $text, $extra),
+            'hex' => $this->mailHex($address, $text, $extra),
+            default => "<a href=\"mailto:$address\" $extra>$text</a>",
+        };
     }
 
     /**

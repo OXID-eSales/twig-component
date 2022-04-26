@@ -11,24 +11,10 @@ use Twig\Error\Error;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/**
- * Class ScriptExtension
- */
 class ScriptExtension extends AbstractExtension
 {
-    /**
-     * @var ScriptLogic
-     */
-    private $scriptLogic;
-
-    /**
-     * ScriptExtension constructor.
-     *
-     * @param ScriptLogic $scriptLogic
-     */
-    public function __construct(ScriptLogic $scriptLogic)
+    public function __construct(private ScriptLogic $scriptLogic)
     {
-        $this->scriptLogic = $scriptLogic;
     }
 
     /**

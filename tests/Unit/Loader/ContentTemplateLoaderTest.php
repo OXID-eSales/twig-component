@@ -21,8 +21,7 @@ use Twig\Error\LoaderError;
 final class ContentTemplateLoaderTest extends TestCase
 {
     private ContentTemplateLoader $contentTemplateLoader;
-    /** @var MockBuilder */
-    private $contentMockBuilder;
+    private MockBuilder $contentMockBuilder;
 
     public function setUp(): void
     {
@@ -142,12 +141,6 @@ final class ContentTemplateLoaderTest extends TestCase
         );
     }
 
-    /**
-     * @param int   $language
-     * @param array $fields
-     *
-     * @return MockObject
-     */
     private function prepareContentMock(int $language, array $fields): MockObject
     {
         $mock = $this->contentMockBuilder->getMock();

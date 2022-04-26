@@ -26,7 +26,7 @@ final class TwigEngineConfigurationTest extends TestCase
     private function getEngineConfiguration(): TwigEngineConfiguration
     {
         /** @var TwigContextInterface|MockObject $context */
-        $context = $this->getMockBuilder('OxidEsales\Twig\TwigContextInterface')->getMock();
+        $context = $this->getMockBuilder(TwigContextInterface::class)->getMock();
         $context->method('getIsDebug')->willReturn(true);
         $context->method('getCacheDir')->willReturn('dummy_cache_dir');
         return new TwigEngineConfiguration($context);

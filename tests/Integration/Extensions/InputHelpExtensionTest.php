@@ -24,9 +24,6 @@ final class InputHelpExtensionTest extends AbstractExtensionTest
         $this->inputHelpExtension = new InputHelpExtension($inputHelpLogic);
     }
 
-    /**
-     * @return array
-     */
     public function getIdentProvider(): array
     {
         return [
@@ -51,9 +48,6 @@ final class InputHelpExtensionTest extends AbstractExtensionTest
         $this->assertEquals($expected, $this->inputHelpExtension->getHelpId($params));
     }
 
-    /**
-     * @return array
-     */
     public function getHelpTextProvider(): array
     {
         return [

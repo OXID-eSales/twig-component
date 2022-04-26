@@ -25,14 +25,11 @@ final class PhpFunctionsExtensionTest extends UnitTestCase
         $this->extension = new PhpFunctionsExtension();
     }
 
-    /**
-     * @return array
-     */
     public function dummyTemplateProvider(): array
     {
         return [
             ["{% set foo = 'bar'|parse_url %}{{ foo['path'] }}", 'bar'],
-            ["{{ 'Mon, 21 Jan 2019 15:35:00 GMT'|strtotime }}", 1548084900],
+            ["{{ 'Mon, 21 Jan 2019 15:35:00 GMT'|strtotime }}", 1_548_084_900],
             ["{{ {0:0, 1:1}|is_array  }}", true],
             ["{{ 'foo'|is_array  }}", false],
             ["{{ 'discount_categories_ajax'|oxNew is null  }}", false]
@@ -40,9 +37,7 @@ final class PhpFunctionsExtensionTest extends UnitTestCase
     }
 
     /**
-     * @param string $template
      * @param mixed $expected
-     *
      * @dataProvider dummyTemplateProvider
      */
     public function testIfPhpFunctionsAreCallable(string $template, $expected): void
@@ -50,11 +45,6 @@ final class PhpFunctionsExtensionTest extends UnitTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * @param string $template
-     *
-     * @return Template
-     */
     private function getTemplate(string $template): Template
     {
         $loader = new ArrayLoader(['index' => $template]);

@@ -26,8 +26,6 @@ final class WordwrapExtensionTest extends AbstractExtensionTest
 
     /**
      * Provides data for testWordWrapWithNonAscii
-     *
-     * @return array
      */
     public function nonAsciiProvider(): array
     {
@@ -40,9 +38,6 @@ final class WordwrapExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     *
      * @dataProvider nonAsciiProvider
      */
     public function testWordWrapWithNonAscii(string $template, string $expected): void
@@ -52,8 +47,6 @@ final class WordwrapExtensionTest extends AbstractExtensionTest
 
     /**
      * Provides data for testWordWrapAscii
-     *
-     * @return array
      */
     public function asciiProvider(): array
     {
@@ -74,9 +67,6 @@ final class WordwrapExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     *
      * @dataProvider asciiProvider
      */
     public function testWordWrapAscii(string $template, string $expected): void

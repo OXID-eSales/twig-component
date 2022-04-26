@@ -7,24 +7,10 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-/**
- * Class FormatCurrencyExtension
- */
 class FormatCurrencyExtension extends AbstractExtension
 {
-    /**
-     * @var FormatCurrencyLogic
-     */
-    private $formatCurrencyLogic;
-
-    /**
-     * FormatCurrencyExtension constructor.
-     *
-     * @param FormatCurrencyLogic $formatCurrencyLogic
-     */
-    public function __construct(FormatCurrencyLogic $formatCurrencyLogic)
+    public function __construct(private FormatCurrencyLogic $formatCurrencyLogic)
     {
-        $this->formatCurrencyLogic = $formatCurrencyLogic;
     }
 
     /**

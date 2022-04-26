@@ -33,9 +33,6 @@ final class TranslateSalutationExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     *
      * @dataProvider translateSalutationProvider
      */
     public function testTranslateSalutation(string $template, string $expected): void

@@ -17,36 +17,8 @@ use Webmozart\PathUtil\Path;
 
 class ModulesTemplateChain implements TemplateChainInterface
 {
-    /**
-     * @var ActiveModulesDataProviderInterface
-     */
-    private $activeModulesDataProvider;
-
-    /**
-     * @var ModulesTemplateDirectoryResolverInterface
-     */
-    private $moduleTemplateDirectoryResolver;
-
-    /**
-     * @var TwigContextInterface
-     */
-    private $twigContext;
-
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    public function __construct(
-        ActiveModulesDataProviderInterface $activeModulesDataProvider,
-        ModulesTemplateDirectoryResolverInterface $moduleTemplateDirectoryResolver,
-        TwigContextInterface $twigContext,
-        Filesystem $filesystem
-    ) {
-        $this->activeModulesDataProvider = $activeModulesDataProvider;
-        $this->moduleTemplateDirectoryResolver = $moduleTemplateDirectoryResolver;
-        $this->twigContext = $twigContext;
-        $this->filesystem = $filesystem;
+    public function __construct(private ActiveModulesDataProviderInterface $activeModulesDataProvider, private ModulesTemplateDirectoryResolverInterface $moduleTemplateDirectoryResolver, private TwigContextInterface $twigContext, private Filesystem $filesystem)
+    {
     }
 
     /** @inheritDoc */

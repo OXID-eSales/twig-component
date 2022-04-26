@@ -13,17 +13,11 @@ use OxidEsales\Twig\Resolver\TemplateNameConverterInterface;
 
 class TemplateChainAggregate implements TemplateChainInterface
 {
-    /** @var TemplateChainInterface[] */
-    private $templateResolvers;
-    /** @var TemplateNameConverterInterface */
-    private $templateNameConverter;
-
-    public function __construct(
-        array $templateResolvers,
-        TemplateNameConverterInterface $templateNameConverter
-    ) {
-        $this->templateResolvers = $templateResolvers;
-        $this->templateNameConverter = $templateNameConverter;
+    /**
+     * @param \OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface[] $templateResolvers
+     */
+    public function __construct(private array $templateResolvers, private TemplateNameConverterInterface $templateNameConverter)
+    {
     }
 
     /** @inheritDoc */

@@ -10,26 +10,10 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\SmartWor
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-/**
- * Class SmartWordwrapExtension
- *
- * @package OxidEsales\Twig\Extensions\Filters
- */
 class SmartWordwrapExtension extends AbstractExtension
 {
-    /**
-     * @var SmartWordwrapLogic
-     */
-    private $smartWordWrapLogic;
-
-    /**
-     * SmartWordwrapExtension constructor.
-     *
-     * @param SmartWordwrapLogic $smartWordWrapLogic
-     */
-    public function __construct(SmartWordwrapLogic $smartWordWrapLogic)
+    public function __construct(private SmartWordwrapLogic $smartWordWrapLogic)
     {
-        $this->smartWordWrapLogic = $smartWordWrapLogic;
     }
 
     /**

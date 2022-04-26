@@ -7,24 +7,10 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-/**
- * Class WordwrapExtension
- */
 class WordwrapExtension extends AbstractExtension
 {
-    /**
-     * @var WordwrapLogic
-     */
-    private $wordwrapLogic;
-
-    /**
-     * WordwrapExtension constructor.
-     *
-     * @param WordwrapLogic $wordwrapLogic
-     */
-    public function __construct(WordwrapLogic $wordwrapLogic)
+    public function __construct(private WordwrapLogic $wordwrapLogic)
     {
-        $this->wordwrapLogic = $wordwrapLogic;
     }
 
     /**

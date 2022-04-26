@@ -22,9 +22,6 @@ final class PhpFunctionsExtensionTest extends AbstractExtensionTest
         $this->extension = new PhpFunctionsExtension();
     }
 
-    /**
-     * @return array
-     */
     public function dummyTemplateProvider(): array
     {
         return [
@@ -37,12 +34,9 @@ final class PhpFunctionsExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string   $template
-     * @param int|bool $expected
-     *
      * @dataProvider dummyTemplateProvider
      */
-    public function testIfPhpFunctionsAreCallable(string $template, $expected): void
+    public function testIfPhpFunctionsAreCallable(string $template, bool|int $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }

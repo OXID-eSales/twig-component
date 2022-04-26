@@ -9,8 +9,6 @@ namespace OxidEsales\Twig\Escaper;
 use Twig\Environment;
 
 /**
- * Class NonStdEscaper
- *
  * Escape non-standard chars, such as ms document quotes
  */
 class NonStdEscaper implements EscaperInterface

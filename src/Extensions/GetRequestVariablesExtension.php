@@ -9,11 +9,6 @@ namespace OxidEsales\Twig\Extensions;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/**
- * Class GetRequestVariablesExtension
- *
- * @package OxidEsales\Twig\Extensions
- */
 class GetRequestVariablesExtension extends AbstractExtension
 {
     /**

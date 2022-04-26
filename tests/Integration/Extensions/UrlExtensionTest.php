@@ -23,10 +23,6 @@ final class UrlExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     * @param array $variables
-     *
      * @dataProvider getSeoUrlTests
      */
     public function testSeoUrl(string $template, string $expected, array $variables = []): void
@@ -35,10 +31,6 @@ final class UrlExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     * @param array $variables
-     *
      * @dataProvider getAddUrlParametersTests
      */
     public function testAddUrlParameters(string $template, string $expected, array $variables = []): void
@@ -46,9 +38,6 @@ final class UrlExtensionTest extends AbstractExtensionTest
         $this->assertEquals($expected, $this->getTemplate($template)->render($variables));
     }
 
-    /**
-     * @return array
-     */
     public function getSeoUrlTests(): array
     {
         return [
@@ -59,9 +48,6 @@ final class UrlExtensionTest extends AbstractExtensionTest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getAddUrlParametersTests(): array
     {
         return [

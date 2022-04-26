@@ -26,12 +26,12 @@ final class InvalidateCacheEventSubscriberTest extends TestCase
     protected function setUp(): void
     {
         $this->databaseRestorer = new DatabaseRestorer();
-        $this->databaseRestorer->dumpDB(__CLASS__);
+        $this->databaseRestorer->dumpDB(self::class);
     }
 
     protected function tearDown(): void
     {
-        $this->databaseRestorer->restoreDB(__CLASS__);
+        $this->databaseRestorer->restoreDB(self::class);
     }
 
     public function testCacheRemovedAfterModuleActivation(): void

@@ -8,9 +8,6 @@ namespace OxidEsales\Twig\Escaper;
 
 use Twig\Environment;
 
-/**
- * Class MailEscaper
- */
 class MailEscaper implements EscaperInterface
 {
     /**

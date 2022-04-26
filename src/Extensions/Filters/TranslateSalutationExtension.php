@@ -10,24 +10,10 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\Translat
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-/**
- * Class TranslateSalutationExtension
- */
 class TranslateSalutationExtension extends AbstractExtension
 {
-    /**
-     * @var TranslateSalutationLogic
-     */
-    private $translateSalutationLogic;
-
-    /**
-     * TranslateSalutationExtension constructor.
-     *
-     * @param TranslateSalutationLogic $translateSalutationLogic
-     */
-    public function __construct(TranslateSalutationLogic $translateSalutationLogic)
+    public function __construct(private TranslateSalutationLogic $translateSalutationLogic)
     {
-        $this->translateSalutationLogic = $translateSalutationLogic;
     }
 
     /**

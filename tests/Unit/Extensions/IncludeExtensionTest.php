@@ -31,9 +31,6 @@ final class IncludeExtensionTest extends TestCase
     }
 
     /**
-     * @param array $parameters
-     * @param array $expected
-     *
      * @covers       IncludeExtension::includeDynamicPrefix
      * @dataProvider dataProviderTestIncludeDynamicPrefix
      */
@@ -42,9 +39,6 @@ final class IncludeExtensionTest extends TestCase
         $this->assertEquals($this->includeExtension->includeDynamicPrefix($parameters), $expected);
     }
 
-    /**
-     * @return array
-     */
     public function dataProviderTestIncludeDynamicPrefix(): array
     {
         return [
@@ -61,9 +55,6 @@ final class IncludeExtensionTest extends TestCase
     }
 
     /**
-     * @param array  $parameters
-     * @param string $expected
-     *
      * @covers       IncludeExtension::renderForCache
      * @dataProvider dataProviderTestRenderForCache
      */
@@ -72,9 +63,6 @@ final class IncludeExtensionTest extends TestCase
         $this->assertEquals($this->includeExtension->renderForCache($parameters), $expected);
     }
 
-    /**
-     * @return array
-     */
     public function dataProviderTestRenderForCache(): array
     {
         return [

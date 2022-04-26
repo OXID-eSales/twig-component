@@ -12,10 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CaptureExtensionTest extends TestCase
 {
-    /**
-     * @var CaptureExtension
-     */
-    private $CaptureExtension;
+    private CaptureExtension $CaptureExtension;
 
     protected function setUp(): void
     {

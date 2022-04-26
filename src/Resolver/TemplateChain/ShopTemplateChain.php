@@ -16,21 +16,8 @@ use Webmozart\PathUtil\Path;
 
 class ShopTemplateChain implements TemplateChainInterface
 {
-    /** @var TwigContextInterface */
-    private $twigContext;
-    /** @var Filesystem */
-    private $filesystem;
-    /** @var TemplateNameConverterInterface */
-    private $templateNameConverter;
-
-    public function __construct(
-        TwigContextInterface $twigContext,
-        Filesystem $filesystem,
-        TemplateNameConverterInterface $templateNameConverter
-    ) {
-        $this->twigContext = $twigContext;
-        $this->filesystem = $filesystem;
-        $this->templateNameConverter = $templateNameConverter;
+    public function __construct(private TwigContextInterface $twigContext, private Filesystem $filesystem, private TemplateNameConverterInterface $templateNameConverter)
+    {
     }
 
     /** @inheritDoc */

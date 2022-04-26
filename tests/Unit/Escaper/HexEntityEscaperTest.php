@@ -17,11 +17,9 @@ use Twig\Environment;
 final class HexEntityEscaperTest extends TestCase
 {
 
-    /** @var EscaperInterface */
-    private $escaper;
+    private EscaperInterface $escaper;
 
-    /** @var Environment */
-    private $environment;
+    private Environment $environment;
 
     protected function setUp(): void
     {
@@ -30,9 +28,6 @@ final class HexEntityEscaperTest extends TestCase
         $this->environment = $this->createMock(Environment::class);
     }
 
-    /**
-     * @return array
-     */
     public function escapeProvider(): array
     {
         return [

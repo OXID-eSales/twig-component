@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+
 /*
  * Copyright (c) 2004-2018 Fabien Potencier
  *
@@ -20,6 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\DependencyInjection\Compiler;
 

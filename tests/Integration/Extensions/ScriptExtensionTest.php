@@ -24,9 +24,6 @@ final class ScriptExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     *
      * @covers ScriptExtension::script
      * @dataProvider getScriptTests
      */
@@ -35,9 +32,6 @@ final class ScriptExtensionTest extends AbstractExtensionTest
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * @return array
-     */
     public function getScriptTests(): array
     {
         return [
@@ -107,11 +101,6 @@ HTML
         ];
     }
 
-    /**
-     * @param string $template
-     *
-     * @return Template
-     */
     protected function getTemplate(string $template): Template
     {
         $loader = new ArrayLoader(['index' => $template]);

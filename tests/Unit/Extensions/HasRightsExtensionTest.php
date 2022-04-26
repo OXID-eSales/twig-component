@@ -13,10 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 final class HasRightsExtensionTest extends TestCase
 {
-    /**
-     * @var HasRightsExtension
-     */
-    private $hasRightsExtension;
+    private HasRightsExtension $hasRightsExtension;
 
     protected function setUp(): void
     {

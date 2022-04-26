@@ -1,41 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig;
 
 use OxidEsales\Eshop\Core\Config;
 use OxidEsales\Eshop\Core\UtilsView;
 
-/**
- * Class TwigContext
- *
- * @package OxidEsales\Twig
- */
 class TwigContext implements TwigContextInterface
 {
-    /**
-     * @var Config
-     */
-    private $config;
-
-    /**
-     * @var UtilsView
-     */
-    private $utilsView;
-
-    /**
-     * @var string
-     */
-    private $activeAdminTheme;
-
-    public function __construct(Config $config, UtilsView $utilsView, string $activeAdminTheme)
+    public function __construct(private Config $config, private UtilsView $utilsView, private string $activeAdminTheme)
     {
-        $this->config = $config;
-        $this->utilsView = $utilsView;
-        $this->activeAdminTheme = $activeAdminTheme;
     }
 
     /**
@@ -47,9 +27,7 @@ class TwigContext implements TwigContextInterface
 
         return array_filter(
             $templateDirectory,
-            static function ($directory) {
-                return is_dir($directory);
-            }
+            static fn($directory) => is_dir($directory)
         );
     }
 

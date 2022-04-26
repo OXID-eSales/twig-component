@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Extensions\Filters;
 
@@ -10,26 +13,10 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FileSize
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-/**
- * Class FileSizeExtension
- *
- * @package OxidEsales\Twig\Filters
- */
 class FileSizeExtension extends AbstractExtension
 {
-    /**
-     * @var FileSizeLogic
-     */
-    private $fileSizeLogic;
-
-    /**
-     * FileSizeExtension constructor.
-     *
-     * @param FileSizeLogic $fileSizeLogic
-     */
-    public function __construct(FileSizeLogic $fileSizeLogic)
+    public function __construct(private FileSizeLogic $fileSizeLogic)
     {
-        $this->fileSizeLogic = $fileSizeLogic;
     }
 
     /**

@@ -10,9 +10,6 @@ use OxidEsales\Twig\Node\IncludeDynamicNode;
 use Twig\Token;
 use Twig\TokenParser\IncludeTokenParser;
 
-/**
- * Class IncludeDynamicTokenParser
- */
 class IncludeDynamicTokenParser extends IncludeTokenParser
 {
     /**
@@ -24,7 +21,7 @@ class IncludeDynamicTokenParser extends IncludeTokenParser
     {
         $expr = $this->parser->getExpressionParser()->parseExpression();
 
-        list($variables, $only, $ignoreMissing) = $this->parseArguments();
+        [$variables, $only, $ignoreMissing] = $this->parseArguments();
 
         return new IncludeDynamicNode($expr, $variables, $only, $ignoreMissing, $token->getLine(), $this->getTag());
     }

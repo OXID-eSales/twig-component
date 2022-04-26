@@ -15,11 +15,8 @@ use Twig\TwigFilter;
 
 class DateFormatExtension extends AbstractExtension
 {
-    private DateFormatHelper $dateFormatHelper;
-
-    public function __construct(DateFormatHelper $dateFormatHelper)
+    public function __construct(private DateFormatHelper $dateFormatHelper)
     {
-        $this->dateFormatHelper = $dateFormatHelper;
     }
 
     /**
@@ -63,7 +60,7 @@ class DateFormatExtension extends AbstractExtension
      *
      * @return false|int
      */
-    private function getTimestamp($string)
+    private function getTimestamp($string): int|false
     {
         $isNumeric = is_numeric($string);
 

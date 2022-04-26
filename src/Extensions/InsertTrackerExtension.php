@@ -10,11 +10,6 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Twig\Environment;
 
-/**
- * Class InsertTrackerExtension
- *
- * @package OxidEsales\Twig\Extensions
- */
 class InsertTrackerExtension extends AbstractExtension
 {
     /**

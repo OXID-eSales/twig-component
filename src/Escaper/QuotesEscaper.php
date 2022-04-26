@@ -9,8 +9,6 @@ namespace OxidEsales\Twig\Escaper;
 use Twig\Environment;
 
 /**
- * Class QuotesEscaper
- *
  * Escape unescaped single quotes
  */
 class QuotesEscaper implements EscaperInterface

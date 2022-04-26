@@ -28,8 +28,6 @@ final class TranslateExtensionTest extends AbstractExtensionTest
 
     /**
      * Provides data to testSimpleTranslating
-     *
-     * @return array
      */
     public function simpleTranslatingProvider(): array
     {
@@ -43,9 +41,6 @@ final class TranslateExtensionTest extends AbstractExtensionTest
     /**
      * Tests simple translating, where only translation is fetched
      *
-     * @param string $template
-     * @param int    $languageId
-     * @param string $expected
      *
      * @dataProvider simpleTranslatingProvider
      */
@@ -57,8 +52,6 @@ final class TranslateExtensionTest extends AbstractExtensionTest
 
     /**
      * Provides data to testTranslatingWithArguments
-     *
-     * @return array
      */
     public function withArgumentsProvider(): array
     {
@@ -73,10 +66,6 @@ final class TranslateExtensionTest extends AbstractExtensionTest
     /**
      * Tests value translating when translating strings containing %s
      *
-     * @param string $template
-     * @param int    $languageId
-     * @param string $expected
-     *
      * @dataProvider withArgumentsProvider
      */
     public function testTranslatingWithArguments(string $template, int $languageId, string $expected)
@@ -87,8 +76,6 @@ final class TranslateExtensionTest extends AbstractExtensionTest
 
     /**
      * Provides data to testTranslateFrontend_isMissingTranslation
-     *
-     * @return array
      */
     public function missingTranslationProviderFrontend(): array
     {
@@ -99,10 +86,6 @@ final class TranslateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param bool   $isProductiveMode
-     * @param string $template
-     * @param string $expected
-     *
      * @dataProvider missingTranslationProviderFrontend
      */
     public function testTranslateFrontend_isMissingTranslation(bool $isProductiveMode, string $template, string $expected)
@@ -119,8 +102,6 @@ final class TranslateExtensionTest extends AbstractExtensionTest
 
     /**
      * Provides data to testTranslateAdmin_isMissingTranslation
-     *
-     * @return array
      */
     public function missingTranslationProviderAdmin(): array
     {
@@ -130,9 +111,6 @@ final class TranslateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     *
      * @dataProvider missingTranslationProviderAdmin
      */
     public function testTranslateAdmin_isMissingTranslation(string $template, string $expected)

@@ -1,32 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Bridge;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateRendererBridgeInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateRendererInterface;
 
-/**
- * Class SmartyTemplateRendererBridge
- */
 class TwigTemplateRendererBridge implements TemplateRendererBridgeInterface
 {
-    /**
-     * @var TemplateRendererInterface
-     */
-    private $renderer;
-
-    /**
-     * SmartyTemplateRendererBridge constructor.
-     *
-     * @param TemplateRendererInterface $renderer
-     */
-    public function __construct(TemplateRendererInterface $renderer)
+    public function __construct(private TemplateRendererInterface $renderer)
     {
-        $this->renderer = $renderer;
     }
 
     /**

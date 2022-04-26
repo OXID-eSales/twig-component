@@ -12,26 +12,10 @@ use Twig\Node\Node;
 use Twig\TokenParser\AbstractTokenParser;
 use Twig\Token;
 
-/**
- * Class HasRightsTokenParser
- *
- * @package OxidEsales\Twig\TokenParser
- */
 class HasRightsTokenParser extends AbstractTokenParser
 {
-    /**
-     * @var string
-     */
-    private $nodeClass;
-
-    /**
-     * HasRightsTokenParser constructor.
-     *
-     * @param string $nodeClass
-     */
-    public function __construct(string $nodeClass)
+    public function __construct(private string $nodeClass)
     {
-        $this->nodeClass = $nodeClass;
     }
 
     /**

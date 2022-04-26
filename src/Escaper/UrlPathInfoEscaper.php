@@ -8,9 +8,6 @@ namespace OxidEsales\Twig\Escaper;
 
 use Twig\Environment;
 
-/**
- * Class UrlPathInfoEscaper
- */
 class UrlPathInfoEscaper implements EscaperInterface
 {
     /**

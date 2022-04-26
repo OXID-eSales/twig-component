@@ -24,9 +24,6 @@ final class RegexReplaceExtensionTest extends TestCase
         $this->extension = new RegexReplaceExtension();
     }
 
-    /**
-     * @return array
-     */
     public function dummyTemplateProvider(): array
     {
         return [
@@ -35,8 +32,6 @@ final class RegexReplaceExtensionTest extends TestCase
     }
 
     /**
-     * @param string $template
-     * @param string $expected
      *
      * @dataProvider dummyTemplateProvider
      */
@@ -45,11 +40,6 @@ final class RegexReplaceExtensionTest extends TestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * @param string $template
-     *
-     * @return Template
-     */
     private function getTemplate(string $template): Template
     {
         $loader = new ArrayLoader(['index' => $template]);

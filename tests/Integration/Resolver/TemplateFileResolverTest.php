@@ -18,9 +18,6 @@ final class TemplateFileResolverTest extends TestCase
     use ContainerTrait;
 
     /**
-     * @param string $templateName
-     * @param string $expectedFilename
-     *
      * @dataProvider templateNameFileDataProvider
      */
     public function testResolveSmartyTemplate(string $templateName, string $expectedFilename): void
@@ -30,7 +27,6 @@ final class TemplateFileResolverTest extends TestCase
         $this->assertEquals($expectedFilename, $filename);
     }
 
-    /** @return array */
     public function templateNameFileDataProvider(): array
     {
         return [

@@ -13,9 +13,6 @@ use Twig\Node\Node;
 use Twig\TokenParser\AbstractTokenParser;
 use Twig\Token;
 
-/**
- * Class IfContentNodeParser
- */
 class IfContentTokenParser extends AbstractTokenParser
 {
     /**

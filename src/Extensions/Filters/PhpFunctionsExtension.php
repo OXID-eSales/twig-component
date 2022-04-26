@@ -10,9 +10,6 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 /**
- * Class PhpFunctionsExtension
- *
- * @package OxidEsales\Twig\Extensions\Filters
  * @deprecated
  */
 class PhpFunctionsExtension extends AbstractExtension

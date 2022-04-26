@@ -23,11 +23,7 @@ final class TemplateLoaderNameParserTest extends TestCase
     }
 
     /**
-     * @param string $name
-     * @param array  $expected
-     *
      * @covers \OxidEsales\Twig\TemplateLoaderNameParser::isValidName
-     *
      * @dataProvider getInvalidNameTests
      * @dataProvider getValidNameTests
      */
@@ -37,9 +33,6 @@ final class TemplateLoaderNameParserTest extends TestCase
     }
 
     /**
-     * @param string $name
-     * @param array  $expected
-     *
      * @covers \OxidEsales\Twig\TemplateLoaderNameParser::getLoaderName
      *
      * @dataProvider getValidNameTests
@@ -50,9 +43,6 @@ final class TemplateLoaderNameParserTest extends TestCase
     }
 
     /**
-     * @param string $name
-     * @param array  $expected
-     *
      * @covers \OxidEsales\Twig\TemplateLoaderNameParser::getValue
      *
      * @dataProvider getValidNameTests
@@ -63,9 +53,6 @@ final class TemplateLoaderNameParserTest extends TestCase
     }
 
     /**
-     * @param string $name
-     * @param array  $expected
-     *
      * @covers \OxidEsales\Twig\TemplateLoaderNameParser::getParameters
      *
      * @dataProvider getValidNameTests
@@ -76,9 +63,6 @@ final class TemplateLoaderNameParserTest extends TestCase
     }
 
     /**
-     * @param string $name
-     * @param array  $expected
-     *
      * @covers \OxidEsales\Twig\TemplateLoaderNameParser::getKey
      *
      * @dataProvider getValidNameTests
@@ -88,9 +72,6 @@ final class TemplateLoaderNameParserTest extends TestCase
         $this->assertEquals($this->templateLoaderNameParser->getKey($name), $expected['key']);
     }
 
-    /**
-     * @return array
-     */
     public function getInvalidNameTests(): array
     {
         $invalidNames = [
@@ -107,16 +88,11 @@ final class TemplateLoaderNameParserTest extends TestCase
         ];
 
         return array_map(
-            function ($name) {
-                return [$name, ['valid' => false]];
-            },
+            fn($name) => [$name, ['valid' => false]],
             $invalidNames
         );
     }
 
-    /**
-     * @return array
-     */
     public function getValidNameTests(): array
     {
         return [

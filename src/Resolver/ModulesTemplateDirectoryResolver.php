@@ -15,22 +15,8 @@ use Webmozart\PathUtil\Path;
 
 class ModulesTemplateDirectoryResolver implements ModulesTemplateDirectoryResolverInterface
 {
-    /**
-     * @var ModulePathResolverInterface
-     */
-    private $modulePathResolver;
-
-    /**
-     * @var BasicContextInterface
-     */
-    private $context;
-
-    public function __construct(
-        ModulePathResolverInterface $modulePathResolver,
-        BasicContextInterface $context
-    ) {
-        $this->modulePathResolver = $modulePathResolver;
-        $this->context = $context;
+    public function __construct(private ModulePathResolverInterface $modulePathResolver, private BasicContextInterface $context)
+    {
     }
 
     public function getAbsolutePath(string $moduleId): string

@@ -13,31 +13,10 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-/**
- * Class UrlExtension
- */
 class UrlExtension extends AbstractExtension
 {
-    /**
-     * @var SeoUrlLogic
-     */
-    private $seoUrlLogic;
-
-    /**
-     * @var AddUrlParametersLogic
-     */
-    private $addUrlParametersLogic;
-
-    /**
-     * OxidExtension constructor.
-     *
-     * @param SeoUrlLogic           $seoUrlLogic
-     * @param AddUrlParametersLogic $addUrlParametersLogic
-     */
-    public function __construct(SeoUrlLogic $seoUrlLogic, AddUrlParametersLogic $addUrlParametersLogic)
+    public function __construct(private SeoUrlLogic $seoUrlLogic, private AddUrlParametersLogic $addUrlParametersLogic)
     {
-        $this->seoUrlLogic = $seoUrlLogic;
-        $this->addUrlParametersLogic = $addUrlParametersLogic;
     }
 
     /**

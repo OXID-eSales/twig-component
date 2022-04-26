@@ -10,11 +10,6 @@ use OxidEsales\Twig\TokenParser\CaptureTokenParser;
 use Twig\Extension\AbstractExtension;
 use Twig\TokenParser\TokenParserInterface;
 
-/**
- * Class CaptureExtension
- *
- * @package OxidEsales\Twig\Extensions
- */
 class CaptureExtension extends AbstractExtension
 {
     /**

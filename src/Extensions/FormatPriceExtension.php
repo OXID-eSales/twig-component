@@ -11,26 +11,10 @@ use phpDocumentor\Reflection\Types\Integer;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/**
- * Class FormatPriceExtension
- *
- * @package OxidEsales\Twig\Extensions
- */
 class FormatPriceExtension extends AbstractExtension
 {
-    /**
-     * @var FormatPriceLogic
-     */
-    private $formatPriceLogic;
-
-    /**
-     * FormatPriceExtension constructor.
-     *
-     * @param FormatPriceLogic $formatPriceLogic
-     */
-    public function __construct(FormatPriceLogic $formatPriceLogic)
+    public function __construct(private FormatPriceLogic $formatPriceLogic)
     {
-        $this->formatPriceLogic = $formatPriceLogic;
     }
 
     /**

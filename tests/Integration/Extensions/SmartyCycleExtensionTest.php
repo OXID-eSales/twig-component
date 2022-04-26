@@ -20,10 +20,6 @@ final class SmartyCycleExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     * @param array $variables
-     *
      * @dataProvider getStaticCycle
      */
     public function testStaticCycle(string $template, string $expected, array $variables = []): void
@@ -31,9 +27,6 @@ final class SmartyCycleExtensionTest extends AbstractExtensionTest
         $this->assertEquals($expected, $this->getTemplate($template)->render($variables));
     }
 
-    /**
-     * @return array
-     */
     public function getStaticCycle(): array
     {
         return [

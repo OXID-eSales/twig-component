@@ -22,7 +22,6 @@ final class MailtoExtensionTest extends AbstractExtensionTest
     /**
      * @param $template
      * @param $expected
-     * @param array $variables
      *
      * @dataProvider getMailtoTests
      */
@@ -31,9 +30,6 @@ final class MailtoExtensionTest extends AbstractExtensionTest
         $this->assertEquals($expected, $this->getTemplate($template)->render($variables));
     }
 
-    /**
-     * @return array
-     */
     public function getMailtoTests(): array
     {
         return [

@@ -13,31 +13,10 @@ use Twig\Error\LoaderError;
 use Twig\Loader\LoaderInterface;
 use Twig\Source;
 
-/**
- * Class ContentSnippetLoader
- */
 class ContentTemplateLoader implements LoaderInterface
 {
-    /**
-     * @var TemplateLoaderNameParser
-     */
-    private $nameParser;
-
-    /**
-     * @var ContentFactory
-     */
-    private $contentFactory;
-
-    /**
-     * ContentTemplateLoader constructor.
-     *
-     * @param TemplateLoaderNameParser $nameParser
-     * @param ContentFactory           $contentFactory
-     */
-    public function __construct(TemplateLoaderNameParser $nameParser, ContentFactory $contentFactory)
+    public function __construct(private TemplateLoaderNameParser $nameParser, private ContentFactory $contentFactory)
     {
-        $this->nameParser = $nameParser;
-        $this->contentFactory = $contentFactory;
     }
 
     /**
@@ -124,10 +103,6 @@ class ContentTemplateLoader implements LoaderInterface
     }
 
     /**
-     * @param string $name
-     *
-     * @return Content
-     *
      * @throws LoaderError
      */
     private function getContent(string $name): Content

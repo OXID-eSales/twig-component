@@ -9,27 +9,13 @@ namespace OxidEsales\Twig\Node;
 use Twig\Node\Node;
 use Twig\Compiler;
 
-/**
- * Class CaptureNode
- *
- * @package OxidEsales\Twig\Node
- */
 class CaptureNode extends Node
 {
-    /**
-     * @var string
-     */
-    private $captureNameAttribute = 'name';
+    private string $captureNameAttribute = 'name';
 
-    /**
-     * @var string
-     */
-    private $captureAssignAttribute = 'assign';
+    private string $captureAssignAttribute = 'assign';
 
-    /**
-     * @var string
-     */
-    private $captureAppendAttribute = 'append';
+    private string $captureAppendAttribute = 'append';
 
     /**
      * @var string
@@ -41,15 +27,6 @@ class CaptureNode extends Node
      */
     private $variableName;
 
-    /**
-     * CaptureNode constructor.
-     *
-     * @param string      $attributeName
-     * @param string      $variableName
-     * @param Node        $body
-     * @param int         $line
-     * @param string|null $tag
-     */
     public function __construct(string $attributeName, string $variableName, Node $body, int $line, string $tag = null)
     {
         parent::__construct(['body' => $body], ['attributeName' => $attributeName, 'variableName' => $variableName], $line, $tag);

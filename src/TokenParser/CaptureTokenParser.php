@@ -8,23 +8,19 @@ namespace OxidEsales\Twig\TokenParser;
 
 use OxidEsales\Twig\Node\CaptureNode;
 use Twig\Error\SyntaxError;
+use Twig\Node\Node;
 use Twig\TokenParser\AbstractTokenParser;
 use Twig\Token;
 use Twig\TokenStream;
 
-/**
- * Class CaptureTokenParser
- *
- * @package OxidEsales\Twig\TokenParser
- */
 class CaptureTokenParser extends AbstractTokenParser
 {
-    private $possibleAttributes = ['name', 'assign', 'append'];
+    private array $possibleAttributes = ['name', 'assign', 'append'];
 
     /**
      * @param Token $token
      *
-     * @return CaptureNode|\Twig_Node
+     * @return CaptureNode|Node
      * @throws SyntaxError
      */
     public function parse(Token $token): CaptureNode

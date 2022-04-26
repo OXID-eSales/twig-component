@@ -1,19 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
  */
 
+declare(strict_types=1);
+
 namespace OxidEsales\Twig;
 
 use Exception;
 
-/**
- * Class TemplateNameParser
- *
- * Parses following strings:
- * loaderName::key::value?param1=value1&param2=value2
- */
 class TemplateLoaderNameParser
 {
     /**
@@ -30,7 +27,6 @@ class TemplateLoaderNameParser
 
     /**
      * loaderName::key::value?param1=value1&param2=value2
-     * ----------
      *
      * @param string $name
      *
@@ -43,7 +39,6 @@ class TemplateLoaderNameParser
 
     /**
      * loaderName::key::value?param1=value1&param2=value2
-     *             ---
      *
      * @param string $name
      *
@@ -56,7 +51,6 @@ class TemplateLoaderNameParser
 
     /**
      * loaderName::key::value?param1=value1&param2=value2
-     *                  -----
      *
      * @param string $name
      *
@@ -69,7 +63,6 @@ class TemplateLoaderNameParser
 
     /**
      * loaderName::key::value?param1=value1&param2=value2
-     *                        ---------------------------
      *
      * @param string $name
      *

@@ -18,19 +18,10 @@ use Twig\TokenParser\IncludeTokenParser;
 
 class IncludeChainTokenParser extends IncludeTokenParser
 {
-    /** @var TemplateChainResolverInterface */
-    private $templateChainResolver;
-
-    public function __construct(
-        TemplateChainResolverInterface $templateChainResolver
-    ) {
-        $this->templateChainResolver = $templateChainResolver;
+    public function __construct(private TemplateChainResolverInterface $templateChainResolver)
+    {
     }
 
-    /**
-     * @param Token $token
-     * @return Node
-     */
     public function parse(Token $token): Node
     {
         $expression = $this->parser->getExpressionParser()->parseExpression();
@@ -39,7 +30,7 @@ class IncludeChainTokenParser extends IncludeTokenParser
             $this->replaceValue($expression);
         }
 
-        list($variables, $only, $ignoreMissing) = $this->parseArguments();
+        [$variables, $only, $ignoreMissing] = $this->parseArguments();
         return new IncludeNode($expression, $variables, $only, $ignoreMissing, $token->getLine(), $this->getTag());
     }
 

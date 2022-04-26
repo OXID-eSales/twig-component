@@ -11,26 +11,10 @@ use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/**
- * Class InsertNewBasketItemExtension
- *
- * @package OxidEsales\Twig\Extensions
- */
 class InsertNewBasketItemExtension extends AbstractExtension
 {
-    /**
-     * @var InsertNewBasketItemLogicTwig
-     */
-    private $newBasketItemLogic;
-
-    /**
-     * InputHelpExtension constructor.
-     *
-     * @param InsertNewBasketItemLogicTwig $newBasketItemLogic
-     */
-    public function __construct(InsertNewBasketItemLogicTwig $newBasketItemLogic)
+    public function __construct(private InsertNewBasketItemLogicTwig $newBasketItemLogic)
     {
-        $this->newBasketItemLogic = $newBasketItemLogic;
     }
 
     /**

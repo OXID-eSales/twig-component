@@ -16,11 +16,9 @@ use Twig\Environment;
 
 final class HtmlAllEscaperTest extends TestCase
 {
-    /** @var EscaperInterface */
-    private $escaper;
+    private EscaperInterface $escaper;
 
-    /** @var Environment */
-    private $environment;
+    private Environment $environment;
 
     protected function setUp(): void
     {
@@ -29,9 +27,6 @@ final class HtmlAllEscaperTest extends TestCase
         $this->environment = $this->createMock(Environment::class);
     }
 
-    /**
-     * @return array
-     */
     public function escapeProvider(): array
     {
         return [

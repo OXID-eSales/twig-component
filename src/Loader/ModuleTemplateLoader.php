@@ -15,19 +15,11 @@ use Twig\Loader\FilesystemLoader as TwigLoader;
 
 class ModuleTemplateLoader extends TwigLoader
 {
-    /** @var ModulesTemplateDirectoryResolverInterface */
-    private $modulesTemplateDirectoryResolver;
-    /** @var ActiveModulesDataProviderInterface */
-    private $activeModulesDataProvider;
-
     public function __construct(
-        ModulesTemplateDirectoryResolverInterface $modulesTemplateDirectoryResolverInterface,
-        ActiveModulesDataProviderInterface $activeModulesDataProvider
+        private ModulesTemplateDirectoryResolverInterface $modulesTemplateDirectoryResolver,
+        private ActiveModulesDataProviderInterface $activeModulesDataProvider
     ) {
         parent::__construct();
-
-        $this->activeModulesDataProvider = $activeModulesDataProvider;
-        $this->modulesTemplateDirectoryResolver = $modulesTemplateDirectoryResolverInterface;
         $this->registerModuleTemplateDirectories();
     }
 

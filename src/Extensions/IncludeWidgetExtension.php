@@ -10,26 +10,10 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\IncludeW
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/**
- * Class IncludeWidgetExtension
- *
- * @package OxidEsales\Twig\Extensions
- */
 class IncludeWidgetExtension extends AbstractExtension
 {
-    /**
-     * @var IncludeWidgetLogic
-     */
-    private $includeWidgetLogic;
-
-    /**
-     * IncludeWidgetExtension constructor.
-     *
-     * @param IncludeWidgetLogic $includeWidgetLogic
-     */
-    public function __construct(IncludeWidgetLogic $includeWidgetLogic)
+    public function __construct(private IncludeWidgetLogic $includeWidgetLogic)
     {
-        $this->includeWidgetLogic = $includeWidgetLogic;
     }
 
     /**

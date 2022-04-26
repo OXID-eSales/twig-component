@@ -9,11 +9,6 @@ namespace OxidEsales\Twig\Extensions\Filters;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-/**
- * Class CatExtension
- *
- * @package OxidEsales\Twig\Filters
- */
 class CatExtension extends AbstractExtension
 {
     /**

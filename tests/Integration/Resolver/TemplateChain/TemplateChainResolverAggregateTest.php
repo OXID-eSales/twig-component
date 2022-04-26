@@ -33,8 +33,7 @@ final class TemplateChainResolverAggregateTest extends TestCase
     private const FIXTURE_TEMPLATE_MODULE = 'template-module.html.twig';
     private const MAIN_NAMESPACE = '@' . FilesystemLoader::MAIN_NAMESPACE . '/';
     private const MODULE_NAMESPACE = '@' . self::MODULE_ID . '/';
-    /** @var BasicContext */
-    private $context;
+    private BasicContext $context;
 
     /** @var array */
     private array $testPackageNames = [];

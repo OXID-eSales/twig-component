@@ -9,9 +9,6 @@ namespace OxidEsales\Twig\Extensions;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/**
- * Class MathExtension
- */
 class MathExtension extends AbstractExtension
 {
     /**

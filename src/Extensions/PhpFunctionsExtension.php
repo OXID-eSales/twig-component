@@ -10,9 +10,6 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * Class PhpFunctionsExtension
- *
- * @package OxidEsales\Twig\Extensions
  * @deprecated
  */
 class PhpFunctionsExtension extends AbstractExtension

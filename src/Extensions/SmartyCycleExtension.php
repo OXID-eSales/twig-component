@@ -10,15 +10,9 @@ use Twig\Error\Error;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/**
- * Class SmartyCycleExtension
- */
 class SmartyCycleExtension extends AbstractExtension
 {
-    /**
-     * @var array
-     */
-    private $cycleVars;
+    private array $cycleVars = [];
 
     /**
      * Returns a list of functions to add to the existing list.

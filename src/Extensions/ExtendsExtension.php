@@ -11,17 +11,8 @@ use Twig\Extension\AbstractExtension;
 
 class ExtendsExtension extends AbstractExtension
 {
-    /** @var TemplateChainResolverInterface */
-    private $templateChainResolver;
-    /** @var TemplateChainValidatorInterface */
-    private $templateChainValidator;
-
-    public function __construct(
-        TemplateChainResolverInterface $templateChainResolver,
-        TemplateChainValidatorInterface $templateChainValidator
-    ) {
-        $this->templateChainResolver = $templateChainResolver;
-        $this->templateChainValidator = $templateChainValidator;
+    public function __construct(private TemplateChainResolverInterface $templateChainResolver, private TemplateChainValidatorInterface $templateChainValidator)
+    {
     }
 
     public function getTokenParsers(): array

@@ -18,17 +18,8 @@ use Twig\TokenParser\TokenParserInterface;
 
 class IncludeExtension extends AbstractExtension
 {
-    /** @var IncludeDynamicLogic */
-    private $includeDynamicLogic;
-    /** @var TemplateChainResolverInterface */
-    private $templateChainResolver;
-
-    public function __construct(
-        IncludeDynamicLogic $includeDynamicLogic,
-        TemplateChainResolverInterface $templateChainResolver
-    ) {
-        $this->includeDynamicLogic = $includeDynamicLogic;
-        $this->templateChainResolver = $templateChainResolver;
+    public function __construct(private IncludeDynamicLogic $includeDynamicLogic, private TemplateChainResolverInterface $templateChainResolver)
+    {
     }
 
     /**

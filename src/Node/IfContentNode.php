@@ -10,20 +10,8 @@ use OxidEsales\Twig\Extensions\IfContentExtension;
 use Twig\Node\Node;
 use Twig\Compiler;
 
-/**
- * Class IfContentNode
- */
 class IfContentNode extends Node
 {
-    /**
-     * IfContentNode constructor.
-     *
-     * @param Node   $body
-     * @param array  $reference
-     * @param Node   $variable
-     * @param int    $lineno
-     * @param string $tag
-     */
     public function __construct(Node $body, array $reference, Node $variable, int $lineno, string $tag = 'ifcontent')
     {
         $nodes = [

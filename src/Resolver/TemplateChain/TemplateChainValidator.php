@@ -13,17 +13,8 @@ use OxidEsales\Twig\Resolver\TemplateNameConverterInterface;
 
 class TemplateChainValidator implements TemplateChainValidatorInterface
 {
-    /** @var TemplateChainInterface */
-    private $templateChain;
-    /** @var TemplateNameConverterInterface */
-    private $templateNameConverter;
-
-    public function __construct(
-        TemplateChainInterface $templateChain,
-        TemplateNameConverterInterface $templateNameConverter
-    ) {
-        $this->templateChain = $templateChain;
-        $this->templateNameConverter = $templateNameConverter;
+    public function __construct(private TemplateChainInterface $templateChain, private TemplateNameConverterInterface $templateNameConverter)
+    {
     }
 
     /** @inheritDoc */

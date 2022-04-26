@@ -11,24 +11,10 @@ use OxidEsales\Twig\TokenParser\IfContentTokenParser;
 use Twig\Extension\AbstractExtension;
 use Twig\TokenParser\TokenParserInterface;
 
-/**
- * Class IfContentExtension
- */
 class IfContentExtension extends AbstractExtension
 {
-    /**
-     * @var IfContentLogic
-     */
-    private $ifContentLogic;
-
-    /**
-     * IfContentExtension constructor.
-     *
-     * @param IfContentLogic $ifContentLogic
-     */
-    public function __construct(IfContentLogic $ifContentLogic)
+    public function __construct(private IfContentLogic $ifContentLogic)
     {
-        $this->ifContentLogic = $ifContentLogic;
     }
 
     /**

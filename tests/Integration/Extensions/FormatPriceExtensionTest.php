@@ -21,9 +21,6 @@ final class FormatPriceExtensionTest extends AbstractExtensionTest
         $this->extension = new FormatPriceExtension($formatPriceLogic);
     }
 
-    /**
-     * @return array
-     */
     public function priceProvider(): array
     {
         return [

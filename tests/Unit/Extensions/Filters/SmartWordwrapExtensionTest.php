@@ -118,11 +118,11 @@ adipi[...]'
         $smartWordWrapLogic = new SmartWordwrapLogic();
         $smartWordWrapExtension = new SmartWordwrapExtension($smartWordWrapLogic);
         $string = $params['string'];
-        $length = isset($params['length']) ? $params['length'] : 80;
-        $break = isset($params['break']) ? $params['break'] : "\n";
-        $cutRows = isset($params['cutRows']) ? $params['cutRows'] : 0;
-        $tolerance = isset($params['tolerance']) ? $params['tolerance'] : 0;
-        $etc = isset($params['etc']) ? $params['etc'] : '...';
+        $length = $params['length'] ?? 80;
+        $break = $params['break'] ?? "\n";
+        $cutRows = $params['cutRows'] ?? 0;
+        $tolerance = $params['tolerance'] ?? 0;
+        $etc = $params['etc'] ?? '...';
 
         $actualString = $smartWordWrapExtension->smartWordwrap($string, $length, $break, $cutRows, $tolerance, $etc);
         $this->assertEquals($expectedString, $actualString);

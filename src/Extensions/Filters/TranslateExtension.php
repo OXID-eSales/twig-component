@@ -7,24 +7,10 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-/**
- * Class TranslateExtension
- */
 class TranslateExtension extends AbstractExtension
 {
-    /**
-     * @var TranslateFilterLogic
-     */
-    private $multiLangFilterLogic;
-
-    /**
-     * TranslateExtension constructor.
-     *
-     * @param TranslateFilterLogic $multiLangFilterLogic
-     */
-    public function __construct(TranslateFilterLogic $multiLangFilterLogic)
+    public function __construct(private TranslateFilterLogic $multiLangFilterLogic)
     {
-        $this->multiLangFilterLogic = $multiLangFilterLogic;
     }
 
     /**

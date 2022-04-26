@@ -10,24 +10,10 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\InputHel
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/**
- * Class InputHelpExtension
- */
 class InputHelpExtension extends AbstractExtension
 {
-    /**
-     * @var InputHelpLogic
-     */
-    private $inputHelpLogic;
-
-    /**
-     * InputHelpExtension constructor.
-     *
-     * @param InputHelpLogic $inputHelpLogic
-     */
-    public function __construct(InputHelpLogic $inputHelpLogic)
+    public function __construct(private InputHelpLogic $inputHelpLogic)
     {
-        $this->inputHelpLogic = $inputHelpLogic;
     }
 
     /**

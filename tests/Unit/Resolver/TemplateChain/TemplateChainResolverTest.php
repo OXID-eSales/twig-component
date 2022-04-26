@@ -25,10 +25,8 @@ final class TemplateChainResolverTest extends TestCase
     private string $someTestedTemplate = 'some-template';
     private string $someResolvedTemplate = 'some-resolved-template';
     private string $nextTemplate = 'some-next-template';
-    /** @var TemplateChainInterface|ObjectProphecy */
-    private $templateChain;
-    /** @var TemplateFileResolverInterface|ObjectProphecy */
-    private $templateFileResolver;
+    private ObjectProphecy|TemplateChainInterface $templateChain;
+    private ObjectProphecy|TemplateFileResolverInterface $templateFileResolver;
 
     protected function setUp(): void
     {

@@ -11,26 +11,10 @@ use phpDocumentor\Reflection\Types\Mixed_;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/**
- * Class TranslateExtension
- *
- * @package OxidEsales\Twig\Extensions
- */
 class TranslateExtension extends AbstractExtension
 {
-    /**
-     * @var TranslateFunctionLogic
-     */
-    private $translateFunctionLogic;
-
-    /**
-     * TranslateExtension constructor.
-     *
-     * @param TranslateFunctionLogic $translateFunctionLogic
-     */
-    public function __construct(TranslateFunctionLogic $translateFunctionLogic)
+    public function __construct(private TranslateFunctionLogic $translateFunctionLogic)
     {
-        $this->translateFunctionLogic = $translateFunctionLogic;
     }
 
     /**

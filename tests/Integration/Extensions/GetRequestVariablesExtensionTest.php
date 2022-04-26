@@ -31,9 +31,6 @@ final class GetRequestVariablesExtensionTest extends AbstractExtensionTest
         unset($_GET['foo']);
     }
 
-    /**
-     * @return array
-     */
     public function dummyTemplateProvider(): array
     {
         return [
@@ -45,9 +42,6 @@ final class GetRequestVariablesExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @param string $template
-     * @param string $expected
-     *
      * @dataProvider dummyTemplateProvider
      */
     public function testIfPhpFunctionsAreCallable(string $template, string $expected): void
