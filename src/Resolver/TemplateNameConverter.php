@@ -14,7 +14,7 @@ use Twig\Loader\FilesystemLoader;
 class TemplateNameConverter implements TemplateNameConverterInterface
 {
     /** @inheritDoc */
-    public function trimNamespace(string $name): string
+    public function convertToUnqualifiedTemplateName(string $name): string
     {
         if (!$this->hasNamespace($name)) {
             return $name;
@@ -25,7 +25,7 @@ class TemplateNameConverter implements TemplateNameConverterInterface
     }
 
     /** @inheritDoc */
-    public function fillNamespace(string $name): string
+    public function convertToFullyQualifiedTemplateName(string $name): string
     {
         if ($this->hasNamespace($name)) {
             return $name;

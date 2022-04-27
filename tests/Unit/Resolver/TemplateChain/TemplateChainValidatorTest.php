@@ -31,7 +31,7 @@ final class TemplateChainValidatorTest extends TestCase
             'next-template'
         ]);
         $templateNameConverter = $this->prophesize(TemplateNameConverterInterface::class);
-        $templateNameConverter->fillNamespace($templateName)->willReturn("$namespace/$templateName");
+        $templateNameConverter->convertToFullyQualifiedTemplateName($templateName)->willReturn("$namespace/$templateName");
 
         $this->expectException(TemplateNotInChainException::class);
 
@@ -57,7 +57,7 @@ final class TemplateChainValidatorTest extends TestCase
                 'next-template'
             ]);
         $templateNameConverter = $this->prophesize(TemplateNameConverterInterface::class);
-        $templateNameConverter->fillNamespace($templateName)->willReturn("$namespace/$templateName");
+        $templateNameConverter->convertToFullyQualifiedTemplateName($templateName)->willReturn("$namespace/$templateName");
 
         (
         new TemplateChainValidator(

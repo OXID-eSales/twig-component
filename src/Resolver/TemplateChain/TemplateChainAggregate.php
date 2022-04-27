@@ -11,25 +11,49 @@ namespace OxidEsales\Twig\Resolver\TemplateChain;
 
 use OxidEsales\Twig\Resolver\TemplateNameConverterInterface;
 
+use function array_merge;
+
 class TemplateChainAggregate implements TemplateChainInterface
 {
+    private string $originalTemplateName;
+
     /**
      * @param \OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface[] $templateResolvers
      */
-    public function __construct(private array $templateResolvers, private TemplateNameConverterInterface $templateNameConverter)
-    {
+    public function __construct(
+        private array $templateResolvers,
+        private TemplateNameConverterInterface $templateNameConverter
+    ) {
     }
 
-    /** @inheritDoc */
+    /**
+     * @inheritDoc
+     */
     public function getChain(string $templateName): array
     {
-        $templateChain = [];
+        $templateChains = [];
+        $this->originalTemplateName = $templateName;
+        $unqualifiedTemplateName = $this->templateNameConverter->convertToUnqualifiedTemplateName($this->originalTemplateName);
         foreach ($this->templateResolvers as $templateResolver) {
-            $resolvedChain = $templateResolver->getChain(
-                $this->templateNameConverter->trimNamespace($templateName)
-            );
-            $templateChain = \array_merge($templateChain, $resolvedChain);
+            $templateChains[] = $templateResolver->getChain($unqualifiedTemplateName);
         }
-        return $templateChain;
+        $aggregatedChain = array_merge(... $templateChains);
+        $this->validateAggregatedTemplateChain($aggregatedChain);
+
+        return $aggregatedChain;
+    }
+
+    /**
+     * @param array $templateChain
+     * @return void
+     * @throws UnresolvableTemplateNameException
+     */
+    private function validateAggregatedTemplateChain(array $templateChain): void
+    {
+        if (empty($templateChain)) {
+            throw new UnresolvableTemplateNameException(
+                "Error building template chain for '$this->originalTemplateName'. Template name can not be resolved to any known file."
+            );
+        }
     }
 }

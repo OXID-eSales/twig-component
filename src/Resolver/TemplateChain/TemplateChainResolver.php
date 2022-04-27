@@ -13,8 +13,10 @@ use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFil
 
 class TemplateChainResolver implements TemplateChainResolverInterface
 {
-    public function __construct(private TemplateChainInterface $templateChain, private TemplateFileResolverInterface $templateFileResolver)
-    {
+    public function __construct(
+        private TemplateChainInterface $templateChain,
+        private TemplateFileResolverInterface $templateFileResolver
+    ) {
     }
 
     /** @inheritDoc */

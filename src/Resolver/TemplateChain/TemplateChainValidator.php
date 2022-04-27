@@ -20,7 +20,7 @@ class TemplateChainValidator implements TemplateChainValidatorInterface
     /** @inheritDoc */
     public function isInChain(string $templateName): void
     {
-        $pathWithNamespace = $this->templateNameConverter->fillNamespace($templateName);
+        $pathWithNamespace = $this->templateNameConverter->convertToFullyQualifiedTemplateName($templateName);
         $templateChain = $this->templateChain->getChain($pathWithNamespace);
         if (!\in_array($pathWithNamespace, $templateChain)) {
             throw new TemplateNotInChainException(

@@ -19,7 +19,7 @@ final class TemplateNameConverterTest extends TestCase
     {
         $templateName = 'abc';
 
-        $actual = (new TemplateNameConverter())->trimNamespace($templateName);
+        $actual = (new TemplateNameConverter())->convertToUnqualifiedTemplateName($templateName);
 
         $this->assertSame($templateName, $actual);
     }
@@ -29,7 +29,7 @@ final class TemplateNameConverterTest extends TestCase
         $templateName = 'abc/def';
         $namespace = '@namespace';
 
-        $actual = (new TemplateNameConverter())->trimNamespace("$namespace/$templateName");
+        $actual = (new TemplateNameConverter())->convertToUnqualifiedTemplateName("$namespace/$templateName");
 
         $this->assertSame($templateName, $actual);
     }
@@ -39,7 +39,7 @@ final class TemplateNameConverterTest extends TestCase
         $templateName = 'abc';
         $mainNamespace = '@' . FilesystemLoader::MAIN_NAMESPACE;
 
-        $actual = (new TemplateNameConverter())->fillNamespace($templateName);
+        $actual = (new TemplateNameConverter())->convertToFullyQualifiedTemplateName($templateName);
 
         $this->assertSame("$mainNamespace/$templateName", $actual);
     }
@@ -49,7 +49,7 @@ final class TemplateNameConverterTest extends TestCase
         $templateName = 'abc';
         $namespace = '@namespace';
 
-        $actual = (new TemplateNameConverter())->fillNamespace("$namespace/$templateName");
+        $actual = (new TemplateNameConverter())->convertToFullyQualifiedTemplateName("$namespace/$templateName");
 
         $this->assertSame("$namespace/$templateName", $actual);
     }

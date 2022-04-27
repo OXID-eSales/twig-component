@@ -25,7 +25,7 @@ class ShopTemplateChain implements TemplateChainInterface
     {
         $templateChain = [];
         if ($this->shopHasTemplate($templateName)) {
-            $templateChain[] = $this->templateNameConverter->fillNamespace($templateName);
+            $templateChain[] = $this->templateNameConverter->convertToFullyQualifiedTemplateName($templateName);
         }
         return $templateChain;
     }

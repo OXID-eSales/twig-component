@@ -13,11 +13,11 @@ interface TemplateNameConverterInterface
      * @param string $name
      * @return string
      */
-    public function trimNamespace(string $name): string;
+    public function convertToUnqualifiedTemplateName(string $name): string;
 
     /**
      * @param string $name
      * @return string
      */
-    public function fillNamespace(string $name): string;
+    public function convertToFullyQualifiedTemplateName(string $name): string;
 }

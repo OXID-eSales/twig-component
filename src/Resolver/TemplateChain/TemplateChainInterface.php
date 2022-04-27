@@ -12,6 +12,8 @@ interface TemplateChainInterface
     /**
      * @param string $templateName
      * @return string[]
+     *
+     * @throws UnresolvableTemplateNameException
      */
     public function getChain(string $templateName): array;
 }

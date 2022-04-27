@@ -33,8 +33,8 @@ class InvalidateCacheEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            FinalizingModuleActivationEvent::NAME   => 'invalidateCache',
-            FinalizingModuleDeactivationEvent::NAME => 'invalidateCache',
+            FinalizingModuleActivationEvent::class   => 'invalidateCache',
+            FinalizingModuleDeactivationEvent::class => 'invalidateCache',
         ];
     }
 }
