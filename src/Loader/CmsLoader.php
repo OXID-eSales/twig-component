@@ -16,7 +16,7 @@ use Twig\Error\LoaderError;
 use Twig\Loader\LoaderInterface;
 use Twig\Source;
 
-class ContentTemplateLoader implements LoaderInterface
+class CmsLoader implements LoaderInterface
 {
     public function __construct(private TemplateLoaderNameParser $nameParser, private ContentFactory $contentFactory)
     {

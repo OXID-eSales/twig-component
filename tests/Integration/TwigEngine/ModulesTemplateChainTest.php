@@ -17,7 +17,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterf
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContext;
 use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
 use PHPUnit\Framework\TestCase;
-use Twig\Error\SyntaxError;
+use Twig\Error\LoaderError;
 
 /** @runTestsInSeparateProcesses */
 final class ModulesTemplateChainTest extends TestCase
@@ -30,6 +30,7 @@ final class ModulesTemplateChainTest extends TestCase
         'module3',
     ];
     private const FIXTURE_THEME = 'testTheme';
+    private const FIXTURE_TEMPLATE_OWN = 'template-own';
     private const FIXTURE_TEMPLATE_WITH_EXTENDS = 'template-with-extends.html.twig';
     private const FIXTURE_TEMPLATE_WITH_INVALID_EXTENDS = 'template-with-invalid-extends.html.twig';
     private const FIXTURE_TEMPLATE_WITH_CONDITIONAL_EXTENDS = 'template-with-conditional-extends.html.twig';
@@ -41,8 +42,8 @@ final class ModulesTemplateChainTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->context = new BasicContext();
-        $this->generateUniquePackageNames();
         $this->updateShopConfig();
     }
 
@@ -52,44 +53,66 @@ final class ModulesTemplateChainTest extends TestCase
         parent::tearDown();
     }
 
-    public function testEngineRenderWithActiveModule(): void
+    public function testRenderWithModuleOwnTemplate(): void
     {
         $this->installModuleFixture('module1');
         $this->activateModule('module1');
 
+        $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_OWN);
+
+        $this->assertStringContainsString('<module1-own-template>', $actual);
+    }
+
+    public function testRenderWithModuleTemplateExtendingModule(): void
+    {
+        $this->installModuleFixture('module2');
+        $this->installModuleFixture('module1');
+        $this->activateModule('module2');
+        $this->activateModule('module1');
+
         $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
+        $this->assertStringContainsString('<module1-header><module1-content>', $actual);
+        $this->assertStringContainsString('<module-2-content>', $actual);
+    }
+
+    public function testRenderWithActiveModule(): void
+    {
+        $this->installModuleFixture('module1');
+        $this->activateModule('module1');
+
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
         $this->assertStringContainsString('<module-1-content>', $actual);
     }
 
-    public function testEngineRenderWithInactiveModule(): void
+    public function testRenderWithInactiveModule(): void
     {
         $this->installModuleFixture('module1');
         $this->activateModule('module1');
         $this->deactivateModule('module1');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
         $this->assertStringNotContainsString('<module-1-content>', $actual);
     }
 
-    public function testEngineRenderWith2ActiveModules(): void
+    public function testRenderWith2ActiveModules(): void
     {
         $this->installModuleFixture('module1');
         $this->installModuleFixture('module2');
         $this->activateModule('module1');
         $this->activateModule('module2');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
         $this->assertStringContainsString('<module-1-content>', $actual);
         $this->assertStringContainsString('<module-2-content>', $actual);
     }
 
-    public function testEngineRenderWith3ActiveModules(): void
+    public function testRenderWith3ActiveModules(): void
     {
         $this->installModuleFixture('module1');
         $this->installModuleFixture('module2');
@@ -98,7 +121,7 @@ final class ModulesTemplateChainTest extends TestCase
         $this->activateModule('module2');
         $this->activateModule('module3');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
         $this->assertStringContainsString('<module-1-content>', $actual);
@@ -106,7 +129,7 @@ final class ModulesTemplateChainTest extends TestCase
         $this->assertStringContainsString('<module-3-content>', $actual);
     }
 
-    public function testEngineRenderWith3ModulesAndDeactivation(): void
+    public function testRenderWith3ModulesAndDeactivation(): void
     {
         $this->installModuleFixture('module1');
         $this->installModuleFixture('module2');
@@ -116,7 +139,7 @@ final class ModulesTemplateChainTest extends TestCase
         $this->activateModule('module3');
         $this->deactivateModule('module2');
 
-        $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
         $this->assertStringContainsString('<module-1-content>', $actual);
@@ -124,7 +147,7 @@ final class ModulesTemplateChainTest extends TestCase
         $this->assertStringContainsString('<module-3-content>', $actual);
     }
 
-    public function testEngineRenderWithConditionalExtends(): void
+    public function testRenderWithConditionalExtends(): void
     {
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_CONDITIONAL_EXTENDS);
 
@@ -132,7 +155,7 @@ final class ModulesTemplateChainTest extends TestCase
         $this->assertStringContainsString('<template_with_conditional_extends-content>', $actual);
     }
 
-    public function testEngineRenderWithArrayExtends(): void
+    public function testRenderWithArrayExtends(): void
     {
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_ARRAY_EXTENDS);
 
@@ -140,7 +163,7 @@ final class ModulesTemplateChainTest extends TestCase
         $this->assertStringContainsString('<template_with_array_extends-content>', $actual);
     }
 
-    public function testEngineRenderWithIncludeAndMultipleModulesWillRenderLastInChain(): void
+    public function testRenderWithIncludeAndMultipleModulesWillRenderLastInChain(): void
     {
         $this->installModuleFixture('module1');
         $this->activateModule('module1');
@@ -150,14 +173,14 @@ final class ModulesTemplateChainTest extends TestCase
         $this->assertStringContainsString('<shop-header><module-1-included-content><shop-content>', $actual);
     }
 
-    public function testEngineRenderWithInvalidExtendsValue(): void
+    public function testRenderWithInvalidExtendsValue(): void
     {
         $this->installModuleFixture('module1');
         $this->activateModule('module1');
 
-        $this->expectException(SyntaxError::class);
+        $this->expectException(LoaderError::class);
 
-        $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_INVALID_EXTENDS);
+        $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_INVALID_EXTENDS);
     }
 
     private function installModuleFixture(string $moduleName): void

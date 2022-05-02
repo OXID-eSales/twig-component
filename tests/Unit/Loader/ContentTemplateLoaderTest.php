@@ -11,7 +11,7 @@ namespace OxidEsales\Twig\Tests\Unit\Loader;
 
 use OxidEsales\EshopCommunity\Application\Model\Content;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory;
-use OxidEsales\Twig\Loader\ContentTemplateLoader;
+use OxidEsales\Twig\Loader\CmsLoader;
 use OxidEsales\Twig\TemplateLoaderNameParser;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -20,7 +20,7 @@ use Twig\Error\LoaderError;
 
 final class ContentTemplateLoaderTest extends TestCase
 {
-    private ContentTemplateLoader $contentTemplateLoader;
+    private CmsLoader $contentTemplateLoader;
     private MockBuilder $contentMockBuilder;
 
     public function setUp(): void
@@ -70,7 +70,7 @@ final class ContentTemplateLoaderTest extends TestCase
             );
 
         /** @var ContentFactory $contentFactoryMock */
-        $this->contentTemplateLoader = new ContentTemplateLoader(new TemplateLoaderNameParser(), $contentFactoryMock);
+        $this->contentTemplateLoader = new CmsLoader(new TemplateLoaderNameParser(), $contentFactoryMock);
     }
 
     /**

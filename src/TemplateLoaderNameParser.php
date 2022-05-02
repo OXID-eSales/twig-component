@@ -16,6 +16,8 @@ class TemplateLoaderNameParser
     /**
      * Checks whether string is valid template name
      *
+     * Old template name? https://symfony.com/doc/3.4/templating/namespaced_paths.html
+     *
      * @param string $name
      *
      * @return bool

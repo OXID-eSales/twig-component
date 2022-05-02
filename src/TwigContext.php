@@ -10,25 +10,13 @@ declare(strict_types=1);
 namespace OxidEsales\Twig;
 
 use OxidEsales\Eshop\Core\Config;
-use OxidEsales\Eshop\Core\UtilsView;
 
 class TwigContext implements TwigContextInterface
 {
-    public function __construct(private Config $config, private UtilsView $utilsView, private string $activeAdminTheme)
-    {
-    }
-
-    /**
-     * @return array
-     */
-    public function getTemplateDirectories(): array
-    {
-        $templateDirectory = $this->utilsView->getTemplateDirs();
-
-        return array_filter(
-            $templateDirectory,
-            static fn ($directory) => is_dir($directory)
-        );
+    public function __construct(
+        private Config $config,
+        private string $activeAdminTheme,
+    ) {
     }
 
     /**

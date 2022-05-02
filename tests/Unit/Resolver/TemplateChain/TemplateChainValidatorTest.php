@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Resolver\TemplateChain;
 
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilderInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidator;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateNotInChainException;
 use OxidEsales\Twig\Resolver\TemplateNameConverterInterface;
@@ -25,22 +25,18 @@ final class TemplateChainValidatorTest extends TestCase
         $templateName = 'template.twig.html';
         $namespace = '@namespace';
 
-        $templateChainResolver = $this->prophesize(TemplateChainInterface::class);
-        $templateChainResolver->getChain("$namespace/$templateName")->willReturn([
+        $templateChainResolver = $this->prophesize(TemplateChainBuilderInterface::class);
+        $chain = [
             'previous-template',
             'next-template'
-        ]);
-        $templateNameConverter = $this->prophesize(TemplateNameConverterInterface::class);
-        $templateNameConverter->convertToFullyQualifiedTemplateName($templateName)->willReturn("$namespace/$templateName");
-
+        ];
+        $templateChainResolver->getChain("$namespace/$templateName")->willReturn($chain);
         $this->expectException(TemplateNotInChainException::class);
 
-        (
-        new TemplateChainValidator(
-            $templateChainResolver->reveal(),
-            $templateNameConverter->reveal()
-        )
-        )->isInChain($templateName);
+        (new TemplateChainValidator())->validateTemplateChain(
+            $chain,
+            $templateName
+        );
     }
 
     /** @doesNotPerformAssertions */
@@ -49,21 +45,15 @@ final class TemplateChainValidatorTest extends TestCase
         $templateName = 'template.twig.html';
         $namespace = '@namespace';
 
-        $templateChainResolver = $this->prophesize(TemplateChainInterface::class);
+        $templateChainResolver = $this->prophesize(TemplateChainBuilderInterface::class);
+        $chain = [
+            'previous-template',
+            "$namespace/$templateName",
+            'next-template'
+        ];
         $templateChainResolver->getChain("$namespace/$templateName")
-            ->willReturn([
-                'previous-template',
-                "$namespace/$templateName",
-                'next-template'
-            ]);
-        $templateNameConverter = $this->prophesize(TemplateNameConverterInterface::class);
-        $templateNameConverter->convertToFullyQualifiedTemplateName($templateName)->willReturn("$namespace/$templateName");
-
-        (
-        new TemplateChainValidator(
-            $templateChainResolver->reveal(),
-            $templateNameConverter->reveal()
-        )
-        )->isInChain($templateName);
+            ->willReturn($chain);
+        (new TemplateChainValidator())
+            ->validateTemplateChain($chain, "$namespace/$templateName");
     }
 }

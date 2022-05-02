@@ -9,23 +9,29 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
-use OxidEsales\Twig\Resolver\TemplateNameConverterInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopTemplateType;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeResolver;
+
+use function in_array;
 
 class TemplateChainValidator implements TemplateChainValidatorInterface
 {
-    public function __construct(private TemplateChainInterface $templateChain, private TemplateNameConverterInterface $templateNameConverter)
-    {
-    }
-
     /** @inheritDoc */
-    public function isInChain(string $templateName): void
+    public function validateTemplateChain(array $templateChain, string $templateName): void
     {
-        $pathWithNamespace = $this->templateNameConverter->convertToFullyQualifiedTemplateName($templateName);
-        $templateChain = $this->templateChain->getChain($pathWithNamespace);
-        if (!\in_array($pathWithNamespace, $templateChain)) {
+        $template = (new TemplateTypeResolver($templateName))->getTemplateType();
+        $templateNameInChain = $this->getTemplateNameInChain($template);
+        if (!in_array($templateNameInChain, $templateChain, true)) {
             throw new TemplateNotInChainException(
-                "Template name `$templateName` not found in inheritance chain."
+                "Error building inheritance chain for the template `$templateName`."
             );
         }
+    }
+
+    private function getTemplateNameInChain(TemplateType\DataObject\TemplateTypeInterface $templateType): string
+    {
+        return $templateType instanceof (ShopTemplateType::class)
+            ? $templateType->getRelativeFilePath()
+            : $templateType->getFullyQualifiedName();
     }
 }

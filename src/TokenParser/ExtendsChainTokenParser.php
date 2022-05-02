@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\TokenParser;
 
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidatorInterface;
 use Twig\Error\SyntaxError;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Node;
@@ -17,8 +16,10 @@ class ExtendsChainTokenParser extends AbstractTokenParser
 {
     private ?Token $token = null;
 
-    public function __construct(private TemplateChainResolverInterface $templateChainResolver, private TemplateChainValidatorInterface $templateChainValidator)
-    {
+    public function __construct(
+        private TemplateChainResolverInterface $templateChainResolver,
+        private TokenValueValidatorInterface $tokenValueValidator
+    ) {
     }
 
     /**
@@ -54,12 +55,12 @@ class ExtendsChainTokenParser extends AbstractTokenParser
 
     private function replaceValue(ConstantExpression $expression): void
     {
-        $extendsTagValue = $expression->getAttribute('value');
-        $this->templateChainValidator->isInChain($extendsTagValue);
-
-        $templateName = $this->parser->getStream()->getSourceContext()->getName();
-        $parentInHierarchy = $this->templateChainResolver->getParent($templateName);
-        $expression->setAttribute('value', $parentInHierarchy);
+        $this->validateInitialExpressionValue($expression);
+        /** Initial expression value never used and is overwritten immediately! */
+        $this->overwriteExpressionValue(
+            $expression,
+            $this->getParentTemplateName()
+        );
     }
 
     private function getTemplateName(): string
@@ -96,5 +97,27 @@ class ExtendsChainTokenParser extends AbstractTokenParser
                 $stream->getSourceContext()
             );
         }
+    }
+
+    private function validateInitialExpressionValue(ConstantExpression $expression): void
+    {
+        $templateName = $expression->getAttribute('value');
+        $this->tokenValueValidator->isChainableTemplateName($templateName);
+    }
+
+    private function getParentTemplateName(): string
+    {
+        $currentTemplateName = $this->parser->getStream()
+            ->getSourceContext()
+            ->getName();
+        return $this->templateChainResolver->getParent($currentTemplateName);
+    }
+
+    private function overwriteExpressionValue(ConstantExpression $expression, string $templateName): void
+    {
+        $expression->setAttribute(
+            'value',
+            $templateName
+        );
     }
 }

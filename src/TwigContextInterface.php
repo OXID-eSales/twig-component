@@ -5,17 +5,10 @@
  * See LICENSE file for license details.
  */
 
-declare(strict_types=1);
-
 namespace OxidEsales\Twig;
 
 interface TwigContextInterface
 {
-    /**
-     * @return array
-     */
-    public function getTemplateDirectories(): array;
-
     /**
      * @return boolean
      */

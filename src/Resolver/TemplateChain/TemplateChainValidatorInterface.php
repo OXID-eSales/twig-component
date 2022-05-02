@@ -11,7 +11,8 @@ interface TemplateChainValidatorInterface
 {
     /**
      * @param string $templateName
-     * @throws TemplateNotInChainException
+     * @param array $templateChain
+     * @return void
      */
-    public function isInChain(string $templateName): void;
+    public function validateTemplateChain(array $templateChain, string $templateName): void;
 }

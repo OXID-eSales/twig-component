@@ -9,37 +9,37 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Resolver\TemplateChain;
 
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainAggregate;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface;
+use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilderAggregate;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilderInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidatorInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateNotInChainException;
 use OxidEsales\Twig\Resolver\TemplateChain\UnresolvableTemplateNameException;
-use OxidEsales\Twig\Resolver\TemplateNameConverterInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 final class TemplateChainAggregateTest extends TestCase
 {
     use ProphecyTrait;
+    use ContainerTrait;
 
     public function testGetChainWithTemplateThatCantBeResolvedWillThrowException(): void
     {
         $missingTemplateName = 'some-missing-template';
         $missingTemplateFullName = "@some-namespace/$missingTemplateName";
-        $templateNameConverter = $this->prophesize(TemplateNameConverterInterface::class);
-        $templateNameConverter
-            ->convertToUnqualifiedTemplateName($missingTemplateFullName)
-            ->willReturn($missingTemplateName);
-        $templateChainResolver = $this->prophesize(TemplateChainInterface::class);
-        $templateChainResolver
-            ->getChain($missingTemplateName)
+        $templateChainValidator = $this->prophesize(TemplateChainValidatorInterface::class);
+        $templateChainBuilder = $this->prophesize(TemplateChainBuilderInterface::class);
+        $templateChainBuilder
+            ->getChain($missingTemplateFullName)
             ->willReturn([]);
-        $templateChainAggregate = new TemplateChainAggregate(
+        $templateChainAggregate = new TemplateChainBuilderAggregate(
             [
-                $templateChainResolver->reveal(),
+                $templateChainBuilder->reveal(),
             ],
-            $templateNameConverter->reveal()
+            $this->get(TemplateChainValidatorInterface::class)
         );
 
-        $this->expectException(UnresolvableTemplateNameException::class);
+        $this->expectException(TemplateNotInChainException::class);
 
         $templateChainAggregate->getChain($missingTemplateFullName);
     }

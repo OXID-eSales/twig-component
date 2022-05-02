@@ -14,7 +14,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFil
 class TemplateChainResolver implements TemplateChainResolverInterface
 {
     public function __construct(
-        private TemplateChainInterface $templateChain,
+        private TemplateChainBuilderInterface $templateChainBuilder,
         private TemplateFileResolverInterface $templateFileResolver
     ) {
     }
@@ -23,7 +23,7 @@ class TemplateChainResolver implements TemplateChainResolverInterface
     public function getParent(string $templateName): string
     {
         $filename = $this->templateFileResolver->getFilename($templateName);
-        $chain = $this->templateChain->getChain($filename);
+        $chain = $this->templateChainBuilder->getChain($filename);
         $position = array_search($filename, $chain, true);
         return $chain[++$position];
     }
@@ -32,7 +32,7 @@ class TemplateChainResolver implements TemplateChainResolverInterface
     public function getLastChild(string $templateName): string
     {
         $filename = $this->templateFileResolver->getFilename($templateName);
-        $templateChain = $this->templateChain->getChain($filename);
+        $templateChain = $this->templateChainBuilder->getChain($filename);
         return $templateChain[0];
     }
 
@@ -40,7 +40,7 @@ class TemplateChainResolver implements TemplateChainResolverInterface
     public function hasParent(string $templateName): bool
     {
         $filename = $this->templateFileResolver->getFilename($templateName);
-        $chain = $this->templateChain->getChain($filename);
+        $chain = $this->templateChainBuilder->getChain($filename);
         return $filename !== end($chain);
     }
 }

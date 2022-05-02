@@ -7,13 +7,13 @@
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
-interface TemplateChainInterface
+interface TemplateChainBuilderInterface
 {
     /**
      * @param string $templateName
      * @return string[]
      *
-     * @throws UnresolvableTemplateNameException
+     * @throws TemplateNotInChainException
      */
     public function getChain(string $templateName): array;
 }

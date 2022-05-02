@@ -15,8 +15,8 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleIn
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Service\ModuleActivationServiceInterface;
 use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
 use OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolverInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\ModulesTemplateChain;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\ModulesTemplateChainBuilder;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilderInterface;
 use OxidEsales\Twig\TwigContextInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
@@ -30,8 +30,8 @@ final class ModulesTemplateChainResolverTest extends TestCase
         $this->installModule('moduleWithoutTwigExtension');
         $this->installModule('moduleWithTwigExtension');
 
-        /** @var TemplateChainInterface $chainResolver */
-        $chainResolver = $this->get(TemplateChainInterface::class);
+        /** @var TemplateChainBuilderInterface $chainResolver */
+        $chainResolver = $this->get(TemplateChainBuilderInterface::class);
 
         $this->assertEquals(
             [],
@@ -49,8 +49,8 @@ final class ModulesTemplateChainResolverTest extends TestCase
         $moduleActivator->activate('moduleWithoutTwigExtension', 1);
         $moduleActivator->activate('moduleWithTwigExtension', 1);
 
-        /** @var TemplateChainInterface $chainResolver */
-        $chainResolver = $this->get(TemplateChainInterface::class);
+        /** @var TemplateChainBuilderInterface $chainResolver */
+        $chainResolver = $this->get(TemplateChainBuilderInterface::class);
 
         $this->assertEquals(
             ['@moduleWithTwigExtension/some-template.html.twig'],
@@ -71,7 +71,7 @@ final class ModulesTemplateChainResolverTest extends TestCase
         $filesystem = $this->createMock(\Symfony\Component\Filesystem\Filesystem::class);
         $filesystem->method('exists')->willReturn(true);
 
-        $chainResolver = new ModulesTemplateChain(
+        $chainResolver = new ModulesTemplateChainBuilder(
             $this->get(ActiveModulesDataProviderInterface::class),
             $this->get(ModulesTemplateDirectoryResolverInterface::class),
             $twigContext,

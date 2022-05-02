@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\Resolver\TemplateChain;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolverInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilderInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolver;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use PHPUnit\Framework\TestCase;
@@ -25,14 +25,14 @@ final class TemplateChainResolverTest extends TestCase
     private string $someTestedTemplate = 'some-template';
     private string $someResolvedTemplate = 'some-resolved-template';
     private string $nextTemplate = 'some-next-template';
-    private ObjectProphecy|TemplateChainInterface $templateChain;
+    private ObjectProphecy|TemplateChainBuilderInterface $templateChain;
     private ObjectProphecy|TemplateFileResolverInterface $templateFileResolver;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->templateChain = $this->prophesize(TemplateChainInterface::class);
+        $this->templateChain = $this->prophesize(TemplateChainBuilderInterface::class);
         $this->templateFileResolver = $this->prophesize(TemplateFileResolverInterface::class);
     }
 

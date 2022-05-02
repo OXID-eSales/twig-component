@@ -15,7 +15,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleIn
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Service\ModuleActivationServiceInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContext;
 use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilderInterface;
 use PHPUnit\Framework\TestCase;
 use Twig\Loader\FilesystemLoader;
 
@@ -54,7 +54,7 @@ final class TemplateChainResolverAggregateTest extends TestCase
             self::MAIN_NAMESPACE . self::FIXTURE_TEMPLATE_SHOP,
         ];
 
-        $actual = $this->get(TemplateChainInterface::class)->getChain(self::FIXTURE_TEMPLATE_SHOP);
+        $actual = $this->get(TemplateChainBuilderInterface::class)->getChain(self::FIXTURE_TEMPLATE_SHOP);
 
         $this->assertSame($expected, $actual);
     }
@@ -67,7 +67,7 @@ final class TemplateChainResolverAggregateTest extends TestCase
         $this->installModuleFixture(self::MODULE_ID);
         $this->activateModule(self::MODULE_ID);
 
-        $actual = $this->get(TemplateChainInterface::class)->getChain(self::FIXTURE_TEMPLATE_MODULE);
+        $actual = $this->get(TemplateChainBuilderInterface::class)->getChain(self::FIXTURE_TEMPLATE_MODULE);
 
         $this->assertSame($expected, $actual);
     }
@@ -78,7 +78,7 @@ final class TemplateChainResolverAggregateTest extends TestCase
         $this->activateModule(self::MODULE_ID);
         $this->deactivateModule(self::MODULE_ID);
 
-        $actual = $this->get(TemplateChainInterface::class)->getChain(self::FIXTURE_TEMPLATE_MODULE);
+        $actual = $this->get(TemplateChainBuilderInterface::class)->getChain(self::FIXTURE_TEMPLATE_MODULE);
 
         $this->assertEmpty($actual);
     }
@@ -92,7 +92,7 @@ final class TemplateChainResolverAggregateTest extends TestCase
         $this->installModuleFixture(self::MODULE_ID);
         $this->activateModule(self::MODULE_ID);
 
-        $actual = $this->get(TemplateChainInterface::class)->getChain(self::FIXTURE_TEMPLATE_SHOP_MODULE);
+        $actual = $this->get(TemplateChainBuilderInterface::class)->getChain(self::FIXTURE_TEMPLATE_SHOP_MODULE);
 
         $this->assertSame($expected, $actual);
     }
@@ -106,7 +106,7 @@ final class TemplateChainResolverAggregateTest extends TestCase
         $this->activateModule(self::MODULE_ID);
         $this->deactivateModule(self::MODULE_ID);
 
-        $actual = $this->get(TemplateChainInterface::class)->getChain(self::FIXTURE_TEMPLATE_SHOP_MODULE);
+        $actual = $this->get(TemplateChainBuilderInterface::class)->getChain(self::FIXTURE_TEMPLATE_SHOP_MODULE);
 
         $this->assertSame($expected, $actual);
     }
