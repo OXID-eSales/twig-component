@@ -256,10 +256,9 @@ services:
   OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface:
     class: OxidEsales\Twig\TwigEngine
     arguments:
-      - '@twig'
-      - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface'
-      - !tagged twig.extension
-      - !tagged twig.escaper
+      $engine: '@twig'
+      $twigExtensions: !tagged twig.extension
+      $twigEscaper: !tagged twig.escaper
     public: false
 
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface:
@@ -268,47 +267,59 @@ services:
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidatorInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidator
 
-  OxidEsales\Twig\TokenParser\TokenValueValidatorInterface:
-    class: OxidEsales\Twig\TokenParser\TokenValueValidator
-
-  OxidEsales\Twig\Resolver\TemplateChain\ChainProcessor\ShopChainProcessor:
-
-  OxidEsales\Twig\Resolver\TemplateChain\ChainProcessor\ModuleChainProcessor:
-
-  OxidEsales\Twig\Resolver\TemplateChain\ChainProcessor\ShopTemplateProcessor:
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ChainAppenderInterface:
+    class: OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ChainAppender
     arguments:
       Symfony\Component\Filesystem\Filesystem: '@oxid_esales.symfony.file_system'
 
-  OxidEsales\Twig\Resolver\TemplateChain\ChainProcessor\ShopTemplateExtensionProcessor:
-    arguments:
-      Symfony\Component\Filesystem\Filesystem: '@oxid_esales.symfony.file_system'
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ShopTemplateHandler:
 
-  OxidEsales\Twig\Resolver\TemplateChain\ChainProcessor\ModuleTemplateProcessor:
-    arguments:
-      Symfony\Component\Filesystem\Filesystem: '@oxid_esales.symfony.file_system'
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleTemplateHandler:
 
-  OxidEsales\Twig\Resolver\TemplateChain\ChainProcessor\ModuleTemplateExtensionProcessor:
-    arguments:
-      Symfony\Component\Filesystem\Filesystem: '@oxid_esales.symfony.file_system'
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ShopTemplateChainAppender:
 
-  OxidEsales\Twig\Resolver\TemplateChain\ShopTemplateChainBuilder:
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ShopTemplateHandler:
+    arguments:
+      - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ShopTemplateChainAppender'
+
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ShopExtensionTemplateHandler:
+    arguments:
+      - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ShopTemplateChainAppender'
+
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ModuleTemplateHandler:
+
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ModuleExtensionTemplateHandler:
+
+  oxid_esales.twig.resolver.template_chain.shop_template_chain_builder:
+    class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilder
     arguments:
       - '@OxidEsales\Twig\Resolver\ShopTemplateDirectoryResolver'
-      - '@OxidEsales\Twig\Resolver\TemplateChain\ChainProcessor\ShopChainProcessor'
+      -
+        - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ShopTemplateHandler'
 
-  OxidEsales\Twig\Resolver\TemplateChain\ModulesTemplateChainBuilder:
+  oxid_esales.twig.resolver.template_chain.modules_template_chain_builder:
+    class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilder
     arguments:
       - '@OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolver'
-      - '@OxidEsales\Twig\Resolver\TemplateChain\ChainProcessor\ModuleChainProcessor'
+      -
+        - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ShopTemplateHandler'
+        - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ShopExtensionTemplateHandler'
+        - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleTemplateHandler'
+        - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ModuleTemplateHandler'
+        - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ModuleExtensionTemplateHandler'
 
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilderInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilderAggregate
     arguments:
-      - '@OxidEsales\Twig\Resolver\TemplateChain\ShopTemplateChainBuilder'
-      - '@OxidEsales\Twig\Resolver\TemplateChain\ModulesTemplateChainBuilder'
+      -
+        - '@oxid_esales.twig.resolver.template_chain.modules_template_chain_builder'
+        - '@oxid_esales.twig.resolver.template_chain.shop_template_chain_builder'
 
   OxidEsales\Twig\Subscriber\InvalidateCacheEventSubscriber:
     arguments:
       Symfony\Component\Filesystem\Filesystem: '@oxid_esales.symfony.file_system'
     tags:
       - { name: kernel.event_subscriber }
+
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeFactoryInterface:
+    class: OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeFactory

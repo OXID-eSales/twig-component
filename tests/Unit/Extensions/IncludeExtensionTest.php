@@ -26,7 +26,7 @@ final class IncludeExtensionTest extends TestCase
     {
         $this->includeExtension = new IncludeExtension(
             new IncludeDynamicLogic(),
-            $this->prophesize(TemplateChainResolverInterface::class)->reveal()
+            $this->prophesize(TemplateChainResolverInterface::class)->reveal(),
         );
     }
 

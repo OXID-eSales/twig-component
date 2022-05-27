@@ -18,7 +18,6 @@ class ExtendsChainTokenParser extends AbstractTokenParser
 
     public function __construct(
         private TemplateChainResolverInterface $templateChainResolver,
-        private TokenValueValidatorInterface $tokenValueValidator
     ) {
     }
 
@@ -55,7 +54,7 @@ class ExtendsChainTokenParser extends AbstractTokenParser
 
     private function replaceValue(ConstantExpression $expression): void
     {
-        $this->validateInitialExpressionValue($expression);
+        $this->checkInitialExpressionValueIsAValidTemplateName($expression);
         /** Initial expression value never used and is overwritten immediately! */
         $this->overwriteExpressionValue(
             $expression,
@@ -99,10 +98,15 @@ class ExtendsChainTokenParser extends AbstractTokenParser
         }
     }
 
-    private function validateInitialExpressionValue(ConstantExpression $expression): void
+    private function checkInitialExpressionValueIsAValidTemplateName(ConstantExpression $expression): void
     {
         $templateName = $expression->getAttribute('value');
-        $this->tokenValueValidator->isChainableTemplateName($templateName);
+        $this->tryToBuildTemplateChain($templateName);
+    }
+
+    private function tryToBuildTemplateChain(string $templateName): void
+    {
+        $this->templateChainResolver->getLastChild($templateName);
     }
 
     private function getParentTemplateName(): string

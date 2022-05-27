@@ -18,8 +18,9 @@ use Twig\TokenParser\IncludeTokenParser;
 
 class IncludeChainTokenParser extends IncludeTokenParser
 {
-    public function __construct(private TemplateChainResolverInterface $templateChainResolver)
-    {
+    public function __construct(
+        private TemplateChainResolverInterface $templateChainResolver
+    ) {
     }
 
     public function parse(Token $token): Node
@@ -37,8 +38,11 @@ class IncludeChainTokenParser extends IncludeTokenParser
     private function replaceValue(ConstantExpression $expression): void
     {
         $includeTagValue = $expression->getAttribute('value');
+        $expression->setAttribute('value', $this->resolveTemplateNameToRender($includeTagValue));
+    }
 
-        $templateToRender = $this->templateChainResolver->getLastChild($includeTagValue);
-        $expression->setAttribute('value', $templateToRender);
+    private function resolveTemplateNameToRender(string $templateName): string
+    {
+        return $this->templateChainResolver->getLastChild($templateName);
     }
 }

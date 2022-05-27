@@ -11,7 +11,7 @@ namespace OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject;
 
 use Twig\Loader\FilesystemLoader;
 
-class ShopExtensionTemplateType implements TemplateTypeInterface, ThemedTemplateTypeInterface
+class ShopExtensionTemplateType implements TemplateTypeInterface
 {
     public function __construct(
         private string $name,
@@ -49,7 +49,7 @@ class ShopExtensionTemplateType implements TemplateTypeInterface, ThemedTemplate
      */
     public function getRelativeFilePath(): string
     {
-        return "extensions/themes/{$this->getThemeId()}/{$this->getName()}";
+        return "extensions/themes/{$this->themeId}/{$this->getName()}";
     }
 
     /**
@@ -60,11 +60,23 @@ class ShopExtensionTemplateType implements TemplateTypeInterface, ThemedTemplate
         return "@{$this->getNamespace()}/{$this->getRelativeFilePath()}";
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getThemeId(): string
+    public function isShopTemplate(): bool
     {
-        return $this->themeId;
+        return false;
+    }
+
+    public function isShopExtensionTemplate(): bool
+    {
+        return true;
+    }
+
+    public function isModuleTemplate(): bool
+    {
+        return false;
+    }
+
+    public function isModuleExtensionTemplate(): bool
+    {
+        return false;
     }
 }

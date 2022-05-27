@@ -96,7 +96,7 @@ final class TwigEngineTest extends TestCase
 
     private function getTemplateName(): string
     {
-        return 'testTwigTemplate.twig';
+        return 'testTwigTemplate.html.twig';
     }
 
     private function getTemplateDir(): string

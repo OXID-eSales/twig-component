@@ -7,12 +7,15 @@
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
+use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
+
 interface TemplateChainValidatorInterface
 {
     /**
-     * @param string $templateName
-     * @param array $templateChain
+     * @param TemplateChain $templateChain
+     * @param TemplateTypeInterface $templateType
      * @return void
      */
-    public function validateTemplateChain(array $templateChain, string $templateName): void;
+    public function validateTemplateChain(TemplateChain $templateChain, TemplateTypeInterface $templateType): void;
 }

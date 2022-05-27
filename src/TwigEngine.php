@@ -78,9 +78,9 @@ class TwigEngine implements TemplateEngineInterface
      */
     public function renderFragment(string $fragment, string $fragmentId, array $context = []): string
     {
-        $template = $this->engine->createTemplate($fragment, $fragmentId);
-
-        return $template->render($context);
+        return $this->engine
+            ->createTemplate($fragment, $fragmentId)
+            ->render($context);
     }
 
     /**

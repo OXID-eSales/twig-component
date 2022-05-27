@@ -24,7 +24,6 @@ interface TemplateTypeInterface
      */
     public function getParentNamespace(): string;
 
-
     /**
      * @return string
      */
@@ -34,4 +33,24 @@ interface TemplateTypeInterface
      * @return string
      */
     public function getFullyQualifiedName(): string;
+
+    /**
+     * @return bool
+     */
+    public function isShopTemplate(): bool;
+
+    /**
+     * @return bool
+     */
+    public function isShopExtensionTemplate(): bool;
+
+    /**
+     * @return bool
+     */
+    public function isModuleTemplate(): bool;
+
+    /**
+     * @return bool
+     */
+    public function isModuleExtensionTemplate(): bool;
 }

@@ -7,13 +7,15 @@
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
+use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
+
 interface TemplateChainBuilderInterface
 {
     /**
-     * @param string $templateName
-     * @return string[]
-     *
+     * @param TemplateTypeInterface $templateType
+     * @return TemplateChain
      * @throws TemplateNotInChainException
      */
-    public function getChain(string $templateName): array;
+    public function getChain(TemplateTypeInterface $templateType): TemplateChain;
 }

@@ -6,14 +6,12 @@ namespace OxidEsales\Twig\Extensions;
 
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use OxidEsales\Twig\TokenParser\ExtendsChainTokenParser;
-use OxidEsales\Twig\TokenParser\TokenValueValidatorInterface;
 use Twig\Extension\AbstractExtension;
 
 class ExtendsExtension extends AbstractExtension
 {
     public function __construct(
         private TemplateChainResolverInterface $templateChainResolver,
-        private TokenValueValidatorInterface $tokenValueValidator
     ) {
     }
 
@@ -22,7 +20,6 @@ class ExtendsExtension extends AbstractExtension
         return [
             new ExtendsChainTokenParser(
                 $this->templateChainResolver,
-                $this->tokenValueValidator
             )
         ];
     }

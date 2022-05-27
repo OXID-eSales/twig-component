@@ -9,17 +9,14 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
+use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeResolver;
-use Twig\Loader\FilesystemLoader;
-
-use function array_merge;
 
 class TemplateChainBuilderAggregate implements TemplateChainBuilderInterface
 {
     public function __construct(
-        private TemplateChainBuilderInterface $shopTemplateChainBuilder,
-        private TemplateChainBuilderInterface $modulesTemplateChainBuilder,
+        /** @param TemplateChainBuilderInterface[] $templateChainBuilders */
+        private array $templateChainBuilders,
         private TemplateChainValidatorInterface $templateChainValidator,
     ) {
     }
@@ -27,23 +24,15 @@ class TemplateChainBuilderAggregate implements TemplateChainBuilderInterface
     /**
      * @inheritDoc
      */
-    public function getChain(string $templateName): array
+    public function getChain(TemplateTypeInterface $templateType): TemplateChain
     {
-        $templateChains = [];
-        $templateType = (new TemplateTypeResolver($templateName))->getTemplateType();
-        $templateChains[] = $this->modulesTemplateChainBuilder->getChain($templateName);
-        if ($this->isShopTemplate($templateType)) {
-            $templateChains[] = $this->shopTemplateChainBuilder->getChain($templateName);
+        $templateChain = new TemplateChain();
+        foreach ($this->templateChainBuilders as $templateChainBuilder) {
+            $templateChain->appendChain(
+                $templateChainBuilder->getChain($templateType)
+            );
         }
-
-        $templateChain = array_merge(... $templateChains);
-        $this->templateChainValidator->validateTemplateChain($templateChain, $templateName);
-
+        $this->templateChainValidator->validateTemplateChain($templateChain, $templateType);
         return $templateChain;
-    }
-
-    private function isShopTemplate(TemplateTypeInterface $templateType): bool
-    {
-        return $templateType->getParentNamespace() === FilesystemLoader::MAIN_NAMESPACE;
     }
 }

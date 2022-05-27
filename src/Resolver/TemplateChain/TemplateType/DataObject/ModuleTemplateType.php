@@ -56,4 +56,24 @@ class ModuleTemplateType implements TemplateTypeInterface
     {
         return "@{$this->getNamespace()}/{$this->getRelativeFilePath()}";
     }
+
+    public function isShopTemplate(): bool
+    {
+        return false;
+    }
+
+    public function isShopExtensionTemplate(): bool
+    {
+        return false;
+    }
+
+    public function isModuleTemplate(): bool
+    {
+        return true;
+    }
+
+    public function isModuleExtensionTemplate(): bool
+    {
+        return false;
+    }
 }
