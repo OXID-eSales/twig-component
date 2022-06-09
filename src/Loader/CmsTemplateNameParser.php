@@ -7,16 +7,14 @@
 
 declare(strict_types=1);
 
-namespace OxidEsales\Twig;
+namespace OxidEsales\Twig\Loader;
 
 use Exception;
 
-class TemplateLoaderNameParser
+class CmsTemplateNameParser
 {
     /**
      * Checks whether string is valid template name
-     *
-     * Old template name? https://symfony.com/doc/3.4/templating/namespaced_paths.html
      *
      * @param string $name
      *

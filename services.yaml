@@ -33,7 +33,7 @@ services:
       - [addGlobal, ['twig', {capture: {}}]]
       - [addGlobal, ['oView', {}]]
 
-  OxidEsales\Twig\TemplateLoaderNameParser:
+  OxidEsales\Twig\Loader\CmsTemplateNameParser:
 
   OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateRendererBridgeInterface:
     class: OxidEsales\Twig\Bridge\TwigTemplateRendererBridge
@@ -64,7 +64,7 @@ services:
 
   OxidEsales\Twig\Loader\CmsLoader:
     arguments:
-      - '@OxidEsales\Twig\TemplateLoaderNameParser'
+      - '@OxidEsales\Twig\Loader\CmsTemplateNameParser'
       - '@OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory'
     tags: ['twig.loader']
 

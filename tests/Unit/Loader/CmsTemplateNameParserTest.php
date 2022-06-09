@@ -7,69 +7,69 @@
 
 declare(strict_types=1);
 
-namespace OxidEsales\Twig\Tests\Unit;
+namespace OxidEsales\Twig\Tests\Unit\Loader;
 
-use OxidEsales\Twig\TemplateLoaderNameParser;
+use OxidEsales\Twig\Loader\CmsTemplateNameParser;
 use PHPUnit\Framework\TestCase;
 
-final class TemplateLoaderNameParserTest extends TestCase
+final class CmsTemplateNameParserTest extends TestCase
 {
-    private TemplateLoaderNameParser $templateLoaderNameParser;
+    private CmsTemplateNameParser $cmsTemplateNameParser;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->templateLoaderNameParser = new TemplateLoaderNameParser();
+        $this->cmsTemplateNameParser = new CmsTemplateNameParser();
     }
 
     /**
-     * @covers \OxidEsales\Twig\TemplateLoaderNameParser::isValidName
+     * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::isValidName
      * @dataProvider getInvalidNameTests
      * @dataProvider getValidNameTests
      */
     public function testIsValidName(string $name, array $expected): void
     {
-        $this->assertEquals($this->templateLoaderNameParser->isValidName($name), $expected['valid']);
+        $this->assertEquals($this->cmsTemplateNameParser->isValidName($name), $expected['valid']);
     }
 
     /**
-     * @covers \OxidEsales\Twig\TemplateLoaderNameParser::getLoaderName
+     * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getLoaderName
      *
      * @dataProvider getValidNameTests
      */
     public function testGetLoaderName(string $name, array $expected): void
     {
-        $this->assertEquals($this->templateLoaderNameParser->getLoaderName($name), $expected['loaderName']);
+        $this->assertEquals($this->cmsTemplateNameParser->getLoaderName($name), $expected['loaderName']);
     }
 
     /**
-     * @covers \OxidEsales\Twig\TemplateLoaderNameParser::getValue
+     * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getValue
      *
      * @dataProvider getValidNameTests
      */
     public function testGetValue(string $name, array $expected): void
     {
-        $this->assertEquals($this->templateLoaderNameParser->getValue($name), $expected['value']);
+        $this->assertEquals($this->cmsTemplateNameParser->getValue($name), $expected['value']);
     }
 
     /**
-     * @covers \OxidEsales\Twig\TemplateLoaderNameParser::getParameters
+     * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getParameters
      *
      * @dataProvider getValidNameTests
      */
     public function testGetParameters(string $name, array $expected): void
     {
-        $this->assertEquals($this->templateLoaderNameParser->getParameters($name), $expected['parameters']);
+        $this->assertEquals($this->cmsTemplateNameParser->getParameters($name), $expected['parameters']);
     }
 
     /**
-     * @covers \OxidEsales\Twig\TemplateLoaderNameParser::getKey
+     * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getKey
      *
      * @dataProvider getValidNameTests
      */
     public function testGetKey(string $name, array $expected): void
     {
-        $this->assertEquals($this->templateLoaderNameParser->getKey($name), $expected['key']);
+        $this->assertEquals($this->cmsTemplateNameParser->getKey($name), $expected['key']);
     }
 
     public function getInvalidNameTests(): array

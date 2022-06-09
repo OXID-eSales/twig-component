@@ -11,14 +11,13 @@ namespace OxidEsales\Twig\Loader;
 
 use OxidEsales\EshopCommunity\Application\Model\Content;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory;
-use OxidEsales\Twig\TemplateLoaderNameParser;
 use Twig\Error\LoaderError;
 use Twig\Loader\LoaderInterface;
 use Twig\Source;
 
 class CmsLoader implements LoaderInterface
 {
-    public function __construct(private TemplateLoaderNameParser $nameParser, private ContentFactory $contentFactory)
+    public function __construct(private CmsTemplateNameParser $nameParser, private ContentFactory $contentFactory)
     {
     }
 
@@ -102,7 +101,7 @@ class CmsLoader implements LoaderInterface
         $value = $this->nameParser->getValue($name);
         $content = $this->getContent($name);
 
-        return $loaderName == 'content' && in_array($key, ['ident', 'oxid']) && $value && $content;
+        return $loaderName === 'content' && in_array($key, ['ident', 'oxid']) && $value && $content;
     }
 
     /**
