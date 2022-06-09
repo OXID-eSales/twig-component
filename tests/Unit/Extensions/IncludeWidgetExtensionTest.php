@@ -28,7 +28,7 @@ final class IncludeWidgetExtensionTest extends TestCase
     }
 
     /**
-     * @covers       \OxidEsales\Twig\Extensions\IncludeWidgetExtension::includeWidget
+     * @covers \OxidEsales\Twig\Extensions\IncludeWidgetExtension::includeWidget
      */
     public function testIncludeWidget()
     {

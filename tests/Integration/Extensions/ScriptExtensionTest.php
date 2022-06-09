@@ -24,7 +24,7 @@ final class ScriptExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @covers ScriptExtension::script
+     * @covers \OxidEsales\Twig\Extensions\ScriptExtension::script
      * @dataProvider getScriptTests
      */
     public function testScript(string $template, string $expected): void

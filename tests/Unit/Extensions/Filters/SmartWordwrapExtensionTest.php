@@ -113,7 +113,7 @@ adipi[...]'
      * @param array $params
      * @param string $expectedString
      *
-     * @covers       \OxidEsales\Twig\Extensions\Filters\SmartWordwrapExtension::smartWordWrap
+     * @covers \OxidEsales\Twig\Extensions\Filters\SmartWordwrapExtension::smartWordWrap
      * @dataProvider provider
      */
     public function testSmartWordWrap($params, $expectedString)

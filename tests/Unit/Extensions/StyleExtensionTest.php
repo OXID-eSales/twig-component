@@ -18,7 +18,7 @@ use Twig\Loader\LoaderInterface;
 final class StyleExtensionTest extends TestCase
 {
     /**
-     * @covers StyleLogic::collectStyleSheets
+     * @covers \OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\StyleLogic::collectStyleSheets
      * @dataProvider dataProvider
      *
      * @param $params

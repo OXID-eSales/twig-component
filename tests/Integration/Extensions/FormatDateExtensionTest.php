@@ -22,7 +22,7 @@ final class FormatDateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @covers FormatDateExtension::formatDate
+     * @covers \OxidEsales\Twig\Extensions\Filters\FormatDateExtension::formatDate
      */
     public function testFormDateWithDatetime(): void
     {
@@ -33,7 +33,7 @@ final class FormatDateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @covers FormatDateExtension::formatDate
+     * @covers \OxidEsales\Twig\Extensions\Filters\FormatDateExtension::formatDate
      */
     public function testFormDateWithTimestamp(): void
     {
@@ -44,7 +44,7 @@ final class FormatDateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @covers FormatDateExtension::formatDate
+     * @covers \OxidEsales\Twig\Extensions\Filters\FormatDateExtension::formatDate
      */
     public function testFormDateWithDate(): void
     {
@@ -55,7 +55,7 @@ final class FormatDateExtensionTest extends AbstractExtensionTest
     }
 
     /**
-     * @covers FormatDateExtension::formatDate
+     * @covers \OxidEsales\Twig\Extensions\Filters\FormatDateExtension::formatDate
      */
     public function testFormDateUsingObject(): void
     {

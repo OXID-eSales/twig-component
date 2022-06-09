@@ -37,13 +37,17 @@ final class CaptureTokenParserTest extends TestCase
         $this->parser = new Parser($this->environment);
     }
 
-    /** @covers CaptureTokenParser::getTag */
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\CaptureTokenParser::getTag
+     */
     public function testGetTag(): void
     {
         $this->assertEquals('capture', $this->captureTokenParser->getTag());
     }
 
-    /** @covers CaptureTokenParser::decideBlockEnd */
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\CaptureTokenParser::decideBlockEnd
+     */
     public function testDecideBlockEnd(): void
     {
         $token = new Token(Token::NAME_TYPE, 'foo', 1);
@@ -56,7 +60,7 @@ final class CaptureTokenParserTest extends TestCase
     /**
      * @param $source
      *
-     * @covers       CaptureTokenParser::parse
+     * @covers \OxidEsales\Twig\TokenParser\CaptureTokenParser::parse
      * @dataProvider templateSourceCodeProvider
      */
     public function testParse($source): void
@@ -85,7 +89,9 @@ final class CaptureTokenParserTest extends TestCase
         ];
     }
 
-    /** @covers CaptureTokenParser::parse */
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\CaptureTokenParser::parse
+     */
     public function testTwigErrorSyntaxIsThrown(): void
     {
         $source = '{% capture %}foo{% /endcapture %}';
@@ -95,7 +101,9 @@ final class CaptureTokenParserTest extends TestCase
         $this->parser->parse($stream);
     }
 
-    /** @covers CaptureTokenParser::parse */
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\CaptureTokenParser::parse
+     */
     public function testParseException(): void
     {
         $source = "{% capture foo = \"foo\" %}Lorem Ipsum{% endcapture %}";

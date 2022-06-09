@@ -36,7 +36,7 @@ final class IfContentTokenParserTest extends TestCase
     }
 
     /**
-     * @covers IfContentTokenParser::getTag
+     * @covers \OxidEsales\Twig\TokenParser\IfContentTokenParser::getTag
      */
     public function testGetTag(): void
     {
@@ -44,7 +44,7 @@ final class IfContentTokenParserTest extends TestCase
     }
 
     /**
-     * @covers IfContentTokenParser::parse
+     * @covers \OxidEsales\Twig\TokenParser\IfContentTokenParser::parse
      */
     public function testParse(): void
     {
@@ -65,7 +65,7 @@ final class IfContentTokenParserTest extends TestCase
     }
 
     /**
-     * @covers IfContentTokenParser::decideBlockEnd
+     * @covers \OxidEsales\Twig\TokenParser\IfContentTokenParser::decideBlockEnd
      */
     public function testDecideBlockEnd(): void
     {

@@ -35,27 +35,35 @@ final class HasRightsTokenParserTest extends TestCase
         parent::setUp();
     }
 
-    /** @covers ::HasRightsTokenParser:getTag */
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\HasRightsTokenParser::getTag
+     */
     public function testGetTag(): void
     {
         $this->assertEquals('hasrights', $this->hasRightsParser->getTag());
     }
 
-    /** @covers ::HasRightsTokenParser:decideMyTagFork */
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\HasRightsTokenParser::decideMyTagFork
+     */
     public function testDecideMyTagForkIncorrect(): void
     {
         $token = new Token(Token::TEXT_TYPE, 1, 1);
         $this->assertEquals(false, $this->hasRightsParser->decideMyTagFork($token));
     }
 
-    /** @covers ::HasRightsTokenParser:decideMyTagFork */
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\HasRightsTokenParser::decideMyTagFork
+     */
     public function testDecideMyTagForkCorrect(): void
     {
         $token = new Token(5, 'endhasrights', 1);
         $this->assertEquals(true, $this->hasRightsParser->decideMyTagFork($token));
     }
 
-    /** @covers ::HasRightsTokenParser:parse */
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\HasRightsTokenParser::parse
+     */
     public function testParse(): void
     {
         /** @var LoaderInterface $loader */
@@ -76,7 +84,9 @@ final class HasRightsTokenParserTest extends TestCase
         $this->assertTrue(isset($extensions[HasRightsExtension::class]));
     }
 
-    /** @covers ::HasRightsParser:parse */
+    /**
+     * @covers \OxidEsales\Twig\TokenParser\HasRightsTokenParser::parse
+     */
     public function testParseException(): void
     {
         /** @var LoaderInterface $loader */

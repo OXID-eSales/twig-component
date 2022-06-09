@@ -55,7 +55,7 @@ final class DateFormatExtensionTest extends TestCase
      * @param string $expectedDate
      *
      * @dataProvider provider
-     * @covers       \OxidEsales\Twig\Extensions\Filters\DateFormatExtension::dateFormat
+     * @covers \OxidEsales\Twig\Extensions\Filters\DateFormatExtension::dateFormat
      */
     public function testDateFormat($string, $format, $default_date, $expectedDate): void
     {

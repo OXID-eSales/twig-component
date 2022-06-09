@@ -40,7 +40,7 @@ final class TranslateExtensionTest extends AbstractExtensionTest
      * @param $expectedTranslation
      *
      * @dataProvider dataProvider
-     * @covers       \OxidEsales\Twig\Extensions\TranslateExtension::translate
+     * @covers \OxidEsales\Twig\Extensions\TranslateExtension::translate
      */
     public function testTranslate($params, $expectedTranslation): void
     {
