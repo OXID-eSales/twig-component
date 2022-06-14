@@ -14,6 +14,9 @@ use Traversable;
 
 class TemplateChain implements \IteratorAggregate
 {
+    /**
+     * @var TemplateTypeInterface[]
+     */
     private array $chain = [];
 
     public function append(TemplateTypeInterface $templateType): void
@@ -21,10 +24,24 @@ class TemplateChain implements \IteratorAggregate
         $this->chain[$templateType->getFullyQualifiedName()] = $templateType;
     }
 
+    public function unset(TemplateTypeInterface $templateType): void
+    {
+        unset($this->chain[$templateType->getFullyQualifiedName()]);
+    }
+
     public function appendChain(TemplateChain $chain): void
     {
         foreach ($chain as $templateType) {
             $this->append($templateType);
+        }
+    }
+    
+    public function getByModuleId(string $moduleId): TemplateTypeInterface
+    {
+        foreach ($this->chain as $fullyQualifiedName => $templateType) {
+            if ($templateType->getNamespace() === $moduleId) {
+                return $this->chain[$fullyQualifiedName];
+            }
         }
     }
 

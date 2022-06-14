@@ -323,3 +323,9 @@ services:
 
   OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeFactoryInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeFactory
+
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateChainSorterInterface:
+    class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainSorter
+
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateOriginResolverInterface:
+    class: OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateOriginResolver

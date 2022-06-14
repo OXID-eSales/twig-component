@@ -89,7 +89,7 @@ final class ModulesTemplateChainTest extends TestCase
 
         $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
         $this->assertStringContainsString('<module1-header><module1-content>', $actual);
-        $this->assertStringContainsString('<module-2-content>', $actual);
+        $this->assertStringContainsString('<module-2-content-ext-module-1>', $actual);
     }
 
     public function testRenderWithMultipleModuleTemplatesExtendingModule(): void
@@ -105,7 +105,9 @@ final class ModulesTemplateChainTest extends TestCase
 
         $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS);
         $this->assertStringContainsString('<module1-header><module1-content>', $actual);
-        $this->assertStringContainsString('<module-2-content>', $actual);
+        $this->assertStringContainsString('<module-2-content-ext-module-1>', $actual);
+        $this->assertStringContainsString('<module-3-content-ext-module-1>', $actual);
+        $this->assertStringContainsString('<module-4-content-ext-module-1>', $actual);
     }
 
     public function testRenderWithActiveModule(): void
@@ -116,7 +118,7 @@ final class ModulesTemplateChainTest extends TestCase
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
-        $this->assertStringContainsString('<module-1-content-testTheme>', $actual);
+        $this->assertStringContainsString('<module-1-content-ext-shop-test-theme>', $actual);
     }
 
     public function testRenderWithActiveModuleAndMissingThemeTemplateWillUseTemplateFromDefaultTheme(): void
@@ -129,7 +131,7 @@ final class ModulesTemplateChainTest extends TestCase
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content-theme-2>', $actual);
-        $this->assertStringContainsString('<module-1-content-default-theme>', $actual);
+        $this->assertStringContainsString('<module-1-content-ext-shop-default-theme>', $actual);
     }
 
     public function testRenderWithInactiveModule(): void
@@ -141,7 +143,7 @@ final class ModulesTemplateChainTest extends TestCase
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
-        $this->assertStringNotContainsString('<module-1-content-testTheme>', $actual);
+        $this->assertStringNotContainsString('<module-1-content-ext-shop-test-theme>', $actual);
     }
 
     public function testRenderWith2ActiveModules(): void
@@ -154,8 +156,8 @@ final class ModulesTemplateChainTest extends TestCase
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
-        $this->assertStringContainsString('<module-1-content-testTheme>', $actual);
-        $this->assertStringContainsString('<module-2-content>', $actual);
+        $this->assertStringContainsString('<module-1-content-ext-shop-test-theme>', $actual);
+        $this->assertStringContainsString('<module-2-content-ext-shop-test-theme>', $actual);
     }
 
     public function testRenderWith3ActiveModules(): void
@@ -170,9 +172,9 @@ final class ModulesTemplateChainTest extends TestCase
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
-        $this->assertStringContainsString('<module-1-content-testTheme>', $actual);
-        $this->assertStringContainsString('<module-2-content>', $actual);
-        $this->assertStringContainsString('<module-3-content>', $actual);
+        $this->assertStringContainsString('<module-1-content-ext-shop-test-theme>', $actual);
+        $this->assertStringContainsString('<module-2-content-ext-shop-test-theme>', $actual);
+        $this->assertStringContainsString('<module-3-content-ext-shop-test-theme>', $actual);
     }
 
     public function testRenderWith3ModulesAndDeactivation(): void
@@ -188,9 +190,9 @@ final class ModulesTemplateChainTest extends TestCase
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
-        $this->assertStringContainsString('<module-1-content-testTheme>', $actual);
-        $this->assertStringNotContainsString('<module-2-content>', $actual);
-        $this->assertStringContainsString('<module-3-content>', $actual);
+        $this->assertStringContainsString('<module-1-content-ext-shop-test-theme>', $actual);
+        $this->assertStringNotContainsString('<module-2-content-ext-shop-test-theme>', $actual);
+        $this->assertStringContainsString('<module-3-content-ext-shop-test-theme>', $actual);
     }
 
     public function testRenderWithConditionalExtends(): void
@@ -198,7 +200,7 @@ final class ModulesTemplateChainTest extends TestCase
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_CONDITIONAL_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
-        $this->assertStringContainsString('<template_with_conditional_extends-content>', $actual);
+        $this->assertStringContainsString('<template-with-conditional-extends-content>', $actual);
     }
 
     public function testRenderWithArrayExtends(): void
@@ -206,7 +208,7 @@ final class ModulesTemplateChainTest extends TestCase
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_ARRAY_EXTENDS);
 
         $this->assertStringContainsString('<shop-header><shop-content>', $actual);
-        $this->assertStringContainsString('<template_with_array_extends-content>', $actual);
+        $this->assertStringContainsString('<template-with-array-extends-content>', $actual);
     }
 
     public function testRenderWithIncludeAndMultipleModulesWillRenderLastInChain(): void
@@ -216,7 +218,7 @@ final class ModulesTemplateChainTest extends TestCase
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::FIXTURE_TEMPLATE_WITH_INCLUDE);
 
-        $this->assertStringContainsString('<shop-header><module-1-included-content><shop-content>', $actual);
+        $this->assertStringContainsString('<shop-header><module-1-included-content-ext-shop-test-theme><shop-content-test-theme>', $actual);
     }
 
     public function testRenderWithInvalidExtendsValue(): void

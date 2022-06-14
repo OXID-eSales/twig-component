@@ -1,4 +1,4 @@
 {# The first template in 'extends' exists so it will be chosen #}
 {% set condition = true %}
 {% extends ['template-with-extends.html.twig', 'does-not-matter.html.twig']  %}
-{% block extendable_block %}{{ parent() }}<template_with_array_extends-content>{% endblock %}
+{% block extendable_block %}{{ parent() }}<template-with-array-extends-content>{% endblock %}
