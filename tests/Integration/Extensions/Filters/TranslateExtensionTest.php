@@ -44,7 +44,7 @@ final class TranslateExtensionTest extends AbstractExtensionTest
      *
      * @dataProvider simpleTranslatingProvider
      */
-    public function testSimpleTranslating(string $template, int $languageId, string $expected)
+    public function testSimpleTranslating(string $template, int $languageId, string $expected): void
     {
         $this->setLanguage($languageId);
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
@@ -68,7 +68,7 @@ final class TranslateExtensionTest extends AbstractExtensionTest
      *
      * @dataProvider withArgumentsProvider
      */
-    public function testTranslatingWithArguments(string $template, int $languageId, string $expected)
+    public function testTranslatingWithArguments(string $template, int $languageId, string $expected): void
     {
         $this->setLanguage($languageId);
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
@@ -88,7 +88,7 @@ final class TranslateExtensionTest extends AbstractExtensionTest
     /**
      * @dataProvider missingTranslationProviderFrontend
      */
-    public function testTranslateFrontend_isMissingTranslation(bool $isProductiveMode, string $template, string $expected)
+    public function testTranslateFrontendIsMissingTranslation(bool $isProductiveMode, string $template, string $expected): void
     {
         $this->setAdminMode(false);
         $this->setLanguage(1);
@@ -113,7 +113,7 @@ final class TranslateExtensionTest extends AbstractExtensionTest
     /**
      * @dataProvider missingTranslationProviderAdmin
      */
-    public function testTranslateAdmin_isMissingTranslation(string $template, string $expected)
+    public function testTranslateAdminIsMissingTranslation(string $template, string $expected): void
     {
         $this->setLanguage(1);
         $this->setAdminMode(true);

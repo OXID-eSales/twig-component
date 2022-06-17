@@ -33,7 +33,7 @@ class ChainAppender implements ChainAppenderInterface
     private function directoryContainsTemplateFile(NamespacedDirectory $directory, TemplateTypeInterface $template): bool
     {
         return $this->filesystem->exists(
-            Path::join($directory->getDirectory(), $template->getRelativeFilePath(),)
+            Path::join($directory->getDirectory(), $template->getRelativeFilePath())
         );
     }
 }

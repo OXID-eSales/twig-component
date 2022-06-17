@@ -47,8 +47,10 @@ class SmartyCycleExtension extends AbstractExtension
                 throw new Error("static_cycle: missing 'values' parameter");
             }
         } else {
-            if (isset($this->cycleVars[$name]['values'])
-                && $this->cycleVars[$name]['values'] != $values) {
+            if (
+                isset($this->cycleVars[$name]['values'])
+                && $this->cycleVars[$name]['values'] != $values
+            ) {
                 $this->cycleVars[$name]['index'] = 0;
             }
             $this->cycleVars[$name]['values'] = $values;

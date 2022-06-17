@@ -62,7 +62,6 @@ final class TemplateTypeResolverTest extends TestCase
         $this->assertEquals($moduleId, $template->getParentNamespace());
         $this->assertEquals($baseTemplateName, $template->getRelativeFilePath());
         $this->assertEquals($templatePath, $template->getFullyQualifiedName());
-
     }
 
     public function testGetTemplateTypeWithShopExtension(): void

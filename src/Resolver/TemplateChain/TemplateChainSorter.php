@@ -43,7 +43,7 @@ class TemplateChainSorter implements TemplateChainSorterInterface
         foreach ($templateLoadingPriority as $moduleId) {
             $template = $unsortedChain->getByModuleId($moduleId);
             $sortedChain->append($template);
-            $unsortedChain->unset($template);
+            $unsortedChain->remove($template);
         }
         if ($unsortedChain->count()) {
             $sortedChain->appendChain($unsortedChain);

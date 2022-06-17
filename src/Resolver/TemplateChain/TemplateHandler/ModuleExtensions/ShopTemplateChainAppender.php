@@ -19,12 +19,13 @@ use OxidEsales\Twig\TwigContextInterface;
 class ShopTemplateChainAppender implements ChainAppenderInterface
 {
     public function __construct(
-        private TwigContextInterface   $twigContext,
+        private TwigContextInterface $twigContext,
         private ChainAppenderInterface $chainAppender,
     ) {
     }
 
-    public function addToChain(TemplateChain $templateChain, TemplateTypeInterface $templateType, NamespacedDirectory $directory): TemplateChain {
+    public function addToChain(TemplateChain $templateChain, TemplateTypeInterface $templateType, NamespacedDirectory $directory): TemplateChain
+    {
         foreach ($this->getThemeIdsOrderedByLoadPriority() as $theme) {
             $countBefore = $templateChain->count();
             $extension = $this->getExtension($templateType, $directory, $theme);

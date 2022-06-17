@@ -24,7 +24,7 @@ class TemplateChain implements \IteratorAggregate
         $this->chain[$templateType->getFullyQualifiedName()] = $templateType;
     }
 
-    public function unset(TemplateTypeInterface $templateType): void
+    public function remove(TemplateTypeInterface $templateType): void
     {
         unset($this->chain[$templateType->getFullyQualifiedName()]);
     }
@@ -35,7 +35,7 @@ class TemplateChain implements \IteratorAggregate
             $this->append($templateType);
         }
     }
-    
+
     public function getByModuleId(string $moduleId): TemplateTypeInterface
     {
         foreach ($this->chain as $fullyQualifiedName => $templateType) {
