@@ -14,20 +14,23 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ShopConfiguration;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
-use OxidEsales\Twig\Resolver\TemplateChain\ModuleNotInChainException;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainSorter;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainSorterInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateForModuleIdNotInChainException;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleTemplateType;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
+use Psr\Log\LoggerInterface;
 
 final class TemplateChainSorterTest extends TestCase
 {
     use ProphecyTrait;
 
     private TemplateChainSorterInterface $chainSorter;
-    private ObjectProphecy|ModuleTemplateExtensionChain $moduleTemplateExtensionChain;
+    private ModuleTemplateExtensionChain|ObjectProphecy $moduleTemplateExtensionChain;
+    private LoggerInterface|ObjectProphecy $logger;
 
     protected function setUp(): void
     {
@@ -37,18 +40,18 @@ final class TemplateChainSorterTest extends TestCase
     public function testSortWithNoConfig(): void
     {
         $templateModule1 = new ModuleTemplateType(
-            'template-1',
-            'module-1'
+            'template1',
+            'module1'
         );
         $templateModule2 = new ModuleTemplateType(
-            'template-1',
-            'module-2'
+            'template1',
+            'module2'
         );
         $templateName = 'template_with_different_name';
         $chain = new TemplateChain();
         $chain->append($templateModule1);
         $chain->append($templateModule2);
-        $this->prepareChainSortersConfiguration($templateName, ['module-2']);
+        $this->prepareChainSortersConfiguration($templateName, ['module2']);
 
         $sorted = $this->chainSorter->sort($chain, $templateModule2);
 
@@ -58,19 +61,19 @@ final class TemplateChainSorterTest extends TestCase
     public function testSortWithSingleEntry(): void
     {
         $templateModule1 = new ModuleTemplateType(
-            'template-1',
-            'module-1'
+            'template1',
+            'module1'
         );
         $templateModule2 = new ModuleTemplateType(
-            'template-1',
-            'module-2'
+            'template1',
+            'module2'
         );
-        $templateName = '@module_1/template_1';
+        $templateName = '@module1/template1';
         $chain = new TemplateChain();
         $chain->append($templateModule1);
         $chain->append($templateModule2);
         $this->assertEquals($templateModule1, $chain->getLastChild());
-        $this->prepareChainSortersConfiguration($templateName, ['module-2']);
+        $this->prepareChainSortersConfiguration($templateName, ['module2']);
 
         $sorted = $this->chainSorter->sort($chain, $templateModule1);
 
@@ -80,28 +83,71 @@ final class TemplateChainSorterTest extends TestCase
     public function testSortWithMultipleEntries(): void
     {
         $templateModule1 = new ModuleTemplateType(
-            'template-1',
-            'module-1'
+            'template1',
+            'module1'
         );
         $templateModule2 = new ModuleTemplateType(
-            'template-1',
-            'module-2'
+            'template1',
+            'module2'
         );
         $templateModule3 = new ModuleTemplateType(
-            'template-1',
-            'module-3'
+            'template1',
+            'module3'
         );
-        $templateName = '@module_1/template_1';
+        $templateName = '@module1/template1';
         $chain = new TemplateChain();
         $chain->append($templateModule1);
         $chain->append($templateModule2);
         $chain->append($templateModule3);
         $this->assertEquals($templateModule1, $chain->getLastChild());
-        $this->prepareChainSortersConfiguration($templateName, ['module-3', 'module-2', 'module-1']);
+        $this->prepareChainSortersConfiguration($templateName, ['module3', 'module2', 'module1']);
 
         $chain = $this->chainSorter->sort($chain, $templateModule1);
 
         $this->assertEquals($templateModule3, $chain->getLastChild());
+    }
+
+    public function testSortWithUnknownModuleIdInConfigurationWillLogErrorWithModuleIdAndTemplateName(): void
+    {
+        $unknownModuleId = uniqid('moduleId_', true);
+        $templateName = 'some/path/to/template1.html.twig';
+        $templateModule1 = new ModuleTemplateType(
+            $templateName,
+            'module1'
+        );
+        $templateInSortingConfiguration = "@module1/$templateName";
+        $chain = new TemplateChain();
+        $chain->append($templateModule1);
+        $this->prepareChainSortersConfiguration($templateInSortingConfiguration, [$unknownModuleId]);
+
+        $chain = $this->chainSorter->sort($chain, $templateModule1);
+
+        $this->logger
+            ->error(
+                Argument::allOf(
+                    Argument::containingString($templateName),
+                    Argument::containingString($unknownModuleId),
+                )
+            )
+            ->shouldHaveBeenCalled();
+    }
+
+    public function testSortWithADuplicatedModuleIdInConfigurationWillCallLogger(): void
+    {
+        $moduleId = 'module1';
+        $templateName = 'some/path/to/template1.html.twig';
+        $templateModule1 = new ModuleTemplateType(
+            $templateName,
+            'module1'
+        );
+        $templateInSortingConfiguration = "@module1/$templateName";
+        $chain = new TemplateChain();
+        $chain->append($templateModule1);
+        $this->prepareChainSortersConfiguration($templateInSortingConfiguration, [$moduleId, $moduleId]);
+
+        $chain = $this->chainSorter->sort($chain, $templateModule1);
+
+        $this->logger->error(Argument::type('string'))->shouldHaveBeenCalled();
     }
 
     private function prepareChainSortersConfiguration(string $templateName, array $loadOrder): void
@@ -117,9 +163,12 @@ final class TemplateChainSorterTest extends TestCase
         $shopConfigurationDao->get($shopId)->willReturn($shopConfiguration);
         $context->getCurrentShopId()->willReturn($shopId);
 
+        $this->logger = $this->prophesize(LoggerInterface::class);
+
         $this->chainSorter = new TemplateChainSorter(
             $shopConfigurationDao->reveal(),
             $context->reveal(),
+            $this->logger->reveal(),
         );
     }
 }

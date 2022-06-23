@@ -11,7 +11,7 @@ namespace OxidEsales\Twig\Resolver\TemplateChain;
 
 use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateOriginResolverInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\InitialTemplateResolverInterface;
 
 class TemplateChainBuilderAggregate implements TemplateChainBuilderInterface
 {
@@ -19,10 +19,10 @@ class TemplateChainBuilderAggregate implements TemplateChainBuilderInterface
         /** @param TemplateChainBuilderInterface[] $templateChainBuilders */
         private array $templateChainBuilders,
         private TemplateChainValidatorInterface $templateChainValidator,
-        private TemplateOriginResolverInterface $templateOriginResolver,
+        private InitialTemplateResolverInterface $initialTemplateResolver,
         private TemplateChainSorterInterface $templateChainSorter,
-    ) {
-    }
+    )
+    {}
 
     /**
      * @inheritDoc
@@ -39,7 +39,7 @@ class TemplateChainBuilderAggregate implements TemplateChainBuilderInterface
 
         return $this->templateChainSorter->sort(
             $templateChain,
-            $this->templateOriginResolver->getTemplateOrigin($templateType)
+            $this->initialTemplateResolver->getInitialTemplate($templateType)
         );
     }
 }

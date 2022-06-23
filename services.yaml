@@ -327,5 +327,5 @@ services:
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainSorterInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainSorter
 
-  OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateOriginResolverInterface:
-    class: OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateOriginResolver
+  OxidEsales\Twig\Resolver\TemplateChain\TemplateType\InitialTemplateResolverInterface:
+    class: OxidEsales\Twig\Resolver\TemplateChain\TemplateType\InitialTemplateResolver

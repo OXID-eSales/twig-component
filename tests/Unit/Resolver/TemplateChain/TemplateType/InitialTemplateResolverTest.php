@@ -6,19 +6,20 @@ use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleExtensi
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopExtensionTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopTemplateType;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateOriginResolver;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\InitialTemplateResolver;
 use PHPUnit\Framework\TestCase;
 
-class TemplateOriginResolverTest extends TestCase
+class InitialTemplateResolverTest extends TestCase
 {
     public function testGetTemplateOriginWithShopTemplate(): void
     {
         $name = 'template-name';
-        $extensionTemplate = $expected = new ShopTemplateType($name);
-        $templateOrigin = (new TemplateOriginResolver())->getTemplateOrigin($extensionTemplate);
+        $expected = new ShopTemplateType($name);
+        $extensionTemplate = $expected;
+        $initialTemplate = (new InitialTemplateResolver())->getInitialTemplate($extensionTemplate);
 
-        $this->assertInstanceOf(ShopTemplateType::class, $templateOrigin);
-        $this->assertEquals($expected, $templateOrigin);
+        $this->assertInstanceOf(ShopTemplateType::class, $initialTemplate);
+        $this->assertEquals($expected, $initialTemplate);
     }
 
     public function testGetTemplateOriginWithShopExtensionTemplate(): void
@@ -28,21 +29,22 @@ class TemplateOriginResolverTest extends TestCase
         $theme = 'theme-id';
         $extensionTemplate = new ShopExtensionTemplateType($name, $namespace, $theme);
         $expected = new ShopTemplateType($name);
-        $templateOrigin = (new TemplateOriginResolver())->getTemplateOrigin($extensionTemplate);
+        $initialTemplate = (new InitialTemplateResolver())->getInitialTemplate($extensionTemplate);
 
-        $this->assertInstanceOf(ShopTemplateType::class, $templateOrigin);
-        $this->assertEquals($expected, $templateOrigin);
+        $this->assertInstanceOf(ShopTemplateType::class, $initialTemplate);
+        $this->assertEquals($expected, $initialTemplate);
     }
 
     public function testGetTemplateOriginWithModuleTemplate(): void
     {
         $name = 'template-name';
         $namespace = 'module-id';
-        $extensionTemplate = $expected = new ModuleTemplateType($name, $namespace);
-        $templateOrigin = (new TemplateOriginResolver())->getTemplateOrigin($extensionTemplate);
+        $expected = new ModuleTemplateType($name, $namespace);
+        $extensionTemplate = $expected;
+        $initialTemplate = (new InitialTemplateResolver())->getInitialTemplate($extensionTemplate);
 
-        $this->assertInstanceOf(ModuleTemplateType::class, $templateOrigin);
-        $this->assertEquals($expected, $templateOrigin);
+        $this->assertInstanceOf(ModuleTemplateType::class, $initialTemplate);
+        $this->assertEquals($expected, $initialTemplate);
     }
 
     public function testGetTemplateOriginWithModuleExtensionTemplate(): void
@@ -52,9 +54,9 @@ class TemplateOriginResolverTest extends TestCase
         $parentNamespace = 'parent-module-id';
         $extensionTemplate = new ModuleExtensionTemplateType($name, $namespace, $parentNamespace);
         $expected = new ModuleTemplateType($name, $parentNamespace);
-        $templateOrigin = (new TemplateOriginResolver())->getTemplateOrigin($extensionTemplate);
+        $initialTemplate = (new InitialTemplateResolver())->getInitialTemplate($extensionTemplate);
 
-        $this->assertInstanceOf(ModuleTemplateType::class, $templateOrigin);
-        $this->assertEquals($expected, $templateOrigin);
+        $this->assertInstanceOf(ModuleTemplateType::class, $initialTemplate);
+        $this->assertEquals($expected, $initialTemplate);
     }
 }

@@ -9,7 +9,7 @@ namespace OxidEsales\Twig\Resolver\TemplateChain\TemplateType;
 
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
 
-interface TemplateOriginResolverInterface
+interface InitialTemplateResolverInterface
 {
-    public function getTemplateOrigin(TemplateTypeInterface $template): TemplateTypeInterface;
+    public function getInitialTemplate(TemplateTypeInterface $template): TemplateTypeInterface;
 }

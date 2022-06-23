@@ -13,9 +13,9 @@ use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleTemplat
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
 
-class TemplateOriginResolver implements TemplateOriginResolverInterface
+class InitialTemplateResolver implements InitialTemplateResolverInterface
 {
-    public function getTemplateOrigin(TemplateTypeInterface $template): TemplateTypeInterface
+    public function getInitialTemplate(TemplateTypeInterface $template): TemplateTypeInterface
     {
         if ($template->isShopExtensionTemplate()) {
             $originalTemplate =  new ShopTemplateType($template->getName());

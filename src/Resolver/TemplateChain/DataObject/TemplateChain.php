@@ -9,10 +9,18 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain\DataObject;
 
+use ArrayIterator;
+use IteratorAggregate;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateForModuleIdNotInChainException;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
 use Traversable;
 
-class TemplateChain implements \IteratorAggregate
+use function array_keys;
+use function array_search;
+use function count;
+use function end;
+
+class TemplateChain implements IteratorAggregate
 {
     /**
      * @var TemplateTypeInterface[]
@@ -36,6 +44,9 @@ class TemplateChain implements \IteratorAggregate
         }
     }
 
+    /**
+     * @throws TemplateForModuleIdNotInChainException
+     */
     public function getByModuleId(string $moduleId): TemplateTypeInterface
     {
         foreach ($this->chain as $fullyQualifiedName => $templateType) {
@@ -43,6 +54,9 @@ class TemplateChain implements \IteratorAggregate
                 return $this->chain[$fullyQualifiedName];
             }
         }
+        throw new TemplateForModuleIdNotInChainException(
+            "Template chain does not contain template for module '$moduleId'."
+        );
     }
 
     public function has(TemplateTypeInterface $templateType): bool
@@ -75,6 +89,6 @@ class TemplateChain implements \IteratorAggregate
 
     public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->chain);
+        return new ArrayIterator($this->chain);
     }
 }
