@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Dao\ShopConfigurationDaoInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ModuleIdChain;
+use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ModuleTemplateExtensionChain;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
@@ -19,6 +19,7 @@ use Psr\Log\LoggerInterface;
 class TemplateChainSorter implements TemplateChainSorterInterface
 {
     public function __construct(
+        private SortingConfigurationValidatorInterface $sortingConfigurationValidator,
         private ShopConfigurationDaoInterface $shopConfigurationDao,
         private ContextInterface $context,
         private LoggerInterface $logger,
@@ -27,21 +28,32 @@ class TemplateChainSorter implements TemplateChainSorterInterface
 
     public function sort(TemplateChain $unsortedChain, TemplateTypeInterface $extendedTemplate): TemplateChain
     {
-        $templateName = $this->getTemplateAliasInShopConfiguration($extendedTemplate);
-        $templateLoadingPriority = $this->shopConfigurationDao
+        $sortingConfiguration = $this->shopConfigurationDao
             ->get($this->context->getCurrentShopId())
-            ->getModuleTemplateExtensionChain()
-            ->getTemplateLoadingPriority($templateName);
+            ->getModuleTemplateExtensionChain();
 
-        if ($this->isConfigurationEmpty($templateLoadingPriority)) {
-            return $unsortedChain;
+        return $this->getSortedChain($unsortedChain, $sortingConfiguration, $extendedTemplate);
+    }
+
+    private function getSortedChain(
+        TemplateChain $unsortedChain,
+        ModuleTemplateExtensionChain $sortingConfiguration,
+        TemplateTypeInterface $extendedTemplate
+    ): TemplateChain {
+        $sortedChain = new TemplateChain();
+        $templateName = $this->getTemplateAliasInShopConfiguration($extendedTemplate);
+        foreach ($sortingConfiguration->getTemplateLoadingPriority($templateName) as $moduleId) {
+            try {
+                $this->sortingConfigurationValidator->validateModuleId($moduleId, $unsortedChain, $extendedTemplate);
+                $template = $unsortedChain->getByModuleId($moduleId);
+                $sortedChain->append($template);
+                $unsortedChain->remove($template);
+            } catch (InvalidSortingConfigurationException $e) {
+                $this->logInvalidSortingConfiguration($templateName, $e);
+            }
         }
-
-        try {
-            $sortedChain = $this->getSortedChain($unsortedChain, $templateLoadingPriority);
-        } catch (TemplateForModuleIdNotInChainException $e) {
-            $this->logTemplateChainMisconfiguration($templateName, $e);
-            $sortedChain = $unsortedChain;
+        if ($unsortedChain->count()) {
+            $sortedChain->appendChain($unsortedChain);
         }
 
         return $sortedChain;
@@ -54,31 +66,12 @@ class TemplateChainSorter implements TemplateChainSorterInterface
             : $extendedTemplate->getFullyQualifiedName();
     }
 
-    private function getSortedChain(TemplateChain $unsortedChain, ModuleIdChain $templateLoadingPriority): TemplateChain
-    {
-        $sortedChain = new TemplateChain();
-        foreach ($templateLoadingPriority as $moduleId) {
-            $template = $unsortedChain->getByModuleId($moduleId);
-            $sortedChain->append($template);
-            $unsortedChain->remove($template);
-        }
-        if ($unsortedChain->count()) {
-            $sortedChain->appendChain($unsortedChain);
-        }
-
-        return $sortedChain;
-    }
-
-    private function isConfigurationEmpty(ModuleIdChain $templateLoadingPriority): bool
-    {
-        return !$templateLoadingPriority->getIterator()->count();
-    }
-
-    private function logTemplateChainMisconfiguration(string $templateName, TemplateForModuleIdNotInChainException $e): void
+    private function logInvalidSortingConfiguration(string $templateName, InvalidSortingConfigurationException $e): void
     {
         $this->logger->error(
-            "Template chain for '$templateName' was not sorted: $e!'
-                . Please make sure Shop Configuration value of `templateExtensions` is correct."
+            "Incomplete sorting of template chain for '$templateName' has occurred! "
+            . "The error was: \"{$e->getMessage()}\" "
+            . 'Please check the correctness of `templateExtensions` in your ShopConfiguration!'
         );
     }
 }

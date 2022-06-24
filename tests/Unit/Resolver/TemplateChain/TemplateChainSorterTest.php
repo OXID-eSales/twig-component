@@ -14,9 +14,10 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ShopConfiguration;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
+use OxidEsales\Twig\Resolver\TemplateChain\InvalidSortingConfigurationException;
+use OxidEsales\Twig\Resolver\TemplateChain\SortingConfigurationValidatorInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainSorter;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainSorterInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateForModuleIdNotInChainException;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleTemplateType;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -29,6 +30,7 @@ final class TemplateChainSorterTest extends TestCase
     use ProphecyTrait;
 
     private TemplateChainSorterInterface $chainSorter;
+    private SortingConfigurationValidatorInterface|ObjectProphecy $sortingConfigurationValidator;
     private ModuleTemplateExtensionChain|ObjectProphecy $moduleTemplateExtensionChain;
     private LoggerInterface|ObjectProphecy $logger;
 
@@ -119,6 +121,11 @@ final class TemplateChainSorterTest extends TestCase
         $chain = new TemplateChain();
         $chain->append($templateModule1);
         $this->prepareChainSortersConfiguration($templateInSortingConfiguration, [$unknownModuleId]);
+        $this->sortingConfigurationValidator
+            ->validateModuleId($unknownModuleId, $chain, $templateModule1)
+            ->willThrow(
+                new InvalidSortingConfigurationException($unknownModuleId)
+            );
 
         $chain = $this->chainSorter->sort($chain, $templateModule1);
 
@@ -144,6 +151,11 @@ final class TemplateChainSorterTest extends TestCase
         $chain = new TemplateChain();
         $chain->append($templateModule1);
         $this->prepareChainSortersConfiguration($templateInSortingConfiguration, [$moduleId, $moduleId]);
+        $this->sortingConfigurationValidator
+            ->validateModuleId($moduleId, $chain, $templateModule1)
+            ->willThrow(
+                InvalidSortingConfigurationException::class
+            );
 
         $chain = $this->chainSorter->sort($chain, $templateModule1);
 
@@ -165,7 +177,10 @@ final class TemplateChainSorterTest extends TestCase
 
         $this->logger = $this->prophesize(LoggerInterface::class);
 
+        $this->sortingConfigurationValidator = $this->prophesize(SortingConfigurationValidatorInterface::class);
+
         $this->chainSorter = new TemplateChainSorter(
+            $this->sortingConfigurationValidator->reveal(),
             $shopConfigurationDao->reveal(),
             $context->reveal(),
             $this->logger->reveal(),

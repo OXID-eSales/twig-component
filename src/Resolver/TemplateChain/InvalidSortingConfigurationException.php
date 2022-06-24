@@ -9,6 +9,6 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
-class TemplateForModuleIdNotInChainException extends \Exception
+class InvalidSortingConfigurationException extends \Exception
 {
 }

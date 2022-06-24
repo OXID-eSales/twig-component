@@ -164,6 +164,115 @@ final class ModulesTemplateChainSortingTest extends TestCase
         ];
     }
 
+    /**
+     * @dataProvider testRenderWithShopTemplateAndFaultySortingConfigDataProvider
+     */
+    public function testRenderWithShopTemplateAmdFaultySortingConfiguration(
+        string $sorting,
+        string $expectedResult
+    ): void {
+        $template = self::FIXTURE_TEMPLATE_WITH_EXTENDS;
+        $this->addTemplateExtensionsSortingToShopConfiguration($sorting, $template);
+
+        $actual = $this->get(TemplateEngineInterface::class)->render($template);
+
+        $this->assertStringContainsString($expectedResult, $actual);
+    }
+
+    public function testRenderWithShopTemplateAndFaultySortingConfigDataProvider(): array
+    {
+        return [
+            [
+                '  templateExtensions:
+    %s:
+      - module2
+      - module2
+      - module4
+',
+                '<shop-header><shop-content>'
+                . '<module-3-content-ext-shop-test-theme>'
+                . '<module-1-content-ext-shop-test-theme>'
+                . '<module-4-content-ext-shop-default-theme>'
+                . '<module-2-content-ext-shop-test-theme>'
+            ],
+            [
+                '  templateExtensions:
+    %s:
+      - module_is_not_installed_1
+      - module2
+      - module_is_not_installed_1
+      - module4
+      - module_is_not_installed_2
+',
+                '<shop-header><shop-content>'
+                . '<module-3-content-ext-shop-test-theme>'
+                . '<module-1-content-ext-shop-test-theme>'
+                . '<module-4-content-ext-shop-default-theme>'
+                . '<module-2-content-ext-shop-test-theme>'
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider testRenderWithModuleTemplateAndFaultySortingConfigDataProvider
+     */
+    public function testRenderWithModuleTemplateAndFaultySortingConfiguration(
+        string $sorting,
+        string $expectedResult
+    ): void {
+        $template = '@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS;
+        $this->addTemplateExtensionsSortingToShopConfiguration($sorting, $template);
+
+        $actual = $this->get(TemplateEngineInterface::class)->render($template);
+
+        $this->assertStringContainsString($expectedResult, $actual);
+    }
+
+    public function testRenderWithModuleTemplateAndFaultySortingConfigDataProvider(): array
+    {
+        return [
+            [
+                '  templateExtensions:
+    "%s":
+      - module1
+      - module2
+      - module3
+      - module4
+',
+                '<module1-header><module1-content>'
+                . '<module-4-content-ext-module-1>'
+                . '<module-3-content-ext-module-1>'
+                . '<module-2-content-ext-module-1>'
+            ],
+            [
+                '  templateExtensions:
+    "%s":
+      - module2
+      - module3
+      - module1
+      - module4
+',
+                '<module1-header><module1-content>'
+                . '<module-4-content-ext-module-1>'
+                . '<module-3-content-ext-module-1>'
+                . '<module-2-content-ext-module-1>'
+            ],
+            [
+                '  templateExtensions:
+    "%s":
+      - module3
+      - module2
+      - module_is_not_installed_1
+      - module4
+',
+                '<module1-header><module1-content>'
+                . '<module-4-content-ext-module-1>'
+                . '<module-2-content-ext-module-1>'
+                . '<module-3-content-ext-module-1>'
+            ],
+        ];
+    }
+
     private function setUpModules(): void
     {
         $this->installModuleFixture('module1');

@@ -11,10 +11,8 @@ namespace OxidEsales\Twig\Resolver\TemplateChain\DataObject;
 
 use ArrayIterator;
 use IteratorAggregate;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateForModuleIdNotInChainException;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
 use Traversable;
-
 use function array_keys;
 use function array_search;
 use function count;
@@ -44,9 +42,16 @@ class TemplateChain implements IteratorAggregate
         }
     }
 
-    /**
-     * @throws TemplateForModuleIdNotInChainException
-     */
+    public function hasModuleId(string $moduleId): bool
+    {
+        foreach ($this->chain as $templateType) {
+            if ($templateType->getNamespace() === $moduleId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getByModuleId(string $moduleId): TemplateTypeInterface
     {
         foreach ($this->chain as $fullyQualifiedName => $templateType) {
@@ -54,9 +59,6 @@ class TemplateChain implements IteratorAggregate
                 return $this->chain[$fullyQualifiedName];
             }
         }
-        throw new TemplateForModuleIdNotInChainException(
-            "Template chain does not contain template for module '$moduleId'."
-        );
     }
 
     public function has(TemplateTypeInterface $templateType): bool

@@ -329,3 +329,6 @@ services:
 
   OxidEsales\Twig\Resolver\TemplateChain\TemplateType\InitialTemplateResolverInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateType\InitialTemplateResolver
+
+  OxidEsales\Twig\Resolver\TemplateChain\SortingConfigurationValidatorInterface:
+    class: OxidEsales\Twig\Resolver\TemplateChain\SortingConfigurationValidator
