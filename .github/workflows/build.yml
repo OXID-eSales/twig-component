@@ -3,6 +3,7 @@ name: Build
 on:
   push:
     branches:
+      - master
       - b-7.0.x
       - b-6.5.x
   pull_request:
