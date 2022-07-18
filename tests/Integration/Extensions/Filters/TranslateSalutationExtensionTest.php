@@ -22,7 +22,6 @@ class TranslateSalutationExtensionTest extends AbstractExtensionTest
     {
         parent::setUp();
         $this->setLanguage(0);
-        $this->extension = new TranslateSalutationExtension(new TranslateSalutationLogic());
     }
 
     public function translateSalutationProvider(): array
@@ -41,6 +40,14 @@ class TranslateSalutationExtensionTest extends AbstractExtensionTest
      */
     public function testTranslateSalutation(string $template, string $expected): void
     {
+        $translateSalutationLogic = $this->getMockBuilder(TranslateSalutationLogic::class)
+            ->setMethods(['translateSalutation'])->getMock();
+
+        $translateSalutationLogic->expects($this->once())->method('translateSalutation')->will(
+            $this->returnValue($expected)
+        );
+        $this->extension = new TranslateSalutationExtension($translateSalutationLogic);
+
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 }

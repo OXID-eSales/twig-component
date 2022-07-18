@@ -14,10 +14,19 @@ jobs:
     strategy:
       matrix:
         php: [ '8.1' ]
-        mysql: [ '8.0' ]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
+      - name: Set MySql version
+        run: |
+          if [[ "${{ github.ref_name }}" == *"master"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.base_ref }}" == *"master"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.ref_name }}" == *"b-7.0.x"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.base_ref }}" == *"b-7.0.x"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.ref_name }}" == *"b-6.5.x"* ]]; then MYSQL_VERSION=5.7; fi
+          if [[ "${{ github.base_ref }}" == *"b-6.5.x"* ]]; then MYSQL_VERSION=5.7; fi
+          echo "MYSQL_VERSION=$MYSQL_VERSION" >> $GITHUB_ENV
+      
       - name: Clone testing environment master
         run: git clone --depth 1 https://github.com/OXID-eSales/docker-eshop-sdk.git --branch master --single-branch .
 
@@ -37,7 +46,7 @@ jobs:
         with:
           path: |
             ./*
-          key: shopInstallation-${{ matrix.php }}-${{ matrix.mysql }}-${{ github.sha }}
+          key: shopInstallation-${{ matrix.php }}-${{ env.MYSQL_VERSION }}-${{ github.sha }}
 
       - name: Prepare container configuration
         run: |
@@ -46,7 +55,7 @@ jobs:
           make file=services/selenium-firefox.yml addservice
           perl -pi\
               -e "s#PHP_VERSION=.*#PHP_VERSION='${{ matrix.php }}'#g;"\
-              -e "s#MYSQL_VERSION=.*#MYSQL_VERSION='${{ matrix.mysql }}'#g;"\
+              -e "s#MYSQL_VERSION=.*#MYSQL_VERSION='${{ env.MYSQL_VERSION }}'#g;"\
               .env
           perl -pi\
               -e 's#display_errors =.*#display_errors = false#g;'\
@@ -98,19 +107,28 @@ jobs:
     strategy:
       matrix:
         php: [ '8.1' ]
-        mysql: [ '8.0' ]
       fail-fast: false
     needs: [ install_shop ]
     runs-on: ubuntu-latest
     steps:
+      - name: Set MySql version
+        run: |
+          if [[ "${{ github.ref_name }}" == *"master"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.base_ref }}" == *"master"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.ref_name }}" == *"b-7.0.x"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.base_ref }}" == *"b-7.0.x"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.ref_name }}" == *"b-6.5.x"* ]]; then MYSQL_VERSION=5.7; fi
+          if [[ "${{ github.base_ref }}" == *"b-6.5.x"* ]]; then MYSQL_VERSION=5.7; fi
+          echo "MYSQL_VERSION=$MYSQL_VERSION" >> $GITHUB_ENV
+      
       - name: Load current installation from cache
         uses: actions/cache@v2
         with:
           path: |
             ./*
-          key: shopInstallation-${{ matrix.php }}-${{ matrix.mysql }}-${{ github.sha }}
+          key: shopInstallation-${{ matrix.php }}-${{ env.MYSQL_VERSION }}-${{ github.sha }}
           restore-keys: |
-            shopInstallation-${{ matrix.php }}-${{ matrix.mysql }}-${{ github.sha }}
+            shopInstallation-${{ matrix.php }}-${{ env.MYSQL_VERSION }}-${{ github.sha }}
 
       - name: Start containers
         run: |
@@ -124,18 +142,18 @@ jobs:
             -e RUN_TESTS_FOR_MODULES=0 \
             -e ADDITIONAL_TEST_PATHS=vendor/oxid-esales/twig-component/tests \
             -e TEST_DIRS=unit,Unit \
-            php php vendor/bin/runtests | tee unit_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt 2>&1 || true
-          if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' unit_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt; then exit 1; fi
+            php php vendor/bin/runtests | tee unit_PHP${{ matrix.php }}_MYSQL${{ env.MYSQL_VERSION }}_phpunit_log.txt 2>&1 || true
+          if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' unit_PHP${{ matrix.php }}_MYSQL${{ env.MYSQL_VERSION }}_phpunit_log.txt; then exit 1; fi
 
       - name: Ensure that tests have been run
-        run: if [ ! -s unit_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt ]; then echo "PHPUnit log file is empty! Seems like no tests have been run!" && exit 1; fi
+        run: if [ ! -s unit_PHP${{ matrix.php }}_MYSQL${{ env.MYSQL_VERSION }}_phpunit_log.txt ]; then echo "PHPUnit log file is empty! Seems like no tests have been run!" && exit 1; fi
 
       - name: Upload PHPUnit Log
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: phpunit-logs
-          path: unit_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt
+          path: unit_PHP${{ matrix.php }}_MYSQL${{ env.MYSQL_VERSION }}_phpunit_log.txt
           if-no-files-found: error
           retention-days: 7
 
@@ -143,19 +161,28 @@ jobs:
     strategy:
       matrix:
         php: [ '8.1' ]
-        mysql: [ '8.0' ]
       fail-fast: false
     needs: [ install_shop ]
     runs-on: ubuntu-latest
     steps:
+      - name: Set MySql version
+        run: |
+          if [[ "${{ github.ref_name }}" == *"master"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.base_ref }}" == *"master"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.ref_name }}" == *"b-7.0.x"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.base_ref }}" == *"b-7.0.x"* ]]; then MYSQL_VERSION=8.0; fi
+          if [[ "${{ github.ref_name }}" == *"b-6.5.x"* ]]; then MYSQL_VERSION=5.7; fi
+          if [[ "${{ github.base_ref }}" == *"b-6.5.x"* ]]; then MYSQL_VERSION=5.7; fi
+          echo "MYSQL_VERSION=$MYSQL_VERSION" >> $GITHUB_ENV
+      
       - name: Load current installation from cache
         uses: actions/cache@v2
         with:
           path: |
             ./*
-          key: shopInstallation-${{ matrix.php }}-${{ matrix.mysql }}-${{ github.sha }}
+          key: shopInstallation-${{ matrix.php }}-${{ env.MYSQL_VERSION }}-${{ github.sha }}
           restore-keys: |
-            shopInstallation-${{ matrix.php }}-${{ matrix.mysql }}-${{ github.sha }}
+            shopInstallation-${{ matrix.php }}-${{ env.MYSQL_VERSION }}-${{ github.sha }}
 
       - name: Start containers
         run: |
@@ -169,17 +196,17 @@ jobs:
             -e RUN_TESTS_FOR_MODULES=0 \
             -e ADDITIONAL_TEST_PATHS=vendor/oxid-esales/twig-component/tests \
             -e TEST_DIRS=integration,Integration \
-            php php vendor/bin/runtests | tee integration_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt 2>&1 || true
-          if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' integration_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt; then exit 1; fi
+            php php vendor/bin/runtests | tee integration_PHP${{ matrix.php }}_MYSQL${{ env.MYSQL_VERSION }}_phpunit_log.txt 2>&1 || true
+          if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' integration_PHP${{ matrix.php }}_MYSQL${{ env.MYSQL_VERSION }}_phpunit_log.txt; then exit 1; fi
 
       - name: Ensure that tests have been run
-        run: if [ ! -s integration_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt ]; then echo "PHPUnit log file is empty! Seems like no tests have been run!" && exit 1; fi
+        run: if [ ! -s integration_PHP${{ matrix.php }}_MYSQL${{ env.MYSQL_VERSION }}_phpunit_log.txt ]; then echo "PHPUnit log file is empty! Seems like no tests have been run!" && exit 1; fi
 
       - name: Upload PHPUnit Log
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: phpunit-logs
-          path: integration_PHP${{ matrix.php }}_MYSQL${{ matrix.mysql }}_phpunit_log.txt
+          path: integration_PHP${{ matrix.php }}_MYSQL${{ env.MYSQL_VERSION }}_phpunit_log.txt
           if-no-files-found: error
           retention-days: 7

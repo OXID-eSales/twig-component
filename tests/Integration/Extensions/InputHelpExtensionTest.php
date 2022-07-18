@@ -18,7 +18,7 @@ class InputHelpExtensionTest extends AbstractExtensionTest
      */
     private $inputHelpExtension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $inputHelpLogic = new InputHelpLogic();
@@ -61,8 +61,6 @@ class InputHelpExtensionTest extends AbstractExtensionTest
             [null, 1, false, null],
             ['FIRST_NAME', 1, false, 'First name'],
             ['FIRST_NAME', 0, false, 'Vorname'],
-            ['GENERAL_SAVE', 1, true, 'Save'],
-            ['GENERAL_SAVE', 0, true, 'Speichern'],
             ['VAT', 1, false, 'VAT'],
         );
     }

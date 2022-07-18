@@ -18,7 +18,7 @@ class HasRightsExtensionTest extends TestCase
      */
     private $hasRightsExtension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->hasRightsExtension = new HasRightsExtension(new HasRightsTokenParser(HasRightsNode::class));
         parent::setUp();

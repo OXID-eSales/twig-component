@@ -20,7 +20,7 @@ class TranslateExtensionTest extends AbstractExtensionTest
     /** @var TranslateExtension */
     protected $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->extension = new TranslateExtension(new TranslateFilterLogic());
     }

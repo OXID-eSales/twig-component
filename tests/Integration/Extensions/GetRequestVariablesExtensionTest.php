@@ -13,14 +13,14 @@ class GetRequestVariablesExtensionTest extends AbstractExtensionTest
     /** @var GetRequestVariablesExtension */
     protected $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->extension = new GetRequestVariablesExtension();
         $_COOKIE['foo'] = 'bar';
         $_GET['foo'] = 'bar';
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($_COOKIE['foo']);

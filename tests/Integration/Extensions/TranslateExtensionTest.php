@@ -18,7 +18,7 @@ class TranslateExtensionTest extends AbstractExtensionTest
      */
     private $translateExtension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->setLanguage(0);
         $translateFunctionLogic = new TranslateFunctionLogic();

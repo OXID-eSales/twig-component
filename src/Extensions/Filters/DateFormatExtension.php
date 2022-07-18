@@ -82,12 +82,12 @@ class DateFormatExtension extends AbstractExtension
             // it is mysql timestamp format of YYYYMMDDHHMMSS?
             $string = (string)$string;
             $time = mktime(
-                substr($string, 8, 2),
-                substr($string, 10, 2),
-                substr($string, 12, 2),
-                substr($string, 4, 2),
-                substr($string, 6, 2),
-                substr($string, 0, 4)
+                (int)substr($string, 8, 2),
+                (int)substr($string, 10, 2),
+                (int)substr($string, 12, 2),
+                (int)substr($string, 4, 2),
+                (int)substr($string, 6, 2),
+                (int)substr($string, 0, 4)
             );
         } elseif (is_numeric($string)) {
             // it is a numeric string, we handle it as timestamp

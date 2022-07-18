@@ -17,7 +17,7 @@ class CaptureExtensionTest extends TestCase
      */
     private $CaptureExtension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->CaptureExtension = new CaptureExtension();
         parent::setUp();
