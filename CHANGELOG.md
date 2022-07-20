@@ -9,7 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 - Support for `assign_adv` plugin
 
-## [1.0.1] - Unreleased
+## [1.1.0] - Unreleased
+
+### Deprecated
+- `Resolver\TemplateNameResolver`
+- Method:
+    - `TwigEngine::getDefaultFileExtension()`
 
 ### Fixed
 - Various coding style improvements [PR-2](https://github.com/OXID-eSales/twig-component/pull/2)
