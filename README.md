@@ -6,7 +6,7 @@ Includes twig template engine for OXID eShop
 
 ## Requirements
 
-* OXID eShop compilation ^v6.2.0
+* OXID eShop compilation v7.0
 
 ## Installation
 
