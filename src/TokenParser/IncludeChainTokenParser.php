@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\TokenParser;
 
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\NonTemplateFilenameException;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\IncludeNode;
 use Twig\Node\Node;
@@ -43,6 +44,11 @@ class IncludeChainTokenParser extends IncludeTokenParser
 
     private function resolveTemplateNameToRender(string $templateName): string
     {
-        return $this->templateChainResolver->getLastChild($templateName);
+        try {
+            $renderedTemplate = $this->templateChainResolver->getLastChild($templateName);
+        } catch (NonTemplateFilenameException) {
+            $renderedTemplate = $templateName;
+        }
+        return $renderedTemplate;
     }
 }

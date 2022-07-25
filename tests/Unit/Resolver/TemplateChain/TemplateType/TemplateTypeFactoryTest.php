@@ -11,6 +11,7 @@ namespace OxidEsales\Twig\Tests\Unit\Resolver\TemplateChain\TemplateType;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolver;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\NonTemplateFilenameException;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeFactory;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleExtensionTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleTemplateType;
@@ -18,13 +19,32 @@ use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopExtension
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopTemplateType;
 use PHPUnit\Framework\TestCase;
 
-final class TemplateTypeResolverTest extends TestCase
+final class TemplateTypeFactoryTest extends TestCase
 {
     private string $extension = 'html.twig';
 
-    public function testGetTemplateTypeWithShopTemplate(): void
+    public function testCreateFromTemplateNameWithFileExtensionOmitted(): void
+    {
+        $templatePath = 'start/hello';
+
+        $template = $this->getTemplateType($templatePath);
+
+        $this->assertInstanceOf(ShopTemplateType::class, $template);
+    }
+
+    public function testCreateFromTemplateNameWithNonTemplateFileExtension(): void
+    {
+        $templatePath = 'start/hello.html';
+
+        $this->expectException(NonTemplateFilenameException::class);
+
+        $this->getTemplateType($templatePath);
+    }
+
+    public function testCreateFromTemplateNameWithShopTemplate(): void
     {
         $templatePath = "start/hello.$this->extension";
+
         $template = $this->getTemplateType($templatePath);
 
         $this->assertInstanceOf(ShopTemplateType::class, $template);
@@ -35,10 +55,11 @@ final class TemplateTypeResolverTest extends TestCase
         $this->assertEquals("@__main__/$templatePath", $template->getFullyQualifiedName());
     }
 
-    public function testGetTemplateTypeWithShopTemplateAndMainNamespace(): void
+    public function testCreateFromTemplateNameWithShopTemplateAndMainNamespace(): void
     {
         $baseTemplateName = "start/hello.$this->extension";
         $templatePath = "@__main__/$baseTemplateName";
+
         $template = $this->getTemplateType($templatePath);
 
         $this->assertInstanceOf(ShopTemplateType::class, $template);
@@ -49,11 +70,12 @@ final class TemplateTypeResolverTest extends TestCase
         $this->assertEquals($templatePath, $template->getFullyQualifiedName());
     }
 
-    public function testGetTemplateTypeWithModuleTemplate(): void
+    public function testCreateFromTemplateNameWithModuleTemplate(): void
     {
         $moduleId = 'moduleId';
         $baseTemplateName = "start/hello.$this->extension";
         $templatePath = "@$moduleId/$baseTemplateName";
+
         $template = $this->getTemplateType($templatePath);
 
         $this->assertInstanceOf(ModuleTemplateType::class, $template);
@@ -64,13 +86,14 @@ final class TemplateTypeResolverTest extends TestCase
         $this->assertEquals($templatePath, $template->getFullyQualifiedName());
     }
 
-    public function testGetTemplateTypeWithShopExtension(): void
+    public function testCreateFromTemplateNameWithShopExtension(): void
     {
         $moduleId = 'moduleId';
         $themeId = 'some-theme-id';
         $baseTemplateName = "start/hello.$this->extension";
         $relativePath = "extensions/themes/$themeId/$baseTemplateName";
         $templatePath = "@$moduleId/$relativePath";
+
         $template = $this->getTemplateType($templatePath);
 
         $this->assertInstanceOf(ShopExtensionTemplateType::class, $template);
@@ -81,13 +104,14 @@ final class TemplateTypeResolverTest extends TestCase
         $this->assertEquals($templatePath, $template->getFullyQualifiedName());
     }
 
-    public function testGetTemplateTypeWithModuleExtension(): void
+    public function testCreateFromTemplateNameWithModuleExtension(): void
     {
         $moduleId = 'moduleId';
         $extendsModuleId = 'some-module-id';
         $baseTemplateName = "start/hello.$this->extension";
         $relativePath = "extensions/modules/$extendsModuleId/$baseTemplateName";
         $templatePath = "@$moduleId/$relativePath";
+
         $template = $this->getTemplateType($templatePath);
 
         $this->assertInstanceOf(ModuleExtensionTemplateType::class, $template);
@@ -100,6 +124,10 @@ final class TemplateTypeResolverTest extends TestCase
 
     private function getTemplateType(string $templatePath): TemplateTypeInterface
     {
-        return (new TemplateTypeFactory((new TemplateFileResolver($this->extension))))->createFromTemplateName($templatePath);
+        $templateTypeFactory = new TemplateTypeFactory(
+            new TemplateFileResolver($this->extension)
+        );
+
+        return $templateTypeFactory->createFromTemplateName($templatePath);
     }
 }

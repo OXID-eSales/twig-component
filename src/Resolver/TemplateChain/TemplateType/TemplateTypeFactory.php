@@ -18,9 +18,12 @@ use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeI
 use Twig\Loader\FilesystemLoader;
 
 use function preg_match;
+use function str_ends_with;
 
 class TemplateTypeFactory implements TemplateTypeFactoryInterface
 {
+    private const TWIG_EXTENSION = '.twig';
+
     public function __construct(
         private TemplateFileResolverInterface $templateFileResolver,
     ) {
@@ -29,6 +32,8 @@ class TemplateTypeFactory implements TemplateTypeFactoryInterface
     public function createFromTemplateName(string $templateName): TemplateTypeInterface
     {
         $templateName = $this->getFullNameWithFileExtension($templateName);
+        $this->validateTemplateFilename($templateName);
+
         [, $namespace, $extendsNamespace, $name,] = $this->parseAsModuleExtensionFullyQualifiedName($templateName);
         if ($namespace && $extendsNamespace && $name) {
             return new ModuleExtensionTemplateType($name, $namespace, $extendsNamespace);
@@ -78,5 +83,12 @@ class TemplateTypeFactory implements TemplateTypeFactoryInterface
     private function getFullNameWithFileExtension(string $templateName): string
     {
         return $this->templateFileResolver->getFilename($templateName);
+    }
+
+    private function validateTemplateFilename(string $templateName): void
+    {
+        if (!str_ends_with($templateName, self::TWIG_EXTENSION)) {
+            throw new NonTemplateFilenameException("Can not process non-template file '$templateName'.");
+        }
     }
 }
