@@ -11,4 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Method:
     - `TwigEngine::getDefaultFileExtension()`
 
+### Fixed
+- Finding templates (e.g. admin for EE)
+- Filter regex_replace now returns empty string on null
+
 ## [1.0.0] - 2019-11-21

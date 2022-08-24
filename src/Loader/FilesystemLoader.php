@@ -62,15 +62,6 @@ class FilesystemLoader extends TwigLoader
      */
     public function findTemplate($name, $throw = true)
     {
-        try {
-            $template = parent::findTemplate($name, $throw);
-
-            if ($template) {
-                return $template;
-            }
-        } catch (LoaderError $error) {
-        }
-
         if ($this->config->isAdmin()) {
             try{
                $template = $this->adminLoader->getPath($name);
