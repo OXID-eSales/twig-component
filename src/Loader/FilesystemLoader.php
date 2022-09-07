@@ -71,10 +71,17 @@ class FilesystemLoader extends TwigLoader
             }
         } else {
             try {
-                $template = $this->loader->getPath($name);
-            } catch (TemplateFileNotFoundException $e) {
-                //let twig engine handle template loading and error throwing.
-                return null;
+                $template = parent::findTemplate($name, $throw);
+            } catch (LoaderError $error) {
+            }
+
+            if (!$template) {
+                try {
+                    $template = $this->loader->getPath($name);
+                } catch (TemplateFileNotFoundException $e) {
+                    //let twig engine handle template loading and error throwing.
+                    return null;
+                }
             }
         }
 
