@@ -31,6 +31,10 @@ class RegexReplaceExtension extends AbstractExtension
      */
     public function regexReplace($subject, string $pattern, string $replacement)
     {
+        if ($subject === null) {
+            return '';
+        }
+
         return preg_replace($pattern, $replacement, $subject);
     }
 }

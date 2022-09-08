@@ -20,7 +20,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Method:
   - `TwigEngine::getDefaultFileExtension()`
 
-## [1.1.0] - Unreleased
+## [1.2.0] - Unreleased
+
+### Fixed
+- Various coding style improvements [PR-2](https://github.com/OXID-eSales/twig-component/pull/2)
+- Fix not working include_dynamic tag [PR-3](https://github.com/OXID-eSales/twig-component/pull/3)
+
+## [1.1.0] - 2022-09-08
 
 ### Deprecated
 - `Resolver\TemplateNameResolver`
@@ -28,12 +34,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     - `TwigEngine::getDefaultFileExtension()`
 
 ### Fixed
-- Various coding style improvements [PR-2](https://github.com/OXID-eSales/twig-component/pull/2)
-- Fix not working include_dynamic tag [PR-3](https://github.com/OXID-eSales/twig-component/pull/3)
+- Finding templates (problem found in admin for EE)
+- Filter regex_replace now returns empty string on null
 
 ## [1.0.0] - 2019-11-21
 
 ### Added
 - Add Twig themes requirements to composer.json
 
-[1.0.1]: https://github.com/OXID-eSales/twig-component/compare/v1.0.0...master
+[2.0.0]: https://github.com/OXID-eSales/twig-component/compare/v1.1.0...b-7.0.x
+[1.1.0]: https://github.com/OXID-eSales/twig-component/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/OXID-eSales/twig-component/releases/tag/v1.0.0
