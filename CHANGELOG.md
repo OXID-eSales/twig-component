@@ -17,5 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.0] - 2019-11-21
 
+### Added
+- Add Twig themes requirements to composer.json
+
 [1.1.0]: https://github.com/OXID-eSales/twig-component/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/OXID-eSales/twig-component/releases/tag/v1.0.0
