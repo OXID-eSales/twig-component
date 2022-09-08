@@ -1,9 +1,10 @@
 # Twig component
 Includes twig template engine for OXID eShop
 
-## Requirements
+## Compatibility
 
-* OXID eShop compilation ^v6.2.0
+* b-7.0.x branch is compatible with OXID eShop compilation 7.x
+* 1.1.x versions (or b-6.5.x branch) are compatible with OXID eShop compilation 6.5.x
 
 ## Installation
 

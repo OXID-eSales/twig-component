@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.1.0] - Unreleased
+## [1.1.0] - 2022-09-08
 
 ### Deprecated
 - `Resolver\TemplateNameResolver`
@@ -12,7 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     - `TwigEngine::getDefaultFileExtension()`
 
 ### Fixed
-- Finding templates (e.g. admin for EE)
+- Finding templates (problem found in admin for EE)
 - Filter regex_replace now returns empty string on null
 
 ## [1.0.0] - 2019-11-21
+
+[1.1.0]: https://github.com/OXID-eSales/twig-component/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/OXID-eSales/twig-component/releases/tag/v1.0.0
