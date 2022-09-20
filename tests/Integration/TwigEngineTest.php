@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration;
 
 use org\bovigo\vfs\vfsStream;
-use OxidEsales\Eshop\Core\Field;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use OxidEsales\Twig\TwigEngine;
 use OxidEsales\Twig\TwigEngineConfigurationInterface;
@@ -71,14 +70,6 @@ final class TwigEngineTest extends TestCase
         $engine = $this->getEngine();
         $rendered = $engine->renderFragment("{{ 'twig' }}", 'ox:testid');
         $this->assertEquals('twig', $rendered);
-    }
-
-    public function testFieldValuesWithConfigurationSetWillNotBeEscaped(): void
-    {
-        $stringWithSpecialCharacters = '"&a"\'<some-value>\'';
-        $field = new Field($stringWithSpecialCharacters);
-
-        $this->assertEquals($stringWithSpecialCharacters, $field->value);
     }
 
     private function getEngine(): TwigEngine
