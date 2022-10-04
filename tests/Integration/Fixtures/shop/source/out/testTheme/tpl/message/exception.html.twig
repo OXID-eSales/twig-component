@@ -1,0 +1,5 @@
+<h1>Shop exception template header</h1>
+{% for key, exception in Errors.default %}
+    <p>{{ exception.getOxMessage() }}</p>
+    <p class="stackTrace">{{ exception.getStackTrace()|nl2br }};</p>
+{% endfor %}
