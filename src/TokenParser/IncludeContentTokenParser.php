@@ -25,8 +25,7 @@ class IncludeContentTokenParser extends IncludeTokenParser
         list($variables, $only, $ignoreMissing) = $this->parseArguments();
 
         // Replace $expr with wrapper equal to {% include template_from_string(content(value)) %}
-        $contentNameNode = new Node([new ConstantExpression($expr->getAttribute('value'), $token->getLine())]);
-        $contentNode = new Node([new FunctionExpression('content', $contentNameNode, $token->getLine())]);
+        $contentNode = new Node([new FunctionExpression('content', new Node([$expr]), $token->getLine())]);
         $expr = new FunctionExpression('template_from_string', $contentNode, $token->getLine());
 
         return new IncludeNode($expr, $variables, $only, $ignoreMissing, $token->getLine(), $this->getTag());

@@ -42,6 +42,10 @@ final class IncludeContentExtensionTest extends AbstractExtensionTest
             'oxactive' => true,
             'oxcontent' => 'In my_var I have {{ my_var }} value'
         ]);
+        $dynamicContentMock = $this->prepareContentMock(0, [
+            'oxactive' => true,
+            'oxcontent' => 'Dynamic content'
+        ]);
         $notActiveContentMock = $this->prepareContentMock(0, [
             'oxactive' => false,
             'oxcontent' => 'Not active content'
@@ -59,6 +63,7 @@ final class IncludeContentExtensionTest extends AbstractExtensionTest
                 ['ident', 'german', $deContentMock],
                 ['ident', 'english', $enContentMock],
                 ['ident', 'twig_code', $twigContentMock],
+                ['ident', 'dynamic_content', $dynamicContentMock],
                 ['ident', 'not_active', $notActiveContentMock]
             ]));
 
@@ -87,6 +92,10 @@ final class IncludeContentExtensionTest extends AbstractExtensionTest
             [
                 "{% include_content 'twig_code' with { my_var: 'my_val' } %}",
                 "In my_var I have my_val value"
+            ],
+            [
+                "{% set content_name = 'dynamic_content' %}{% include_content content_name %}",
+                "Dynamic content"
             ],
         ];
     }
