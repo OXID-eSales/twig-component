@@ -254,6 +254,9 @@ services:
   OxidEsales\Twig\Extensions\ExtendsExtension:
     tags: ['twig.extension']
 
+  OxidEsales\Twig\Extensions\IncludeContentExtension:
+    tags: ['twig.extension']
+
   OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface:
     class: OxidEsales\Twig\TwigEngine
     arguments:

@@ -15,6 +15,9 @@ use Twig\Error\LoaderError;
 use Twig\Loader\LoaderInterface;
 use Twig\Source;
 
+/**
+ * @deprecated This class will be removed in the future. Use {% include_content %} in templates.
+ */
 class CmsLoader implements LoaderInterface
 {
     public function __construct(private CmsTemplateNameParser $nameParser, private ContentFactory $contentFactory)

@@ -14,7 +14,7 @@
   "autoload": {
     "psr-4": {
       "OxidEsales\\Twig\\": "src",
-      "OxidEsales\\Twig\\Test\\": "tests"
+      "OxidEsales\\Twig\\Tests\\": "tests"
     }
   },
   "minimum-stability": "dev",

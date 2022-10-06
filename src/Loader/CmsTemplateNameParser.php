@@ -11,6 +11,9 @@ namespace OxidEsales\Twig\Loader;
 
 use Exception;
 
+/**
+ * @deprecated This class will be removed in the future. Use {% include_content %} in templates.
+ */
 class CmsTemplateNameParser
 {
     /**

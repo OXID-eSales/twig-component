@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Twig templates multi inheritance for modules
 - Support for PHP v8
+- `{{ content() }}` function to load content from DB
+- `{% include_content %}` tag which includes template from DB
 
 ### Changed
 - Switched to Twig v3
@@ -19,6 +21,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `Resolver\TemplateNameResolver`
 - Method:
   - `TwigEngine::getDefaultFileExtension()`
+
+### Deprecated
+- `Loader\CmsLoader`, `Loader\CmsTemplateNameParser`
 
 ## [1.2.0] - Unreleased
 
