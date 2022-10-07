@@ -261,6 +261,7 @@ services:
     class: OxidEsales\Twig\TwigEngine
     arguments:
       $engine: '@twig'
+      $fileExtension: '%oxid_esales.templating.engine_template_extension%'
       $twigExtensions: !tagged twig.extension
       $twigEscaper: !tagged twig.escaper
     public: false

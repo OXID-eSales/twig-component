@@ -20,13 +20,14 @@ class TwigEngine implements TemplateEngineInterface
 {
     public function __construct(
         private Environment $engine,
+        private string $fileExtension,
         private TemplateChainResolverInterface $templateChainResolver,
         iterable $twigExtensions = [],
         iterable $twigEscaper = []
     ) {
         foreach ($twigExtensions as $extension) {
-            if (!$this->engine->hasExtension($extension)) {
-                $this->engine->addExtension($extension);
+            if (!$this->engine->hasExtension($extension::class)) {
+            $this->engine->addExtension($extension);
             }
         }
         foreach ($twigEscaper as $escaper) {
@@ -66,7 +67,7 @@ class TwigEngine implements TemplateEngineInterface
      */
     public function exists(string $name): bool
     {
-        return $this->engine->getLoader()->exists($name);
+        return $this->engine->getLoader()->exists($name . '.' . $this->fileExtension);
     }
 
     /**
