@@ -25,7 +25,9 @@ class TwigEngine implements TemplateEngineInterface
         iterable $twigEscaper = []
     ) {
         foreach ($twigExtensions as $extension) {
-            $this->engine->addExtension($extension);
+            if (!$this->engine->hasExtension($extension)) {
+                $this->engine->addExtension($extension);
+            }
         }
         foreach ($twigEscaper as $escaper) {
             $this->addEscaper($escaper);
