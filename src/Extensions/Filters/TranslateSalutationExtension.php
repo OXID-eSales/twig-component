@@ -41,5 +41,6 @@ class TranslateSalutationExtension extends AbstractExtension
         if (isset($ident) && is_string($ident)) {
             return $this->translateSalutationLogic->translateSalutation($ident);
         }
+        return '';
     }
 }

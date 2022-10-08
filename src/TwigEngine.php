@@ -27,7 +27,7 @@ class TwigEngine implements TemplateEngineInterface
     ) {
         foreach ($twigExtensions as $extension) {
             if (!$this->engine->hasExtension($extension::class)) {
-            $this->engine->addExtension($extension);
+                $this->engine->addExtension($extension);
             }
         }
         foreach ($twigEscaper as $escaper) {
