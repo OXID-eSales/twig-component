@@ -9,42 +9,39 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
-use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateFunctionLogic;
+use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Extensions\TranslateExtension;
 
 final class TranslateExtensionTest extends AbstractExtensionTest
 {
+    use ContainerTrait;
+
     private TranslateExtension $translateExtension;
 
     protected function setUp(): void
     {
-        $this->setLanguage(0);
-        $translateFunctionLogic = new TranslateFunctionLogic();
-        $this->translateExtension = new TranslateExtension($translateFunctionLogic);
         parent::setUp();
+
+        $this->setLanguage(0);
+        $this->translateExtension = $this->get(TranslateExtension::class);
     }
 
     public function dataProvider(): array
     {
         return [
-            [[], 'ERROR: Translation for IDENT MISSING not found!'],
             [['ident' => 'foobar'], 'ERROR: Translation for foobar not found!'],
-            [['ident' => 'FIRST_NAME', 'suffix' => '_foo'], 'Vorname_foo'],
             [['ident' => 'foo', 'noerror' => true], 'foo'],
-            [['ident' => 'foo', 'noerror' => 'bar'], 'foo']
         ];
     }
 
     /**
-     * @param $params
-     * @param $expectedTranslation
-     *
      * @dataProvider dataProvider
      * @covers \OxidEsales\Twig\Extensions\TranslateExtension::translate
      */
-    public function testTranslate($params, $expectedTranslation): void
+    public function testTranslate(array $params, string $expectedTranslation): void
     {
         $actualTranslation = $this->translateExtension->translate($params);
-        $this->assertEquals($actualTranslation, $expectedTranslation);
+
+        $this->assertEquals($expectedTranslation, $actualTranslation);
     }
 }

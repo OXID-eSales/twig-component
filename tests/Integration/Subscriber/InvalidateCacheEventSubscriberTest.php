@@ -12,27 +12,13 @@ namespace OxidEsales\Twig\Tests\Integration\Subscriber;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\DataObject\OxidEshopPackage;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Service\ModuleActivationServiceInterface;
-use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
-use OxidEsales\TestingLibrary\Services\Library\DatabaseRestorer\DatabaseRestorer;
+use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\TwigContextInterface;
 use PHPUnit\Framework\TestCase;
 
 final class InvalidateCacheEventSubscriberTest extends TestCase
 {
     use ContainerTrait;
-
-    private DatabaseRestorer $databaseRestorer;
-
-    protected function setUp(): void
-    {
-        $this->databaseRestorer = new DatabaseRestorer();
-        $this->databaseRestorer->dumpDB(self::class);
-    }
-
-    protected function tearDown(): void
-    {
-        $this->databaseRestorer->restoreDB(self::class);
-    }
 
     public function testCacheRemovedAfterModuleActivation(): void
     {

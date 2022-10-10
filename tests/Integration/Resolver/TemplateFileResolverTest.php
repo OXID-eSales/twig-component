@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration\Resolver;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolverInterface;
-use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
+use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use PHPUnit\Framework\TestCase;
 
 final class TemplateFileResolverTest extends TestCase

@@ -12,7 +12,7 @@ namespace OxidEsales\Twig\Tests\Integration;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\DataObject\OxidEshopPackage;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleInstallerInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Service\ModuleActivationServiceInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Bridge\ModuleActivationBridgeInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 
 trait ModuleInstallerTrait
@@ -37,18 +37,19 @@ trait ModuleInstallerTrait
 
     public function activateModule(string $moduleId): void
     {
-        $this->get(ModuleActivationServiceInterface::class)
+        $this->get(ModuleActivationBridgeInterface::class)
             ->activate($moduleId, $this->get(BasicContextInterface::class)->getDefaultShopId());
     }
 
     public function deactivateModule(string $moduleId): void
     {
-        $this->get(ModuleActivationServiceInterface::class)
+        $this->get(ModuleActivationBridgeInterface::class)
             ->deactivate($moduleId, $this->get(BasicContextInterface::class)->getDefaultShopId());
     }
 
     public function updateShopConfig(string $themeId): void
     {
+        Registry::getConfig()->reinitialize();
         Registry::getConfig()->setConfigParam('sShopDir', "$this->fixtureRoot/Fixtures/shop/source/");
         Registry::getConfig()->setConfigParam('sTheme', $themeId);
     }

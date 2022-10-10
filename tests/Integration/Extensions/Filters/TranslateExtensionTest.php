@@ -11,19 +11,21 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\Eshop\Core\Field;
 use OxidEsales\EshopCommunity\Core\Registry;
-use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateFilterLogic;
+use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Extensions\Filters\TranslateExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
 use Twig\Extension\AbstractExtension;
 
 final class TranslateExtensionTest extends AbstractExtensionTest
 {
+    use ContainerTrait;
+
     protected AbstractExtension $extension;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->extension = new TranslateExtension(new TranslateFilterLogic());
+        $this->extension = $this->get(TranslateExtension::class);
     }
 
     /**
@@ -97,7 +99,7 @@ final class TranslateExtensionTest extends AbstractExtensionTest
         $oShop->oxshops__oxproductive = new Field($isProductiveMode);
         $oShop->save();
 
-        $this->assertEquals($expected, $this->getTemplate($template)->render([]));
+        $this->assertStringContainsString($expected, $this->getTemplate($template)->render([]));
     }
 
     /**

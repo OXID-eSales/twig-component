@@ -10,12 +10,12 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\Twig\Extensions\Filters\PhpFunctionsExtension;
-use OxidEsales\TestingLibrary\UnitTestCase;
+use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use Twig\Template;
 
-final class PhpFunctionsExtensionTest extends UnitTestCase
+final class PhpFunctionsExtensionTest extends TestCase
 {
     protected PhpFunctionsExtension $extension;
 

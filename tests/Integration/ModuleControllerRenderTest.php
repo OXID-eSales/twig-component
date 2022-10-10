@@ -50,6 +50,7 @@ final class ModuleControllerRenderTest extends TestCase
     {
         $this->installModuleFixture('module1');
         $this->activateModule('module1');
+        $this->updateShopConfig(self::THEME);
 
         ob_start();
         $this->shopControl->start('module1_controller');
@@ -63,6 +64,7 @@ final class ModuleControllerRenderTest extends TestCase
     {
         $this->installModuleFixture('module1');
         $this->activateModule('module1');
+        $this->updateShopConfig(self::THEME);
         $this->switchDebugMode(true);
 
         ob_start();
@@ -79,6 +81,7 @@ final class ModuleControllerRenderTest extends TestCase
     {
         $this->installModuleFixture('module1');
         $this->activateModule('module1');
+        $this->updateShopConfig(self::THEME);
         $this->switchDebugMode(false);
 
         ob_start();
@@ -95,6 +98,7 @@ final class ModuleControllerRenderTest extends TestCase
     {
         $this->installModuleFixture('module1');
         $this->activateModule('module1');
+        $this->updateShopConfig(self::THEME);
         $logger = $this->prophesize(LoggerInterface::class);
         Registry::set('logger', $logger->reveal());
         $this->switchDebugMode(true);

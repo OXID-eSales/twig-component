@@ -38,6 +38,7 @@ final class TranslateSalutationExtensionTest extends AbstractExtensionTest
     public function testTranslateSalutation(string $template, string $expected): void
     {
         $translateSalutationLogic = $this->getMockBuilder(TranslateSalutationLogic::class)
+            ->disableOriginalConstructor()
             ->setMethods(['translateSalutation'])->getMock();
 
         $translateSalutationLogic->expects($this->once())->method('translateSalutation')->willReturn(

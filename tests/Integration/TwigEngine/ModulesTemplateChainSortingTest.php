@@ -11,13 +11,12 @@ namespace OxidEsales\Twig\Tests\Integration\TwigEngine;
 
 use org\bovigo\vfs\vfsStream;
 use OxidEsales\Eshop\Core\Registry;
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Cache\ShopConfigurationCacheInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\DataObject\OxidEshopPackage;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Service\ModuleActivationServiceInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
-use OxidEsales\EshopCommunity\Tests\Integration\Internal\ContainerTrait;
+use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use PHPUnit\Framework\TestCase;
 
 /** @runTestsInSeparateProcesses */
@@ -53,7 +52,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
     }
 
     /**
-     * @dataProvider testRenderShopTemplateDataProvider
+     * @dataProvider renderShopTemplateDataProvider
      */
     public function testRenderWithShopTemplateAndSorting(string $sorting, string $expectedResult): void
     {
@@ -65,12 +64,11 @@ final class ModulesTemplateChainSortingTest extends TestCase
         $this->assertStringContainsString($expectedResult, $actual);
     }
 
-    public function testRenderShopTemplateDataProvider(): array
+    public function renderShopTemplateDataProvider(): array
     {
         return [
             [
-                '  templateExtensions:
-    "%s":
+                '"%s":
       - module1
       - module2
       - module3
@@ -83,8 +81,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
                 . '<module-1-content-ext-shop-test-theme>'
             ],
             [
-                '  templateExtensions:
-    "%s":
+                '"%s":
       - module2
       - module4
       - module1
@@ -97,8 +94,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
                 . '<module-2-content-ext-shop-test-theme>'
             ],
             [
-                '  templateExtensions:
-    %s:
+                '%s:
       - module2
       - module4
 ',
@@ -112,7 +108,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
     }
 
     /**
-     * @dataProvider testRenderModuleTemplateDataProvider
+     * @dataProvider renderModuleTemplateDataProvider
      */
     public function testRenderWithModuleTemplateAndSorting(string $sorting, string $expectedResult): void
     {
@@ -124,12 +120,11 @@ final class ModulesTemplateChainSortingTest extends TestCase
         $this->assertStringContainsString($expectedResult, $actual);
     }
 
-    public function testRenderModuleTemplateDataProvider(): array
+    public function renderModuleTemplateDataProvider(): array
     {
         return [
             [
-                '  templateExtensions:
-    "%s":
+                '"%s":
       - module2
       - module3
       - module4
@@ -140,8 +135,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
                 . '<module-2-content-ext-module-1>'
             ],
             [
-                '  templateExtensions:
-    "%s":
+                '"%s":
       - module3
       - module2
       - module4
@@ -152,8 +146,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
                 . '<module-3-content-ext-module-1>'
             ],
             [
-                '  templateExtensions:
-    "%s":
+                '"%s":
       - module2
 ',
                 '<module1-header><module1-content>'
@@ -165,7 +158,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
     }
 
     /**
-     * @dataProvider testRenderWithShopTemplateAndFaultySortingConfigDataProvider
+     * @dataProvider renderWithShopTemplateAndFaultySortingConfigDataProvider
      */
     public function testRenderWithShopTemplateAmdFaultySortingConfiguration(
         string $sorting,
@@ -179,12 +172,11 @@ final class ModulesTemplateChainSortingTest extends TestCase
         $this->assertStringContainsString($expectedResult, $actual);
     }
 
-    public function testRenderWithShopTemplateAndFaultySortingConfigDataProvider(): array
+    public function renderWithShopTemplateAndFaultySortingConfigDataProvider(): array
     {
         return [
             [
-                '  templateExtensions:
-    %s:
+                '%s:
       - module2
       - module2
       - module4
@@ -196,8 +188,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
                 . '<module-2-content-ext-shop-test-theme>'
             ],
             [
-                '  templateExtensions:
-    %s:
+                '%s:
       - module_is_not_installed_1
       - module2
       - module_is_not_installed_1
@@ -214,7 +205,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
     }
 
     /**
-     * @dataProvider testRenderWithModuleTemplateAndFaultySortingConfigDataProvider
+     * @dataProvider renderWithModuleTemplateAndFaultySortingConfigDataProvider
      */
     public function testRenderWithModuleTemplateAndFaultySortingConfiguration(
         string $sorting,
@@ -228,12 +219,11 @@ final class ModulesTemplateChainSortingTest extends TestCase
         $this->assertStringContainsString($expectedResult, $actual);
     }
 
-    public function testRenderWithModuleTemplateAndFaultySortingConfigDataProvider(): array
+    public function renderWithModuleTemplateAndFaultySortingConfigDataProvider(): array
     {
         return [
             [
-                '  templateExtensions:
-    "%s":
+                '"%s":
       - module1
       - module2
       - module3
@@ -245,8 +235,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
                 . '<module-2-content-ext-module-1>'
             ],
             [
-                '  templateExtensions:
-    "%s":
+                '"%s":
       - module2
       - module3
       - module1
@@ -258,8 +247,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
                 . '<module-2-content-ext-module-1>'
             ],
             [
-                '  templateExtensions:
-    "%s":
+                '"%s":
       - module3
       - module2
       - module_is_not_installed_1
@@ -287,20 +275,14 @@ final class ModulesTemplateChainSortingTest extends TestCase
 
     private function addTemplateExtensionsSortingToShopConfiguration(string $sorting, string $template): void
     {
-        $shopConfiguration = file_get_contents(
-            vfsStream::url('configuration/shops/' . $this->context->getDefaultShopId() . '.yaml')
-        );
-
         $templateExtensions = sprintf(
             $sorting,
-            str_replace('-', '_', $template)
+            $template
         );
-        $shopConfiguration .= $templateExtensions;
         file_put_contents(
-            vfsStream::url('configuration/shops/' . $this->context->getDefaultShopId() . '.yaml'),
-            $shopConfiguration
+            vfsStream::url("configuration/shops/{$this->context->getDefaultShopId()}/template_extension_chain.yaml"),
+            $templateExtensions
         );
-        $this->get(ShopConfigurationCacheInterface::class)->evict($this->context->getDefaultShopId());
     }
 
     private function installModuleFixture(string $moduleName): void
