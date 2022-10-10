@@ -101,9 +101,6 @@ jobs:
       - name: Install dependencies
         run: docker-compose exec -T php composer update --no-interaction
 
-      - name: Reset shop
-        run: docker-compose exec -T php php vendor/bin/reset-shop
-
       - name: Stop containers
         run: |
           docker-compose down
