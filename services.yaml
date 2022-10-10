@@ -10,9 +10,6 @@ services:
   OxidEsales\Eshop\Core\Config:
     factory: ['OxidEsales\Eshop\Core\Registry', 'getConfig']
 
-  OxidEsales\Eshop\Core\UtilsView:
-    factory: ['OxidEsales\Eshop\Core\Registry', 'getUtilsView']
-
   OxidEsales\Twig\TwigContextInterface:
     class: OxidEsales\Twig\TwigContext
     arguments:

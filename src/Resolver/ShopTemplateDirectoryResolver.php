@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver;
 
-use OxidEsales\Eshop\Core\UtilsView;
+use OxidEsales\Eshop\Core\Config;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use Symfony\Component\Filesystem\Filesystem;
 use Twig\Loader\FilesystemLoader;
@@ -17,7 +17,7 @@ use Twig\Loader\FilesystemLoader;
 class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterface
 {
     public function __construct(
-        private UtilsView $utilsView,
+        private Config $config,
         private Filesystem $filesystem,
     ) {
     }
@@ -27,14 +27,15 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
      */
     public function getTemplateDirectories(): array
     {
+        $shopTemplateDirectory = $this->config->getTemplateDir(
+            $this->config->isAdmin()
+        );
         $directories = [];
-        foreach ($this->utilsView->getTemplateDirs() as $shopTemplateDirectory) {
-            if ($this->filesystem->exists($shopTemplateDirectory)) {
-                $directories[] = new NamespacedDirectory(
-                    FilesystemLoader::MAIN_NAMESPACE,
-                    $shopTemplateDirectory
-                );
-            }
+        if ($shopTemplateDirectory && $this->filesystem->exists($shopTemplateDirectory)) {
+            $directories[] = new NamespacedDirectory(
+                FilesystemLoader::MAIN_NAMESPACE,
+                $shopTemplateDirectory
+            );
         }
 
         return $directories;
