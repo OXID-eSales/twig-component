@@ -23,15 +23,17 @@ final class TwigEngineTest extends TestCase
 {
     use ProphecyTrait;
 
-    private string $templateDirPath;
-    private string $template;
     private ObjectProphecy|TemplateChainResolverInterface|null $templateChainResolver = null;
+    private string $extension = 'html.twig';
+    private string $template = 'testTwigTemplate';
+    private string $templateDirPath;
+    private string $templatePath;
 
     protected function setUp(): void
     {
         parent::setUp();
         $templateDir = vfsStream::setup($this->getTemplateDir());
-        $this->template = vfsStream::newFile(
+        $this->templatePath = vfsStream::newFile(
             $this->getTemplateName()
         )->at($templateDir)->setContent("{{ 'twig' }}")->url();
         $this->templateDirPath = vfsStream::url($this->getTemplateDir());
@@ -40,7 +42,7 @@ final class TwigEngineTest extends TestCase
     public function testExists(): void
     {
         $engine = $this->getEngine();
-        $this->assertTrue($engine->exists($this->getTemplateName()));
+        $this->assertTrue($engine->exists($this->template));
         $this->assertFalse($engine->exists('foo'));
     }
 
@@ -55,11 +57,13 @@ final class TwigEngineTest extends TestCase
     public function testRender(): void
     {
         $engine = $this->getEngine();
-        $this->templateChainResolver->getLastChild($this->getTemplateName())->willReturn($this->getTemplateName());
+        $this->templateChainResolver
+            ->getLastChild($this->template)
+            ->willReturn($this->getTemplateName());
 
-        $this->assertTrue(file_exists($this->template));
+        $this->assertFileExists($this->templatePath);
 
-        $rendered = $engine->render($this->getTemplateName());
+        $rendered = $engine->render($this->template);
 
         $this->assertEquals('twig', $rendered);
         $this->assertNotEquals('foo', $rendered);
@@ -90,13 +94,14 @@ final class TwigEngineTest extends TestCase
 
         return new TwigEngine(
             $engine,
+            $this->extension,
             $this->templateChainResolver->reveal()
         );
     }
 
     private function getTemplateName(): string
     {
-        return 'testTwigTemplate.html.twig';
+        return "{$this->template}.{$this->extension}";
     }
 
     private function getTemplateDir(): string
