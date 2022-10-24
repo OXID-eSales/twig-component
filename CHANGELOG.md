@@ -31,6 +31,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Various coding style improvements [PR-2](https://github.com/OXID-eSales/twig-component/pull/2)
 - Fix not working include_dynamic tag [PR-3](https://github.com/OXID-eSales/twig-component/pull/3)
 
+### Deprecated
+- Methods:
+    - `TwigContextInterface::`
+      - `getCacheDir()`
+      - `getTemplateDirectories()`
+
 ## [1.1.0] - 2022-09-08
 
 ### Deprecated
