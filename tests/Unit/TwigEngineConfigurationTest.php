@@ -1,34 +1,38 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: jskoczek
- * Date: 22/08/18
- * Time: 15:25
+ * Copyright © OXID eSales AG. All rights reserved.
+ * See LICENSE file for license details.
  */
+
+declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit;
 
-use OxidEsales\Twig\TwigEngineConfiguration;
+use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\TwigContextInterface;
-use PHPUnit\Framework\MockObject\MockObject;
+use OxidEsales\Twig\TwigEngineConfiguration;
 use PHPUnit\Framework\TestCase;
 
 final class TwigEngineConfigurationTest extends TestCase
 {
     public function testGetParameters(): void
     {
-        $engineConfiguration = $this->getEngineConfiguration();
-        $this->assertEquals(['debug' => true, 'cache' => 'dummy_cache_dir'], $engineConfiguration->getParameters());
-        $this->assertNotEquals(['debug' => 'foo', 'cache' => 'foo'], $engineConfiguration->getParameters());
-    }
+        $context = $this->createConfiguredMock(
+            ContextInterface::class,
+            ['getTemplateCacheDirectory' => 'dummy_cache_dir']
+        );
+        $twigContext = $this->createConfiguredMock(
+            TwigContextInterface::class,
+            ['getIsDebug' => true]
+        );
+        $engineConfiguration = new TwigEngineConfiguration($context, $twigContext);
 
-    private function getEngineConfiguration(): TwigEngineConfiguration
-    {
-        /** @var TwigContextInterface|MockObject $context */
-        $context = $this->getMockBuilder(TwigContextInterface::class)->getMock();
-        $context->method('getIsDebug')->willReturn(true);
-        $context->method('getCacheDir')->willReturn('dummy_cache_dir');
-        return new TwigEngineConfiguration($context);
+        $parameters = $engineConfiguration->getParameters();
+
+        $this->assertEquals(
+            ['debug' => true, 'cache' => 'dummy_cache_dir'],
+            $parameters
+        );
     }
 }

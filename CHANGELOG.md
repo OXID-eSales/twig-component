@@ -19,8 +19,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Support for `assign_adv` plugin
 - Support for PHP v7
 - `Resolver\TemplateNameResolver`
-- Method:
-  - `TwigEngine::getDefaultFileExtension()`
+- Methods:
+    - `TwigContextInterface::`
+        - `getCacheDir()`
+        - `getTemplateDirectories()`
+    - `TwigEngine::getDefaultFileExtension()`
 
 ### Deprecated
 - `Loader\CmsLoader`, `Loader\CmsTemplateNameParser`

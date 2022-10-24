@@ -19,26 +19,15 @@ class TwigContext implements TwigContextInterface
     ) {
     }
 
-    /**
-     * @return bool
-     */
     public function getIsDebug(): bool
     {
         return (bool) $this->config->getConfigParam('iDebug', false);
     }
 
-    /**
-     * @return string
-     */
-    public function getCacheDir(): string
-    {
-        return $this->config->getConfigParam('sCompileDir') . '/twig';
-    }
-
     public function getActiveThemeId(): string
     {
         return $this->config->isAdmin()
-            ? $this->getActiveAdminThemeId()
+            ? $this->activeAdminTheme
             : $this->getActiveFrontendThemeId();
     }
 
@@ -46,10 +35,5 @@ class TwigContext implements TwigContextInterface
     {
         return $this->config->getConfigParam('sCustomTheme')
             ?: $this->config->getConfigParam('sTheme');
-    }
-
-    private function getActiveAdminThemeId(): string
-    {
-        return $this->activeAdminTheme;
     }
 }

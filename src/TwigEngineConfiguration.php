@@ -9,10 +9,14 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig;
 
+use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
+
 class TwigEngineConfiguration implements TwigEngineConfigurationInterface
 {
-    public function __construct(private TwigContextInterface $context)
-    {
+    public function __construct(
+        private ContextInterface $context,
+        private TwigContextInterface $twigContext
+    ) {
     }
 
     /**
@@ -23,8 +27,8 @@ class TwigEngineConfiguration implements TwigEngineConfigurationInterface
     public function getParameters(): array
     {
         return [
-            'debug' => $this->context->getIsDebug(),
-            'cache' => $this->context->getCacheDir(),
+            'debug' => $this->twigContext->getIsDebug(),
+            'cache' => $this->context->getTemplateCacheDirectory(),
         ];
     }
 }

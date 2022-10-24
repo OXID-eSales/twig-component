@@ -14,12 +14,9 @@ services:
     class: OxidEsales\Twig\TwigContext
     arguments:
       $activeAdminTheme: '%oxid_esales.theme.admin.name%'
-    public: true
 
   OxidEsales\Twig\TwigEngineConfigurationInterface:
     class: OxidEsales\Twig\TwigEngineConfiguration
-    arguments:
-      - '@OxidEsales\Twig\TwigContextInterface'
     public: true
 
   twig:
@@ -316,12 +313,6 @@ services:
       -
         - '@oxid_esales.twig.resolver.template_chain.modules_template_chain_builder'
         - '@oxid_esales.twig.resolver.template_chain.shop_template_chain_builder'
-
-  OxidEsales\Twig\Subscriber\InvalidateCacheEventSubscriber:
-    arguments:
-      Symfony\Component\Filesystem\Filesystem: '@oxid_esales.symfony.file_system'
-    tags:
-      - { name: kernel.event_subscriber }
 
   OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeFactoryInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeFactory
