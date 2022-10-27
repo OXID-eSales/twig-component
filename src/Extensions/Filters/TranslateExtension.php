@@ -28,7 +28,7 @@ class TranslateExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('translate', [$this, 'translate'], ['is_safe' => ['html']]),
+            new TwigFilter('translate', [$this, 'translate']),
         ];
     }
 

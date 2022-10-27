@@ -27,7 +27,7 @@ class TranslateSalutationExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('translate_salutation', [$this, 'translateSalutation'], ['is_safe' => ['html']])
+            new TwigFilter('translate_salutation', [$this, 'translateSalutation'])
         ];
     }
 

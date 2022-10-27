@@ -24,7 +24,7 @@ class SmartWordwrapExtension extends AbstractExtension
      */
     public function getFilters()
     {
-        return [new TwigFilter('smart_wordwrap', [$this, 'smartWordwrap'], array('is_safe' => array('html')))];
+        return [new TwigFilter('smart_wordwrap', [$this, 'smartWordwrap'])];
     }
 
     /**

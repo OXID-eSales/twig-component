@@ -24,6 +24,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
         - `getCacheDir()`
         - `getTemplateDirectories()`
     - `TwigEngine::getDefaultFileExtension()`
+- Attribute `['is_safe' => 'html']` from extensions that don't need it:
+  - `Filters\FormatCurrencyExtension`
+  - `Filters\FormatDateExtension`
+  - `Filters\SmartWordwrapExtension`
+  - `Filters\TranslateExtension`
+  - `Filters\TranslateSalutationExtension`
+  - `Filters\TruncateExtension`
+  - `Filters\WordwrapExtension`
+  - `IncludeWidgetExtension` (sic!)
+  - `TranslateExtension`
 
 ### Deprecated
 - `Loader\CmsLoader`, `Loader\CmsTemplateNameParser`

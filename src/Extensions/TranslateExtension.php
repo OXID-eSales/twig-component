@@ -25,7 +25,7 @@ class TranslateExtension extends AbstractExtension
      */
     public function getFunctions()
     {
-        return [new TwigFunction('translate', [$this, 'translate'], ['is_safe' => ['html']])];
+        return [new TwigFunction('translate', [$this, 'translate'])];
     }
 
     /**

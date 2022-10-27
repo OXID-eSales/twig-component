@@ -28,7 +28,7 @@ class TruncateExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('truncate', [$this, 'truncate'], ['is_safe' => ['html']]),
+            new TwigFilter('truncate', [$this, 'truncate']),
         ];
     }
 

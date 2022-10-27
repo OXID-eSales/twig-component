@@ -41,11 +41,7 @@ final class TruncateExtensionTest extends AbstractExtensionTest
             ],
             [
                 "{{ 'Duis iaculis &#039;pellentesque&#039; felis, et &quot;pulvinar&quot; elit lacinia at. Suspendisse dapibus pulvinar sem vitae.'|truncate }}",
-                "Duis iaculis &#039;pellentesque&#039; felis, et &quot;pulvinar&quot; elit lacinia at. Suspendisse..."
-            ],
-            [
-                "{{ '&#039;Duis&#039; &#039;iaculis&#039; &#039;pellentesque&#039; felis, et &quot;pulvinar&quot; elit lacinia at. Suspendisse dapibus pulvinar sem vitae.'|truncate }}",
-                "&#039;Duis&#039; &#039;iaculis&#039; &#039;pellentesque&#039; felis, et &quot;pulvinar&quot; elit lacinia at...."
+                "Duis iaculis &amp;#039;pellentesque&amp;#039; felis, et &amp;quot;pulvinar&amp;quot; elit lacinia at. Suspendisse..."
             ],
         ];
     }
@@ -71,7 +67,7 @@ final class TruncateExtensionTest extends AbstractExtensionTest
             ],
             [
                 "{{ '&#039;Duis&#039; &#039;iaculis&#039; &#039;pellentesque&#039; felis, et &quot;pulvinar&quot; elit.'|truncate(20) }}",
-                "&#039;Duis&#039; &#039;iaculis&#039;..."
+                "&amp;#039;Duis&amp;#039; &amp;#039;iaculis&amp;#039;..."
             ],
         ];
     }

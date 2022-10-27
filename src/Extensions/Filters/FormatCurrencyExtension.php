@@ -28,7 +28,7 @@ class FormatCurrencyExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('format_currency', [$this, 'formatCurrency'], ['is_safe' => ['html']]),
+            new TwigFilter('format_currency', [$this, 'formatCurrency']),
         ];
     }
 

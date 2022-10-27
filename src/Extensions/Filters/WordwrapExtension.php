@@ -28,7 +28,7 @@ class WordwrapExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('wordwrap', [$this, 'wordwrap'], ['is_safe' => ['html']]),
+            new TwigFilter('wordwrap', [$this, 'wordwrap']),
         ];
     }
 
