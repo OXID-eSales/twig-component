@@ -19,6 +19,7 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Log\LoggerInterface;
 
+/** @runTestsInSeparateProcesses */
 final class ModuleControllerRenderTest extends TestCase
 {
     use ModuleInstallerTrait;
