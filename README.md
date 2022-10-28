@@ -15,19 +15,9 @@ This component can be installed
   * [Twig Theme](https://github.com/OXID-eSales/twig-theme) for shop area
   * [Twig Admin Theme](https://github.com/OXID-eSales/twig-admin-theme) for admin area
 - or manually:
-- 
 ```bash
 composer require oxid-esales/twig-component
 ```
-
-## Running tests
-Update your `test_config.yaml`:
-```
-additional_test_paths: ./vendor/oxid-esales/twig-component/tests
-```
-and run:
-
-``vendor/bin/runtests``
 
 ## License
 
