@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.0] - Unreleased
+## [2.0.0] - 2022-10-28
 
 ### Added
 - Twig templates multi inheritance for modules
@@ -16,27 +16,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Switched to Twig v3
 
 ### Removed
-- Support for `assign_adv` plugin
 - Support for PHP v7
-- `Resolver\TemplateNameResolver`
+- Support for `assign_adv` plugin
+- Classes:
+  - `Resolver\TemplateNameResolver`
 - Methods:
     - `TwigContextInterface::`
         - `getCacheDir()`
         - `getTemplateDirectories()`
     - `TwigEngine::getDefaultFileExtension()`
-- Attribute `['is_safe' => 'html']` from extensions that don't need it:
-  - `Filters\FormatCurrencyExtension`
-  - `Filters\FormatDateExtension`
-  - `Filters\SmartWordwrapExtension`
-  - `Filters\TranslateExtension`
-  - `Filters\TranslateSalutationExtension`
-  - `Filters\TruncateExtension`
-  - `Filters\WordwrapExtension`
-  - `IncludeWidgetExtension` (sic!)
-  - `TranslateExtension`
+- Redundant `is_safe` from extension initiation options
 
 ### Deprecated
-- `Loader\CmsLoader`, `Loader\CmsTemplateNameParser`
+- `Loader\CmsLoader`,
+- `Loader\CmsTemplateNameParser`
 
 ## [1.2.0] - Unreleased
 
@@ -66,6 +59,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Add Twig themes requirements to composer.json
 
-[2.0.0]: https://github.com/OXID-eSales/twig-component/compare/v1.1.0...b-7.0.x
+[2.0.0]: https://github.com/OXID-eSales/twig-component/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/OXID-eSales/twig-component/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/OXID-eSales/twig-component/releases/tag/v1.0.0
