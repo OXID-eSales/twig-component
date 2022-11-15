@@ -22,7 +22,10 @@ use function str_ends_with;
 
 class TemplateTypeFactory implements TemplateTypeFactoryInterface
 {
-    private const TWIG_EXTENSION = '.twig';
+    private const TWIG_FILE_EXTENSION = '.twig';
+    private const MODULE_EXTENSION_TEMPLATE_TYPE_PATTERN = '%^@*([^\s/]+)/extensions/modules/([^\s/]+)/(.+)$%i';
+    private const SHOP_EXTENSION_TEMPLATE_TYPE_PATTERN = '%^@([^\s/]+)/extensions/themes/([^\s/]+)/(.+)$%i';
+    private const BASE_TEMPLATE_TYPE_PATTERN = '%^(?:@([^\s/]+)/)?(.*)$%';
 
     public function __construct(
         private TemplateFileResolverInterface $templateFileResolver,
@@ -34,14 +37,18 @@ class TemplateTypeFactory implements TemplateTypeFactoryInterface
         $templateName = $this->getFullNameWithFileExtension($templateName);
         $this->validateTemplateFilename($templateName);
 
-        [, $namespace, $extendsNamespace, $name,] = $this->parseAsModuleExtensionFullyQualifiedName($templateName);
-        if ($namespace && $extendsNamespace && $name) {
-            return new ModuleExtensionTemplateType($name, $namespace, $extendsNamespace);
+        if ($this->isModuleExtensionFullyQualifiedName($templateName)) {
+            [, $namespace, $extendsNamespace, $name,] = $this->parseAsModuleExtensionFullyQualifiedName($templateName);
+            if ($namespace && $extendsNamespace && $name) {
+                return new ModuleExtensionTemplateType($name, $namespace, $extendsNamespace);
+            }
         }
 
-        [, $namespace, $themeId, $name,] = $this->parseAsShopExtensionFullyQualifiedName($templateName);
-        if ($namespace && $themeId && $name) {
-            return new ShopExtensionTemplateType($name, $namespace, $themeId);
+        if ($this->isShopExtensionFullyQualifiedName($templateName)) {
+            [, $namespace, $themeId, $name,] = $this->parseAsShopExtensionFullyQualifiedName($templateName);
+            if ($namespace && $themeId && $name) {
+                return new ShopExtensionTemplateType($name, $namespace, $themeId);
+            }
         }
 
         [, $namespace, $name] = $this->parseAsBaseTemplateFullyQualifiedName($templateName);
@@ -51,26 +58,33 @@ class TemplateTypeFactory implements TemplateTypeFactoryInterface
             : new ModuleTemplateType($name, $namespace);
     }
 
+    private function isModuleExtensionFullyQualifiedName(string $templateName): bool
+    {
+        return preg_match(self::MODULE_EXTENSION_TEMPLATE_TYPE_PATTERN, $templateName) === 1;
+    }
+
     private function parseAsModuleExtensionFullyQualifiedName(string $templateName): array
     {
-        $pattern = '%^@*([^\s/]+)/extensions/modules/([^\s/]+)/(.+)$%i';
-        preg_match($pattern, $templateName, $matches);
+        preg_match(self::MODULE_EXTENSION_TEMPLATE_TYPE_PATTERN, $templateName, $matches);
 
         return $matches;
     }
 
+    private function isShopExtensionFullyQualifiedName(string $templateName): bool
+    {
+        return preg_match(self::SHOP_EXTENSION_TEMPLATE_TYPE_PATTERN, $templateName) === 1;
+    }
+
     private function parseAsShopExtensionFullyQualifiedName(string $templateName): array
     {
-        $pattern = '%^@([^\s/]+)/extensions/themes/([^\s/]+)/(.+)$%i';
-        preg_match($pattern, $templateName, $matches);
+        preg_match(self::SHOP_EXTENSION_TEMPLATE_TYPE_PATTERN, $templateName, $matches);
 
         return $matches;
     }
 
     private function parseAsBaseTemplateFullyQualifiedName(string $templateName): array
     {
-        $pattern = '%^(?:@([^\s/]+)/)?(.*)$%';
-        preg_match($pattern, $templateName, $matches);
+        preg_match(self::BASE_TEMPLATE_TYPE_PATTERN, $templateName, $matches);
 
         return $matches;
     }
@@ -87,7 +101,7 @@ class TemplateTypeFactory implements TemplateTypeFactoryInterface
 
     private function validateTemplateFilename(string $templateName): void
     {
-        if (!str_ends_with($templateName, self::TWIG_EXTENSION)) {
+        if (!str_ends_with($templateName, self::TWIG_FILE_EXTENSION)) {
             throw new NonTemplateFilenameException("Can not process non-template file '$templateName'.");
         }
     }

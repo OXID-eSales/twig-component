@@ -37,6 +37,7 @@ final class ModuleControllerRenderTest extends TestCase
         $this->setFixtureRoot(__DIR__);
         $this->updateShopConfig(self::THEME);
         $this->mockAutoload();
+        $this->stubRequestData();
 
         $this->shopControl = new ShopControl();
     }
@@ -112,6 +113,12 @@ final class ModuleControllerRenderTest extends TestCase
             Argument::containingString('module_controller_missing_template'),
             Argument::any()
         )->shouldHaveBeenCalled();
+    }
+
+    private function stubRequestData(): void
+    {
+        $_SERVER["REQUEST_METHOD"] = 'GET';
+        $_SERVER['SCRIPT_URI'] = '';
     }
 
     private function switchDebugMode(bool $enable): void

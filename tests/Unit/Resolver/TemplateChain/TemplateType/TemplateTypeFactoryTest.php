@@ -10,13 +10,12 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\Resolver\TemplateChain\TemplateType;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolver;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\NonTemplateFilenameException;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeFactory;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleExtensionTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopExtensionTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopTemplateType;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeFactory;
 use PHPUnit\Framework\TestCase;
 
 final class TemplateTypeFactoryTest extends TestCase
@@ -30,15 +29,6 @@ final class TemplateTypeFactoryTest extends TestCase
         $template = $this->getTemplateType($templatePath);
 
         $this->assertInstanceOf(ShopTemplateType::class, $template);
-    }
-
-    public function testCreateFromTemplateNameWithNonTemplateFileExtension(): void
-    {
-        $templatePath = 'start/hello.html';
-
-        $this->expectException(NonTemplateFilenameException::class);
-
-        $this->getTemplateType($templatePath);
     }
 
     public function testCreateFromTemplateNameWithShopTemplate(): void
