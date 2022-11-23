@@ -24,7 +24,7 @@ class IncludeWidgetExtension extends AbstractExtension
      */
     public function getFunctions()
     {
-        return [new TwigFunction('include_widget', [$this, 'includeWidget'])];
+        return [new TwigFunction('include_widget', [$this, 'includeWidget'], ['is_safe' => ['html']])];
     }
 
     /**
