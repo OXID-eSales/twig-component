@@ -9,6 +9,7 @@ namespace OxidEsales\Twig\Extensions;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\InsertNewBasketItemLogicTwig;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
 use Twig\TwigFunction;
 
 /**
@@ -16,7 +17,7 @@ use Twig\TwigFunction;
  *
  * @package OxidEsales\Twig\Extensions
  */
-class InsertNewBasketItemExtension extends AbstractExtension
+class InsertNewBasketItemExtension extends AbstractExtension implements GlobalsInterface
 {
     /**
      * @var InsertNewBasketItemLogicTwig
@@ -50,5 +51,12 @@ class InsertNewBasketItemExtension extends AbstractExtension
     public function insertNewBasketItem(Environment $env, $params): string
     {
         return $this->newBasketItemLogic->getNewBasketItemTemplate($params, $env);
+    }
+
+    public function getGlobals(): array
+    {
+        return [
+            '_newitem' => null
+        ];
     }
 }
