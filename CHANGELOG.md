@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.1] - Unreleased
+## [2.0.1] - 2022-11-23
 
 ### Fixed
 - Warnings reported with stricter `error_reporting` level
@@ -64,7 +64,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Add Twig themes requirements to composer.json
 
-[2.0.1]: https://github.com/OXID-eSales/twig-component/compare/v2.0.0...b-7.0.x
+[2.0.1]: https://github.com/OXID-eSales/twig-component/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/OXID-eSales/twig-component/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/OXID-eSales/twig-component/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/OXID-eSales/twig-component/releases/tag/v1.0.0
