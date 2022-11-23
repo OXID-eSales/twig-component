@@ -42,10 +42,6 @@ class InsertNewBasketItemExtension extends AbstractExtension implements GlobalsI
 
     public function getGlobals(): array
     {
-        if ($this->newBasketItemLogic instanceof GlobalsInterface) {
-            return $this->newBasketItemLogic->getGlobals();
-        } else {
-            return [];
-        }
+        return $this->newBasketItemLogic->getGlobals();
     }
 }
