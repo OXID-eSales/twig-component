@@ -23,12 +23,12 @@ class CatExtension extends AbstractExtension
     }
 
     /**
-     * @param string $string
+     * @param string|null $string
      * @param string|null $cat
      *
      * @return string
      */
-    public function cat(string $string, string $cat = null): string
+    public function cat(string $string = null, string $cat = null): string
     {
         return $string . $cat;
     }
