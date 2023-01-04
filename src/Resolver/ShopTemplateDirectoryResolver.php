@@ -16,6 +16,8 @@ use Twig\Loader\FilesystemLoader;
 
 class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterface
 {
+    private const SHOP_VIEWS_TEMPLATES_DIRECTORY_NAME = 'tpl';
+
     public function __construct(
         private Config $config,
         private Filesystem $filesystem,
@@ -27,17 +29,47 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
      */
     public function getTemplateDirectories(): array
     {
-        $shopTemplateDirectory = $this->config->getTemplateDir(
-            $this->config->isAdmin()
-        );
         $directories = [];
-        if ($shopTemplateDirectory && $this->filesystem->exists($shopTemplateDirectory)) {
-            $directories[] = new NamespacedDirectory(
-                FilesystemLoader::MAIN_NAMESPACE,
-                $shopTemplateDirectory
-            );
+        foreach ($this->getShopViewsTemplateDirectories() as $shopTemplateDirectory) {
+            if ($shopTemplateDirectory && $this->filesystem->exists($shopTemplateDirectory)) {
+                $directories[] = new NamespacedDirectory(
+                    FilesystemLoader::MAIN_NAMESPACE,
+                    $shopTemplateDirectory
+                );
+            }
         }
 
         return $directories;
+    }
+
+    public function getShopViewsTemplateDirectories(): array
+    {
+        $shopTemplateDirectories = [];
+        $directoryForChildTheme = $this->config->getDir(
+            null,
+            self::SHOP_VIEWS_TEMPLATES_DIRECTORY_NAME,
+            $this->config->isAdmin(),
+            null,
+            null,
+            $this->config->getConfigParam('sCustomTheme')
+        );
+        $directoryForParentTheme = $this->config->getDir(
+            null,
+            self::SHOP_VIEWS_TEMPLATES_DIRECTORY_NAME,
+            $this->config->isAdmin(),
+            null,
+            null,
+            $this->config->getConfigParam('sTheme'),
+            true,
+            true
+        );
+        if ($directoryForChildTheme) {
+            $shopTemplateDirectories[] = $directoryForChildTheme;
+        }
+        if ($directoryForParentTheme) {
+            $shopTemplateDirectories[] = $directoryForParentTheme;
+        }
+
+        return $shopTemplateDirectories;
     }
 }
