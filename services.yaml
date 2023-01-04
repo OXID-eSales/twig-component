@@ -35,8 +35,6 @@ services:
     public: true
 
   OxidEsales\Twig\Resolver\ShopTemplateDirectoryResolver:
-    arguments:
-      Symfony\Component\Filesystem\Filesystem: '@oxid_esales.symfony.file_system'
 
   OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolver:
     arguments:
