@@ -7,9 +7,14 @@
 
 namespace OxidEsales\Twig;
 
+use OxidEsales\EshopCommunity\Internal\Framework\Templating\Exception\InvalidThemeNameException;
+
 interface TwigContextInterface
 {
     public function getIsDebug(): bool;
 
+    /**
+     * @throws InvalidThemeNameException
+     */
     public function getActiveThemeId(): string;
 }
