@@ -12,7 +12,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 use OxidEsales\Twig\Extensions\GetRequestVariablesExtension;
 use Twig\Extension\AbstractExtension;
 
-final class GetRequestVariablesExtensionTest extends AbstractExtensionTest
+final class GetRequestVariablesExtensionTest extends AbstractExtensionTestCase
 {
     /** @var GetRequestVariablesExtension */
     protected AbstractExtension $extension;

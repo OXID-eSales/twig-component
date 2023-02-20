@@ -11,10 +11,10 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateSalutationLogic;
 use OxidEsales\Twig\Extensions\Filters\TranslateSalutationExtension;
-use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
+use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
 use Twig\Extension\AbstractExtension;
 
-final class TranslateSalutationExtensionTest extends AbstractExtensionTest
+final class TranslateSalutationExtensionTest extends AbstractExtensionTestCase
 {
     protected AbstractExtension $extension;
 

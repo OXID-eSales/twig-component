@@ -11,10 +11,10 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TruncateLogic;
 use OxidEsales\Twig\Extensions\Filters\TruncateExtension;
-use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
+use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
 use Twig\Extension\AbstractExtension;
 
-final class TruncateExtensionTest extends AbstractExtensionTest
+final class TruncateExtensionTest extends AbstractExtensionTestCase
 {
     protected AbstractExtension $extension;
 

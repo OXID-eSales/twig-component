@@ -11,7 +11,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Twig\Extensions\MailtoExtension;
 
-final class MailtoExtensionTest extends AbstractExtensionTest
+final class MailtoExtensionTest extends AbstractExtensionTestCase
 {
     protected function setUp(): void
     {

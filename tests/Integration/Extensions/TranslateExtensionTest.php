@@ -12,7 +12,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Extensions\TranslateExtension;
 
-final class TranslateExtensionTest extends AbstractExtensionTest
+final class TranslateExtensionTest extends AbstractExtensionTestCase
 {
     use ContainerTrait;
 

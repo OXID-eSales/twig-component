@@ -19,7 +19,7 @@ use Twig\Extension\StringLoaderExtension;
 use Twig\Loader\ArrayLoader;
 use Twig\Template;
 
-final class IncludeContentExtensionTest extends AbstractExtensionTest
+final class IncludeContentExtensionTest extends AbstractExtensionTestCase
 {
     protected function setUp(): void
     {

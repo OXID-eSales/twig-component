@@ -13,7 +13,7 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\AddUrlPa
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\SeoUrlLogic;
 use OxidEsales\Twig\Extensions\UrlExtension;
 
-final class UrlExtensionTest extends AbstractExtensionTest
+final class UrlExtensionTest extends AbstractExtensionTestCase
 {
     protected function setUp(): void
     {

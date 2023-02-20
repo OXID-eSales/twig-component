@@ -16,7 +16,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\Loader\ArrayLoader;
 use Twig\Template;
 
-abstract class AbstractExtensionTest extends TestCase
+abstract class AbstractExtensionTestCase extends TestCase
 {
     protected AbstractExtension $extension;
 

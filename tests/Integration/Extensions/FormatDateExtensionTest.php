@@ -13,7 +13,7 @@ use OxidEsales\Eshop\Core\Field;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatDateLogic;
 use OxidEsales\Twig\Extensions\Filters\FormatDateExtension;
 
-final class FormatDateExtensionTest extends AbstractExtensionTest
+final class FormatDateExtensionTest extends AbstractExtensionTestCase
 {
     protected function setUp(): void
     {

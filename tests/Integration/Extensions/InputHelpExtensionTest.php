@@ -11,9 +11,9 @@ namespace OxidEsales\EshopCommunity\Tests\Integration\Internal\Adapter;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\InputHelpLogic;
 use OxidEsales\Twig\Extensions\InputHelpExtension;
-use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
+use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
 
-final class InputHelpExtensionTest extends AbstractExtensionTest
+final class InputHelpExtensionTest extends AbstractExtensionTestCase
 {
     private InputHelpExtension $inputHelpExtension;
 

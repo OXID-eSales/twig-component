@@ -15,7 +15,7 @@ use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use Twig\Template;
 
-final class ScriptExtensionTest extends AbstractExtensionTest
+final class ScriptExtensionTest extends AbstractExtensionTestCase
 {
     protected function setUp(): void
     {

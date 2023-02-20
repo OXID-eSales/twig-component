@@ -11,10 +11,10 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatCurrencyLogic;
 use OxidEsales\Twig\Extensions\Filters\FormatCurrencyExtension;
-use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
+use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
 use Twig\Extension\AbstractExtension;
 
-final class FormatCurrencyExtensionTest extends AbstractExtensionTest
+final class FormatCurrencyExtensionTest extends AbstractExtensionTestCase
 {
     protected AbstractExtension $extension;
 

@@ -11,7 +11,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Twig\Extensions\PhpFunctionsExtension;
 
-final class PhpFunctionsExtensionTest extends AbstractExtensionTest
+final class PhpFunctionsExtensionTest extends AbstractExtensionTestCase
 {
     /** @var PhpFunctionsExtension */
     protected \Twig\Extension\AbstractExtension $extension;

@@ -12,7 +12,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatPriceLogic;
 use OxidEsales\Twig\Extensions\FormatPriceExtension;
 
-final class FormatPriceExtensionTest extends AbstractExtensionTest
+final class FormatPriceExtensionTest extends AbstractExtensionTestCase
 {
     protected function setUp(): void
     {

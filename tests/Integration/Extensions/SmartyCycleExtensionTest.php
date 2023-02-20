@@ -11,7 +11,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Twig\Extensions\SmartyCycleExtension;
 
-final class SmartyCycleExtensionTest extends AbstractExtensionTest
+final class SmartyCycleExtensionTest extends AbstractExtensionTestCase
 {
     protected function setUp(): void
     {

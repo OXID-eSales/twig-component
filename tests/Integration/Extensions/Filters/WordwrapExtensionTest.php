@@ -11,10 +11,10 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\WordwrapLogic;
 use OxidEsales\Twig\Extensions\Filters\WordwrapExtension;
-use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
+use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
 use Twig\Extension\AbstractExtension;
 
-final class WordwrapExtensionTest extends AbstractExtensionTest
+final class WordwrapExtensionTest extends AbstractExtensionTestCase
 {
     protected AbstractExtension $extension;
 

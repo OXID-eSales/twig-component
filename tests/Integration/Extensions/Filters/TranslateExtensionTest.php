@@ -13,10 +13,10 @@ use OxidEsales\Eshop\Core\Field;
 use OxidEsales\EshopCommunity\Core\Registry;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Extensions\Filters\TranslateExtension;
-use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTest;
+use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
 use Twig\Extension\AbstractExtension;
 
-final class TranslateExtensionTest extends AbstractExtensionTest
+final class TranslateExtensionTest extends AbstractExtensionTestCase
 {
     use ContainerTrait;
 
