@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [v2.1.0] - Unreleased
 
+### Removed
+- Dependency to webmozart/path-util
+
 ### Fixed
 - Loading of shop templates when a theme inheritance is used
 - Can't extend ` include_dynamic` template [#0007418](https://bugs.oxid-esales.com/view.php?id=7418)

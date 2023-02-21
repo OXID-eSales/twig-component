@@ -2,8 +2,6 @@ name: Testing with OXID eShop-CE
 
 on:
   push:
-    branches:
-      - b-7.0.x
   pull_request:
   workflow_dispatch:
   schedule:

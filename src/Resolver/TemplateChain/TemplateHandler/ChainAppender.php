@@ -13,7 +13,7 @@ use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Webmozart\PathUtil\Path;
+use Symfony\Component\Filesystem\Path;
 
 class ChainAppender implements ChainAppenderInterface
 {

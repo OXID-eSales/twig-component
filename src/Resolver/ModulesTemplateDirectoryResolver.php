@@ -14,7 +14,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Path\ModulePathResolverI
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use Symfony\Component\Filesystem\Filesystem;
-use Webmozart\PathUtil\Path;
+use Symfony\Component\Filesystem\Path;
 
 class ModulesTemplateDirectoryResolver implements TemplateDirectoryResolverInterface
 {
