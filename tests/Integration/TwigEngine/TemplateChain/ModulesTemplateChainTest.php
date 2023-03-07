@@ -37,6 +37,7 @@ final class ModulesTemplateChainTest extends TestCase
     private const TEMPLATE_WITH_CONDITIONAL_EXTENDS = 'template-with-conditional-extends.html.twig';
     private const TEMPLATE_WITH_ARRAY_EXTENDS = 'template-with-array-extends.html.twig';
     private const TEMPLATE_WITH_INCLUDE = 'template-with-include.html.twig';
+    private const TEMPLATE_WITH_INCLUDE_DYNAMIC = 'template-with-include-dynamic.html.twig';
     private const TEMPLATE_INCLUDE_NON_TEMPLATE_FILE = 'template-include-non-template-file';
 
     protected function setUp(): void
@@ -194,7 +195,7 @@ final class ModulesTemplateChainTest extends TestCase
         $this->assertStringContainsString('<template-with-array-extends-content>', $actual);
     }
 
-    public function testRenderWithIncludeAndMultipleModulesWillRenderLastInChain(): void
+    public function testRenderWithIncludeAndModuleWillRenderModuleTemplate(): void
     {
         $this->setupModuleFixture('module1');
         $this->setShopSourceFixture();
@@ -204,6 +205,20 @@ final class ModulesTemplateChainTest extends TestCase
 
         $this->assertStringContainsString(
             "<shop-header><module-1-included-extending-shop-test-theme>\n<shop-content-test-theme>",
+            $actual
+        );
+    }
+
+    public function testRenderWithIncludeDynamicAndModuleWillRenderModuleTemplate(): void
+    {
+        $this->setupModuleFixture('module1');
+        $this->setShopSourceFixture();
+        $this->setThemeFixture(self::THEME);
+
+        $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_WITH_INCLUDE_DYNAMIC);
+
+        $this->assertStringContainsString(
+            "<shop-header><module-1-included-dynamic-extending-shop-test-theme>\n<shop-content-test-theme>",
             $actual
         );
     }

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Loading of shop templates when a theme inheritance is used
+- Can't extend ` include_dynamic` template [#0007418](https://bugs.oxid-esales.com/view.php?id=7418)
 
 ### Changed
 - `TwigContext::getActiveThemeId()` throws exception instead of type error when no theme is configured

@@ -33,7 +33,9 @@ class IncludeExtension extends AbstractExtension
             new IncludeChainTokenParser(
                 $this->templateChainResolver,
             ),
-            new IncludeDynamicTokenParser(),
+            new IncludeDynamicTokenParser(
+                $this->templateChainResolver
+            ),
         ];
     }
 
