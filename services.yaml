@@ -1,3 +1,6 @@
+imports:
+  - { resource: src/Event/services.yaml }
+
 parameters:
   oxid_esales.theme.admin.name: 'admin_twig'
   oxid_esales.templating.engine_template_extension: 'html.twig'

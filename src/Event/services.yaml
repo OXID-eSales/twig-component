@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+
+  OxidEsales\Twig\Event\AdminModeChangeEventSubscriber:
+    arguments:
+      - '@twig.loader.filesystem'
+      - '@OxidEsales\Twig\Resolver\TemplateDirectoryResolverInterface'
+    tags:
+      - { name: kernel.event_subscriber }

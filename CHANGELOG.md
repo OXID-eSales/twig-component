@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Can't extend ` include_dynamic` template [#0007418](https://bugs.oxid-esales.com/view.php?id=7418)
 
 ### Changed
+- `Loader\FilesystemLoader` reloads template directories on admin mode change
 - `TwigContext::getActiveThemeId()` throws exception instead of type error when no theme is configured
 
 ## [2.0.1] - 2022-11-23
