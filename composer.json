@@ -5,7 +5,7 @@
   "keywords": ["oxid", "component", "eShop"],
   "homepage": "https://www.oxid-esales.com",
   "license": [
-    "GPL-3.0-only"
+    "proprietary"
   ],
   "require": {
     "php": ">=8.0",
