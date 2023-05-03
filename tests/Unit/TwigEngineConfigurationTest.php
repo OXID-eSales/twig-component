@@ -26,7 +26,7 @@ final class TwigEngineConfigurationTest extends TestCase
             TwigContextInterface::class,
             ['getIsDebug' => true]
         );
-        $engineConfiguration = new TwigEngineConfiguration($context, $twigContext);
+        $engineConfiguration = new TwigEngineConfiguration($context, $twigContext, false);
 
         $parameters = $engineConfiguration->getParameters();
 

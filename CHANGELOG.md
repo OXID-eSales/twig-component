@@ -6,8 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [v2.1.0] - Unreleased
 
+### Added
+- Service Parameter to disable template caching `oxid_esales.templating.disable_twig_template_caching`
+
 ### Removed
-- Dependency to webmozart/path-util
+- Dependency to `webmozart/path-util`
 
 ### Fixed
 - Loading of shop templates when a theme inheritance is used

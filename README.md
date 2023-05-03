@@ -10,13 +10,18 @@ Includes Twig template engine for OXID eShop
 * 1.1.x versions (or b-6.5.x branch) are compatible with OXID eShop compilation 6.5.x
 
 ## Installation
-This component can be installed 
-- automatically, as a dependency of one of the OXID Twig themes:
-  * [Twig Theme](https://github.com/OXID-eSales/twig-theme) for shop area
-  * [Twig Admin Theme](https://github.com/OXID-eSales/twig-admin-theme) for admin area
-- or manually:
+
+To install the component run:
 ```bash
 composer require oxid-esales/twig-component
+```
+
+## Configuration
+
+- To put Twig into developer mode and prevent template cache generation, set the corresponding value in your project's YAML:
+```yaml
+parameters:
+  oxid_esales.templating.disable_twig_template_caching: true
 ```
 
 ## License

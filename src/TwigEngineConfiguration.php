@@ -15,7 +15,8 @@ class TwigEngineConfiguration implements TwigEngineConfigurationInterface
 {
     public function __construct(
         private ContextInterface $context,
-        private TwigContextInterface $twigContext
+        private TwigContextInterface $twigContext,
+        private bool $disableTemplateCaching,
     ) {
     }
 
@@ -28,7 +29,7 @@ class TwigEngineConfiguration implements TwigEngineConfigurationInterface
     {
         return [
             'debug' => $this->twigContext->getIsDebug(),
-            'cache' => $this->context->getTemplateCacheDirectory(),
+            'cache' => $this->disableTemplateCaching ? false : $this->context->getTemplateCacheDirectory(),
         ];
     }
 }
