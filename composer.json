@@ -1,22 +1,26 @@
 {
   "name": "oxid-esales/twig-component",
   "description": "The component supports twig template engine.",
-  "type": "oxideshop-component",
-  "keywords": ["oxid", "component", "eShop"],
-  "homepage": "https://www.oxid-esales.com",
   "license": [
     "proprietary"
   ],
+  "type": "oxideshop-component",
+  "keywords": [
+    "oxid",
+    "component",
+    "eShop"
+  ],
+  "homepage": "https://www.oxid-esales.com",
   "require": {
     "php": ">=8.0",
     "twig/twig": "^3.0"
   },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "OxidEsales\\Twig\\": "src",
       "OxidEsales\\Twig\\Tests\\": "tests"
     }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+  }
 }
