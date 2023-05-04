@@ -82,18 +82,25 @@ jobs:
           $RUN_PHP \
             cp source/config.inc.php.dist source/config.inc.php
           $RUN_PHP \
-            bin/oe-console oe:setup:shop --db-host mysql --db-port 3306 --db-name example --db-user root --db-password root --shop-url localhost.localhost --shop-directory $SHOP_ROOT_DIR/source/ --compile-directory $SHOP_ROOT_DIR/source/tmp/
-
-      - name: Run reset database
-        run: |
-          $RUN_PHP \
-            php bin/oe-console oe:database:reset --db-host=mysql --db-port=3306 --db-name=example --db-user=root --db-password=root --force
+          bin/oe-console oe:setup:shop \
+          --db-host mysql \
+          --db-port 3306 \
+          --db-name example \
+          --db-user root \
+          --db-password root \
+          --shop-url localhost.localhost \
+          --shop-directory $SHOP_ROOT_DIR/source/ \
+          --compile-directory $SHOP_ROOT_DIR/source/tmp/
 
       - name: Run component tests
         # Put PHPUnit logs to the eShop log folder
         run: |
           $RUN_PHP \
-            php vendor/bin/phpunit --configuration phpunit.xml --bootstrap source/bootstrap.php vendor/oxid-esales/twig-component/tests --testdox-text source/log/phpunit_log.txt
+            php vendor/bin/phpunit \
+          --configuration phpunit.xml \
+          --bootstrap source/bootstrap.php \
+          vendor/oxid-esales/twig-component/tests \
+          --testdox-text source/log/phpunit_log.txt
 
       - name: Upload logged artifacts
         uses: actions/upload-artifact@v3
