@@ -1,10 +1,10 @@
-# Change Log for OXID twig engine component
+# Change Log for OXID Twig engine component
 
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [v2.1.0] - Unreleased
+## [v2.1.0] - 2023-05-04
 
 ### Added
 - Service Parameter to disable template caching `oxid_esales.templating.disable_twig_template_caching`

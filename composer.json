@@ -1,6 +1,6 @@
 {
   "name": "oxid-esales/twig-component",
-  "description": "The component supports twig template engine.",
+  "description": "The component supports Twig template engine.",
   "license": [
     "proprietary"
   ],
