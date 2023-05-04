@@ -58,6 +58,11 @@ trait TestingFixturesTrait
         Registry::getConfig()->setConfigParam('sCustomTheme', $themeId);
     }
 
+    public function setFixtureBaseLanguage(int $languageId): void
+    {
+        Registry::getLang()->setBaseLanguage($languageId);
+    }
+
     private function getFixturesDirectory(): string
     {
         return "$this->fixtureRoot/Fixtures";

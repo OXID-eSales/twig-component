@@ -39,6 +39,7 @@ final class ModuleControllerRenderTest extends TestCase
         $this->setupModuleFixture('module1');
         $this->setShopSourceFixture();
         $this->setThemeFixture(self::THEME);
+        $this->setFixtureBaseLanguage(0);
         $this->autoloadFixtures();
         $this->stubRequestData();
 
