@@ -67,7 +67,14 @@ jobs:
         run: |
           make up
 
+      - name: Require twig component by tag
+        if: github.ref_type == 'tag'
+        run: |
+          $RUN_PHP \
+            composer require oxid-esales/twig-component:${{ github.ref_name }} --no-update
+
       - name: Require twig component (${{ github.ref_name }})
+        if: github.ref_type != 'tag'
         run: |
           $RUN_PHP \
             composer require oxid-esales/twig-component:dev-${{ github.ref_name }} --no-update
