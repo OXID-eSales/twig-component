@@ -13,6 +13,9 @@ use Twig\Error\Error;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+/**
+ * @deprecated will be removed in next major version. Use Twig's native 'cycle' function
+ */
 class SmartyCycleExtension extends AbstractExtension
 {
     private array $cycleVars = [];

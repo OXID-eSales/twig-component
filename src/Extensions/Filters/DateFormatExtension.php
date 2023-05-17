@@ -28,8 +28,6 @@ class DateFormatExtension extends AbstractExtension
     }
 
     /**
-     * Smarty date_format modifier plugin
-     *
      * @param string $string
      * @param string $format
      * @param string $defaultDate
@@ -54,8 +52,6 @@ class DateFormatExtension extends AbstractExtension
     }
 
     /**
-     * smarty_make_timestamp
-     *
      * @param string $string
      *
      * @return false|int
