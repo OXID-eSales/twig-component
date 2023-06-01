@@ -4,11 +4,6 @@
 
 Includes Twig template engine for OXID eShop
 
-## Compatibility
-
-* b-7.0.x branch is compatible with OXID eShop compilation 7.x
-* b-6.5.x branch is compatible with OXID eShop compilation 6.5.x
-
 ## Installation
 
 Run the following commands to install the component:
