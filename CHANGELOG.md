@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [v3.0.0] - unreleased
+
+### Removed
+- Class `OxidEsales\Twig\Extensions\SmartyCycleExtension`
+
 ## [v2.2.0] - unreleased
 
 ### Deprecated
