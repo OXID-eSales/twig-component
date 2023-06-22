@@ -18,7 +18,7 @@ jobs:
     env:
       ESHOP_DOCKER_SDK_REPOSITORY: https://github.com/OXID-eSales/docker-eshop-sdk.git
       SHOP_CE_REPOSITORY: https://github.com/OXID-eSales/oxideshop_ce.git
-      SHOP_CE_DEFAULT_BRANCH: b-7.0.x
+      SHOP_CE_DEFAULT_BRANCH: b-7.1.x
       SHOP_INSTALL_DIR: eshop_ce
       DOCKER_SETUP_DIR: source
     steps:
