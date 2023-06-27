@@ -28,8 +28,6 @@ class MailtoExtension extends AbstractExtension
     }
 
     /**
-     * Twig mailto function imported from Smarty
-     *
      * @param string $address
      * @param array  $parameters
      *

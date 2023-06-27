@@ -117,6 +117,10 @@ services:
 
   OxidEsales\Twig\Extensions\SmartyCycleExtension:
     tags: ['twig.extension']
+    deprecated:
+      package: 'oxid-esales/twig-component'
+      version: '2.2.0'
+      message: 'The "%service_id%" service is deprecated.'
 
   OxidEsales\Twig\Extensions\MailtoExtension:
     tags: ['twig.extension']
