@@ -1,21 +1,16 @@
 # Change Log for OXID Twig engine component
 
-All notable changes to this project will be documented in this file.
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
-
-
-## [v3.0.0] - unreleased
+## v3.0.0 - unreleased
 
 ### Removed
-- Class `OxidEsales\Twig\Extensions\SmartyCycleExtension`
+- `SmartyCycleExtension` was removed
 
-## [v2.2.0] - unreleased
+## v2.2.0 - unreleased
 
 ### Deprecated
-- Class `OxidEsales\Twig\Extensions\SmartyCycleExtension`
+- `SmartyCycleExtension` will be removed
 
-## [v2.1.0] - 2023-05-04
+## v2.1.0 - 2023-05-04
 
 ### Added
 - Service Parameter to disable template caching `oxid_esales.templating.disable_twig_template_caching`
@@ -32,12 +27,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `TwigContext::getActiveThemeId()` throws exception instead of type error when no theme is configured
 - License updated
 
-## [v2.0.1] - 2022-11-23
+## v2.0.1 - 2022-11-23
 
 ### Fixed
 - Warnings reported with stricter `error_reporting` level
 
-## [v2.0.0] - 2022-10-28
+## v2.0.0 - 2022-10-28
 
 ### Added
 - Twig templates multi inheritance for modules
@@ -51,49 +46,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 - Support for PHP v7
 - Support for `assign_adv` plugin
-- Classes:
-  - `Resolver\TemplateNameResolver`
-- Methods:
-    - `TwigContextInterface::`
-        - `getCacheDir()`
-        - `getTemplateDirectories()`
-    - `TwigEngine::getDefaultFileExtension()`
+- `Resolver\TemplateNameResolver`
+- `TwigContextInterface::getCacheDir()`, `TwigContextInterface::getTemplateDirectories()` and `TwigEngine::getDefaultFileExtension()`
 - Redundant `is_safe` from extension initiation options
 
 ### Deprecated
 - `Loader\CmsLoader`,
 - `Loader\CmsTemplateNameParser`
 
-## [v1.2.0] - Unreleased
+## v1.2.0 - Unreleased
 
 ### Fixed
 - Various coding style improvements [PR-2](https://github.com/OXID-eSales/twig-component/pull/2)
 - Fix not working include_dynamic tag [PR-3](https://github.com/OXID-eSales/twig-component/pull/3)
 
 ### Deprecated
-- Methods:
-    - `TwigContextInterface::`
-      - `getCacheDir()`
-      - `getTemplateDirectories()`
+- `TwigContextInterface::getCacheDir()` and `TwigContextInterface::getTemplateDirectories()`
 
-## [v1.1.0] - 2022-09-08
+## v1.1.0 - 2022-09-08
 
 ### Deprecated
 - `Resolver\TemplateNameResolver`
-- Method:
-    - `TwigEngine::getDefaultFileExtension()`
+- `TwigEngine::getDefaultFileExtension()`
 
 ### Fixed
 - Finding templates (problem found in admin for EE)
 - Filter regex_replace now returns empty string on null
 
-## [v1.0.0] - 2019-11-21
+## v1.0.0 - 2019-11-21
 
 ### Added
 - Add Twig themes requirements to composer.json
-
-[v2.1.0]: https://github.com/OXID-eSales/twig-component/compare/v2.0.1...v2.1.0
-[v2.0.1]: https://github.com/OXID-eSales/twig-component/compare/v2.0.0...v2.0.1
-[v2.0.0]: https://github.com/OXID-eSales/twig-component/compare/v1.1.0...v2.0.0
-[v1.1.0]: https://github.com/OXID-eSales/twig-component/compare/v1.0.0...v1.1.0
-[v1.0.0]: https://github.com/OXID-eSales/twig-component/releases/tag/v1.0.0
