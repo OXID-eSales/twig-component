@@ -26,8 +26,10 @@ jobs:
         run: |
           SHOP_ROOT_DIR="/var/www/$SHOP_INSTALL_DIR"
           RUN_PHP="docker-compose run -T -w $SHOP_ROOT_DIR php"
+          TWIG_ROOT="/var/www/$SHOP_INSTALL_DIR/vendor/oxid-esales/twig-component/"
           echo "SHOP_ROOT_DIR=$SHOP_ROOT_DIR" >> $GITHUB_ENV
           echo "RUN_PHP=$RUN_PHP" >> $GITHUB_ENV
+          echo "TWIG_ROOT=$TWIG_ROOT" >> $GITHUB_ENV
 
       - name: Clone Docker Eshop SDK
         run: |
@@ -66,6 +68,8 @@ jobs:
       - name: Start containers
         run: |
           make up
+          $RUN_PHP \
+            composer config preferred-install.oxid-esales/* source
 
       - name: Require twig component by tag
         if: github.ref_type == 'tag'
@@ -82,7 +86,28 @@ jobs:
       - name: Run Composer install
         run: |
           $RUN_PHP \
+            composer require squizlabs/php_codesniffer
+          
+          $RUN_PHP \
             composer install --no-interaction
+
+      - name: Prepare for PHP_CS check
+        run: |
+          cd source/eshop_ce/vendor/oxid-esales/twig-component
+          git diff --name-only origin/${{ github.ref_name }} HEAD~1 | grep '\.php$' > changed-files.txt || true 
+          
+          if test -f "changed-files.txt"; then
+             perl -pi -e "s#^#$TWIG_ROOT#" changed-files.txt
+             $RUN_PHP php vendor/bin/phpcs --standard=psr12 --file-list=/var/www/$SHOP_INSTALL_DIR/vendor/oxid-esales/twig-component/changed-files.txt \
+              | tee php_codesniff_log.txt  || true
+             
+             rm changed-files.txt
+             
+             if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' php_codesniff_log.txt; 
+                then exit 1; 
+             fi
+      
+          fi
 
       - name: Run Install Shop
         run: |
