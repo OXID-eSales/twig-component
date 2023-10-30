@@ -24,10 +24,7 @@ final class WordwrapExtensionTest extends AbstractExtensionTestCase
         $this->extension = new WordwrapExtension(new WordwrapLogic());
     }
 
-    /**
-     * Provides data for testWordWrapWithNonAscii
-     */
-    public function nonAsciiProvider(): array
+    public static function nonAsciiProvider(): array
     {
         return [
             ['{{ "HÖ HÖ"|wordwrap(2) }}', "HÖ\nHÖ"],
@@ -45,10 +42,8 @@ final class WordwrapExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * Provides data for testWordWrapAscii
-     */
-    public function asciiProvider(): array
+    //phpcs:disable
+    public static function asciiProvider(): array
     {
         return [
             ['{{ "aaa aaa"|wordwrap(2) }}', "aaa\naaa"],
@@ -65,6 +60,7 @@ final class WordwrapExtensionTest extends AbstractExtensionTestCase
             ]
         ];
     }
+    //phpcs:enable
 
     /**
      * @dataProvider asciiProvider

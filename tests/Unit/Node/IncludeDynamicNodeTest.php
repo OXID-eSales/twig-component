@@ -13,9 +13,8 @@ use OxidEsales\Twig\Extensions\IncludeExtension;
 use OxidEsales\Twig\Node\IncludeDynamicNode;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\ConstantExpression;
-use Twig\Test\NodeTestCase;
 
-final class IncludeDynamicNodeTest extends NodeTestCase
+final class IncludeDynamicNodeTest extends AbstractOxidTwigTestCase
 {
     public function testConstructor(): void
     {
@@ -26,13 +25,21 @@ final class IncludeDynamicNodeTest extends NodeTestCase
         $this->assertEquals($expr, $node->getNode('expr'));
         $this->assertFalse($node->getAttribute('only'));
 
-        $vars = new ArrayExpression([new ConstantExpression('foo', 1), new ConstantExpression(true, 1)], 1);
+        $vars = new ArrayExpression(
+            [
+                new ConstantExpression('foo', 1),
+                new ConstantExpression(true, 1)
+            ],
+            1
+        );
+
         $node = new IncludeDynamicNode($expr, $vars, true, false, 1);
         $this->assertEquals($vars, $node->getNode('variables'));
         $this->assertTrue($node->getAttribute('only'));
     }
 
-    public function getTests(): array
+    //phpcs:disable
+    public static function getOxidTwigTests(): array
     {
         $includeExtensionClass = IncludeExtension::class;
 
@@ -51,7 +58,13 @@ EOF
         ];
 
         $expr = new ConstantExpression('foo.twig', 1);
-        $vars = new ArrayExpression([new ConstantExpression('foo', 1), new ConstantExpression(true, 1)], 1);
+        $vars = new ArrayExpression(
+            [
+                new ConstantExpression('foo', 1),
+                new ConstantExpression(true, 1)
+            ],
+            1
+        );
         $node = new IncludeDynamicNode($expr, $vars, false, false, 1);
         $tests[] = [$node, <<<EOF
 // line 1

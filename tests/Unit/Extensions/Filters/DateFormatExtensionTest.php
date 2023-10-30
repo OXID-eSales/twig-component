@@ -24,7 +24,7 @@ final class DateFormatExtensionTest extends TestCase
         $this->dateFormatExtension = new DateFormatExtension($dateFormatHelper);
     }
 
-    public function provider(): array
+    public static function provider(): array
     {
         return [
 

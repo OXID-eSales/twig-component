@@ -31,7 +31,7 @@ final class StyleExtensionTest extends TestCase
         $styleExtension->style($env, $params);
     }
 
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             [['foo' => 'bar', '__oxid_include_dynamic' => true], true],

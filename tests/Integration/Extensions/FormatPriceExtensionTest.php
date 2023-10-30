@@ -21,7 +21,7 @@ final class FormatPriceExtensionTest extends AbstractExtensionTestCase
         $this->extension = new FormatPriceExtension($formatPriceLogic);
     }
 
-    public function priceProvider(): array
+    public static function priceProvider(): array
     {
         return [
             ['{{ format_price(100) }}', '100,00 €'],

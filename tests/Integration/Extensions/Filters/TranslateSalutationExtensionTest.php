@@ -24,7 +24,7 @@ final class TranslateSalutationExtensionTest extends AbstractExtensionTestCase
         $this->setLanguage(0);
     }
 
-    public function translateSalutationProvider(): array
+    public static function translateSalutationProvider(): array
     {
         return [
             ["{{ 'MR'|translate_salutation }}", 'Herr'],
@@ -39,7 +39,7 @@ final class TranslateSalutationExtensionTest extends AbstractExtensionTestCase
     {
         $translateSalutationLogic = $this->getMockBuilder(TranslateSalutationLogic::class)
             ->disableOriginalConstructor()
-            ->setMethods(['translateSalutation'])->getMock();
+            ->onlyMethods(['translateSalutation'])->getMock();
 
         $translateSalutationLogic->expects($this->once())->method('translateSalutation')->willReturn(
             $expected

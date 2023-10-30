@@ -27,23 +27,20 @@ final class NonStdEscaperTest extends TestCase
         $this->environment = $this->createMock(Environment::class);
     }
 
-    public function escapeProvider(): array
+    public static function escapeProvider(): array
     {
         return [
             [
                 "Zażółć 'gęślą' <b>jaźń</b>",
-                "Za&#197;&#188;&#195;&#179;&#197;&#130;&#196;&#135; 'g&#196;&#153;&#197;&#155;l&#196;&#133;' <b>ja&#197;&#186;&#197;&#132;</b>"
+                "Za&#197;&#188;&#195;&#179;&#197;&#130;&#196;&#135; 'g&#196;&#153;&#197;&#155;l&#196;&#133;' <b>ja&#197;&#186;&#197;&#132;</b>" //phpcs:disable
             ]
         ];
     }
 
     /**
-     * @param string $string
-     * @param string $expected
-     *
      * @dataProvider escapeProvider
      */
-    public function testEscape($string, $expected)
+    public function testEscape(string $string, string $expected)
     {
         $this->assertEquals($expected, $this->escaper->escape($this->environment, $string, 'UTF-8'));
     }

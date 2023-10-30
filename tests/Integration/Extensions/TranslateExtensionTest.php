@@ -26,7 +26,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         $this->translateExtension = $this->get(TranslateExtension::class);
     }
 
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             [['ident' => 'foobar'], 'ERROR: Translation for foobar not found!'],

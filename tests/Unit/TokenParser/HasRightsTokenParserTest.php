@@ -71,7 +71,9 @@ final class HasRightsTokenParserTest extends TestCase
         $env = new Environment($loader, array('cache' => false, 'autoescape' => false));
         $env->addExtension(new HasRightsExtension(new HasRightsTokenParser(HasRightsNode::class)));
 
-        $stream = $env->parse($env->tokenize(new Source('{% hasrights {\'id\' : \'1\'} %}{% endhasrights %}', 'index')));
+        $stream = $env->parse(
+            $env->tokenize(new Source('{% hasrights {\'id\' : \'1\'} %}{% endhasrights %}', 'index'))
+        );
         $stream->compile(new Compiler($env));
 
         $tags = [];
@@ -95,7 +97,7 @@ final class HasRightsTokenParserTest extends TestCase
         $env->addExtension(new HasRightsExtension(new HasRightsTokenParser(HasRightsNode::class)));
 
         $this->expectException(SyntaxError::class);
-        $this->expectExceptionMessage('Unexpected "foo" tag (expecting closing tag for the "hasrights" tag defined near line 1) in "index" at line 1.');
+        $this->expectExceptionMessage('Unexpected "foo" tag (expecting closing tag for the "hasrights" tag defined near line 1) in "index" at line 1.'); //phpcs:disable
 
         $env->parse($env->tokenize(new Source('{% hasrights {\'id\' : \'1\'} %}{% foo %}', 'index')));
     }

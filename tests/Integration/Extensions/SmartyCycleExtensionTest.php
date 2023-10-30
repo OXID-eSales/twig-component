@@ -27,7 +27,7 @@ final class SmartyCycleExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render($variables));
     }
 
-    public function getStaticCycle(): array
+    public static function getStaticCycle(): array
     {
         return [
             [

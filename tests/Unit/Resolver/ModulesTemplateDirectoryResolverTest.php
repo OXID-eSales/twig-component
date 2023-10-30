@@ -49,7 +49,9 @@ final class ModulesTemplateDirectoryResolverTest extends TestCase
         $modulePath1 = 'module-path-1';
         $moduleTemplateDirectory1 = "$modulePath1/views/twig";
 
-        $this->modulePathResolver->getFullModulePathFromConfiguration($moduleId1, $this->shopId)->willReturn($modulePath1);
+        $this->modulePathResolver
+            ->getFullModulePathFromConfiguration($moduleId1, $this->shopId)
+            ->willReturn($modulePath1);
 
         $this->activeModulesDataProvider->getModuleIds()->willReturn([$moduleId1]);
 
@@ -66,7 +68,9 @@ final class ModulesTemplateDirectoryResolverTest extends TestCase
         $modulePath1 = 'module-path-1';
         $moduleTemplateDirectory1 = "$modulePath1/views/twig";
 
-        $this->modulePathResolver->getFullModulePathFromConfiguration($moduleId1, $this->shopId)->willReturn($modulePath1);
+        $this->modulePathResolver
+            ->getFullModulePathFromConfiguration($moduleId1, $this->shopId)
+            ->willReturn($modulePath1);
 
         $this->activeModulesDataProvider->getModuleIds()->willReturn([$moduleId1]);
 
@@ -86,8 +90,12 @@ final class ModulesTemplateDirectoryResolverTest extends TestCase
         $moduleTemplateDirectory1 = "$modulePath1/views/twig";
         $moduleTemplateDirectory2 = "$modulePath2/views/twig";
 
-        $this->modulePathResolver->getFullModulePathFromConfiguration($moduleId1, $this->shopId)->willReturn($modulePath1);
-        $this->modulePathResolver->getFullModulePathFromConfiguration($moduleId2, $this->shopId)->willReturn($modulePath2);
+        $this->modulePathResolver
+            ->getFullModulePathFromConfiguration($moduleId1, $this->shopId)
+            ->willReturn($modulePath1);
+        $this->modulePathResolver
+            ->getFullModulePathFromConfiguration($moduleId2, $this->shopId)
+            ->willReturn($modulePath2);
 
         $this->activeModulesDataProvider->getModuleIds()->willReturn([$moduleId1, $moduleId2]);
 
@@ -111,9 +119,12 @@ final class ModulesTemplateDirectoryResolverTest extends TestCase
         $moduleTemplateDirectory2 = "$modulePath2/views/twig";
         $moduleTemplateDirectory3 = "$modulePath3/views/twig";
 
-        $this->modulePathResolver->getFullModulePathFromConfiguration($moduleId1, $this->shopId)->willReturn($modulePath1);
-        $this->modulePathResolver->getFullModulePathFromConfiguration($moduleId2, $this->shopId)->willReturn($modulePath2);
-        $this->modulePathResolver->getFullModulePathFromConfiguration($moduleId3, $this->shopId)->willReturn($modulePath3);
+        $this->modulePathResolver
+            ->getFullModulePathFromConfiguration($moduleId1, $this->shopId)->willReturn($modulePath1);
+        $this->modulePathResolver
+            ->getFullModulePathFromConfiguration($moduleId2, $this->shopId)->willReturn($modulePath2);
+        $this->modulePathResolver
+            ->getFullModulePathFromConfiguration($moduleId3, $this->shopId)->willReturn($modulePath3);
 
         $this->activeModulesDataProvider->getModuleIds()->willReturn([$moduleId1, $moduleId2, $moduleId3]);
 

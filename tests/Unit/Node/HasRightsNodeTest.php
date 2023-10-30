@@ -14,9 +14,8 @@ use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Node;
 use Twig\Node\TextNode;
-use Twig\Test\NodeTestCase;
 
-final class HasRightsNodeTest extends NodeTestCase
+final class HasRightsNodeTest extends AbstractOxidTwigTestCase
 {
     public function testConstruct(): void
     {
@@ -32,12 +31,15 @@ final class HasRightsNodeTest extends NodeTestCase
         $this->assertEquals($parametersNode, $node->getNode('parameters'));
     }
 
-    public function getTests(): array
+    public static function getOxidTwigTests(): array
     {
-        return array_merge($this->getNonNestedBlocksTests(), $this->getNestedBlocksTests());
+        return array_merge(
+            self::getNonNestedBlocksTests(),
+            self::getNestedBlocksTests()
+        );
     }
 
-    private function getNonNestedBlocksTests(): array
+    private static function getNonNestedBlocksTests(): array
     {
         $tests = [];
 
@@ -57,7 +59,7 @@ EOF
         return $tests;
     }
 
-    private function getNestedBlocksTests(): array
+    private static function getNestedBlocksTests(): array
     {
         $tests = [];
 

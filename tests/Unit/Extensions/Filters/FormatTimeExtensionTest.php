@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 final class FormatTimeExtensionTest extends TestCase
 {
-    public function provider(): array
+    public static function provider(): array
     {
         return [
             [0, '00:00:00'],

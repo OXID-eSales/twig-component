@@ -38,7 +38,7 @@ final class UrlExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render($variables));
     }
 
-    public function getSeoUrlTests(): array
+    public static function getSeoUrlTests(): array
     {
         return [
             [
@@ -48,7 +48,7 @@ final class UrlExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    public function getAddUrlParametersTests(): array
+    public static function getAddUrlParametersTests(): array
     {
         return [
             [

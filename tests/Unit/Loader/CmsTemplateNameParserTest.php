@@ -72,7 +72,7 @@ final class CmsTemplateNameParserTest extends TestCase
         $this->assertEquals($this->cmsTemplateNameParser->getKey($name), $expected['key']);
     }
 
-    public function getInvalidNameTests(): array
+    public static function getInvalidNameTests(): array
     {
         $invalidNames = [
             '',
@@ -93,7 +93,7 @@ final class CmsTemplateNameParserTest extends TestCase
         );
     }
 
-    public function getValidNameTests(): array
+    public static function getValidNameTests(): array
     {
         return [
             [

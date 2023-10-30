@@ -22,7 +22,7 @@ final class PhpFunctionsExtensionTest extends AbstractExtensionTestCase
         $this->extension = new PhpFunctionsExtension();
     }
 
-    public function dummyTemplateProvider(): array
+    public static function dummyTemplateProvider(): array
     {
         return [
             ["{{ count({0:0, 1:1, 2:2}) }}", 3],

@@ -26,7 +26,7 @@ final class CmsLoaderTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->contentMockBuilder = $this->getMockBuilder(Content::class)->setMethods(['getLanguage']);
+        $this->contentMockBuilder = $this->getMockBuilder(Content::class)->onlyMethods(['getLanguage']);
 
         $validContentMock = $this->prepareContentMock(
             0,
@@ -40,7 +40,11 @@ final class CmsLoaderTest extends TestCase
 
         $fieldContentMock = $this->prepareContentMock(
             0,
-            ['oxactive' => true, 'customfield' => "Template code (custom field)", 'oxtimestamp' => '2018-10-09 09:32:06']
+            [
+                'oxactive' => true,
+                'customfield' => "Template code (custom field)",
+                'oxtimestamp' => '2018-10-09 09:32:06'
+            ]
         );
 
         $notFreshContentMock = $this->prepareContentMock(
@@ -52,7 +56,7 @@ final class CmsLoaderTest extends TestCase
 
         $contentFactoryMock = $this
             ->getMockBuilder(ContentFactory::class)
-            ->setMethods(['getContent'])
+            ->onlyMethods(['getContent'])
             ->getMock();
 
         $contentFactoryMock

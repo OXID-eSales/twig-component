@@ -30,7 +30,8 @@ final class MailtoExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render($variables));
     }
 
-    public function getMailtoTests(): array
+    //phpcs:disable
+    public static function getMailtoTests(): array
     {
         return [
             [

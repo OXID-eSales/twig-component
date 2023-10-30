@@ -5,35 +5,28 @@
  * See LICENSE file for license details.
  */
 
+declare(strict_types=1);
+
 namespace OxidEsales\Twig\Tests\Unit\Node;
 
 use OxidEsales\Twig\Node\CaptureNode;
 use Twig\Node\TextNode;
-use Twig\Test\NodeTestCase;
 
-final class CaptureNodeTest extends NodeTestCase
+final class CaptureNodeTest extends AbstractOxidTwigTestCase
 {
-    private string $variableName = 'foo';
-    private int $line = 1;
-    private string $tag = 'capture';
-    private $body;
-
-    public function __construct($name = null, array $data = [], $dataName = '')
+    public static function getOxidTwigTests(): array
     {
-        parent::__construct($name, $data, $dataName);
-        $this->body = new TextNode("Lorem Ipsum", 1);
+        return array_merge(
+            self::getTestForCaptureWithAttributeName(),
+            self::getTestForCaptureWithAttributeAssign(),
+            self::getTestForCaptureWithAttributeAppend()
+        );
     }
 
-    public function getTests()
-    {
-        return array_merge($this->getTestForCaptureWithAttributeName(), $this->getTestForCaptureWithAttributeAssign(), $this->getTestForCaptureWithAttributeAppend());
-    }
-
-    private function getTestForCaptureWithAttributeName()
+    private static function getTestForCaptureWithAttributeName(): array
     {
         $tests = [];
-        $nodeForCaptureName = new CaptureNode('name', $this->variableName, $this->body, $this->line, $this->tag);
-
+        $nodeForCaptureName = self::getCaptureNode('name');
         $tests[] = [$nodeForCaptureName, <<<EOF
 // line 1
 ob_start();
@@ -47,10 +40,10 @@ EOF
         return $tests;
     }
 
-    private function getTestForCaptureWithAttributeAssign()
+    private static function getTestForCaptureWithAttributeAssign(): array
     {
         $tests = [];
-        $nodeForCaptureAssign = new CaptureNode('assign', $this->variableName, $this->body, $this->line, $this->tag);
+        $nodeForCaptureAssign = self::getCaptureNode('assign');
         $tests[] = [$nodeForCaptureAssign, <<<EOF
 // line 1
 ob_start();
@@ -66,11 +59,11 @@ EOF
         return $tests;
     }
 
-    private function getTestForCaptureWithAttributeAppend()
+    private static function getTestForCaptureWithAttributeAppend(): array
     {
         $tests = [];
-        $nodeForCaptureAssign = new CaptureNode('append', $this->variableName, $this->body, $this->line, $this->tag);
-        $tests[] = [$nodeForCaptureAssign, <<<EOF
+        $nodeForCapture = self::getCaptureNode('append');
+        $tests[] = [$nodeForCapture, <<<EOF
 // line 1
 ob_start();
 echo "Lorem Ipsum";
@@ -89,5 +82,16 @@ EOF
         ];
 
         return $tests;
+    }
+
+    private static function getCaptureNode(string $attributeName): CaptureNode
+    {
+        return new CaptureNode(
+            $attributeName,
+            'foo',
+            new TextNode("Lorem Ipsum", 1),
+            1,
+            'capture'
+        );
     }
 }

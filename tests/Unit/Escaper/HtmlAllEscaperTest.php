@@ -27,7 +27,7 @@ final class HtmlAllEscaperTest extends TestCase
         $this->environment = $this->createMock(Environment::class);
     }
 
-    public function escapeProvider(): array
+    public static function escapeProvider(): array
     {
         return [
             ["A 'quote' is <b>bold</b>", "A &#039;quote&#039; is &lt;b&gt;bold&lt;/b&gt;"]

@@ -80,7 +80,7 @@ final class CaptureTokenParserTest extends TestCase
         $this->assertTrue($ifContentNode->hasNode('body'));
     }
 
-    public function templateSourceCodeProvider(): array
+    public static function templateSourceCodeProvider(): array
     {
         return [
             ["{% capture name = \"foo\" %}Lorem Ipsum{% endcapture %}"],
@@ -110,7 +110,7 @@ final class CaptureTokenParserTest extends TestCase
         $stream = $this->environment->tokenize(new Source($source, 'index'));
 
         $this->expectException(SyntaxError::class);
-        $this->expectExceptionMessage("Incorrect attribute name. Possible attribute names are: 'name', 'assign' and 'append'");
+        $this->expectExceptionMessage("Incorrect attribute name. Possible attribute names are: 'name', 'assign' and 'append'"); //phpcs:disable
         $this->parser->parse($stream);
     }
 }

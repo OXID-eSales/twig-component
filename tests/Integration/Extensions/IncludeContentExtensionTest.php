@@ -78,7 +78,7 @@ final class IncludeContentExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    public function contentProvider(): array
+    public static function contentProvider(): array
     {
         return [
             [
