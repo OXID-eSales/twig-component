@@ -5,3 +5,4 @@
 ### Removed
 - `SmartyCycleExtension` was removed
 - Short template names (without file extensions `".html.twig"`) are not longer supported.
+- Engine autoescapes html is activated by default in twig

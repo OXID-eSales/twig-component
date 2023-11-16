@@ -4,7 +4,6 @@ imports:
 parameters:
   oxid_esales.theme.admin.name: 'admin_twig'
   oxid_esales.templating.engine_template_extension: 'html.twig'
-  oxid_esales.templating.engine_autoescapes_html: true
   oxid_esales.templating.disable_twig_template_caching: false
 
 services:
