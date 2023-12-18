@@ -32,7 +32,7 @@ final class HexEntityEscaperTest extends TestCase
         return [
             [
                 "A 'quote' is <b>bold</b>",
-                "&#x41;&#x20;&#x27;&#x71;&#x75;&#x6f;&#x74;&#x65;&#x27;&#x20;&#x69;&#x73;&#x20;&#x3c;&#x62;&#x3e;&#x62;&#x6f;&#x6c;&#x64;&#x3c;&#x2f;&#x62;&#x3e;" //phpcs:disable
+                "&#x41;&#x20;&#x27;&#x71;&#x75;&#x6f;&#x74;&#x65;&#x27;&#x20;&#x69;&#x73;&#x20;&#x3c;&#x62;&#x3e;&#x62;&#x6f;&#x6c;&#x64;&#x3c;&#x2f;&#x62;&#x3e;"
             ]
         ];
     }

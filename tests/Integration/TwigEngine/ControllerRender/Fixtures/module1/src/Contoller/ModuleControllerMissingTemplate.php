@@ -11,7 +11,6 @@ namespace OxidEsales\Module1\Controller;
 
 use OxidEsales\Eshop\Application\Controller\FrontendController;
 
-//phpcs:disable
 class ModuleControllerMissingTemplate extends FrontendController
 {
     protected $_sThisTemplate = '@module1/module_controller_missing_template';

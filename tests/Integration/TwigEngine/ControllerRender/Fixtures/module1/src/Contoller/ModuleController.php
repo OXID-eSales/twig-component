@@ -13,5 +13,5 @@ use OxidEsales\Eshop\Application\Controller\FrontendController;
 
 class ModuleController extends FrontendController
 {
-    protected $_sThisTemplate = '@module1/module_controller'; //phpcs:disable
+    protected $_sThisTemplate = '@module1/module_controller';
 }

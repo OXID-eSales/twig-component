@@ -32,7 +32,6 @@ final class ScriptExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    //phpcs:disable
     public static function getScriptTests(): array
     {
         return [

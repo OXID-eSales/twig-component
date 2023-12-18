@@ -38,7 +38,6 @@ final class IncludeDynamicNodeTest extends AbstractOxidTwigTestCase
         $this->assertTrue($node->getAttribute('only'));
     }
 
-    //phpcs:disable
     public static function getOxidTwigTests(): array
     {
         $includeExtensionClass = IncludeExtension::class;

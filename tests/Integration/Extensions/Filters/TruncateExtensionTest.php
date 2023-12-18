@@ -1,4 +1,4 @@
-<?php //phpcs:disable
+<?php
 
 /**
  * Copyright © OXID eSales AG. All rights reserved.

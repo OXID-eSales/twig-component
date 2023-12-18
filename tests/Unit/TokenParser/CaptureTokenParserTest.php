@@ -110,7 +110,7 @@ final class CaptureTokenParserTest extends TestCase
         $stream = $this->environment->tokenize(new Source($source, 'index'));
 
         $this->expectException(SyntaxError::class);
-        $this->expectExceptionMessage("Incorrect attribute name. Possible attribute names are: 'name', 'assign' and 'append'"); //phpcs:disable
+        $this->expectExceptionMessage("Incorrect attribute name. Possible attribute names are: 'name', 'assign' and 'append'");
         $this->parser->parse($stream);
     }
 }

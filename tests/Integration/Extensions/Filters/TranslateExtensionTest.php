@@ -1,4 +1,4 @@
-<?php //phpcs:disable
+<?php
 
 /**
  * Copyright © OXID eSales AG. All rights reserved.
@@ -69,7 +69,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
     {
         return [
             [true, "{{ 'MY_MISING_TRANSLATION'|translate }}", 'MY_MISING_TRANSLATION'],
-            [false, "{{ 'MY_MISING_TRANSLATION'|translate }}", 'ERROR: Translation for MY_MISING_TRANSLATION not found!'], //phpcs:disable
+            [false, "{{ 'MY_MISING_TRANSLATION'|translate }}", 'ERROR: Translation for MY_MISING_TRANSLATION not found!'],
         ];
     }
 

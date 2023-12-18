@@ -14,7 +14,6 @@ use OxidEsales\Twig\Extensions\Filters\SmartWordwrapExtension;
 use OxidEsales\EshopCommunity\Tests\Unit\Application\Controller\contentTest_oxUtilsView;
 use PHPUnit\Framework\TestCase;
 
-//phpcs:disable
 final class SmartWordwrapExtensionTest extends TestCase
 {
     public static function provider()

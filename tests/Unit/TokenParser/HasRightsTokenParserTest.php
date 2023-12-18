@@ -97,7 +97,7 @@ final class HasRightsTokenParserTest extends TestCase
         $env->addExtension(new HasRightsExtension(new HasRightsTokenParser(HasRightsNode::class)));
 
         $this->expectException(SyntaxError::class);
-        $this->expectExceptionMessage('Unexpected "foo" tag (expecting closing tag for the "hasrights" tag defined near line 1) in "index" at line 1.'); //phpcs:disable
+        $this->expectExceptionMessage('Unexpected "foo" tag (expecting closing tag for the "hasrights" tag defined near line 1) in "index" at line 1.');
 
         $env->parse($env->tokenize(new Source('{% hasrights {\'id\' : \'1\'} %}{% foo %}', 'index')));
     }
