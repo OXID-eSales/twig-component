@@ -22,16 +22,21 @@ class ChainAppender implements ChainAppenderInterface
     ) {
     }
 
-    public function addToChain(TemplateChain $templateChain, TemplateTypeInterface $templateType, NamespacedDirectory $directory): TemplateChain
-    {
+    public function addToChain(
+        TemplateChain $templateChain,
+        TemplateTypeInterface $templateType,
+        NamespacedDirectory $directory
+    ): TemplateChain {
         if ($this->directoryContainsTemplateFile($directory, $templateType)) {
             $templateChain->append($templateType);
         }
         return $templateChain;
     }
 
-    private function directoryContainsTemplateFile(NamespacedDirectory $directory, TemplateTypeInterface $template): bool
-    {
+    private function directoryContainsTemplateFile(
+        NamespacedDirectory $directory,
+        TemplateTypeInterface $template
+    ): bool {
         return $this->filesystem->exists(
             Path::join($directory->getDirectory(), $template->getRelativeFilePath())
         );

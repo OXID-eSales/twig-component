@@ -20,8 +20,11 @@ class ModuleTemplateHandler implements ChainAppenderInterface, TemplateTypeCheck
     ) {
     }
 
-    public function addToChain(TemplateChain $templateChain, TemplateTypeInterface $templateType, NamespacedDirectory $directory): TemplateChain
-    {
+    public function addToChain(
+        TemplateChain $templateChain,
+        TemplateTypeInterface $templateType,
+        NamespacedDirectory $directory
+    ): TemplateChain {
         if (!$this->canHandle($templateType)) {
             return $templateChain;
         }

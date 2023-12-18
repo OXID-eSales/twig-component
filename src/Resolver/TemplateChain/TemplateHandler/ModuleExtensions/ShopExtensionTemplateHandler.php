@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions;
 
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
+use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ChainAppenderInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\TemplateTypeCheckerInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
 
 class ShopExtensionTemplateHandler implements ChainAppenderInterface, TemplateTypeCheckerInterface
@@ -22,8 +22,11 @@ class ShopExtensionTemplateHandler implements ChainAppenderInterface, TemplateTy
     ) {
     }
 
-    public function addToChain(TemplateChain $templateChain, TemplateTypeInterface $templateType, NamespacedDirectory $directory): TemplateChain
-    {
+    public function addToChain(
+        TemplateChain $templateChain,
+        TemplateTypeInterface $templateType,
+        NamespacedDirectory $directory
+    ): TemplateChain {
         if (!$this->canHandle($templateType)) {
             return $templateChain;
         }

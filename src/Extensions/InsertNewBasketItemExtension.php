@@ -26,7 +26,9 @@ class InsertNewBasketItemExtension extends AbstractExtension implements GlobalsI
      */
     public function getFunctions(): array
     {
-        return [new TwigFunction('insert_new_basket_item', [$this, 'insertNewBasketItem'], ['needs_environment' => true])];
+        return [
+            new TwigFunction('insert_new_basket_item', [$this, 'insertNewBasketItem'], ['needs_environment' => true])
+        ];
     }
 
     /**
