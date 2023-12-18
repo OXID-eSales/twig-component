@@ -80,8 +80,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         bool $isProductiveMode,
         string $template,
         string $expected
-    ): void
-    {
+    ): void {
         $this->setAdminMode(false);
         $this->setLanguage(1);
 
