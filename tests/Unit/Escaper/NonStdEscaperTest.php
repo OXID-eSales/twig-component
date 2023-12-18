@@ -27,7 +27,7 @@ final class NonStdEscaperTest extends TestCase
         $this->environment = $this->createMock(Environment::class);
     }
 
-    public function escapeProvider(): array
+    public static function escapeProvider(): array
     {
         return [
             [
@@ -38,12 +38,9 @@ final class NonStdEscaperTest extends TestCase
     }
 
     /**
-     * @param string $string
-     * @param string $expected
-     *
      * @dataProvider escapeProvider
      */
-    public function testEscape($string, $expected)
+    public function testEscape(string $string, string $expected)
     {
         $this->assertEquals($expected, $this->escaper->escape($this->environment, $string, 'UTF-8'));
     }

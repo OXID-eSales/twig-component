@@ -51,7 +51,9 @@ class CaptureTokenParser extends AbstractTokenParser
     {
         $attributeName = $stream->expect(Token::NAME_TYPE)->getValue();
         if (!in_array($attributeName, $this->possibleAttributes)) {
-            throw new SyntaxError("Incorrect attribute name. Possible attribute names are: 'name', 'assign' and 'append'");
+            throw new SyntaxError(
+                "Incorrect attribute name. Possible attribute names are: 'name', 'assign' and 'append'"
+            );
         }
 
         return $attributeName;

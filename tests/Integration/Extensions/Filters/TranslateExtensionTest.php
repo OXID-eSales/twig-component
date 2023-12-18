@@ -28,10 +28,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         $this->extension = $this->get(TranslateExtension::class);
     }
 
-    /**
-     * Provides data to testSimpleTranslating
-     */
-    public function simpleTranslatingProvider(): array
+    public static function simpleTranslatingProvider(): array
     {
         return [
             ["{{ 'FIRST_NAME'|translate }}", 0, 'Vorname'],
@@ -41,9 +38,6 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * Tests simple translating, where only translation is fetched
-     *
-     *
      * @dataProvider simpleTranslatingProvider
      */
     public function testSimpleTranslating(string $template, int $languageId, string $expected): void
@@ -52,10 +46,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * Provides data to testTranslatingWithArguments
-     */
-    public function withArgumentsProvider(): array
+    public static function withArgumentsProvider(): array
     {
         return [
             ["{{ 'MANUFACTURER_S'|translate('Opel') }}", 0, '| Hersteller: Opel'],
@@ -66,8 +57,6 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * Tests value translating when translating strings containing %s
-     *
      * @dataProvider withArgumentsProvider
      */
     public function testTranslatingWithArguments(string $template, int $languageId, string $expected): void
@@ -76,10 +65,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * Provides data to testTranslateFrontend_isMissingTranslation
-     */
-    public function missingTranslationProviderFrontend(): array
+    public static function missingTranslationProviderFrontend(): array
     {
         return [
             [true, "{{ 'MY_MISING_TRANSLATION'|translate }}", 'MY_MISING_TRANSLATION'],
@@ -90,8 +76,11 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
     /**
      * @dataProvider missingTranslationProviderFrontend
      */
-    public function testTranslateFrontendIsMissingTranslation(bool $isProductiveMode, string $template, string $expected): void
-    {
+    public function testTranslateFrontendIsMissingTranslation(
+        bool $isProductiveMode,
+        string $template,
+        string $expected
+    ): void {
         $this->setAdminMode(false);
         $this->setLanguage(1);
 
@@ -102,10 +91,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         $this->assertStringContainsString($expected, $this->getTemplate($template)->render([]));
     }
 
-    /**
-     * Provides data to testTranslateAdmin_isMissingTranslation
-     */
-    public function missingTranslationProviderAdmin(): array
+    public static function missingTranslationProviderAdmin(): array
     {
         return [
             ["{{ 'MY_MISING_TRANSLATION'|translate }}", 'ERROR: Translation for MY_MISING_TRANSLATION not found!'],

@@ -7,6 +7,12 @@
 
 ## v2.2.0 - unreleased
 
+### Added
+- PHPUnit v10 support
+
+### Removed
+- PHPUnit v9 support
+
 ### Deprecated
 - `SmartyCycleExtension` will be removed
 

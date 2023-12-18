@@ -32,7 +32,7 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    public function truncateProvider(): array
+    public static function truncateProvider(): array
     {
         return [
             [
@@ -54,7 +54,7 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    public function truncateProviderWithLength(): array
+    public static function truncateProviderWithLength(): array
     {
         return [
             [
@@ -80,7 +80,7 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    public function truncateProviderWithSuffix(): array
+    public static function truncateProviderWithSuffix(): array
     {
         return [
             [
@@ -98,7 +98,7 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    public function truncateProviderWithBreakWords(): array
+    public static function truncateProviderWithBreakWords(): array
     {
         return [
             [

@@ -99,7 +99,12 @@ jobs:
              perl -pi -e "s#^#$TWIG_ROOT/#" changed-files.txt
              if [[ -f  "changed-files.txt" && -s "changed-files.txt" ]]; then
                cd ../../../../../ 
-               $RUN_PHP php vendor/bin/phpcs --standard=psr12 --file-list=$TWIG_ROOT/changed-files.txt 2>&1 \
+               $RUN_PHP \
+                vendor/bin/phpcs \
+                --standard=psr12 \
+                --ignore=tests/*/Fixtures/* \
+                --exclude=Generic.Files.LineLength \
+                --file-list=$TWIG_ROOT/changed-files.txt 2>&1 \
                 | tee php_codesniff_log.txt  || true
                rm source/eshop_ce/vendor/oxid-esales/twig-component/changed-files.txt
                if grep -q -Ei 'fail|\\.\\=\\=|Warning|Notice|Deprecated|Fatal|Error' php_codesniff_log.txt; 

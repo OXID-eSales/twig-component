@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Node;
 
-use Twig\Node\Node;
 use Twig\Compiler;
+use Twig\Node\Node;
 
 class CaptureNode extends Node
 {
@@ -32,7 +32,12 @@ class CaptureNode extends Node
 
     public function __construct(string $attributeName, string $variableName, Node $body, int $line, string $tag = null)
     {
-        parent::__construct(['body' => $body], ['attributeName' => $attributeName, 'variableName' => $variableName], $line, $tag);
+        parent::__construct(
+            ['body' => $body],
+            ['attributeName' => $attributeName, 'variableName' => $variableName],
+            $line,
+            $tag
+        );
     }
 
     /**

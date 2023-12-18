@@ -13,5 +13,9 @@ use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeI
 
 interface ChainAppenderInterface
 {
-    public function addToChain(TemplateChain $templateChain, TemplateTypeInterface $templateType, NamespacedDirectory $directory): TemplateChain;
+    public function addToChain(
+        TemplateChain $templateChain,
+        TemplateTypeInterface $templateType,
+        NamespacedDirectory $directory
+    ): TemplateChain;
 }

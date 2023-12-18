@@ -27,7 +27,7 @@ final class QuotesEscaperTest extends TestCase
         $this->environment = $this->createMock(Environment::class);
     }
 
-    public function escapeProvider(): array
+    public static function escapeProvider(): array
     {
         return [
             ["A 'quote' is <b>bold</b>", "A \'quote\' is <b>bold</b>"]

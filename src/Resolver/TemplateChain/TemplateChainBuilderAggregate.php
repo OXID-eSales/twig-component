@@ -21,8 +21,8 @@ class TemplateChainBuilderAggregate implements TemplateChainBuilderInterface
         private TemplateChainValidatorInterface $templateChainValidator,
         private InitialTemplateResolverInterface $initialTemplateResolver,
         private TemplateChainSorterInterface $templateChainSorter,
-    )
-    {}
+    ) {
+    }
 
     /**
      * @inheritDoc

@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions;
 
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ChainAppenderInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ChainAppenderInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopExtensionTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
 use OxidEsales\Twig\TwigContextInterface;
@@ -24,8 +24,11 @@ class ShopTemplateChainAppender implements ChainAppenderInterface
     ) {
     }
 
-    public function addToChain(TemplateChain $templateChain, TemplateTypeInterface $templateType, NamespacedDirectory $directory): TemplateChain
-    {
+    public function addToChain(
+        TemplateChain $templateChain,
+        TemplateTypeInterface $templateType,
+        NamespacedDirectory $directory
+    ): TemplateChain {
         foreach ($this->getThemeIdsOrderedByLoadPriority() as $theme) {
             $countBefore = $templateChain->count();
             $extension = $this->getExtension($templateType, $directory, $theme);
@@ -50,8 +53,11 @@ class ShopTemplateChainAppender implements ChainAppenderInterface
         return 'default';
     }
 
-    private function getExtension(TemplateTypeInterface $template, NamespacedDirectory $directory, string $theme): ShopExtensionTemplateType
-    {
+    private function getExtension(
+        TemplateTypeInterface $template,
+        NamespacedDirectory $directory,
+        string $theme
+    ): ShopExtensionTemplateType {
         return new ShopExtensionTemplateType(
             $template->getName(),
             $directory->getNamespace(),

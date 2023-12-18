@@ -80,7 +80,7 @@ final class CaptureTokenParserTest extends TestCase
         $this->assertTrue($ifContentNode->hasNode('body'));
     }
 
-    public function templateSourceCodeProvider(): array
+    public static function templateSourceCodeProvider(): array
     {
         return [
             ["{% capture name = \"foo\" %}Lorem Ipsum{% endcapture %}"],

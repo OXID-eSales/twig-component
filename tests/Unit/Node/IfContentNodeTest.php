@@ -14,9 +14,8 @@ use OxidEsales\Twig\Node\IfContentNode;
 use Twig\Node\Expression\AssignNameExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\TextNode;
-use Twig\Test\NodeTestCase;
 
-final class IfContentNodeTest extends NodeTestCase
+final class IfContentNodeTest extends AbstractOxidTwigTestCase
 {
     public function testConstructor(): void
     {
@@ -38,7 +37,7 @@ final class IfContentNodeTest extends NodeTestCase
         $this->assertFalse($node->hasNode('ident'));
     }
 
-    public function getTests(): array
+    public static function getOxidTwigTests(): array
     {
         $ifContentExtensionClass = IfContentExtension::class;
 

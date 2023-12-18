@@ -19,7 +19,6 @@ final class IncludeExtensionTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @var IncludeExtension */
     private IncludeExtension $includeExtension;
 
     public function setUp(): void
@@ -39,7 +38,7 @@ final class IncludeExtensionTest extends TestCase
         $this->assertEquals($this->includeExtension->includeDynamicPrefix($parameters), $expected);
     }
 
-    public function dataProviderTestIncludeDynamicPrefix(): array
+    public static function dataProviderTestIncludeDynamicPrefix(): array
     {
         return [
             [[], []],
@@ -63,7 +62,7 @@ final class IncludeExtensionTest extends TestCase
         $this->assertEquals($this->includeExtension->renderForCache($parameters), $expected);
     }
 
-    public function dataProviderTestRenderForCache(): array
+    public static function dataProviderTestRenderForCache(): array
     {
         return [
             [[], '<oxid_dynamic></oxid_dynamic>'],

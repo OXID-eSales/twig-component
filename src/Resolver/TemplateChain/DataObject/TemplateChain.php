@@ -13,6 +13,7 @@ use ArrayIterator;
 use IteratorAggregate;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
 use Traversable;
+
 use function array_keys;
 use function array_search;
 use function count;

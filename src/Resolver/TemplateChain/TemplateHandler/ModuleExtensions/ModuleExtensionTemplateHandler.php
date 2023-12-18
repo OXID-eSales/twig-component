@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions;
 
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
+use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ChainAppenderInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\TemplateTypeCheckerInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleExtensionTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
 
@@ -23,8 +23,11 @@ class ModuleExtensionTemplateHandler implements ChainAppenderInterface, Template
     ) {
     }
 
-    public function addToChain(TemplateChain $templateChain, TemplateTypeInterface $templateType, NamespacedDirectory $directory): TemplateChain
-    {
+    public function addToChain(
+        TemplateChain $templateChain,
+        TemplateTypeInterface $templateType,
+        NamespacedDirectory $directory
+    ): TemplateChain {
         if (!$this->canHandle($templateType)) {
             return $templateChain;
         }
@@ -37,8 +40,10 @@ class ModuleExtensionTemplateHandler implements ChainAppenderInterface, Template
         return $templateType->isModuleExtensionTemplate();
     }
 
-    private function getExtension(TemplateTypeInterface $template, NamespacedDirectory $directory): ModuleExtensionTemplateType
-    {
+    private function getExtension(
+        TemplateTypeInterface $template,
+        NamespacedDirectory $directory
+    ): ModuleExtensionTemplateType {
         return new ModuleExtensionTemplateType(
             $template->getName(),
             $directory->getNamespace(),

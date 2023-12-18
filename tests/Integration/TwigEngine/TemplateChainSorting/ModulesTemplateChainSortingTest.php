@@ -68,7 +68,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
         $this->assertStringContainsString($expectedResult, $actual);
     }
 
-    public function renderShopTemplateDataProvider(): array
+    public static function renderShopTemplateDataProvider(): array
     {
         return [
             [
@@ -124,7 +124,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
         $this->assertStringContainsString($expectedResult, $actual);
     }
 
-    public function renderModuleTemplateDataProvider(): array
+    public static function renderModuleTemplateDataProvider(): array
     {
         return [
             [
@@ -176,7 +176,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
         $this->assertStringContainsString($expectedResult, $actual);
     }
 
-    public function renderWithShopTemplateAndFaultySortingConfigDataProvider(): array
+    public static function renderWithShopTemplateAndFaultySortingConfigDataProvider(): array
     {
         return [
             [
@@ -223,7 +223,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
         $this->assertStringContainsString($expectedResult, $actual);
     }
 
-    public function renderWithModuleTemplateAndFaultySortingConfigDataProvider(): array
+    public static function renderWithModuleTemplateAndFaultySortingConfigDataProvider(): array
     {
         return [
             [

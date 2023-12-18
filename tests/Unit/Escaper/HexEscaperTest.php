@@ -27,7 +27,7 @@ final class HexEscaperTest extends TestCase
         $this->environment = $this->createMock(Environment::class);
     }
 
-    public function escapeProvider(): array
+    public static function escapeProvider(): array
     {
         return [
             ["A 'quote' is <b>bold</b>", "%41%20%27%71%75%6f%74%65%27%20%69%73%20%3c%62%3e%62%6f%6c%64%3c%2f%62%3e"]

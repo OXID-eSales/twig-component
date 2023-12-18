@@ -25,7 +25,7 @@ final class PhpFunctionsExtensionTest extends TestCase
         $this->extension = new PhpFunctionsExtension();
     }
 
-    public function dummyTemplateProvider(): array
+    public static function dummyTemplateProvider(): array
     {
         return [
             ["{% set foo = 'bar'|parse_url %}{{ foo['path'] }}", 'bar'],

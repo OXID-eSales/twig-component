@@ -46,7 +46,7 @@ class TwigEnvironmentPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container): void
     {
-        if (false === $container->hasDefinition('twig')) {
+        if ($container->hasDefinition('twig') === false) {
             return;
         }
 
@@ -71,7 +71,9 @@ class TwigEnvironmentPass implements CompilerPassInterface
         }
 
         if (!empty($twigBridgeExtensionsMethodCalls) || !empty($othersExtensionsMethodCalls)) {
-            $definition->setMethodCalls(array_merge($twigBridgeExtensionsMethodCalls, $othersExtensionsMethodCalls, $currentMethodCalls));
+            $definition->setMethodCalls(
+                array_merge($twigBridgeExtensionsMethodCalls, $othersExtensionsMethodCalls, $currentMethodCalls)
+            );
         }
     }
 }

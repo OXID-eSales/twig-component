@@ -24,7 +24,7 @@ final class InputHelpExtensionTest extends AbstractExtensionTestCase
         $this->inputHelpExtension = new InputHelpExtension($inputHelpLogic);
     }
 
-    public function getIdentProvider(): array
+    public static function getIdentProvider(): array
     {
         return [
             [null, 1, false, null],
@@ -48,7 +48,7 @@ final class InputHelpExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->inputHelpExtension->getHelpId($params));
     }
 
-    public function getHelpTextProvider(): array
+    public static function getHelpTextProvider(): array
     {
         return [
             [null, 1, false, null],

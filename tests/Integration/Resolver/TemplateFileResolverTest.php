@@ -27,7 +27,7 @@ final class TemplateFileResolverTest extends TestCase
         $this->assertEquals($expectedFilename, $filename);
     }
 
-    public function templateNameFileDataProvider(): array
+    public static function templateNameFileDataProvider(): array
     {
         return [
             [

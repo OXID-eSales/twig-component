@@ -43,7 +43,14 @@ class HasRightsTokenParser extends AbstractTokenParser
             if ($stream->next()->getValue() === 'endhasrights') {
                 $continue = false;
             } else {
-                throw new SyntaxError(sprintf('Unexpected end of template. Twig was looking for the following tags "endhasrights" to close the "hasrights" block started at line %d)', $lineno), -1);
+                throw new SyntaxError(
+                    sprintf(
+                        'Unexpected end of template. Twig was looking for the following tags "endhasrights" to close '
+                        . 'the "hasrights" block started at line %d)',
+                        $lineno
+                    ),
+                    -1
+                );
             }
 
             $stream->expect(Token::BLOCK_END_TYPE);

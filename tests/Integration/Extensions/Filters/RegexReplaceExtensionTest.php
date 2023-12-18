@@ -24,7 +24,7 @@ final class RegexReplaceExtensionTest extends TestCase
         $this->extension = new RegexReplaceExtension();
     }
 
-    public function dummyTemplateProvider(): array
+    public static function dummyTemplateProvider(): array
     {
         return [
             ["{{ '1-foo-2'|regex_replace('/[0-9]/', 'bar') }}", "bar-foo-bar"],
@@ -32,7 +32,6 @@ final class RegexReplaceExtensionTest extends TestCase
     }
 
     /**
-     *
      * @dataProvider dummyTemplateProvider
      */
     public function testIfPhpFunctionsAreCallable(string $template, string $expected)

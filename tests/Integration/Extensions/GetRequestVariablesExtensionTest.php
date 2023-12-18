@@ -31,7 +31,7 @@ final class GetRequestVariablesExtensionTest extends AbstractExtensionTestCase
         unset($_GET['foo']);
     }
 
-    public function dummyTemplateProvider(): array
+    public static function dummyTemplateProvider(): array
     {
         return [
             ['{{ get_global_cookie("foo") }}', 'bar'],

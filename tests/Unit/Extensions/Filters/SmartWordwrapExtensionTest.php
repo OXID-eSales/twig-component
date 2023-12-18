@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 final class SmartWordwrapExtensionTest extends TestCase
 {
-    public function provider()
+    public static function provider()
     {
         return [
             [

@@ -32,10 +32,9 @@ final class ScriptExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
 
-    public function getScriptTests(): array
+    public static function getScriptTests(): array
     {
         return [
-            // Empty buffer
             [
                 "{{ script() }}",
                 ""

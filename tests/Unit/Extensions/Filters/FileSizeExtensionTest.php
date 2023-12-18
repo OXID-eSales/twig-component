@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 final class FileSizeExtensionTest extends TestCase
 {
-    public function provider()
+    public static function provider()
     {
         return [
             [1023, '1023 B'],
