@@ -46,6 +46,15 @@ final class TwigEngineTest extends TestCase
         $this->assertFalse($engine->exists('foo'));
     }
 
+    public function testExistsWithFileExtension(): void
+    {
+        $this->assertTrue(
+            $this
+                ->getEngine()
+                ->exists("$this->template.$this->extension")
+        );
+    }
+
     public function testAddGlobal(): void
     {
         $engine = $this->getEngine();
@@ -101,7 +110,7 @@ final class TwigEngineTest extends TestCase
 
     private function getTemplateName(): string
     {
-        return "{$this->template}.{$this->extension}";
+        return "$this->template.$this->extension";
     }
 
     private function getTemplateDir(): string

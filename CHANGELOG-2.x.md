@@ -10,6 +10,8 @@
 
 ### Deprecated
 - `SmartyCycleExtension` will be removed
+- Appending missing file extensions (`".html.twig"`) to template names will be discontinued.
+Since v3, the component will support only full template names.
 
 ## v2.1.0 - 2023-05-04
 
