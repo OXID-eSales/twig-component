@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain\TemplateType;
 
-use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolverInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleExtensionTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopExtensionTemplateType;
@@ -27,14 +26,8 @@ class TemplateTypeFactory implements TemplateTypeFactoryInterface
     private const SHOP_EXTENSION_TEMPLATE_TYPE_PATTERN = '%^@([^\s/]+)/extensions/themes/([^\s/]+)/(.+)$%i';
     private const BASE_TEMPLATE_TYPE_PATTERN = '%^(?:@([^\s/]+)/)?(.*)$%';
 
-    public function __construct(
-        private TemplateFileResolverInterface $templateFileResolver,
-    ) {
-    }
-
     public function createFromTemplateName(string $templateName): TemplateTypeInterface
     {
-        $templateName = $this->getFullNameWithFileExtension($templateName);
         $this->validateTemplateFilename($templateName);
 
         if ($this->isModuleExtensionFullyQualifiedName($templateName)) {
@@ -92,11 +85,6 @@ class TemplateTypeFactory implements TemplateTypeFactoryInterface
     private function isShopNamespace(string $namespace): bool
     {
         return !$namespace || $namespace === FilesystemLoader::MAIN_NAMESPACE;
-    }
-
-    private function getFullNameWithFileExtension(string $templateName): string
-    {
-        return $this->templateFileResolver->getFilename($templateName);
     }
 
     private function validateTemplateFilename(string $templateName): void

@@ -30,7 +30,7 @@ final class ModulesTemplateChainTest extends TestCase
     ];
     private const THEME = 'testTheme';
     private const THEME_2 = 'testTheme2';
-    private const TEMPLATE_NO_EXTENDS = 'template-no-extends';
+    private const TEMPLATE_NO_EXTENDS = 'template-no-extends.html.twig';
     private const TEMPLATE_WITH_EXTENDS = 'template-with-extends.html.twig';
     private const TEMPLATE_WITH_NON_HTML_FILE = 'template-non-html-with-extends.xml.twig';
     private const TEMPLATE_WITH_INVALID_EXTENDS = 'template-with-invalid-extends.html.twig';
@@ -38,7 +38,7 @@ final class ModulesTemplateChainTest extends TestCase
     private const TEMPLATE_WITH_ARRAY_EXTENDS = 'template-with-array-extends.html.twig';
     private const TEMPLATE_WITH_INCLUDE = 'template-with-include.html.twig';
     private const TEMPLATE_WITH_INCLUDE_DYNAMIC = 'template-with-include-dynamic.html.twig';
-    private const TEMPLATE_INCLUDE_NON_TEMPLATE_FILE = 'template-include-non-template-file';
+    private const TEMPLATE_INCLUDE_NON_TEMPLATE_FILE = 'template-include-non-template-file.html.twig';
 
     protected function setUp(): void
     {

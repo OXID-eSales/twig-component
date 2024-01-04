@@ -19,9 +19,8 @@ use Twig\Extension\EscaperExtension;
 class TwigEngine implements TemplateEngineInterface
 {
     public function __construct(
-        private Environment $engine,
-        private string $fileExtension,
-        private TemplateChainResolverInterface $templateChainResolver,
+        private readonly Environment $engine,
+        private readonly TemplateChainResolverInterface $templateChainResolver,
         iterable $twigExtensions = [],
         iterable $twigEscaper = []
     ) {
@@ -40,18 +39,18 @@ class TwigEngine implements TemplateEngineInterface
 
     public function render(string $name, array $context = []): string
     {
-        return $this->engine->render(
-            $this->templateChainResolver->getLastChild($name),
-            $context
-        );
+        return $this->engine
+            ->render(
+                $this->templateChainResolver->getLastChild($name),
+                $context
+            );
     }
 
     public function exists(string $name): bool
     {
-        if (!str_ends_with($name, $this->fileExtension)) {
-            $name .= ".$this->fileExtension";
-        }
-        return $this->engine->getLoader()->exists($name);
+        return $this->engine
+            ->getLoader()
+            ->exists($name);
     }
 
     public function renderFragment(string $fragment, string $fragmentId, array $context = []): string
@@ -63,12 +62,14 @@ class TwigEngine implements TemplateEngineInterface
 
     public function addGlobal(string $name, $value)
     {
-        $this->engine->addGlobal($name, $value);
+        $this->engine
+            ->addGlobal($name, $value);
     }
 
     public function getGlobals(): array
     {
-        return $this->engine->getGlobals();
+        return $this->engine
+            ->getGlobals();
     }
 
     public function addEscaper(EscaperInterface $escaper)

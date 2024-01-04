@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Resolver\TemplateChain\TemplateType;
 
-use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolver;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleExtensionTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopExtensionTemplateType;
@@ -21,15 +20,6 @@ use PHPUnit\Framework\TestCase;
 final class TemplateTypeFactoryTest extends TestCase
 {
     private string $extension = 'html.twig';
-
-    public function testCreateFromTemplateNameWithFileExtensionOmitted(): void
-    {
-        $templatePath = 'start/hello';
-
-        $template = $this->getTemplateType($templatePath);
-
-        $this->assertInstanceOf(ShopTemplateType::class, $template);
-    }
 
     public function testCreateFromTemplateNameWithShopTemplate(): void
     {
@@ -114,10 +104,6 @@ final class TemplateTypeFactoryTest extends TestCase
 
     private function getTemplateType(string $templatePath): TemplateTypeInterface
     {
-        $templateTypeFactory = new TemplateTypeFactory(
-            new TemplateFileResolver($this->extension)
-        );
-
-        return $templateTypeFactory->createFromTemplateName($templatePath);
+        return (new TemplateTypeFactory())->createFromTemplateName($templatePath);
     }
 }

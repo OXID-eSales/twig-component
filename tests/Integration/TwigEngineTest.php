@@ -39,13 +39,6 @@ final class TwigEngineTest extends TestCase
         $this->templateDirPath = vfsStream::url($this->getTemplateDir());
     }
 
-    public function testExists(): void
-    {
-        $engine = $this->getEngine();
-        $this->assertTrue($engine->exists($this->template));
-        $this->assertFalse($engine->exists('foo'));
-    }
-
     public function testExistsWithFileExtension(): void
     {
         $this->assertTrue(
@@ -103,7 +96,6 @@ final class TwigEngineTest extends TestCase
 
         return new TwigEngine(
             $engine,
-            $this->extension,
             $this->templateChainResolver->reveal()
         );
     }
