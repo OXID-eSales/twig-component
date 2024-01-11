@@ -38,16 +38,6 @@ class TwigEngine implements TemplateEngineInterface
         }
     }
 
-    /**
-     * Renders a template.
-     *
-     * @param string $name    A template name
-     * @param array  $context An array of parameters to pass to the template
-     *
-     * @return string The evaluated template as a string
-     *
-     * @throws \RuntimeException if the template cannot be rendered
-     */
     public function render(string $name, array $context = []): string
     {
         return $this->engine->render(
@@ -56,29 +46,14 @@ class TwigEngine implements TemplateEngineInterface
         );
     }
 
-    /**
-     * Returns true if the template exists.
-     *
-     * @param string $name A template name
-     *
-     * @return bool true if the template exists, false otherwise
-     *
-     * @throws \RuntimeException if the engine cannot handle the template name
-     */
     public function exists(string $name): bool
     {
-        return $this->engine->getLoader()->exists($name . '.' . $this->fileExtension);
+        if (!str_ends_with($name, $this->fileExtension)) {
+            $name .= ".$this->fileExtension";
+        }
+        return $this->engine->getLoader()->exists($name);
     }
 
-    /**
-     * Renders a fragment of the template.
-     *
-     * @param string $fragment   The template fragment to render
-     * @param string $fragmentId The Id of the fragment
-     * @param array  $context    An array of parameters to pass to the template
-     *
-     * @return string
-     */
     public function renderFragment(string $fragment, string $fragmentId, array $context = []): string
     {
         return $this->engine
@@ -86,32 +61,20 @@ class TwigEngine implements TemplateEngineInterface
             ->render($context);
     }
 
-    /**
-     * @param string $name
-     * @param mixed  $value
-     */
     public function addGlobal(string $name, $value)
     {
         $this->engine->addGlobal($name, $value);
     }
 
-    /**
-     * Returns assigned globals.
-     *
-     * @return array
-     */
     public function getGlobals(): array
     {
         return $this->engine->getGlobals();
     }
 
-    /**
-     * @param EscaperInterface $escaper
-     */
     public function addEscaper(EscaperInterface $escaper)
     {
-        /** @var EscaperExtension $escaperExtension */
-        $escaperExtension = $this->engine->getExtension(EscaperExtension::class);
-        $escaperExtension->setEscaper($escaper->getStrategy(), [$escaper, 'escape']);
+        $this->engine
+            ->getExtension(EscaperExtension::class)
+            ->setEscaper($escaper->getStrategy(), [$escaper, 'escape']);
     }
 }
