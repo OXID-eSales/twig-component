@@ -1,5 +1,10 @@
 # Change Log for OXID Twig engine component
 
+## v2.3.0 - Unreleased
+
+### Changed
+- Getting cache configuration parameter using templating cache service instead of context
+
 ## v2.2.0 - 2023-11-16
 
 ### Deprecated

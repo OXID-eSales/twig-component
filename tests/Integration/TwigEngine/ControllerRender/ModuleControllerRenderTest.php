@@ -31,6 +31,8 @@ final class ModuleControllerRenderTest extends TestCase
     ];
     private const THEME = 'testTheme';
 
+    private int $shopID = 1;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -120,7 +122,7 @@ final class ModuleControllerRenderTest extends TestCase
         $configFile = $this->prophesize(ConfigFile::class);
         $configFile->getVar('sCompileDir')
             ->willReturn(
-                $this->get(ContextInterface::class)->getTemplateCacheDirectory()
+                $this->get(ContextInterface::class)->getTemplateCacheDirectory($this->shopID)
             );
         $configFile->getVar('iDebug')->willReturn($enable);
         Registry::set(ConfigFile::class, $configFile->reveal());
