@@ -8,7 +8,7 @@ on:
         type: string
         required: true
         description: 'URL/PATH of the testplan to run'
-        default: 'tests/github_actions/defaults/7.0.x.yml,tests/github_actions/twig-component.yml'
+        default: 'tests/github_actions/defaults/defaults.yml,tests/github_actions/twig-component.yml'
       runs_on:
         description: 'JSON string/array describing the runner'
         required: true
