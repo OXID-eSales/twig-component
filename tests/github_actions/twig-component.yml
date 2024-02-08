@@ -1,3 +1,6 @@
+prepare_shop:
+  git:
+    shop_ref: &git_shop_ref '{{ .Data.global.git.default_ref }}'
 # {{ $ids := "twig-component" }}ids: {{ print $ids }}
 # {{ $org := "oxid-esales" }}organisation: {{ print $org }}
 # {{ $name := "twig-component" }}name: {{ print $name }}
