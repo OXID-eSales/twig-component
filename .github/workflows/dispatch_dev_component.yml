@@ -12,7 +12,7 @@ on:
       runs_on:
         description: 'JSON string/array describing the runner'
         required: true
-        default: 'ubuntu-latest'
+        default: ubuntu-latest
 
 jobs:
   call_matrix:

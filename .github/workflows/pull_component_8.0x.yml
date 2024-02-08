@@ -10,7 +10,7 @@ jobs:
     uses: oxid-eSales/github-actions/.github/workflows/call-universal_test_workflow.yml@v3
     with:
       testplan: 'tests/github_actions/twig-component.yml,test/github_actions/defaults/defaults.yml'
-      runs_on: 'ubuntu-latest'
+      runs_on: ubuntu-latest
       defaults: 'v3'
     secrets:
       DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
