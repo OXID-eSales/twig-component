@@ -11,8 +11,8 @@ jobs:
   run_tests:
     strategy:
       matrix:
-        php: [ '8.1' ]
-        mysql: [ '8.0' ]
+        php: ['8.1']
+        mysql: ['8.0']
       fail-fast: false
     runs-on: ubuntu-latest
     env:
@@ -87,7 +87,7 @@ jobs:
         run: |
           $RUN_PHP \
             composer require squizlabs/php_codesniffer
-          
+
           $RUN_PHP \
             composer install --no-interaction
 
