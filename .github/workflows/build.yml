@@ -23,6 +23,7 @@ jobs:
       DOCKER_SETUP_DIR: source
     steps:
       - name: Add environment variables
+        # shellcheck disable SC2129
         run: |
           SHOP_ROOT_DIR="/var/www/$SHOP_INSTALL_DIR"
           RUN_PHP="docker-compose run -T -w $SHOP_ROOT_DIR php"
