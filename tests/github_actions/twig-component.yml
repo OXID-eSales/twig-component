@@ -1,16 +1,16 @@
 prepare_shop:
   git:
     shop_ref: &git_shop_ref '{{ .Data.global.git.default_ref }}'
-    composer:
-      transform: |
-        {
-            "config": {
-                "github-protocols": ["https"]
-            },
-            "require": {
-              "oxid-esales/twig-admin-theme": "dev-b-7.0.x-add-workflows-OXDEV-7760"
-            }
-        }
+  composer:
+    transform: |
+      {
+          "config": {
+              "github-protocols": ["https"]
+          },
+          "require": {
+            "oxid-esales/twig-admin-theme": "dev-b-7.0.x-add-workflows-OXDEV-7760"
+          }
+      }
 
 # {{ $ids := "twig-component" }}ids: {{ print $ids }}
 # {{ $org := "oxid-esales" }}organisation: {{ print $org }}
