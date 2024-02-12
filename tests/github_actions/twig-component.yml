@@ -1,20 +1,9 @@
-prepare_shop:
-  git:
-    shop_ref: &git_shop_ref '{{ .Data.global.git.default_ref }}'
-  composer:
-    transform: |
-      {
-          "config": {
-              "github-protocols": ["https"]
-          },
-          "require": {
-            "oxid-esales/twig-admin-theme": "dev-b-7.0.x-add-workflows-OXDEV-7760"
-          }
-      }
-
 # {{ $ids := "twig-component" }}ids: {{ print $ids }}
 # {{ $org := "oxid-esales" }}organisation: {{ print $org }}
-# {{ $name := "twig-component" }}name: {{ print $name }}
+# {{ $name := "twig-component" }}name: {{ print $name }}prepare_shop:
+  git:
+    shop_ref: &git_shop_ref '{{ .Data.global.git.default_ref }}'
+
 install_module:
   matrix:
     testplan: '["-"]'
@@ -27,6 +16,16 @@ install_module:
       ref: '{{ .Github.RefName }}'
   package_name: &package_name '{{ print $org }}/{{ print $name }}'
   path: *ids
+  composer:
+    transform: |
+      {
+          "config": {
+              "github-protocols": ["https"]
+          },
+          "require": {
+            "oxid-esales/twig-admin-theme": "dev-b-7.0.x-add-workflows-OXDEV-7760"
+          }
+      }
 
 phpunit:
   matrix:
