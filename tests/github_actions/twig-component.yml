@@ -28,8 +28,15 @@ install_module:
       }
 
 phpunit:
+  custom_script: |
+    find .
   matrix:
     testplan: '["tests/github_actions/defaults/module_phpunit_unit.yml","tests/github_actions/defaults/module_phpunit_integration.yml"]'
+  load_shop: *install_module_prefix
+
+codeception:
+  matrix:
+    testplan: 'skip'
   load_shop: *install_module_prefix
 
 runtest:
