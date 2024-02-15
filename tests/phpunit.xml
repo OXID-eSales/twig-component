@@ -9,9 +9,9 @@
       <directory suffix="Test.php">tests/Integration</directory>
     </testsuite>
   </testsuites>
-  <source>
-    <include>
-      <directory suffix=".php">../src/</directory>
-    </include>
-  </source>
+<!--  <source>-->
+<!--    <include>-->
+<!--      <directory suffix=".php">../src/</directory>-->
+<!--    </include>-->
+<!--  </source>-->
 </phpunit>
