@@ -1,17 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd" beStrictAboutOutputDuringTests="false" cacheDirectory=".phpunit.cache" requireCoverageMetadata="false" beStrictAboutCoverageMetadata="true">
-  <coverage/>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         backupGlobals="true"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         verbose="false"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd">
+  <coverage includeUncoveredFiles="true" processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">../src</directory>
+    </include>
+  </coverage>
   <testsuites>
     <testsuite name="Unit">
-      <directory suffix="Test.php">tests/Unit</directory>
+      <directory>Unit/</directory>
     </testsuite>
     <testsuite name="Integration">
-      <directory suffix="Test.php">tests/Integration</directory>
+      <directory>Integration/</directory>
     </testsuite>
   </testsuites>
-  <source>
-    <include>
-      <directory suffix=".php">../src/</directory>
-    </include>
-  </source>
 </phpunit>
