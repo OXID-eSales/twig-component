@@ -6,7 +6,7 @@
 - PHPUnit v10 support
 
 ### Removed
-- PHPUnit v9 support
+- PHP v8.0 support
 
 ### Deprecated
 - Appending missing file extensions (`".html.twig"`) to template names will be discontinued.
