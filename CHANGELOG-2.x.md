@@ -1,6 +1,6 @@
 # Change Log for OXID Twig engine component
 
-## v2.2.0 - 2023-11-16
+## v2.3.0 - unreleased
 
 ### Added
 - PHPUnit v10 support
@@ -9,9 +9,13 @@
 - PHPUnit v9 support
 
 ### Deprecated
-- `SmartyCycleExtension` will be removed
 - Appending missing file extensions (`".html.twig"`) to template names will be discontinued.
 Since v3, the component will support only full template names.
+
+## v2.2.0 - 2023-11-16
+
+### Deprecated
+- `SmartyCycleExtension` will be removed
 
 ## v2.1.0 - 2023-05-04
 
