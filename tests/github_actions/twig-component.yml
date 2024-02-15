@@ -48,10 +48,8 @@ sonarcloud:
 
 styles:
   matrix:
-    testplan: '["-"]'
+    testplan: 'skip'
   load_shop: *install_module_prefix
-  path: *ids
-  module_ids: *ids
 
 finish:
   slack_title: 'Module {{ print $name }} ({{ .Data.global.git.shop_ref }}) on {{ .Github.Repository }} by {{ .Github.Actor }}'
