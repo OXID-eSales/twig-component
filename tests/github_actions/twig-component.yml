@@ -8,7 +8,7 @@ prepare_shop:
     transform: |
       {
           "require": {
-            "oxid-esales/twig-admin-theme": "dev-b-7.0.x-add-workflows-OXDEV-7760"
+            "oxid-esales/twig-admin-theme": "dev-b-7.0-tmp-workflow"
           }
       }
 
