@@ -44,7 +44,7 @@ runtest:
 
 sonarcloud:
   matrix:
-    testplan: '["-"]'
+    testplan: 'skip'
 
 styles:
   matrix:
