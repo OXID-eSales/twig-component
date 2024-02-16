@@ -18,13 +18,12 @@
       <directory suffix=".php">../src</directory>
     </include>
   </coverage>
-
   <testsuites>
     <testsuite name="Unit">
-      <directory suffix="Test.php">tests/Unit</directory>
+      <directory>Unit/</directory>
     </testsuite>
     <testsuite name="Integration">
-      <directory suffix="Test.php">tests/Integration</directory>
+      <directory>Integration/</directory>
     </testsuite>
   </testsuites>
 </phpunit>
