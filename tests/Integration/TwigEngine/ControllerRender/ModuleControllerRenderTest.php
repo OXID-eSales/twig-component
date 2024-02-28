@@ -120,7 +120,7 @@ final class ModuleControllerRenderTest extends TestCase
         $configFile = $this->prophesize(ConfigFile::class);
         $configFile->getVar('sCompileDir')
             ->willReturn(
-                $this->get(ContextInterface::class)->getTemplateCacheDirectory()
+                $this->get(ContextInterface::class)->getCacheDirectory()
             );
         $configFile->getVar('iDebug')->willReturn($enable);
         Registry::set(ConfigFile::class, $configFile->reveal());
