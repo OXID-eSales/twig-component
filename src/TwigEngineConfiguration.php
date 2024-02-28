@@ -15,10 +15,10 @@ use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 class TwigEngineConfiguration implements TwigEngineConfigurationInterface
 {
     public function __construct(
-        private ContextInterface $context,
-        private TwigContextInterface $twigContext,
-        private bool $disableTemplateCaching,
-        private ShopTemplateCacheServiceInterface $shopTemplateCacheService
+        private readonly ContextInterface $context,
+        private readonly TwigContextInterface $twigContext,
+        private readonly ShopTemplateCacheServiceInterface $shopTemplateCacheService,
+        private readonly bool $disableTemplateCaching,
     ) {
     }
 
