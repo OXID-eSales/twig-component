@@ -5,6 +5,9 @@
 ### Added
 - PHPUnit v10 support
 
+### Changed
+- Getting cache configuration parameter using templating cache service instead of context
+
 ### Removed
 - PHP v8.0 support
 
