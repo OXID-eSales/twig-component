@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit;
 
+use OxidEsales\EshopCommunity\Internal\Framework\Templating\Cache\ShopTemplateCacheServiceInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\TwigContextInterface;
 use OxidEsales\Twig\TwigEngineConfiguration;
@@ -20,13 +21,25 @@ final class TwigEngineConfigurationTest extends TestCase
     {
         $context = $this->createConfiguredMock(
             ContextInterface::class,
-            ['getTemplateCacheDirectory' => 'dummy_cache_dir']
+            [
+                'getTemplateCacheDirectory' => 'dummy_cache_dir',
+                'getCurrentShopId' => 1
+            ]
         );
         $twigContext = $this->createConfiguredMock(
             TwigContextInterface::class,
             ['getIsDebug' => true]
         );
-        $engineConfiguration = new TwigEngineConfiguration($context, $twigContext, false);
+        $twigCTemplateCacheService = $this->createConfiguredMock(
+            ShopTemplateCacheServiceInterface::class,
+            ['getCacheDirectory' => 'dummy_cache_dir']
+        );
+        $engineConfiguration = new TwigEngineConfiguration(
+            $context,
+            $twigContext,
+            false,
+            $twigCTemplateCacheService
+        );
 
         $parameters = $engineConfiguration->getParameters();
 
