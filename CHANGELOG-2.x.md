@@ -1,12 +1,9 @@
 # Change Log for OXID Twig engine component
 
-## v2.3.0 - 2024-03-15
+## v2.4.0 - 2024-03-15
 
 ### Added
 - PHPUnit v10 support
-
-### Changed
-- Getting cache configuration parameter using templating cache service instead of context
 
 ### Removed
 - PHP v8.0 support
@@ -14,6 +11,11 @@
 ### Deprecated
 - Appending missing file extensions (`".html.twig"`) to template names will be discontinued.
 Since v3, the component will support only full template names.
+
+## v2.3.0 - 2024-03-11
+
+### Changed
+- Getting cache configuration parameter using templating cache service instead of context
 
 ## v2.2.0 - 2023-11-16
 
