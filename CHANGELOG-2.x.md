@@ -1,6 +1,6 @@
 # Change Log for OXID Twig engine component
 
-## v2.3.0 - unreleased
+## v2.3.0 - 2024-03-15
 
 ### Added
 - PHPUnit v10 support
