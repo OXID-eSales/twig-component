@@ -13,7 +13,6 @@ use OxidEsales\Eshop\Core\ConfigFile;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\ShopControl;
 use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
-use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +20,6 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Log\LoggerInterface;
 
-#[RunTestsInSeparateProcesses]
 final class ModuleControllerRenderTest extends TestCase
 {
     use TestingFixturesTrait;
@@ -130,10 +128,6 @@ final class ModuleControllerRenderTest extends TestCase
     private function switchDebugMode(bool $enable): void
     {
         $configFile = $this->prophesize(ConfigFile::class);
-        $configFile->getVar('sCompileDir')
-            ->willReturn(
-                $this->get(ContextInterface::class)->getCacheDirectory()
-            );
         $configFile->getVar('iDebug')->willReturn($enable);
         Registry::set(ConfigFile::class, $configFile->reveal());
     }
