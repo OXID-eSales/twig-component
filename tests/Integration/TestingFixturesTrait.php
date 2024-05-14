@@ -14,9 +14,12 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\DataObject\OxidE
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Bridge\ModuleActivationBridgeInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
+use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 
 trait TestingFixturesTrait
 {
+    use ContainerTrait;
+
     private string $fixtureRoot = __DIR__;
 
     public function initFixtures(string $fixtureRoot): void
@@ -45,7 +48,10 @@ trait TestingFixturesTrait
 
     public function setShopSourceFixture(): void
     {
-        Registry::getConfig()->setConfigParam('sShopDir', "{$this->getFixturesDirectory()}/shop/source/");
+        $this->createContainer();
+        $this->container->setParameter('oxid_shop_source_directory', "{$this->getFixturesDirectory()}/shop/source/");
+        $this->compileContainer();
+        $this->attachContainerToContainerFactory();
     }
 
     public function setThemeFixture(string $themeId): void

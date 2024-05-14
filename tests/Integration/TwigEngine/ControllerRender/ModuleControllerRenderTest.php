@@ -9,11 +9,9 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\TwigEngine\ControllerRender;
 
-use OxidEsales\Eshop\Core\ConfigFile;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\ShopControl;
-use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
-use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
+use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
@@ -24,6 +22,7 @@ use Psr\Log\LoggerInterface;
 #[RunTestsInSeparateProcesses]
 final class ModuleControllerRenderTest extends TestCase
 {
+    use ContainerTrait;
     use TestingFixturesTrait;
     use ProphecyTrait;
 
@@ -129,18 +128,10 @@ final class ModuleControllerRenderTest extends TestCase
 
     private function switchDebugMode(bool $enable): void
     {
-        $configFile = $this->prophesize(ConfigFile::class);
-        $configFile->getVar('sCompileDir')
-            ->willReturn(
-                $this->get(ContextInterface::class)->getCacheDirectory()
-            );
-        $configFile->getVar('iDebug')->willReturn($enable);
-        Registry::set(ConfigFile::class, $configFile->reveal());
-    }
-
-    private function get(string $serviceId)
-    {
-        return ContainerFactory::getInstance()->getContainer()->get($serviceId);
+        $this->createContainer();
+        $this->container->setParameter('oxid_debug_mode', $enable);
+        $this->container->compile();
+        $this->attachContainerToContainerFactory();
     }
 
     private function autoloadFixtures(): void
