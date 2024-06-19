@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig;
 
 use OxidEsales\Eshop\Core\Config;
+use OxidEsales\EshopCommunity\Core\Di\ContainerFacade;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Exception\InvalidThemeNameException;
 
 class TwigContext implements TwigContextInterface
@@ -22,7 +23,7 @@ class TwigContext implements TwigContextInterface
 
     public function getIsDebug(): bool
     {
-        return (bool) $this->config->getConfigParam('iDebug', false);
+        return (bool) ContainerFacade::getParameter('oxid_debug_mode');
     }
 
     public function getActiveThemeId(): string
