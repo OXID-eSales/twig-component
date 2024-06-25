@@ -15,12 +15,13 @@ use OxidEsales\Eshop\Core\ShopControl;
 use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Log\LoggerInterface;
 
-/** @runTestsInSeparateProcesses */
+#[RunTestsInSeparateProcesses]
 final class ModuleControllerRenderTest extends TestCase
 {
     use TestingFixturesTrait;
@@ -32,10 +33,15 @@ final class ModuleControllerRenderTest extends TestCase
     private const THEME = 'testTheme';
 
     private int $shopID = 1;
+	private ShopControl $shopControl;
 
-    protected function setUp(): void
+	protected function setUp(): void
     {
         parent::setUp();
+
+	    $_GET['searchparam'] = '';
+	    $_GET['page'] = '';
+	    $_GET['tpl'] = '';
 
         $this->initFixtures(__DIR__);
         $this->setupModuleFixture('module1');
@@ -54,16 +60,20 @@ final class ModuleControllerRenderTest extends TestCase
             $this->uninstallModuleFixture($moduleId);
         }
 
+	    unset($_GET['searchparam']);
+	    unset($_GET['page']);
+	    unset($_GET['tpl']);
+
         parent::tearDown();
     }
 
     public function testRenderWithExistingTemplate(): void
     {
         ob_start();
-        $this->shopControl->start('module1_controller');
-        $output = ob_get_clean();
+	    $this->shopControl->start('module1_controller', '');
+	    $output = ob_get_clean();
 
-        $this->assertStringContainsString('Module 1 Header', $output);
+	    $this->assertStringContainsString('Module 1 Header', $output);
         $this->assertStringContainsString((new \DateTime())->format('Y-m-d'), $output);
     }
 
@@ -72,7 +82,7 @@ final class ModuleControllerRenderTest extends TestCase
         $this->switchDebugMode(true);
 
         ob_start();
-        $this->shopControl->start('module1_controller_missing_template');
+        $this->shopControl->start('module1_controller_missing_template', '');
         $output = ob_get_clean();
 
         $this->assertStringContainsString(
@@ -86,7 +96,7 @@ final class ModuleControllerRenderTest extends TestCase
         $this->switchDebugMode(false);
 
         ob_start();
-        $this->shopControl->start('module1_controller_missing_template');
+        $this->shopControl->start('module1_controller_missing_template', '');
         $output = ob_get_clean();
 
         $this->assertStringNotContainsString(
@@ -102,7 +112,7 @@ final class ModuleControllerRenderTest extends TestCase
         $this->switchDebugMode(true);
 
         ob_start();
-        $this->shopControl->start('module1_controller_missing_template');
+        $this->shopControl->start('module1_controller_missing_template', '');
         ob_get_clean();
 
         $logger->error(
