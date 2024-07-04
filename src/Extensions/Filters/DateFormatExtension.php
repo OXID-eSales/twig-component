@@ -15,14 +15,14 @@ use Twig\TwigFilter;
 
 class DateFormatExtension extends AbstractExtension
 {
-    public function __construct(private DateFormatHelper $dateFormatHelper)
+    public function __construct(private readonly DateFormatHelper $dateFormatHelper)
     {
     }
 
     /**
      * @return TwigFilter[]
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [new TwigFilter('date_format', [$this, 'dateFormat'])];
     }
@@ -34,7 +34,7 @@ class DateFormatExtension extends AbstractExtension
      *
      * @return string|null
      */
-    public function dateFormat($string, $format = '%b %e, %Y', $defaultDate = '')
+    public function dateFormat($string, $format = 'M j, Y', $defaultDate = ''): ?string
     {
         if ($string != '') {
             $timestamp = $this->getTimestamp($string);
@@ -48,7 +48,7 @@ class DateFormatExtension extends AbstractExtension
             $format = $this->dateFormatHelper->fixWindowsTimeFormat($format, $timestamp);
         }
 
-        return strftime($format, $timestamp);
+        return date($format, $timestamp);
     }
 
     /**

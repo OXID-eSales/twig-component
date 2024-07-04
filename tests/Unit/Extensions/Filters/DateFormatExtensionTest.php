@@ -33,18 +33,16 @@ final class DateFormatExtensionTest extends TestCase
             ['foo', '', '', null],
             ['', 'foo', '', null],
             ['', '', 'foo', false],
-            ['foo', 'foo', '', 'foo'],
-            ['foo', 'foo', 'foo', 'foo'],
 
             //provided input string
-            [20_181_201_101_525, '%Y-%m-%d %H:%M:%S', '', '2018-12-01 10:15:25'],           //mysql format
-            [1_543_850_519, '%Y-%m-%d %H:%M:%S', '', '2018-12-03 16:21:59'],               //time()
-            ['Dec 03 15:21:59 2018', '%Y-%m-%d %H:%M:%S', '', '2018-12-03 15:21:59'],   //string time
+            [20_181_201_101_525, 'Y-m-d H:i:s', '', '2018-12-01 10:15:25'],     //mysql format
+            [1_543_850_519, 'Y-m-d H:i:s', '', '2018-12-03 16:21:59'],          //time()
+            ['Dec 03 15:21:59 2018', 'Y-m-d H:i:s', '', '2018-12-03 15:21:59'], //string time
 
             //no input string provided, default date used
-            ['', '%Y-%m-%d %H:%M:%S', 20_181_201_101_525, '2018-12-01 10:15:25'],           //mysql format
-            ['', '%Y-%m-%d %H:%M:%S', 1_543_850_519, '2018-12-03 16:21:59'],               //time()
-            ['', '%Y-%m-%d %H:%M:%S', 'Dec 03 15:21:59 2018', '2018-12-03 15:21:59'],   //string time
+            ['', 'Y-m-d H:i:s', 20_181_201_101_525, '2018-12-01 10:15:25'],     //mysql format
+            ['', 'Y-m-d H:i:s', 1_543_850_519, '2018-12-03 16:21:59'],          //time()
+            ['', 'Y-m-d H:i:s', 'Dec 03 15:21:59 2018', '2018-12-03 15:21:59'], //string time
         ];
     }
 
