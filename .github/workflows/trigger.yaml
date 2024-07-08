@@ -1,0 +1,73 @@
+name: Auto trigger on push or pull requests
+
+on:
+  pull_request: {}
+  push: {}
+
+jobs:
+  build_testplan:
+    runs-on: 'ubuntu-latest'
+    outputs:
+      testplan: '${{ steps.build.outputs.testplan }}'
+    steps:
+      - name: 'Build testplan'
+        id: build
+        run: |
+          # Build testplan
+          if [ '${{  github.event_name }}' == 'pull_request' ]; then
+            REF_TO_CHECK='refs/heads/${{ github.base_ref }}'
+            LIMIT70=""
+            LIMIT=""
+          else
+            REF_TO_CHECK='${{ github.ref }}'
+            # shellcheck disable=SC2088
+            LIMIT70="~/defaults/php8.1_mysql5.7_only.yaml,"
+            # shellcheck disable=SC2088
+            LIMIT="~/defaults/php8.2_mysql5.7_only.yaml,"
+          fi
+          # shellcheck disable=SC2088
+          case "${REF_TO_CHECK}" in
+            refs/heads/b-7.0.x*) TESTPLAN="~/defaults/7.0.x.yaml,${LIMIT70}~/twig-component.yaml,~/defaults/component.yaml" ;;
+            refs/heads/b-7.1.x*) TESTPLAN="~/defaults/7.1.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml" ;;
+            refs/heads/b-7.2.x*) TESTPLAN="~/defaults/7.2.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml" ;;
+            refs/heads/b-8.0.x*) TESTPLAN="~/defaults/8.0.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml" ;;
+            *)
+              echo "Can't match ${REF_TO_CHECK} to a version, can't determine test plan."
+              echo "Branch names should start with b-<major>.<minor>.x"
+              echo "Using the shop changelog to determine the shop version"
+              git clone --depth 2 "${{ github.repositoryUrl }}" --branch "${{ github.ref_name}}" --single-branch .tmp
+              if [ -f .tmp/CHANGELOG-3.x.md ]; then
+                TESTPLAN="~/defaults/8.0.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml"
+              elif [ -f .tmp/CHANGELOG-2.x.md ]; then
+                TESTPLAN="~/defaults/7.2.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml"
+              elif [ -f .tmp/CHANGELOG-2.x.md ]; then
+                TESTPLAN="~/defaults/7.1.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml"
+              elif [ -f .tmp/CHANGELOG.md ]; then
+                TESTPLAN="~/defaults/7.0.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml"
+              else
+                echo "Could not find any of CHANGELOG-8.0, CHANGELOG-7.2, CHANGELOG-71. or CHANGELOG-7.0"
+                echo "Still can't determine the test plan"
+                exit 1
+              fi
+              rm -rf .tmp
+              ;;
+          esac
+          echo "testplan=${TESTPLAN}" | tee -a "${GITHUB_OUTPUT}"
+
+  twig_component:
+    needs: build_testplan
+    uses: oxid-eSales/github-actions/.github/workflows/universal_workflow_light.yaml@v4
+    with:
+      testplan: ${{ needs.build_testplan.outputs.testplan }}
+      runs_on: '"ubuntu-latest"'
+      defaults: 'v4'
+      plan_folder: '.github/oxid-esales'
+    secrets:
+      DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+      CACHE_ENDPOINT: ${{ secrets.CACHE_ENDPOINT }}
+      CACHE_ACCESS_KEY: ${{ secrets.CACHE_ACCESS_KEY }}
+      CACHE_SECRET_KEY: ${{ secrets.CACHE_SECRET_KEY }}
+      enterprise_github_token: ${{ secrets.enterprise_github_token }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
