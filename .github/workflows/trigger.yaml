@@ -27,23 +27,23 @@ jobs:
           fi
           # shellcheck disable=SC2088
           case "${REF_TO_CHECK}" in
-            refs/heads/b-7.0.x*) TESTPLAN="~/defaults/7.0.x.yaml,${LIMIT70}~/defaults/scheduled.yaml,~/twig-component.yaml,~/defaults/component.yaml" ;;
-            refs/heads/b-7.1.x*) TESTPLAN="~/defaults/7.1.x.yaml,${LIMIT}~/defaults/scheduled.yaml,~/twig-component.yaml,~/defaults/component.yaml" ;;
-            refs/heads/b-7.2.x*) TESTPLAN="~/defaults/7.2.x.yaml,${LIMIT}~/defaults/scheduled.yaml,~/twig-component.yaml,~/defaults/component.yaml" ;;
-            refs/heads/b-8.0.x*) TESTPLAN="~/defaults/8.0.x.yaml,${LIMIT}~/defaults/scheduled.yaml,~/twig-component.yaml,~/defaults/component.yaml" ;;
+            refs/heads/b-7.0.x*) TESTPLAN="~/defaults/7.0.x.yaml,${LIMIT70}~/twig-component.yaml,~/defaults/component.yaml" ;;
+            refs/heads/b-7.1.x*) TESTPLAN="~/defaults/7.1.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml" ;;
+            refs/heads/b-7.2.x*) TESTPLAN="~/defaults/7.2.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml" ;;
+            refs/heads/b-8.0.x*) TESTPLAN="~/defaults/8.0.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml" ;;
             *)
               echo "Can't match ${REF_TO_CHECK} to a version, can't determine test plan."
               echo "Branch names should start with b-<major>.<minor>.x"
               echo "Using the shop changelog to determine the shop version"
               git clone --depth 2 "${{ github.repositoryUrl }}" --branch "${{ github.ref_name}}" --single-branch .tmp
               if [ -f .tmp/CHANGELOG-3.x.md ]; then
-                TESTPLAN="~/defaults/8.0.x.yaml,${LIMIT}~/defaults/scheduled.yaml,~/twig-component.yaml,~/defaults/component.yaml"
+                TESTPLAN="~/defaults/8.0.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml"
               elif [ -f .tmp/CHANGELOG-2.x.md ]; then
-                TESTPLAN="~/defaults/7.2.x.yaml,${LIMIT}~/defaults/scheduled.yaml,~/twig-component.yaml,~/defaults/component.yaml"
+                TESTPLAN="~/defaults/7.2.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml"
               elif [ -f .tmp/CHANGELOG-2.x.md ]; then
-                TESTPLAN="~/defaults/7.1.x.yaml,${LIMIT}~/defaults/scheduled.yaml,~/twig-component.yaml,~/defaults/component.yaml"
+                TESTPLAN="~/defaults/7.1.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml"
               elif [ -f .tmp/CHANGELOG.md ]; then
-                TESTPLAN="~/defaults/7.0.x.yaml,${LIMIT}~/defaults/scheduled.yaml,~/twig-component.yaml,~/defaults/component.yaml"
+                TESTPLAN="~/defaults/7.0.x.yaml,${LIMIT}~/twig-component.yaml,~/defaults/component.yaml"
               else
                 echo "Could not find any of CHANGELOG-8.0, CHANGELOG-7.2, CHANGELOG-71. or CHANGELOG-7.0"
                 echo "Still can't determine the test plan"
