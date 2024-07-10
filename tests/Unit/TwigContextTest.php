@@ -34,6 +34,11 @@ final class TwigContextTest extends TestCase
         );
     }
 
+    public function testTestWasTested(): void
+    {
+        $this->fail('Fail!!!');
+    }
+
     public function testGetActiveThemeIdWithNoFrontendThemeWillThrow(): void
     {
         $this->config->isAdmin()->willReturn(false);

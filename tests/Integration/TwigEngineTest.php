@@ -39,6 +39,11 @@ final class TwigEngineTest extends TestCase
         $this->templateDirPath = vfsStream::url($this->getTemplateDir());
     }
 
+    public function testTestWasTested(): void
+    {
+        $this->fail('Fail!!!');
+    }
+
     public function testExistsWithFileExtension(): void
     {
         $this->assertTrue(
