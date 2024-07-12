@@ -1,29 +1,31 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         backupGlobals="true"
-         backupStaticAttributes="false"
-         colors="false"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         forceCoversAnnotation="false"
-         processIsolation="false"
-         stopOnError="false"
-         stopOnFailure="false"
-         stopOnIncomplete="false"
-         stopOnSkipped="false"
-         beStrictAboutTestsThatDoNotTestAnything="false"
-         verbose="false"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage includeUncoveredFiles="true" processUncoveredFiles="false">
-    <include>
-      <directory suffix=".php">../src</directory>
-    </include>
-  </coverage>
-  <testsuites>
-    <testsuite name="UnitTests">
-      <directory>Unit/</directory>
-      <directory>Integration/</directory>
-    </testsuite>
-  </testsuites>
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd"
+         bootstrap="./tests/bootstrap.php"
+         cacheDirectory="./var/.phpunit.cache"
+         beStrictAboutOutputDuringTests="false"
+         requireCoverageMetadata="false"
+         beStrictAboutCoverageMetadata="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true">
+    <coverage/>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory suffix="Test.php">tests/Integration</directory>
+        </testsuite>
+        <testsuite name="UnitTests">
+            <directory>Unit/</directory>
+            <directory>Integration/</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">../src</directory>
+        </include>
+    </source>
 </phpunit>
