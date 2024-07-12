@@ -1,37 +1,50 @@
-# This plan should be used before ~/defaults/component.yml. That template uses
-# the variables below to fill all the settings for the installation into
-# /var/www directly without installing a shop.
+install: &install
+  method: script
+  script: 'source/.github/oxid-esales/install.sh'
+  git:
+    ref: '{{ .Data.global.git.default_ref }}'
+  composer:
+    early: 'skip'
+    root_url: ''
+    transform: |
+      {
+          "preferred-install": {
+            "oxid-esales/*": "source",
+            "oxid-professional-services/*": "source",
+            "ddoe/*": "source"
+          },
+          "require": {
+            "oxid-esales/twig-component": "dev-{{ .Data.global.git.safe_ref_name }}",
+            "oxid-esales/twig-admin-theme": "{{ .Data.global.composer.dev_ref }}",
+            "oxid-esales/apex-theme": "{{ .Data.global.composer.dev_ref }}",
+            "twig/twig": "v3.8.0"
+          }
+      }
+  output:
+    files: |
+      docker-compose.yml
+      source/composer.json*
+      source/composer.lock
+      source/source/config.inc.php
+      source/vendor/oxid-esales/oxideshop-ce/source/config.inc.php
+      data/php/logs/error_log.txt
 
-global:
-  # The organisation part of the composer package name <org>/<name>
-  org: 'oxid-esales'
-  # The name part of the composer package, also used in other places
-  name: 'twig-component'
-  # The repository organisation/name to check out
-  repo: 'OXID-eSales/twig-component'
+install_shop_with_modules: *install
 
-# These tests are run for all PHP/MySQL combinations specified when calling
-# the workflow
-runscript:
+runscript: &runscript
   matrix:
-    # A string containing a valid json array of scripts to execute
-    # The scripts follow the pattern "<prefix>:<composer_alias>" for scripts
-    # defined in composer.json and "<prefix>:~/<shell_script>" for shell
-    # scripts located in tests/Scripts
-    # If you want to see the tests output, make sure to generate it in tests/Output
-    script: '["component:~/unit.sh","component:~/integration.sh"]'
+    script: |
+      [
+        "twig:~/unit.sh",
+        "twig:~/integration.sh"
+      ]
+  twig:
+    path: 'vendor/oxid-esales/twig-component'
 
 sonarcloud:
-  # Remove the next two lines if you want to feed the results of your tests
-  # to sonarcloud. You need to make sure that your scripts generate an xml
-  # coverage file in tests/Reports, e.g. by adding
-  # --coverage-clover=tests/Reports/coverage_phpunit_integration.xml to them.
   matrix:
     testplan: 'skip'
-  # If you want to enable sonarcloud, you need to fill out the
-  # settings for project_key and project_name. You can get them from
-  # https://sonarcloud.io/organizations/oxid-esales/projects. The defaults for
-  # organization and parameters should be OK for most cases, so you don't need
-  # to overwrite them here.
-  project_key: '???'
-  project_name: '???'
+
+finish:
+  slack_title: 'Twig Component ({{ .Data.github.RefName }}) by {{ .Github.Actor }}'
+  slack_compact: true

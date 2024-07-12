@@ -31,7 +31,7 @@ on:
       custom_testplan:
         type: string
         description: 'Custom testplan'
-        default: '~/defaults/php8.2_mysql5.7_only.yaml,~/twig-component.yaml,~/defaults/component.yaml'
+        default: '~/defaults/php8.2_mysql5.7_only.yaml,~/twig-component.yaml'
       runs_on:
         type: string
         description: 'JSON string/array describing the runner'
