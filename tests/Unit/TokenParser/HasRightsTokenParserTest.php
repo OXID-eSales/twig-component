@@ -74,7 +74,7 @@ final class HasRightsTokenParserTest extends TestCase
         $stream = $env->parse(
             $env->tokenize(new Source('{% hasrights {\'id\' : \'1\'} %}{% endhasrights %}', 'index'))
         );
-        $stream->compile(new Compiler($env));
+        $stream->compile((new Compiler($env))->reset());
 
         $tags = [];
         foreach ($env->getTokenParsers() as $tokenParser) {

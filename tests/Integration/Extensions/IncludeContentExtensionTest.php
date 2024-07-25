@@ -12,6 +12,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 use OxidEsales\EshopCommunity\Application\Model\Content;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory;
 use OxidEsales\Twig\Extensions\IncludeContentExtension;
+use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -21,7 +22,9 @@ use Twig\Template;
 
 final class IncludeContentExtensionTest extends AbstractExtensionTestCase
 {
-    protected function setUp(): void
+	private MockBuilder $contentMockBuilder;
+
+	protected function setUp(): void
     {
         parent::setUp();
 
