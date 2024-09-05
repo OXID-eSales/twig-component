@@ -11,7 +11,7 @@ if [ ! -f "${PHPUNIT}" ]; then
 fi
 BOOTSTRAP="../../../tests/bootstrap.php"
 if [ ! -f "${BOOTSTRAP}" ]; then
-    BOOTSTRAP="../oxideshop-ce/tests"
+    BOOTSTRAP="../oxideshop-ce/tests/bootstrap.php"
     if [ ! -f "${BOOTSTRAP}" ]; then
         echo -e "\033[0;31mCould not find bootstrap.php in ../../../tests or ../oxideshop-ce/tests\033[0m"
         exit 1
