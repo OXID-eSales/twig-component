@@ -5,6 +5,9 @@
 ### Removed
 - PHP v8.1 support
 
+### Fixed
+- Ifcontent will parse body even if content not existing [#0007231](https://bugs.oxid-esales.com/view.php?id=7231)
+
 ## v2.4.0 - 2024-03-15
 
 ### Added
