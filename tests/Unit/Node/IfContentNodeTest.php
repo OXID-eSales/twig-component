@@ -50,7 +50,9 @@ final class IfContentNodeTest extends AbstractOxidTwigTestCase
         $tests[] = [$node, <<<EOF
 // line 1
 \$context["foo"] = \$this->extensions['$ifContentExtensionClass']->getContent("oxsomething", null);
+if(\$context["foo"]) { 
 echo "Lorem Ipsum";
+ } 
 unset(\$context["foo"]);
 EOF
         ];
@@ -59,7 +61,9 @@ EOF
         $tests[] = [$node, <<<EOF
 // line 1
 \$context["foo"] = \$this->extensions['$ifContentExtensionClass']->getContent(null, "oxsomething");
+if(\$context["foo"]) { 
 echo "Lorem Ipsum";
+ } 
 unset(\$context["foo"]);
 EOF
         ];
