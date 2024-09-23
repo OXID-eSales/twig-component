@@ -108,6 +108,7 @@ final class RendererSwitchTest extends IntegrationTestCase
         $orderStub = oxNew(Order::class);
         $orderStub->oxorder__oxbillfname = new Field('Some first name');
         $orderStub->oxorder__oxbilllname = new Field('Some last name');
+        $orderStub->oxorder__oxbillemail->value = new Field('billing-address@example.com');
 
         return $orderStub;
     }
