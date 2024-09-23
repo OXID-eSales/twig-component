@@ -14,7 +14,7 @@ use OxidEsales\Twig\Extensions\FormatPriceExtension;
 
 final class FormatPriceExtensionTest extends AbstractExtensionTestCase
 {
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $formatPriceLogic = new FormatPriceLogic();

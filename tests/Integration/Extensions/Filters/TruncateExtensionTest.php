@@ -18,7 +18,7 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
 {
     protected AbstractExtension $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         $this->extension = new TruncateExtension(new TruncateLogic());
         parent::setUp();
@@ -36,12 +36,15 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
     {
         return [
             [
-                "{{ 'Duis iaculis pellentesque felis, et pulvinar elit lacinia at. Suspendisse dapibus pulvinar sem vitae.'|truncate }}",
-                "Duis iaculis pellentesque felis, et pulvinar elit lacinia at. Suspendisse..."
+                "{{ 'Duis iaculis pellentesque felis, et pulvinar elit lacinia at. " .
+                "Suspendisse dapibus pulvinar sem vitae.'|truncate }}",
+                'Duis iaculis pellentesque felis, et pulvinar elit lacinia at. Suspendisse...'
             ],
             [
-                "{{ 'Duis iaculis &#039;pellentesque&#039; felis, et &quot;pulvinar&quot; elit lacinia at. Suspendisse dapibus pulvinar sem vitae.'|truncate }}",
-                "Duis iaculis &amp;#039;pellentesque&amp;#039; felis, et &amp;quot;pulvinar&amp;quot; elit lacinia at. Suspendisse..."
+                "{{ 'Duis iaculis &#039;pellentesque&#039; felis, et &quot;pulvinar&quot; elit lacinia at. " .
+                "Suspendisse dapibus pulvinar sem vitae.'|truncate }}",
+                'Duis iaculis &amp;#039;pellentesque&amp;#039; felis, et &amp;quot;pulvinar&amp;quot; ' .
+                'elit lacinia at. Suspendisse...'
             ],
         ];
     }
@@ -59,15 +62,16 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
         return [
             [
                 "{{ 'Duis iaculis pellentesque felis, et pulvinar elit.'|truncate(20) }}",
-                "Duis iaculis..."
+                'Duis iaculis...'
             ],
             [
                 "{{ 'Duis iaculis &#039;pellentesque&#039; felis, et &quot;pulvinar&quot; elit.'|truncate(20) }}",
-                "Duis iaculis..."
+                'Duis iaculis...'
             ],
             [
-                "{{ '&#039;Duis&#039; &#039;iaculis&#039; &#039;pellentesque&#039; felis, et &quot;pulvinar&quot; elit.'|truncate(20) }}",
-                "&amp;#039;Duis&amp;#039; &amp;#039;iaculis&amp;#039;..."
+                "{{ '&#039;Duis&#039; &#039;iaculis&#039; &#039;pellentesque&#039; felis, " .
+                "et &quot;pulvinar&quot; elit.'|truncate(20) }}",
+                '&amp;#039;Duis&amp;#039; &amp;#039;iaculis&amp;#039;...'
             ],
         ];
     }
@@ -84,8 +88,9 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
     {
         return [
             [
-                "{{ 'Duis iaculis pellentesque felis, et pulvinar elit lacinia at. Suspendisse dapibus pulvinar sem vitae.'|truncate(80, ' (...)') }}",
-                "Duis iaculis pellentesque felis, et pulvinar elit lacinia at. Suspendisse (...)"
+                "{{ 'Duis iaculis pellentesque felis, et pulvinar elit lacinia at. " .
+                "Suspendisse dapibus pulvinar sem vitae.'|truncate(80, ' (...)') }}",
+                'Duis iaculis pellentesque felis, et pulvinar elit lacinia at. Suspendisse (...)'
             ],
         ];
     }
@@ -102,8 +107,9 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
     {
         return [
             [
-                "{{ 'Duis iaculis pellentesque felis, et pulvinar elit lacinia at. Suspendisse dapibus pulvinar sem vitae.'|truncate(80, '...', true) }}",
-                "Duis iaculis pellentesque felis, et pulvinar elit lacinia at. Suspendisse dap..."
+                "{{ 'Duis iaculis pellentesque felis, et pulvinar elit lacinia at. " .
+                "Suspendisse dapibus pulvinar sem vitae.'|truncate(80, '...', true) }}",
+                'Duis iaculis pellentesque felis, et pulvinar elit lacinia at. Suspendisse dap...'
             ],
         ];
     }

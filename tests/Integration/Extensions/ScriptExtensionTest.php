@@ -17,7 +17,7 @@ use Twig\Template;
 
 final class ScriptExtensionTest extends AbstractExtensionTestCase
 {
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->extension = new ScriptExtension(new ScriptLogic());
@@ -36,36 +36,36 @@ final class ScriptExtensionTest extends AbstractExtensionTestCase
     {
         return [
             [
-                "{{ script() }}",
-                ""
+                '{{ script() }}',
+                ''
             ],
             // One script
             [
                 "{{ script({ add: 'alert();' }) }}" .
-                "{{ script() }}",
+                '{{ script() }}',
                 "<script type='text/javascript'>alert();</script>"
             ],
             // Two scripts
             [
                 "{{ script({ add: 'alert(\"one\");' }) }}" .
                 "{{ script({ add: 'alert(\"two\");' }) }}" .
-                "{{ script() }}",
+                '{{ script() }}',
                 "<script type='text/javascript'>alert(\"one\");\n" .
-                "alert(\"two\");</script>"
+                'alert("two");</script>'
             ],
             // Include
             [
                 "{{ script({ include: 'http://someurl/src/js/libs/jquery.min.js' }) }}" .
-                "{{ script() }}",
-                "<script type=\"text/javascript\" src=\"http://someurl/src/js/libs/jquery.min.js\"></script>"
+                '{{ script() }}',
+                '<script type="text/javascript" src="http://someurl/src/js/libs/jquery.min.js"></script>'
             ],
             // Two includes
             [
                 "{{ script({ include: 'http://someurl/src/js/libs/jquery.min.js' }) }}" .
                 "{{ script({ include: 'http://another/src/js/libs/jquery.min.js' }) }}" .
-                "{{ script() }}",
+                '{{ script() }}',
                 "<script type=\"text/javascript\" src=\"http://someurl/src/js/libs/jquery.min.js\"></script>\n" .
-                "<script type=\"text/javascript\" src=\"http://another/src/js/libs/jquery.min.js\"></script>"
+                '<script type="text/javascript" src="http://another/src/js/libs/jquery.min.js"></script>'
             ],
             // Two scripts, two includes
             [
@@ -73,11 +73,11 @@ final class ScriptExtensionTest extends AbstractExtensionTestCase
                 "{{ script({ include: 'http://someurl/src/js/libs/jquery.min.js' }) }}" .
                 "{{ script({ add: 'alert(\"two\");' }) }}" .
                 "{{ script({ include: 'http://another/src/js/libs/jquery.min.js' }) }}" .
-                "{{ script() }}",
+                '{{ script() }}',
                 "<script type=\"text/javascript\" src=\"http://someurl/src/js/libs/jquery.min.js\"></script>\n" .
-                "<script type=\"text/javascript\" src=\"http://another/src/js/libs/jquery.min.js\"></script>" .
+                '<script type="text/javascript" src="http://another/src/js/libs/jquery.min.js"></script>' .
                 "<script type='text/javascript'>alert(\"one\");\n" .
-                "alert(\"two\");</script>"
+                'alert("two");</script>'
             ],
             // Include widget
             [

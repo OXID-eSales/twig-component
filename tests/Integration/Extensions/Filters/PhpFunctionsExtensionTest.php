@@ -19,7 +19,7 @@ final class PhpFunctionsExtensionTest extends TestCase
 {
     protected PhpFunctionsExtension $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->extension = new PhpFunctionsExtension();
@@ -30,7 +30,7 @@ final class PhpFunctionsExtensionTest extends TestCase
         return [
             ["{% set foo = 'bar'|parse_url %}{{ foo['path'] }}", 'bar'],
             ["{{ 'Mon, 21 Jan 2019 15:35:00 GMT'|strtotime }}", 1_548_084_900],
-            ["{{ {0:0, 1:1}|is_array  }}", true],
+            ['{{ {0:0, 1:1}|is_array  }}', true],
             ["{{ 'foo'|is_array  }}", false],
             ["{{ 'discount_categories_ajax'|oxNew is null  }}", false]
         ];
@@ -51,7 +51,7 @@ final class PhpFunctionsExtensionTest extends TestCase
 
         $twig = new Environment($loader, ['debug' => true, 'cache' => false]);
         $twig->addExtension($this->extension);
-        $twig->addGlobal('date', date_create("2013-03-15"));
+        $twig->addGlobal('date', date_create('2013-03-15'));
 
         return $twig->loadTemplate($twig->getTemplateClass('index'), 'index');
     }

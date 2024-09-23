@@ -19,7 +19,7 @@ final class RegexReplaceExtensionTest extends TestCase
 {
     protected RegexReplaceExtension $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         $this->extension = new RegexReplaceExtension();
     }
@@ -27,14 +27,14 @@ final class RegexReplaceExtensionTest extends TestCase
     public static function dummyTemplateProvider(): array
     {
         return [
-            ["{{ '1-foo-2'|regex_replace('/[0-9]/', 'bar') }}", "bar-foo-bar"],
+            ["{{ '1-foo-2'|regex_replace('/[0-9]/', 'bar') }}", 'bar-foo-bar'],
         ];
     }
 
     /**
      * @dataProvider dummyTemplateProvider
      */
-    public function testIfPhpFunctionsAreCallable(string $template, string $expected)
+    public function testIfPhpFunctionsAreCallable(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }

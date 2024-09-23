@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Eshop\Core\Registry;
+use OxidEsales\EshopCommunity\Tests\ContainerTrait;
+use OxidEsales\EshopCommunity\Tests\DatabaseTrait;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -18,7 +20,24 @@ use Twig\Template;
 
 abstract class AbstractExtensionTestCase extends TestCase
 {
+    use ContainerTrait;
+    use DatabaseTrait;
+
     protected AbstractExtension $extension;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->beginTransaction();
+    }
+
+    public function tearDown(): void
+    {
+        $this->rollBackTransaction();
+
+        parent::tearDown();
+    }
 
     protected function getTemplate(string $template): Template
     {
@@ -30,24 +49,14 @@ abstract class AbstractExtensionTestCase extends TestCase
         return $twig->loadTemplate($twig->getTemplateClass('index'), 'index');
     }
 
-    /**
-     * Sets language
-     *
-     * @param int $languageId
-     */
-    public function setLanguage($languageId): void
+    public function setLanguage(int $languageId): void
     {
         $oxLang = Registry::getLang();
         $oxLang->setBaseLanguage($languageId);
         $oxLang->setTplLanguage($languageId);
     }
 
-    /**
-     * Sets OXID shop admin mode.
-     *
-     * @param bool $adminMode set to admin mode TRUE / FALSE.
-     */
-    public function setAdminMode($adminMode): void
+    public function setAdminMode(bool $adminMode): void
     {
         Registry::getConfig()->setAdminMode($adminMode);
     }

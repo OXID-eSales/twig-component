@@ -22,9 +22,9 @@ use Twig\Template;
 
 final class IncludeContentExtensionTest extends AbstractExtensionTestCase
 {
-	private MockBuilder $contentMockBuilder;
+    private MockBuilder $contentMockBuilder;
 
-	protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -62,13 +62,13 @@ final class IncludeContentExtensionTest extends AbstractExtensionTestCase
 
         $contentFactoryMock
             ->method('getContent')
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 ['ident', 'german', $deContentMock],
                 ['ident', 'english', $enContentMock],
                 ['ident', 'twig_code', $twigContentMock],
                 ['ident', 'dynamic_content', $dynamicContentMock],
                 ['ident', 'not_active', $notActiveContentMock]
-            ]));
+            ]);
 
         $this->extension = new IncludeContentExtension($contentFactoryMock);
     }
@@ -86,19 +86,19 @@ final class IncludeContentExtensionTest extends AbstractExtensionTestCase
         return [
             [
                 "{% include_content 'german' %}",
-                "Template code (DE)"
+                'Template code (DE)'
             ],
             [
                 "{% include_content 'english' %}",
-                "Template code (EN)"
+                'Template code (EN)'
             ],
             [
                 "{% include_content 'twig_code' with { my_var: 'my_val' } %}",
-                "In my_var I have my_val value"
+                'In my_var I have my_val value'
             ],
             [
                 "{% set content_name = 'dynamic_content' %}{% include_content content_name %}",
-                "Dynamic content"
+                'Dynamic content'
             ],
         ];
     }
@@ -128,7 +128,7 @@ final class IncludeContentExtensionTest extends AbstractExtensionTestCase
 
         foreach ($fields as $field => $value) {
             $fieldName = 'oxcontents__' . $field;
-            $mock->$fieldName = (object) ['value' => $value];
+            $mock->$fieldName = (object)['value' => $value];
         }
 
         return $mock;

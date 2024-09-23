@@ -17,18 +17,11 @@ final class GetRequestVariablesExtensionTest extends AbstractExtensionTestCase
     /** @var GetRequestVariablesExtension */
     protected AbstractExtension $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         $this->extension = new GetRequestVariablesExtension();
         $_COOKIE['foo'] = 'bar';
         $_GET['foo'] = 'bar';
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        unset($_COOKIE['foo']);
-        unset($_GET['foo']);
     }
 
     public static function dummyTemplateProvider(): array

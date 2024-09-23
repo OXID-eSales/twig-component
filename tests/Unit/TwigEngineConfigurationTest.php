@@ -21,10 +21,7 @@ final class TwigEngineConfigurationTest extends TestCase
     {
         $context = $this->createConfiguredMock(
             ContextInterface::class,
-            [
-                'getTemplateCacheDirectory' => 'dummy_cache_dir',
-                'getCurrentShopId' => 1
-            ]
+            ['getCurrentShopId' => 1]
         );
         $twigContext = $this->createConfiguredMock(
             TwigContextInterface::class,
@@ -37,8 +34,8 @@ final class TwigEngineConfigurationTest extends TestCase
         $engineConfiguration = new TwigEngineConfiguration(
             $context,
             $twigContext,
-            false,
-            $twigTemplateCacheService
+            $twigTemplateCacheService,
+            false
         );
 
         $parameters = $engineConfiguration->getParameters();

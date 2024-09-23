@@ -18,7 +18,7 @@ final class TranslateSalutationExtensionTest extends AbstractExtensionTestCase
 {
     protected AbstractExtension $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->setLanguage(0);

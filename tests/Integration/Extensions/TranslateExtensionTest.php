@@ -9,16 +9,13 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
-use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Extensions\TranslateExtension;
 
 final class TranslateExtensionTest extends AbstractExtensionTestCase
 {
-    use ContainerTrait;
-
     private TranslateExtension $translateExtension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 

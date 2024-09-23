@@ -15,7 +15,7 @@ use OxidEsales\Twig\Extensions\Filters\FormatDateExtension;
 
 final class FormatDateExtensionTest extends AbstractExtensionTestCase
 {
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->extension = new FormatDateExtension(new FormatDateLogic());
@@ -27,7 +27,7 @@ final class FormatDateExtensionTest extends AbstractExtensionTestCase
     public function testFormDateWithDatetime(): void
     {
         $template = "{{ '01.08.2007 11.56.25'|format_date('datetime', true) }}";
-        $expected = "2007-08-01 11:56:25";
+        $expected = '2007-08-01 11:56:25';
 
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
@@ -38,7 +38,7 @@ final class FormatDateExtensionTest extends AbstractExtensionTestCase
     public function testFormDateWithTimestamp(): void
     {
         $template = "{{ '20070801115625'|format_date('timestamp', true) }}";
-        $expected = "2007-08-01 11:56:25";
+        $expected = '2007-08-01 11:56:25';
 
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
@@ -49,7 +49,7 @@ final class FormatDateExtensionTest extends AbstractExtensionTestCase
     public function testFormDateWithDate(): void
     {
         $template = "{{ '2007-08-01 11:56:25'|format_date('date', true) }}";
-        $expected = "2007-08-01";
+        $expected = '2007-08-01';
 
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
     }
@@ -60,10 +60,10 @@ final class FormatDateExtensionTest extends AbstractExtensionTestCase
     public function testFormDateUsingObject(): void
     {
         $template = "{{ field|format_date('datetime') }}";
-        $expected = "2007-08-01 11:56:25";
+        $expected = '2007-08-01 11:56:25';
 
         $field = new Field();
-        $field->fldmax_length = "0";
+        $field->fldmax_length = '0';
         $field->fldtype = 'datetime';
         $field->setValue('01.08.2007 11.56.25');
 

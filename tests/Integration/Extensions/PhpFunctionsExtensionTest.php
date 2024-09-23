@@ -10,13 +10,14 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Twig\Extensions\PhpFunctionsExtension;
+use Twig\Extension\AbstractExtension;
 
 final class PhpFunctionsExtensionTest extends AbstractExtensionTestCase
 {
     /** @var PhpFunctionsExtension */
-    protected \Twig\Extension\AbstractExtension $extension;
+    protected AbstractExtension $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->extension = new PhpFunctionsExtension();
@@ -25,10 +26,10 @@ final class PhpFunctionsExtensionTest extends AbstractExtensionTestCase
     public static function dummyTemplateProvider(): array
     {
         return [
-            ["{{ count({0:0, 1:1, 2:2}) }}", 3],
-            ["{{ empty({0:0, 1:1}) }}", false],
-            ["{{ empty({}) }}", true],
-            ["{{ isset(foo) }}", false],
+            ['{{ count({0:0, 1:1, 2:2}) }}', 3],
+            ['{{ empty({0:0, 1:1}) }}', false],
+            ['{{ empty({}) }}', true],
+            ['{{ isset(foo) }}', false],
             ["{% set foo = 'bar' %} {{ isset(foo) }}", true],
         ];
     }

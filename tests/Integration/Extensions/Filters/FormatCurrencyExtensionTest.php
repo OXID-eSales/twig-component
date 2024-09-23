@@ -18,7 +18,7 @@ final class FormatCurrencyExtensionTest extends AbstractExtensionTestCase
 {
     protected AbstractExtension $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->extension = new FormatCurrencyExtension(new FormatCurrencyLogic());

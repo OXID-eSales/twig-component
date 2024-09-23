@@ -18,7 +18,7 @@ final class WordwrapExtensionTest extends AbstractExtensionTestCase
 {
     protected AbstractExtension $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->extension = new WordwrapExtension(new WordwrapLogic());
@@ -54,8 +54,10 @@ final class WordwrapExtensionTest extends AbstractExtensionTestCase
             ['{{ "   aaa    aaa"|wordwrap(5) }}', "  \naaa  \n aaa"],
             ['{{ "   aaa    aaa"|wordwrap(5, "\n", true) }}', "  \naaa  \n aaa"],
             [
-                "{{ 'Pellentesque nisl non condimentum cursus.\n  consectetur a diam sit.\n finibus diam eu libero lobortis.\neu   ex   sit'|wordwrap(10, \"\\n\", true) }}",
-                "Pellentesq\nue nisl\nnon\ncondimentu\nm cursus.\n \nconsectetu\nr a diam\nsit.\n finibus\ndiam eu\nlibero\nlobortis.\neu   ex  \nsit"
+                "{{ 'Pellentesque nisl non condimentum cursus.\n  consectetur a diam sit.\n " .
+                "finibus diam eu libero lobortis.\neu   ex   sit'|wordwrap(10, \"\\n\", true) }}",
+                "Pellentesq\nue nisl\nnon\ncondimentu\nm cursus.\n \nconsectetu\nr a diam\nsit.\n " .
+                "finibus\ndiam eu\nlibero\nlobortis.\neu   ex  \nsit"
             ]
         ];
     }

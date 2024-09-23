@@ -11,18 +11,15 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\Eshop\Core\Field;
 use OxidEsales\EshopCommunity\Core\Registry;
-use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Extensions\Filters\TranslateExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
 use Twig\Extension\AbstractExtension;
 
 final class TranslateExtensionTest extends AbstractExtensionTestCase
 {
-    use ContainerTrait;
-
     protected AbstractExtension $extension;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->extension = $this->get(TranslateExtension::class);
@@ -51,8 +48,16 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         return [
             ["{{ 'MANUFACTURER_S'|translate('Opel') }}", 0, '| Hersteller: Opel'],
             ["{{ 'MANUFACTURER_S'|translate('Opel') }}", 1, 'Manufacturer: Opel'],
-            ["{{ 'INVITE_TO_SHOP'|translate(['Admin', 'OXID Shop']) }}", 0, 'Eine Einladung von Admin OXID Shop zu besuchen.'],
-            ["{{ 'INVITE_TO_SHOP'|translate(['Admin', 'OXID Shop']) }}", 1, 'An invitation from Admin to visit OXID Shop']
+            [
+                "{{ 'INVITE_TO_SHOP'|translate(['Admin', 'OXID Shop']) }}",
+                0,
+                'Eine Einladung von Admin OXID Shop zu besuchen.',
+            ],
+            [
+                "{{ 'INVITE_TO_SHOP'|translate(['Admin', 'OXID Shop']) }}",
+                1,
+                'An invitation from Admin to visit OXID Shop',
+            ]
         ];
     }
 
@@ -68,8 +73,12 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
     public static function missingTranslationProviderFrontend(): array
     {
         return [
-            [true, "{{ 'MY_MISING_TRANSLATION'|translate }}", 'MY_MISING_TRANSLATION'],
-            [false, "{{ 'MY_MISING_TRANSLATION'|translate }}", 'ERROR: Translation for MY_MISING_TRANSLATION not found!'],
+            [true, "{{ 'MY_MISSING_TRANSLATION'|translate }}", 'MY_MISSING_TRANSLATION'],
+            [
+                false,
+                "{{ 'MY_MISSING_TRANSLATION'|translate }}",
+                'ERROR: Translation for MY_MISSING_TRANSLATION not found!',
+            ],
         ];
     }
 
@@ -94,7 +103,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
     public static function missingTranslationProviderAdmin(): array
     {
         return [
-            ["{{ 'MY_MISING_TRANSLATION'|translate }}", 'ERROR: Translation for MY_MISING_TRANSLATION not found!'],
+            ["{{ 'MY_MISSING_TRANSLATION'|translate }}", 'ERROR: Translation for MY_MISSING_TRANSLATION not found!'],
         ];
     }
 

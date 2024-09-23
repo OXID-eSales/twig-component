@@ -15,7 +15,7 @@ use OxidEsales\Twig\Extensions\UrlExtension;
 
 final class UrlExtensionTest extends AbstractExtensionTestCase
 {
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->setLanguage(0);
@@ -42,8 +42,8 @@ final class UrlExtensionTest extends AbstractExtensionTestCase
     {
         return [
             [
-                "{{ seo_url({ ident: \"server.local?df=ab\", params: \"order=abc\" }) }}",
-                "server.local?df=ab&amp;order=abc"
+                '{{ seo_url({ ident: "server.local?df=ab", params: "order=abc" }) }}',
+                'server.local?df=ab&amp;order=abc'
             ],
         ];
     }
@@ -53,7 +53,7 @@ final class UrlExtensionTest extends AbstractExtensionTestCase
         return [
             [
                 "{{ 'abc'|add_url_parameters('de=fg&hi=&jk=lm') }}",
-                "abc?de=fg&amp;hi=&amp;jk=lm"
+                'abc?de=fg&amp;hi=&amp;jk=lm'
             ],
         ];
     }
