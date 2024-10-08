@@ -2,6 +2,9 @@
 
 ## v2.5.0 - Unreleased
 
+### Added
+- Twig ^v3.14 support
+
 ### Removed
 - PHP v8.1 support
 
