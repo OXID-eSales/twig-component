@@ -15,8 +15,7 @@
         "php": ">=8.2",
         "twig/twig": "3.8.0"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "OxidEsales\\Twig\\": "src",

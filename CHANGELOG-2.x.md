@@ -1,6 +1,6 @@
 # Change Log for OXID Twig engine component
 
-## v2.5.0 - Unreleased
+## v2.5.0 - 2024-10-14
 
 ### Removed
 - PHP v8.1 support
