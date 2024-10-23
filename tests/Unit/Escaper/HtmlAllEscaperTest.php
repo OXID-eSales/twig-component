@@ -11,6 +11,7 @@ namespace OxidEsales\Twig\Tests\Unit\Escaper;
 
 use OxidEsales\Twig\Escaper\EscaperInterface;
 use OxidEsales\Twig\Escaper\HtmlAllEscaper;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 
@@ -34,13 +35,8 @@ final class HtmlAllEscaperTest extends TestCase
         ];
     }
 
-    /**
-     * @param string $string
-     * @param string $expected
-     *
-     * @dataProvider escapeProvider
-     */
-    public function testEscape($string, $expected)
+    #[DataProvider('escapeProvider')]
+    public function testEscape(string $string, string $expected)
     {
         $this->assertEquals($expected, $this->escaper->escape($this->environment, $string, 'UTF-8'));
     }

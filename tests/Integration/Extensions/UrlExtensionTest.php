@@ -12,6 +12,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\AddUrlParametersLogic;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\SeoUrlLogic;
 use OxidEsales\Twig\Extensions\UrlExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class UrlExtensionTest extends AbstractExtensionTestCase
 {
@@ -22,17 +23,13 @@ final class UrlExtensionTest extends AbstractExtensionTestCase
         $this->extension = new UrlExtension(new SeoUrlLogic(), new AddUrlParametersLogic());
     }
 
-    /**
-     * @dataProvider getSeoUrlTests
-     */
+    #[DataProvider('getSeoUrlTests')]
     public function testSeoUrl(string $template, string $expected, array $variables = []): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render($variables));
     }
 
-    /**
-     * @dataProvider getAddUrlParametersTests
-     */
+    #[DataProvider('getAddUrlParametersTests')]
     public function testAddUrlParameters(string $template, string $expected, array $variables = []): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render($variables));

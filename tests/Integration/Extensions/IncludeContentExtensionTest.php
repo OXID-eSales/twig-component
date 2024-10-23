@@ -12,6 +12,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 use OxidEsales\EshopCommunity\Application\Model\Content;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory;
 use OxidEsales\Twig\Extensions\IncludeContentExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use Twig\Environment;
@@ -73,9 +74,7 @@ final class IncludeContentExtensionTest extends AbstractExtensionTestCase
         $this->extension = new IncludeContentExtension($contentFactoryMock);
     }
 
-    /**
-     * @dataProvider contentProvider
-     */
+    #[DataProvider('contentProvider')]
     public function testContent(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));

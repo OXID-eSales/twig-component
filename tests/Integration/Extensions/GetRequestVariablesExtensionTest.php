@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Twig\Extensions\GetRequestVariablesExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Extension\AbstractExtension;
 
 final class GetRequestVariablesExtensionTest extends AbstractExtensionTestCase
@@ -41,9 +42,7 @@ final class GetRequestVariablesExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @dataProvider dummyTemplateProvider
-     */
+    #[DataProvider('dummyTemplateProvider')]
     public function testIfPhpFunctionsAreCallable(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));

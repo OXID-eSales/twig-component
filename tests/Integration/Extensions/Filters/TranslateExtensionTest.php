@@ -14,6 +14,7 @@ use OxidEsales\EshopCommunity\Core\Registry;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Extensions\Filters\TranslateExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Extension\AbstractExtension;
 
 final class TranslateExtensionTest extends AbstractExtensionTestCase
@@ -37,9 +38,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @dataProvider simpleTranslatingProvider
-     */
+    #[DataProvider('simpleTranslatingProvider')]
     public function testSimpleTranslating(string $template, int $languageId, string $expected): void
     {
         $this->setLanguage($languageId);
@@ -56,9 +55,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @dataProvider withArgumentsProvider
-     */
+    #[DataProvider('withArgumentsProvider')]
     public function testTranslatingWithArguments(string $template, int $languageId, string $expected): void
     {
         $this->setLanguage($languageId);
@@ -73,9 +70,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @dataProvider missingTranslationProviderFrontend
-     */
+    #[DataProvider('missingTranslationProviderFrontend')]
     public function testTranslateFrontendIsMissingTranslation(
         bool $isProductiveMode,
         string $template,
@@ -98,9 +93,7 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @dataProvider missingTranslationProviderAdmin
-     */
+    #[DataProvider('missingTranslationProviderAdmin')]
     public function testTranslateAdminIsMissingTranslation(string $template, string $expected): void
     {
         $this->setLanguage(1);

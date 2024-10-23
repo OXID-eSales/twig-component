@@ -4,6 +4,10 @@
 
 ### Added
 - Twig ^v3.14 support
+- PHPUnit v11 support
+
+### Removed
+- PHPUnit v10 support
 
 ## v2.5.0 - 2024-10-14
 

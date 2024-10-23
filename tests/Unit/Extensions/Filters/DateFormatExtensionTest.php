@@ -11,6 +11,7 @@ namespace OxidEsales\Twig\Tests\Unit\Extensions\Filters;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\DateFormatHelper;
 use OxidEsales\Twig\Extensions\Filters\DateFormatExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DateFormatExtensionTest extends TestCase
@@ -49,15 +50,10 @@ final class DateFormatExtensionTest extends TestCase
     }
 
     /**
-     * @param mixed  $string
-     * @param string $format
-     * @param string $default_date
-     * @param string $expectedDate
-     *
-     * @dataProvider provider
      * @covers \OxidEsales\Twig\Extensions\Filters\DateFormatExtension::dateFormat
      */
-    public function testDateFormat($string, $format, $default_date, $expectedDate): void
+    #[DataProvider('provider')]
+    public function testDateFormat($string, string $format, string $default_date, string $expectedDate): void
     {
         $actualDate = $this->dateFormatExtension->dateFormat($string, $format, $default_date);
         $this->assertEquals($expectedDate, $actualDate);

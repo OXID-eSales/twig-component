@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\TokenParser;
 
 use OxidEsales\Twig\TokenParser\CaptureTokenParser;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Error\SyntaxError;
@@ -58,12 +59,10 @@ final class CaptureTokenParserTest extends TestCase
     }
 
     /**
-     * @param $source
-     *
      * @covers \OxidEsales\Twig\TokenParser\CaptureTokenParser::parse
-     * @dataProvider templateSourceCodeProvider
      */
-    public function testParse($source): void
+    #[DataProvider('templateSourceCodeProvider')]
+    public function testParse(string $source): void
     {
         $stream = $this->environment->tokenize(new Source($source, 'index'));
         $node = $this->parser->parse($stream);

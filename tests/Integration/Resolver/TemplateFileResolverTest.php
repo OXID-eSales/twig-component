@@ -11,15 +11,14 @@ namespace OxidEsales\Twig\Tests\Integration\Resolver;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolverInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class TemplateFileResolverTest extends TestCase
 {
     use ContainerTrait;
 
-    /**
-     * @dataProvider templateNameFileDataProvider
-     */
+    #[DataProvider('templateNameFileDataProvider')]
     public function testResolveSmartyTemplate(string $templateName, string $expectedFilename): void
     {
         $filename = $this->get(TemplateFileResolverInterface::class)->getFilename($templateName);

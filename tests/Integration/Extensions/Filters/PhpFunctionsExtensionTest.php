@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\Twig\Extensions\Filters\PhpFunctionsExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -36,10 +37,7 @@ final class PhpFunctionsExtensionTest extends TestCase
         ];
     }
 
-    /**
-     * @param mixed $expected
-     * @dataProvider dummyTemplateProvider
-     */
+    #[DataProvider('dummyTemplateProvider')]
     public function testIfPhpFunctionsAreCallable(string $template, $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));

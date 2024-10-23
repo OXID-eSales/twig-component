@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Twig\Extensions\SmartyCycleExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class SmartyCycleExtensionTest extends AbstractExtensionTestCase
 {
@@ -19,9 +20,7 @@ final class SmartyCycleExtensionTest extends AbstractExtensionTestCase
         $this->extension = new SmartyCycleExtension();
     }
 
-    /**
-     * @dataProvider getStaticCycle
-     */
+    #[DataProvider('getStaticCycle')]
     public function testStaticCycle(string $template, string $expected, array $variables = []): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render($variables));

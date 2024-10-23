@@ -27,28 +27,14 @@ final class UrlPathInfoEscaperTest extends TestCase
         $this->environment = $this->createMock(Environment::class);
     }
 
-    public static function escapeProvider(): array
+    public function testEscape(): void
     {
-        return [
-            [
-                "http://hans:geheim@www.example.org:80/demo/example.cgi?land=de&stadt=aa",
-                "http%3A//hans%3Ageheim%40www.example.org%3A80/demo/example.cgi%3Fland%3Dde%26stadt%3Daa"
-            ]
-        ];
-    }
-
-    /**
-     * @param string $string
-     * @param string $expected
-     *
-     * @dataProvider escapeProvider
-     */
-    public function testEscape($string, $expected)
-    {
+        $string = 'http://hans:geheim@www.example.org:80/demo/example.cgi?land=de&stadt=aa';
+        $expected = 'http%3A//hans%3Ageheim%40www.example.org%3A80/demo/example.cgi%3Fland%3Dde%26stadt%3Daa';
         $this->assertEquals($expected, $this->escaper->escape($this->environment, $string, 'UTF-8'));
     }
 
-    public function testGetStrategy()
+    public function testGetStrategy(): void
     {
         $this->assertEquals('urlpathinfo', $this->escaper->getStrategy());
     }

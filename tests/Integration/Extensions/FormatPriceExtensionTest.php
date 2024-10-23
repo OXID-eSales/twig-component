@@ -11,6 +11,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatPriceLogic;
 use OxidEsales\Twig\Extensions\FormatPriceExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class FormatPriceExtensionTest extends AbstractExtensionTestCase
 {
@@ -30,10 +31,9 @@ final class FormatPriceExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     *
-     * @dataProvider priceProvider
      * @covers \OxidEsales\Twig\Extensions\FormatPriceExtension::formatPrice
      */
+    #[DataProvider('priceProvider')]
     public function testFormatPrice($template, $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));

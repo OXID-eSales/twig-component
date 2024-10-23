@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Twig\Extensions\MailtoExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class MailtoExtensionTest extends AbstractExtensionTestCase
 {
@@ -19,12 +20,7 @@ final class MailtoExtensionTest extends AbstractExtensionTestCase
         $this->extension = new MailtoExtension();
     }
 
-    /**
-     * @param $template
-     * @param $expected
-     *
-     * @dataProvider getMailtoTests
-     */
+    #[DataProvider('getMailtoTests')]
     public function testMailto(string $template, string $expected, array $variables = []): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render($variables));
