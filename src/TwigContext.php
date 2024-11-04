@@ -23,7 +23,7 @@ class TwigContext implements TwigContextInterface
 
     public function getIsDebug(): bool
     {
-        return ContainerFacade::getParameter('oxid_debug_mode');
+        return ContainerFacade::getParameter('oxid_esales.debug_mode');
     }
 
     public function getActiveThemeId(): string

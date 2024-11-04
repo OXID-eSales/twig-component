@@ -129,7 +129,7 @@ final class ModuleControllerRenderTest extends TestCase
     private function switchDebugMode(bool $enable): void
     {
         $this->createContainer();
-        $this->container->setParameter('oxid_debug_mode', $enable);
+        $this->container->setParameter('oxid_esales.debug_mode', $enable);
         $this->container->compile();
         $this->attachContainerToContainerFactory();
     }

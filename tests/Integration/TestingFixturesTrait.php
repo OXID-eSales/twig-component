@@ -49,7 +49,7 @@ trait TestingFixturesTrait
     public function setShopSourceFixture(): void
     {
         $this->createContainer();
-        $this->container->setParameter('oxid_shop_source_directory', "{$this->getFixturesDirectory()}/shop/source/");
+        $this->container->setParameter('oxid_esales.shop_source_directory', "{$this->getFixturesDirectory()}/shop/source/");
         $this->compileContainer();
         $this->attachContainerToContainerFactory();
     }
