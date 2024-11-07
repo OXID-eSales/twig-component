@@ -12,6 +12,7 @@ namespace OxidEsales\Twig\Tests\Unit\Extensions;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\IncludeDynamicLogic;
 use OxidEsales\Twig\Extensions\IncludeExtension;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -31,8 +32,8 @@ final class IncludeExtensionTest extends TestCase
 
     /**
      * @covers \OxidEsales\Twig\Extensions\IncludeExtension::includeDynamicPrefix
-     * @dataProvider dataProviderTestIncludeDynamicPrefix
      */
+    #[DataProvider('dataProviderTestIncludeDynamicPrefix')]
     public function testIncludeDynamicPrefix(array $parameters, array $expected): void
     {
         $this->assertEquals($this->includeExtension->includeDynamicPrefix($parameters), $expected);
@@ -55,8 +56,8 @@ final class IncludeExtensionTest extends TestCase
 
     /**
      * @covers \OxidEsales\Twig\Extensions\IncludeExtension::renderForCache
-     * @dataProvider dataProviderTestRenderForCache
      */
+    #[DataProvider('dataProviderTestRenderForCache')]
     public function testRenderForCache(array $parameters, string $expected): void
     {
         $this->assertEquals($this->includeExtension->renderForCache($parameters), $expected);

@@ -11,6 +11,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ScriptLogic;
 use OxidEsales\Twig\Extensions\ScriptExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use Twig\Template;
@@ -25,8 +26,8 @@ final class ScriptExtensionTest extends AbstractExtensionTestCase
 
     /**
      * @covers \OxidEsales\Twig\Extensions\ScriptExtension::script
-     * @dataProvider getScriptTests
      */
+    #[DataProvider('getScriptTests')]
     public function testScript(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Twig\Extensions\TranslateExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class TranslateExtensionTest extends AbstractExtensionTestCase
 {
@@ -32,9 +33,9 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * @dataProvider dataProvider
      * @covers \OxidEsales\Twig\Extensions\TranslateExtension::translate
      */
+    #[DataProvider('dataProvider')]
     public function testTranslate(array $params, string $expectedTranslation): void
     {
         $actualTranslation = $this->translateExtension->translate($params);

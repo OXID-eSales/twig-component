@@ -12,6 +12,7 @@ namespace OxidEsales\EshopCommunity\Tests\Integration\Internal\Adapter;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\InputHelpLogic;
 use OxidEsales\Twig\Extensions\InputHelpExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class InputHelpExtensionTest extends AbstractExtensionTestCase
 {
@@ -33,15 +34,10 @@ final class InputHelpExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * @param $params
-     * @param $iLang
-     * @param $blAdmin
-     * @param $expected
-     *
-     * @dataProvider getIdentProvider
      * @covers \OxidEsales\Twig\Extensions\InputHelpExtension::getHelpId
      */
-    public function testGetIdent($params, $iLang, $blAdmin, $expected): void
+    #[DataProvider('getIdentProvider')]
+    public function testGetIdent(?string $params, int $iLang, bool $blAdmin, ?string $expected): void
     {
         $this->setLanguage($iLang);
         $this->setAdminMode($blAdmin);
@@ -59,15 +55,10 @@ final class InputHelpExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * @param $params
-     * @param $iLang
-     * @param $blAdmin
-     * @param $expected
-     *
-     * @dataProvider getHelpTextProvider
      * @covers \OxidEsales\Twig\Extensions\InputHelpExtension::getHelpText
      */
-    public function testGetHelpText($params, $iLang, $blAdmin, $expected): void
+    #[DataProvider('getHelpTextProvider')]
+    public function testGetHelpText(?string $params, int $iLang, bool $blAdmin, ?string $expected): void
     {
         $this->setLanguage($iLang);
         $this->setAdminMode($blAdmin);

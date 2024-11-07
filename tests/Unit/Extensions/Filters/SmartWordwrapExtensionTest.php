@@ -11,12 +11,12 @@ namespace OxidEsales\Twig\Tests\Unit\Extensions\Filters;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\SmartWordwrapLogic;
 use OxidEsales\Twig\Extensions\Filters\SmartWordwrapExtension;
-use OxidEsales\EshopCommunity\Tests\Unit\Application\Controller\contentTest_oxUtilsView;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class SmartWordwrapExtensionTest extends TestCase
 {
-    public static function provider()
+    public static function provider(): array
     {
         return [
             [
@@ -110,13 +110,10 @@ adipi[...]'
     }
 
     /**
-     * @param array $params
-     * @param string $expectedString
-     *
      * @covers \OxidEsales\Twig\Extensions\Filters\SmartWordwrapExtension::smartWordWrap
-     * @dataProvider provider
      */
-    public function testSmartWordWrap($params, $expectedString)
+    #[DataProvider('provider')]
+    public function testSmartWordWrap(array $params, string $expectedString): void
     {
         $smartWordWrapLogic = new SmartWordwrapLogic();
         $smartWordWrapExtension = new SmartWordwrapExtension($smartWordWrapLogic);

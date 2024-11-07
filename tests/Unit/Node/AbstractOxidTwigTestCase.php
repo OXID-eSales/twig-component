@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Node;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Test\NodeTestCase;
 
 abstract class AbstractOxidTwigTestCase extends NodeTestCase
@@ -19,9 +20,7 @@ abstract class AbstractOxidTwigTestCase extends NodeTestCase
     {
     }
 
-    /**
-     * @dataProvider getOxidTwigTests
-     */
+    #[DataProvider('getOxidTwigTests')]
     public function testCompile($node, $source, $environment = null, $isPattern = false): void
     {
         $this->assertNodeCompilation($source, $node, $environment, $isPattern);

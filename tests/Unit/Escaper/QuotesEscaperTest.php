@@ -27,25 +27,14 @@ final class QuotesEscaperTest extends TestCase
         $this->environment = $this->createMock(Environment::class);
     }
 
-    public static function escapeProvider(): array
+    public function testEscape(): void
     {
-        return [
-            ["A 'quote' is <b>bold</b>", "A \'quote\' is <b>bold</b>"]
-        ];
-    }
-
-    /**
-     * @param string $string
-     * @param string $expected
-     *
-     * @dataProvider escapeProvider
-     */
-    public function testEscape($string, $expected)
-    {
+        $string = 'A \'quote\' is <b>bold</b>';
+        $expected = 'A \\\'quote\\\' is <b>bold</b>';
         $this->assertEquals($expected, $this->escaper->escape($this->environment, $string, 'UTF-8'));
     }
 
-    public function testGetStrategy()
+    public function testGetStrategy(): void
     {
         $this->assertEquals('quotes', $this->escaper->getStrategy());
     }

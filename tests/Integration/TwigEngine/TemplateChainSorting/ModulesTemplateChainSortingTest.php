@@ -14,6 +14,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterf
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /** @runTestsInSeparateProcesses */
@@ -55,9 +56,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @dataProvider renderShopTemplateDataProvider
-     */
+    #[DataProvider('renderShopTemplateDataProvider')]
     public function testRenderWithShopTemplateAndSorting(string $sorting, string $expectedResult): void
     {
         $template = self::FIXTURE_TEMPLATE_WITH_EXTENDS;
@@ -111,9 +110,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider renderModuleTemplateDataProvider
-     */
+    #[DataProvider('renderModuleTemplateDataProvider')]
     public function testRenderWithModuleTemplateAndSorting(string $sorting, string $expectedResult): void
     {
         $template = '@module1/' . self::FIXTURE_TEMPLATE_WITH_EXTENDS;
@@ -161,9 +158,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider renderWithShopTemplateAndFaultySortingConfigDataProvider
-     */
+    #[DataProvider('renderWithShopTemplateAndFaultySortingConfigDataProvider')]
     public function testRenderWithShopTemplateAmdFaultySortingConfiguration(
         string $sorting,
         string $expectedResult
@@ -208,9 +203,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider renderWithModuleTemplateAndFaultySortingConfigDataProvider
-     */
+    #[DataProvider('renderWithModuleTemplateAndFaultySortingConfigDataProvider')]
     public function testRenderWithModuleTemplateAndFaultySortingConfiguration(
         string $sorting,
         string $expectedResult

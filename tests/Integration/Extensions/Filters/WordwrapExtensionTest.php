@@ -12,6 +12,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\WordwrapLogic;
 use OxidEsales\Twig\Extensions\Filters\WordwrapExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Extension\AbstractExtension;
 
 final class WordwrapExtensionTest extends AbstractExtensionTestCase
@@ -34,9 +35,7 @@ final class WordwrapExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @dataProvider nonAsciiProvider
-     */
+    #[DataProvider('nonAsciiProvider')]
     public function testWordWrapWithNonAscii(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
@@ -62,9 +61,7 @@ final class WordwrapExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @dataProvider asciiProvider
-     */
+    #[DataProvider('asciiProvider')]
     public function testWordWrapAscii(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));

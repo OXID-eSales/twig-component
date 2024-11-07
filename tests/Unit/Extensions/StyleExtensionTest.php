@@ -11,6 +11,7 @@ namespace OxidEsales\Twig\Tests\Unit\Extensions;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\StyleLogic;
 use OxidEsales\Twig\Extensions\StyleExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Loader\LoaderInterface;
@@ -19,12 +20,9 @@ final class StyleExtensionTest extends TestCase
 {
     /**
      * @covers \OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\StyleLogic::collectStyleSheets
-     * @dataProvider dataProvider
-     *
-     * @param $params
-     * @param $isDynamic
      */
-    public function testCollectStyleSheets($params, $isDynamic): void
+    #[DataProvider('dataProvider')]
+    public function testCollectStyleSheets(array $params, bool $isDynamic): void
     {
         $styleExtension = $this->getStyleExtensionMock($params, $isDynamic);
         $env = $this->getTwigEnvironment($isDynamic);

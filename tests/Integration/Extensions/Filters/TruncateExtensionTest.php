@@ -12,6 +12,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TruncateLogic;
 use OxidEsales\Twig\Extensions\Filters\TruncateExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Extension\AbstractExtension;
 
 final class TruncateExtensionTest extends AbstractExtensionTestCase
@@ -24,9 +25,7 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
         parent::setUp();
     }
 
-    /**
-     * @dataProvider truncateProvider
-     */
+    #[DataProvider('truncateProvider')]
     public function testTruncate(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
@@ -49,9 +48,7 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @dataProvider truncateProviderWithLength
-     */
+    #[DataProvider('truncateProviderWithLength')]
     public function testTruncateWithLength(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
@@ -76,9 +73,7 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @dataProvider truncateProviderWithSuffix
-     */
+    #[DataProvider('truncateProviderWithSuffix')]
     public function testTruncateWithSuffix(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
@@ -95,9 +90,7 @@ final class TruncateExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @dataProvider truncateProviderWithBreakWords
-     */
+    #[DataProvider('truncateProviderWithBreakWords')]
     public function testTruncateWithBreakWords(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));

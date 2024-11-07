@@ -12,6 +12,7 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateSalutationLogic;
 use OxidEsales\Twig\Extensions\Filters\TranslateSalutationExtension;
 use OxidEsales\Twig\Tests\Integration\Extensions\AbstractExtensionTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Extension\AbstractExtension;
 
 final class TranslateSalutationExtensionTest extends AbstractExtensionTestCase
@@ -32,9 +33,7 @@ final class TranslateSalutationExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @dataProvider translateSalutationProvider
-     */
+    #[DataProvider('translateSalutationProvider')]
     public function testTranslateSalutation(string $template, string $expected): void
     {
         $translateSalutationLogic = $this->getMockBuilder(TranslateSalutationLogic::class)

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\Loader;
 
 use OxidEsales\Twig\Loader\CmsTemplateNameParser;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class CmsTemplateNameParserTest extends TestCase
@@ -24,9 +25,9 @@ final class CmsTemplateNameParserTest extends TestCase
 
     /**
      * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::isValidName
-     * @dataProvider getInvalidNameTests
-     * @dataProvider getValidNameTests
      */
+    #[DataProvider('getValidNameTests')]
+    #[DataProvider('getInvalidNameTests')]
     public function testIsValidName(string $name, array $expected): void
     {
         $this->assertEquals($this->cmsTemplateNameParser->isValidName($name), $expected['valid']);
@@ -34,9 +35,8 @@ final class CmsTemplateNameParserTest extends TestCase
 
     /**
      * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getLoaderName
-     *
-     * @dataProvider getValidNameTests
      */
+    #[DataProvider('getValidNameTests')]
     public function testGetLoaderName(string $name, array $expected): void
     {
         $this->assertEquals($this->cmsTemplateNameParser->getLoaderName($name), $expected['loaderName']);
@@ -44,9 +44,8 @@ final class CmsTemplateNameParserTest extends TestCase
 
     /**
      * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getValue
-     *
-     * @dataProvider getValidNameTests
      */
+    #[DataProvider('getValidNameTests')]
     public function testGetValue(string $name, array $expected): void
     {
         $this->assertEquals($this->cmsTemplateNameParser->getValue($name), $expected['value']);
@@ -54,9 +53,8 @@ final class CmsTemplateNameParserTest extends TestCase
 
     /**
      * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getParameters
-     *
-     * @dataProvider getValidNameTests
      */
+    #[DataProvider('getValidNameTests')]
     public function testGetParameters(string $name, array $expected): void
     {
         $this->assertEquals($this->cmsTemplateNameParser->getParameters($name), $expected['parameters']);
@@ -64,9 +62,8 @@ final class CmsTemplateNameParserTest extends TestCase
 
     /**
      * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getKey
-     *
-     * @dataProvider getValidNameTests
      */
+    #[DataProvider('getValidNameTests')]
     public function testGetKey(string $name, array $expected): void
     {
         $this->assertEquals($this->cmsTemplateNameParser->getKey($name), $expected['key']);

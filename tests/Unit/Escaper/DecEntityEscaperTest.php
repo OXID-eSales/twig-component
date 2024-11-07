@@ -27,24 +27,11 @@ final class DecEntityEscaperTest extends TestCase
         $this->environment = $this->createMock(Environment::class);
     }
 
-    public static function escapeProvider(): array
+    public function testEscape(): void
     {
-        return [
-            [
-                "A 'quote' is <b>bold</b>",
-                "&#65;&#32;&#39;&#113;&#117;&#111;&#116;&#101;&#39;&#32;&#105;&#115;&#32;&#60;&#98;&#62;&#98;&#111;&#108;&#100;&#60;&#47;&#98;&#62;"
-            ]
-        ];
-    }
-
-    /**
-     * @param string $string
-     * @param string $expected
-     *
-     * @dataProvider escapeProvider
-     */
-    public function testEscape($string, $expected): void
-    {
+        $string = 'A \'quote\' is <b>bold</b>';
+        $expected = '&#65;&#32;&#39;&#113;&#117;&#111;&#116;&#101;&#39;&#32;&#105;&#115;&#32;&#60;&#98;&#62;&#98;'
+        . '&#111;&#108;&#100;&#60;&#47;&#98;&#62;';
         $this->assertEquals($expected, $this->escaper->escape($this->environment, $string, 'UTF-8'));
     }
 

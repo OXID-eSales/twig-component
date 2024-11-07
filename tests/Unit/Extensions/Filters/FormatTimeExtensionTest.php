@@ -11,6 +11,7 @@ namespace OxidEsales\Twig\Tests\Unit\Extensions\Filters;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatTimeLogic;
 use OxidEsales\Twig\Extensions\Filters\FormatTimeExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class FormatTimeExtensionTest extends TestCase
@@ -24,9 +25,7 @@ final class FormatTimeExtensionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provider
-     */
+    #[DataProvider('provider')]
     public function testFormatTime(int $seconds, string $expectedTime): void
     {
         $formatTimeLogic = new FormatTimeLogic();

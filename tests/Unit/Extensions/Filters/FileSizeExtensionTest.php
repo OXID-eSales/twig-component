@@ -11,11 +11,12 @@ namespace OxidEsales\Twig\Tests\Unit\Extensions\Filters;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FileSizeLogic;
 use OxidEsales\Twig\Extensions\Filters\FileSizeExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class FileSizeExtensionTest extends TestCase
 {
-    public static function provider()
+    public static function provider(): array
     {
         return [
             [1023, '1023 B'],
@@ -26,13 +27,11 @@ final class FileSizeExtensionTest extends TestCase
     }
 
     /**
-     * @param string $fileSize
-     * @param string $expectedFileSize
      *
-     * @dataProvider provider
      * @covers \OxidEsales\Twig\Extensions\Filters\FileSizeExtension::fileSize
      */
-    public function testFileSize($fileSize, $expectedFileSize)
+    #[DataProvider('provider')]
+    public function testFileSize(string $fileSize, string $expectedFileSize): void
     {
         $fileSizeLogic = new FileSizeLogic();
         $fileSizeExtension = new FileSizeExtension($fileSizeLogic);

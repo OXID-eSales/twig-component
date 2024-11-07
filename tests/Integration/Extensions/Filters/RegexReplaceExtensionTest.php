@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
 use OxidEsales\Twig\Extensions\Filters\RegexReplaceExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -31,9 +32,7 @@ final class RegexReplaceExtensionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dummyTemplateProvider
-     */
+    #[DataProvider('dummyTemplateProvider')]
     public function testIfPhpFunctionsAreCallable(string $template, string $expected): void
     {
         $this->assertEquals($expected, $this->getTemplate($template)->render([]));
