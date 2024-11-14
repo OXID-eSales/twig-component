@@ -52,7 +52,7 @@ final class HasRightsNodeTest extends AbstractOxidTwigTestCase
 
         $tests[] = [$node, <<<EOF
 // line 1
-echo "Lorem Ipsum";
+yield "Lorem Ipsum";
 EOF
         ];
 
@@ -84,12 +84,12 @@ EOF
         $tests[] = [$node, <<<EOF
 // line 1
 // line 2
-echo "Top";
+yield "Top";
 // line 3
 // line 4
-echo "Inner";
+yield "Inner";
 // line 6
-echo "Bottom";
+yield "Bottom";
 EOF
         ];
 

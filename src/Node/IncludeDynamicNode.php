@@ -60,7 +60,7 @@ class IncludeDynamicNode extends IncludeNode
      */
     private function ifRender4Cache(Compiler $compiler)
     {
-        $compiler->write("echo \$this");
+        $compiler->write("yield \$this");
         $compiler->raw("->extensions['" . IncludeExtension::class . "']");
         if ($this->hasNode('variables')) {
             $compiler->raw("->renderForCache(array_merge(\$parameters, ['file' => ");

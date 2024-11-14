@@ -49,7 +49,7 @@ final class IncludeDynamicNodeTest extends AbstractOxidTwigTestCase
         $tests[] = [$node, <<<EOF
 // line 1
 if (!empty(\$context["_render4cache"])) {
-    echo \$this->extensions['$includeExtensionClass']->renderForCache(['file' => "foo.twig"]);
+    yield \$this->extensions['$includeExtensionClass']->renderForCache(['file' => "foo.twig"]);
 } else {
     \$this->loadTemplate("foo.twig", null, 1)->display(\$context);
 }
@@ -69,7 +69,7 @@ EOF
 // line 1
 \$parameters = ["foo" => true];
 if (!empty(\$context["_render4cache"])) {
-    echo \$this->extensions['$includeExtensionClass']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
+    yield \$this->extensions['$includeExtensionClass']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
 } else {
     \$parameters = \$this->extensions['$includeExtensionClass']->includeDynamicPrefix(\$parameters);
     \$this->loadTemplate("foo.twig", null, 1)->display(array_merge(\$context, \$parameters));
@@ -83,7 +83,7 @@ EOF
 // line 1
 \$parameters = ["foo" => true];
 if (!empty(\$context["_render4cache"])) {
-    echo \$this->extensions['$includeExtensionClass']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
+    yield \$this->extensions['$includeExtensionClass']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
 } else {
     \$parameters = \$this->extensions['$includeExtensionClass']->includeDynamicPrefix(\$parameters);
     \$this->loadTemplate("foo.twig", null, 1)->display(\$parameters);
@@ -98,7 +98,7 @@ EOF
 try {
     \$parameters = ["foo" => true];
     if (!empty(\$context["_render4cache"])) {
-        echo \$this->extensions['$includeExtensionClass']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
+        yield \$this->extensions['$includeExtensionClass']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
     } else {
         \$parameters = \$this->extensions['$includeExtensionClass']->includeDynamicPrefix(\$parameters);
         \$this->loadTemplate("foo.twig", null, 1)->display(\$parameters);

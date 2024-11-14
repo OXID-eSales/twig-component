@@ -53,7 +53,7 @@ final class DateFormatExtensionTest extends TestCase
      * @covers \OxidEsales\Twig\Extensions\Filters\DateFormatExtension::dateFormat
      */
     #[DataProvider('provider')]
-    public function testDateFormat($string, string $format, string $default_date, string $expectedDate): void
+    public function testDateFormat($string, $format, $default_date, $expectedDate): void
     {
         $actualDate = $this->dateFormatExtension->dateFormat($string, $format, $default_date);
         $this->assertEquals($expectedDate, $actualDate);

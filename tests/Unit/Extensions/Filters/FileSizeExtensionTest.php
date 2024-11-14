@@ -31,7 +31,7 @@ final class FileSizeExtensionTest extends TestCase
      * @covers \OxidEsales\Twig\Extensions\Filters\FileSizeExtension::fileSize
      */
     #[DataProvider('provider')]
-    public function testFileSize(string $fileSize, string $expectedFileSize): void
+    public function testFileSize($fileSize, string $expectedFileSize): void
     {
         $fileSizeLogic = new FileSizeLogic();
         $fileSizeExtension = new FileSizeExtension($fileSizeLogic);

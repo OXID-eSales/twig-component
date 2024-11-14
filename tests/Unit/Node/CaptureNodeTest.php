@@ -30,7 +30,7 @@ final class CaptureNodeTest extends AbstractOxidTwigTestCase
         $tests[] = [$nodeForCaptureName, <<<EOF
 // line 1
 ob_start();
-echo "Lorem Ipsum";
+yield "Lorem Ipsum";
 \$captureContent = ob_get_clean();
 \$context['twig']['capture']['foo'] = \$captureContent;
 unset(\$captureContent);
@@ -47,7 +47,7 @@ EOF
         $tests[] = [$nodeForCaptureAssign, <<<EOF
 // line 1
 ob_start();
-echo "Lorem Ipsum";
+yield "Lorem Ipsum";
 \$captureContent = ob_get_clean();
 if ('foo' != '') {
 \$context['foo'] = \$captureContent;
@@ -66,7 +66,7 @@ EOF
         $tests[] = [$nodeForCapture, <<<EOF
 // line 1
 ob_start();
-echo "Lorem Ipsum";
+yield "Lorem Ipsum";
 \$captureContent = ob_get_clean();
 if ('foo' != '' && isset(\$captureContent)) {
 if (!isset(\$context['foo'])) {
