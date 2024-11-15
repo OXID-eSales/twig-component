@@ -10,89 +10,83 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\Node;
 
 use OxidEsales\Twig\Node\HasRightsNode;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Node;
 use Twig\Node\TextNode;
+use Twig\Test\NodeTestCase;
 
-final class HasRightsNodeTest extends AbstractOxidTwigTestCase
+final class HasRightsNodeTest extends NodeTestCase
 {
-    public function testConstruct(): void
-    {
-        $parameters = [];
-        $parameters[] = new ConstantExpression('name', 1);
-        $parameters[] = new ConstantExpression('value', 1);
-
-        $body = new TextNode("Lorem Ipsum", 1);
-        $parametersNode = new ArrayExpression($parameters, 1);
-        $node = new HasRightsNode($body, $parametersNode, 1);
-
-        $this->assertEquals($body, $node->getNode('body'));
-        $this->assertEquals($parametersNode, $node->getNode('parameters'));
-    }
-
-    public static function getOxidTwigTests(): array
-    {
-        return array_merge(
-            self::getNonNestedBlocksTests(),
-            self::getNestedBlocksTests()
-        );
-    }
-
-    private static function getNonNestedBlocksTests(): array
-    {
-        $tests = [];
-
-        $parameters = [];
-        $parameters[] = new ConstantExpression('name', 1);
-        $parameters[] = new ConstantExpression('value', 1);
-
-        $body = new TextNode("Lorem Ipsum", 1);
-        $node = new HasRightsNode($body, new ArrayExpression($parameters, 1), 1);
-
-        $tests[] = [$node, <<<EOF
+    private const EXPECTED_NON_NESTED_NODE_SOURCE = <<<EOF
 // line 1
-echo "Lorem Ipsum";
-EOF
-        ];
-
-        return $tests;
-    }
-
-    private static function getNestedBlocksTests(): array
-    {
-        $tests = [];
-
-        $outerParameters = [];
-        $outerParameters[] = new ConstantExpression('type', 1);
-        $outerParameters[] = new ConstantExpression('outer', 1);
-
-        $innerParameters = [];
-        $innerParameters[] = new ConstantExpression('type', 3);
-        $innerParameters[] = new ConstantExpression('inner', 3);
-
-        $topBody = new TextNode("Top", 2);
-        $innerBody = new TextNode("Inner", 4);
-        $bottomBody = new TextNode("Bottom", 6);
-
-        $innerHasRightsNode = new HasRightsNode($innerBody, new ArrayExpression($innerParameters, 3), 3);
-
-        $outerBody = new Node([$topBody, $innerHasRightsNode, $bottomBody]);
-
-        $node = new HasRightsNode($outerBody, new ArrayExpression($outerParameters, 1), 1);
-
-        $tests[] = [$node, <<<EOF
+yield "Lorem Ipsum";
+EOF;
+    private const EXPECTED_NESTED_NODE_SOURCE = <<<EOF
 // line 1
 // line 2
-echo "Top";
+yield "Top";
 // line 3
 // line 4
-echo "Inner";
+yield "Inner";
 // line 6
-echo "Bottom";
-EOF
-        ];
+yield "Bottom";
+EOF;
 
-        return $tests;
+    #[DataProvider('compileDataProvider')]
+    public function testCompile($node, $source, $environment = null, $isPattern = false): void
+    {
+        $this->assertNodeCompilation($source, $node, $environment, $isPattern);
+    }
+
+    public static function compileDataProvider(): array
+    {
+        return [
+            [
+                new HasRightsNode(
+                    body: new TextNode(data: 'Lorem Ipsum', lineno: 1),
+                    parameters: new ArrayExpression(
+                        elements: [
+                            new ConstantExpression(value: 'name', lineno: 1),
+                            new ConstantExpression(value: 'value', lineno: 1)
+                        ],
+                        lineno: 1
+                    ),
+                    lineno: 1
+                ),
+                self::EXPECTED_NON_NESTED_NODE_SOURCE,
+            ],
+            [
+                new HasRightsNode(
+                    body: new Node(
+                        nodes: [
+                            new TextNode(data: 'Top', lineno: 2),
+                            new HasRightsNode(
+                                new TextNode(data: 'Inner', lineno: 4),
+                                new ArrayExpression(
+                                    elements: [
+                                        new ConstantExpression(value: 'type', lineno: 3),
+                                        new ConstantExpression(value: 'inner', lineno: 3)
+                                    ],
+                                    lineno: 3
+                                ),
+                                3
+                            ),
+                            new TextNode(data: 'Bottom', lineno: 6)
+                        ]
+                    ),
+                    parameters: new ArrayExpression(
+                        elements: [
+                            new ConstantExpression(value: 'type', lineno: 1),
+                            new ConstantExpression(value: 'outer', lineno: 1)
+                        ],
+                        lineno: 1
+                    ),
+                    lineno: 1
+                ),
+                self::EXPECTED_NESTED_NODE_SOURCE,
+            ]
+        ];
     }
 }

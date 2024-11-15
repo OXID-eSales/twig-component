@@ -35,9 +35,6 @@ final class TranslateExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Extensions\TranslateExtension::translate
-     */
     #[DataProvider('dataProvider')]
     public function testTranslate(array $params, string $expectedTranslation): void
     {

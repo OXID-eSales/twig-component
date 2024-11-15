@@ -10,63 +10,34 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\Node;
 
 use OxidEsales\Twig\Node\CaptureNode;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Node\TextNode;
+use Twig\Test\NodeTestCase;
 
-final class CaptureNodeTest extends AbstractOxidTwigTestCase
+final class CaptureNodeTest extends NodeTestCase
 {
-    public static function getOxidTwigTests(): array
-    {
-        return array_merge(
-            self::getTestForCaptureWithAttributeName(),
-            self::getTestForCaptureWithAttributeAssign(),
-            self::getTestForCaptureWithAttributeAppend()
-        );
-    }
-
-    private static function getTestForCaptureWithAttributeName(): array
-    {
-        $tests = [];
-        $nodeForCaptureName = self::getCaptureNode('name');
-        $tests[] = [$nodeForCaptureName, <<<EOF
+    private const EXPECTED_NAME_ATTRIBUTE_SOURCE = <<<EOF
 // line 1
 ob_start();
-echo "Lorem Ipsum";
+yield "Lorem Ipsum";
 \$captureContent = ob_get_clean();
 \$context['twig']['capture']['foo'] = \$captureContent;
 unset(\$captureContent);
-EOF
-        ];
-
-        return $tests;
-    }
-
-    private static function getTestForCaptureWithAttributeAssign(): array
-    {
-        $tests = [];
-        $nodeForCaptureAssign = self::getCaptureNode('assign');
-        $tests[] = [$nodeForCaptureAssign, <<<EOF
+EOF;
+    private const EXPECTED_ASSIGN_ATTRIBUTE_SOURCE = <<<EOF
 // line 1
 ob_start();
-echo "Lorem Ipsum";
+yield "Lorem Ipsum";
 \$captureContent = ob_get_clean();
 if ('foo' != '') {
 \$context['foo'] = \$captureContent;
 }
 unset(\$captureContent);
-EOF
-        ];
-
-        return $tests;
-    }
-
-    private static function getTestForCaptureWithAttributeAppend(): array
-    {
-        $tests = [];
-        $nodeForCapture = self::getCaptureNode('append');
-        $tests[] = [$nodeForCapture, <<<EOF
+EOF;
+    private const EXPECTED_APPEND_ATTRIBUTE_SOURCE = <<<EOF
 // line 1
 ob_start();
-echo "Lorem Ipsum";
+yield "Lorem Ipsum";
 \$captureContent = ob_get_clean();
 if ('foo' != '' && isset(\$captureContent)) {
 if (!isset(\$context['foo'])) {
@@ -78,20 +49,49 @@ if (!is_array(\$context['foo'])) {
 \$context['foo'][] = \$captureContent;
 }
 unset(\$captureContent);
-EOF
-        ];
+EOF;
 
-        return $tests;
+    #[DataProvider('compileDataProvider')]
+    public function testCompile($node, $source, $environment = null, $isPattern = false): void
+    {
+        $this->assertNodeCompilation($source, $node);
     }
 
-    private static function getCaptureNode(string $attributeName): CaptureNode
+    public static function compileDataProvider(): array
     {
-        return new CaptureNode(
-            $attributeName,
-            'foo',
-            new TextNode("Lorem Ipsum", 1),
-            1,
-            'capture'
-        );
+        $body = new TextNode(data: 'Lorem Ipsum', lineno: 1);
+
+        return [
+            [
+                new CaptureNode(
+                    attributeName: 'name',
+                    variableName: 'foo',
+                    body: $body,
+                    line: 1,
+                    tag: 'capture'
+                ),
+                self::EXPECTED_NAME_ATTRIBUTE_SOURCE,
+            ],
+            [
+                new CaptureNode(
+                    attributeName: 'assign',
+                    variableName: 'foo',
+                    body: $body,
+                    line: 1,
+                    tag: 'capture'
+                ),
+                self::EXPECTED_ASSIGN_ATTRIBUTE_SOURCE,
+            ],
+            [
+                new CaptureNode(
+                    attributeName: 'append',
+                    variableName: 'foo',
+                    body: $body,
+                    line: 1,
+                    tag: 'capture'
+                ),
+                self::EXPECTED_APPEND_ATTRIBUTE_SOURCE,
+            ]
+        ];
     }
 }

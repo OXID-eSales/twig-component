@@ -14,9 +14,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 final class PhpFunctionsExtensionTest extends AbstractExtensionTestCase
 {
-    /** @var PhpFunctionsExtension */
-    protected \Twig\Extension\AbstractExtension $extension;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,10 +23,11 @@ final class PhpFunctionsExtensionTest extends AbstractExtensionTestCase
     public static function dummyTemplateProvider(): array
     {
         return [
-            ["{{ count({0:0, 1:1, 2:2}) }}", 3],
-            ["{{ empty({0:0, 1:1}) }}", false],
-            ["{{ empty({}) }}", true],
-            ["{{ isset(foo) }}", false],
+            ['{{ count({0:0, 1:1, 2:2}) }}', 3],
+            ['{{ empty({0:0, 1:1}) }}', false],
+            ['{{ empty({}) }}', true],
+            ['{{ empty() }}', true],
+            ['{{ isset(foo) }}', false],
             ["{% set foo = 'bar' %} {{ isset(foo) }}", true],
         ];
     }

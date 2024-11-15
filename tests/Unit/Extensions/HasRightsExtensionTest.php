@@ -24,10 +24,7 @@ final class HasRightsExtensionTest extends TestCase
         parent::setUp();
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Extensions\HasRightsExtension::getTokenParsers
-     */
-    public function testGetTokenParsers()
+    public function testGetTokenParsers(): void
     {
         $tokenParser = $this->hasRightsExtension->getTokenParsers();
         $this->assertInstanceOf(HasRightsTokenParser::class, $tokenParser[0]);

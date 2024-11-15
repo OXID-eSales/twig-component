@@ -14,15 +14,13 @@ use PHPUnit\Framework\TestCase;
 
 final class CatExtensionTest extends TestCase
 {
-    /**
-     * @covers \OxidEsales\Twig\Extensions\Filters\CatExtension::cat
-     */
     public function testCat(): void
     {
-        $catFilter = new CatExtension();
         $string = 'foo';
         $cat = 'bar';
-        $actual = $catFilter->cat($string, $cat);
+
+        $actual = (new CatExtension())->cat($string, $cat);
+
         $this->assertEquals($string . $cat, $actual);
     }
 }

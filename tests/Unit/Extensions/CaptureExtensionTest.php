@@ -23,10 +23,7 @@ final class CaptureExtensionTest extends TestCase
         parent::setUp();
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Extensions\CaptureExtension::getTokenParsers
-     */
-    public function testGetTokenParsers()
+    public function testGetTokenParsers(): void
     {
         $tokenParser = $this->CaptureExtension->getTokenParsers();
         $this->assertInstanceOf(CaptureTokenParser::class, $tokenParser[0]);

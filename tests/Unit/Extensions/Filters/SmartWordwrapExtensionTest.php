@@ -109,9 +109,6 @@ adipi[...]'
         ];
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Extensions\Filters\SmartWordwrapExtension::smartWordWrap
-     */
     #[DataProvider('provider')]
     public function testSmartWordWrap(array $params, string $expectedString): void
     {

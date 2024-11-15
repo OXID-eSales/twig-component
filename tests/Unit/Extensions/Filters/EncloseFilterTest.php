@@ -14,26 +14,17 @@ use PHPUnit\Framework\TestCase;
 
 final class EncloseFilterTest extends TestCase
 {
-    /**
-     * @covers \OxidEsales\Twig\Extensions\Filters\EncloseExtension::enclose
-     */
     public function testEnclose(): void
     {
-        $string = "foo";
-        $encloser = "*";
-        $encloseFilter = new EncloseExtension();
-        $enclosedString = $encloseFilter->enclose($string, $encloser);
+        $enclosedString = (new EncloseExtension())->enclose('foo', '*');
+
         $this->assertEquals('*foo*', $enclosedString);
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Extensions\Filters\EncloseExtension::enclose
-     */
-    public function testEncloseNoEncloder(): void
+    public function testEncloseNoEncloser(): void
     {
-        $string = "foo";
-        $encloseFilter = new EncloseExtension();
-        $enclosedString = $encloseFilter->enclose($string);
+        $enclosedString = (new EncloseExtension())->enclose('foo');
+
         $this->assertEquals('foo', $enclosedString);
     }
 }
