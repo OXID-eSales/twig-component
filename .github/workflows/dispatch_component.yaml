@@ -12,7 +12,7 @@ on:
           - 7.3.x
           - 8.0.x
           - use custom testplan
-        default: '7.2.x'
+        default: '7.3.x'
         description: 'Choose test scenario'
       limit:
         type: choice
