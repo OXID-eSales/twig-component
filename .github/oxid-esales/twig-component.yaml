@@ -21,7 +21,7 @@ install:
               "oxid-esales/developer-tools":"{{ .Data.global.composer.dev_ref }}",
               "mikey179/vfsstream": "~1.6.8",
               "phpspec/prophecy-phpunit": "^v2.0.1",
-              "phpunit/phpunit": "^9.1.1"
+              "phpunit/phpunit": "^10.4"
           },
           "autoload-dev":{
               "psr-4":{
