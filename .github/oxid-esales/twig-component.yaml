@@ -1,43 +1,44 @@
-install: &install
+install:
   method: script
-  script: 'source/.github/oxid-esales/install.sh'
-  git:
-    ref: '{{ .Data.global.git.default_ref }}'
+  script: 'source/vendor/oxid-esales/oxideshop-ce/.github/oxid-esales/install.sh'
   composer:
     early: 'skip'
-    root_url: ''
     transform: |
       {
+          "config": {
+              "github-protocols": ["https"]
+          },
           "preferred-install": {
-            "oxid-esales/*": "source",
-            "oxid-professional-services/*": "source",
-            "ddoe/*": "source"
+            "oxid-esales/*": "source"
           },
           "require": {
-            "oxid-esales/twig-component": "dev-{{ .Data.global.git.safe_ref_name }}",
-            "oxid-esales/twig-admin-theme": "{{ .Data.global.composer.dev_ref }}",
-            "oxid-esales/apex-theme": "{{ .Data.global.composer.dev_ref }}",
-            "twig/twig": "v3.8.0"
+              "oxid-esales/oxideshop-ce": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/twig-component": "dev-{{ .Data.global.git.safe_ref_name }}",
+              "oxid-esales/twig-admin-theme": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/apex-theme": "{{ .Data.global.composer.dev_ref }}"
+          },
+          "require-dev":{
+              "oxid-esales/developer-tools":"{{ .Data.global.composer.dev_ref }}",
+              "mikey179/vfsstream": "~1.6.8",
+              "phpspec/prophecy-phpunit": "^v2.0.1",
+              "phpunit/phpunit": "^10.4"
+          },
+          "autoload-dev":{
+              "psr-4":{
+                "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests"
+              }
           }
       }
-  output:
-    files: |
-      docker-compose.yml
-      source/composer.json*
-      source/composer.lock
-      source/source/config.inc.php
-      source/vendor/oxid-esales/oxideshop-ce/source/config.inc.php
-      data/php/logs/error_log.txt
 
-install_shop_with_modules: *install
-
-runscript: &runscript
+runscript:
   matrix:
     script: |
       [
         "twig:~/unit.sh",
         "twig:~/integration.sh"
       ]
+  composer:
+    early: 'skip'
   twig:
     path: 'vendor/oxid-esales/twig-component'
 
@@ -46,5 +47,5 @@ sonarcloud:
     testplan: 'skip'
 
 finish:
-  slack_title: 'Twig Component ({{ .Data.github.RefName }}) by {{ .Github.Actor }}'
+  slack_title: 'Twig Component ({{ .Data.global.git.safe_ref_name }}) by {{ .Github.Actor }}'
   slack_compact: true
