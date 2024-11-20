@@ -1,5 +1,4 @@
 name: Manual run
-# Matrix workflow using re-usable github actions
 
 on:
   workflow_dispatch:
@@ -13,7 +12,7 @@ on:
           - 7.3.x
           - 8.0.x
           - use custom testplan
-        default: '8.0.x'
+        default: '7.3.x'
         description: 'Choose test scenario'
       limit:
         type: choice
@@ -27,12 +26,12 @@ on:
           - 'PHP8.2/MySQL8.0'
           - 'PHP8.3/MySQL5.7'
           - 'PHP8.3/MySQL8.0'
-        description:
-        default: 'PHP8.1/MySQL5.7'
+        description: 'Limit run to one PHP/MySQL combination'
+        default: 'PHP8.3/MySQL8.0'
       custom_testplan:
         type: string
         description: 'Custom testplan'
-        default: '~/defaults/php8.2_mysql5.7_only.yaml,~/twig-component.yaml'
+        default: '~/defaults/php8.3_mysql8.0_only.yaml,~/twig-component.yaml'
       runs_on:
         type: string
         description: 'JSON string/array describing the runner'
@@ -54,7 +53,7 @@ jobs:
         run: |
           # Build testplan
           # shellcheck disable=SC2088
-          PLAN="~/twig-component.yaml,~/defaults/component.yaml"
+          PLAN="~/twig-component.yaml"
           # shellcheck disable=SC2088
           case "${{ inputs.limit }}" in
             "no") LIMIT='';;
@@ -92,7 +91,7 @@ jobs:
     with:
       testplan: ${{ needs.build_testplan.outputs.testplan }}
       runs_on: ${{ inputs.runs_on }}
-      defaults: 'v0'
+      defaults: 'v4'
       plan_folder: '.github/oxid-esales'
     secrets:
       DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}

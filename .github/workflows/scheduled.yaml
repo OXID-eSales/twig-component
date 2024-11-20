@@ -18,6 +18,7 @@ jobs:
           title: 'twig component 7.0.x-weekly'
         finish:
           slack_title: 'Weekly Twig Component 7.0.x on {{ .Github.Repository }}'
+      use_scheduled_slack_channel: true
     secrets:
       DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -27,6 +28,7 @@ jobs:
       enterprise_github_token: ${{ secrets.enterprise_github_token }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_SCHEDULED_WEBHOOK_URL: ${{ secrets.SLACK_SCHEDULED_WEBHOOK_URL }}
 
   twig_component_71x_weekly:
     if: always()
@@ -41,6 +43,7 @@ jobs:
           title: 'twig component 7.1.x-weekly'
         finish:
           slack_title: 'Weekly Twig Component 7.1.x on {{ .Github.Repository }}'
+      use_scheduled_slack_channel: true
     secrets:
       DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -50,6 +53,7 @@ jobs:
       enterprise_github_token: ${{ secrets.enterprise_github_token }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_SCHEDULED_WEBHOOK_URL: ${{ secrets.SLACK_SCHEDULED_WEBHOOK_URL }}
 
   twig_component_72x_weekly:
     if: always()
@@ -64,6 +68,7 @@ jobs:
           title: 'twig component 7.2.x-weekly'
         finish:
           slack_title: 'Weekly Twig Component 7.2.x on {{ .Github.Repository }}'
+      use_scheduled_slack_channel: true
     secrets:
       DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -73,6 +78,7 @@ jobs:
       enterprise_github_token: ${{ secrets.enterprise_github_token }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_SCHEDULED_WEBHOOK_URL: ${{ secrets.SLACK_SCHEDULED_WEBHOOK_URL }}
 
   twig_component_73x_weekly:
     if: always()
@@ -87,6 +93,7 @@ jobs:
           title: 'twig component 7.3.x-weekly'
         finish:
           slack_title: 'Weekly Twig Component 7.3.x on {{ .Github.Repository }}'
+      use_scheduled_slack_channel: true
     secrets:
       DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -96,6 +103,7 @@ jobs:
       enterprise_github_token: ${{ secrets.enterprise_github_token }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_SCHEDULED_WEBHOOK_URL: ${{ secrets.SLACK_SCHEDULED_WEBHOOK_URL }}
 
   twig_component_80x_weekly:
     if: always()
@@ -110,6 +118,7 @@ jobs:
           title: 'twig component 8.0.x-weekly'
         finish:
           slack_title: 'Weekly Twig Component 8.0.x on {{ .Github.Repository }}'
+      use_scheduled_slack_channel: true
     secrets:
       DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -119,3 +128,4 @@ jobs:
       enterprise_github_token: ${{ secrets.enterprise_github_token }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_SCHEDULED_WEBHOOK_URL: ${{ secrets.SLACK_SCHEDULED_WEBHOOK_URL }}
