@@ -33,9 +33,6 @@ final class InputHelpExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Extensions\InputHelpExtension::getHelpId
-     */
     #[DataProvider('getIdentProvider')]
     public function testGetIdent(?string $params, int $iLang, bool $blAdmin, ?string $expected): void
     {
@@ -54,9 +51,6 @@ final class InputHelpExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Extensions\InputHelpExtension::getHelpText
-     */
     #[DataProvider('getHelpTextProvider')]
     public function testGetHelpText(?string $params, int $iLang, bool $blAdmin, ?string $expected): void
     {

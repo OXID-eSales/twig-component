@@ -25,8 +25,7 @@ final class IfContentTokenParserTest extends TestCase
 
     protected function setUp(): void
     {
-        /** @var LoaderInterface $loader */
-        $loader = $this->getMockBuilder(\Twig\Loader\LoaderInterface::class)->getMock();
+        $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
         $this->environment = new Environment($loader, ['cache' => false]);
 
         $this->ifContentParser = new IfContentTokenParser();
@@ -35,20 +34,15 @@ final class IfContentTokenParserTest extends TestCase
         $this->parser = new Parser($this->environment);
     }
 
-    /**
-     * @covers \OxidEsales\Twig\TokenParser\IfContentTokenParser::getTag
-     */
     public function testGetTag(): void
     {
         $this->assertEquals('ifcontent', $this->ifContentParser->getTag());
     }
 
-    /**
-     * @covers \OxidEsales\Twig\TokenParser\IfContentTokenParser::parse
-     */
+
     public function testParse(): void
     {
-        $source = "{% ifcontent ident \"oxsomething\" set myVar %}Lorem Ipsum{% endifcontent %}";
+        $source = '{% ifcontent ident "oxsomething" set myVar %}Lorem Ipsum{% endifcontent %}';
 
         $stream = $this->environment->tokenize(new Source($source, 'index'));
         $node = $this->parser->parse($stream);
@@ -64,15 +58,12 @@ final class IfContentTokenParserTest extends TestCase
         $this->assertTrue($ifContentNode->hasNode('ident'));
     }
 
-    /**
-     * @covers \OxidEsales\Twig\TokenParser\IfContentTokenParser::decideBlockEnd
-     */
     public function testDecideBlockEnd(): void
     {
         $token = new Token(Token::NAME_TYPE, 'foo', 1);
-        $this->assertEquals(false, $this->ifContentParser->decideBlockEnd($token));
+        $this->assertFalse($this->ifContentParser->decideBlockEnd($token));
 
         $token = new Token(Token::NAME_TYPE, 'endifcontent', 1);
-        $this->assertEquals(true, $this->ifContentParser->decideBlockEnd($token));
+        $this->assertTrue($this->ifContentParser->decideBlockEnd($token));
     }
 }

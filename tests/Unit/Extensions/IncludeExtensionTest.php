@@ -30,9 +30,6 @@ final class IncludeExtensionTest extends TestCase
         );
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Extensions\IncludeExtension::includeDynamicPrefix
-     */
     #[DataProvider('dataProviderTestIncludeDynamicPrefix')]
     public function testIncludeDynamicPrefix(array $parameters, array $expected): void
     {
@@ -54,9 +51,6 @@ final class IncludeExtensionTest extends TestCase
         ];
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Extensions\IncludeExtension::renderForCache
-     */
     #[DataProvider('dataProviderTestRenderForCache')]
     public function testRenderForCache(array $parameters, string $expected): void
     {

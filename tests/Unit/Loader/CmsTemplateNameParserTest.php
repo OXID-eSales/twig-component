@@ -23,9 +23,6 @@ final class CmsTemplateNameParserTest extends TestCase
         $this->cmsTemplateNameParser = new CmsTemplateNameParser();
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::isValidName
-     */
     #[DataProvider('getValidNameTests')]
     #[DataProvider('getInvalidNameTests')]
     public function testIsValidName(string $name, array $expected): void
@@ -33,36 +30,24 @@ final class CmsTemplateNameParserTest extends TestCase
         $this->assertEquals($this->cmsTemplateNameParser->isValidName($name), $expected['valid']);
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getLoaderName
-     */
     #[DataProvider('getValidNameTests')]
     public function testGetLoaderName(string $name, array $expected): void
     {
         $this->assertEquals($this->cmsTemplateNameParser->getLoaderName($name), $expected['loaderName']);
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getValue
-     */
     #[DataProvider('getValidNameTests')]
     public function testGetValue(string $name, array $expected): void
     {
         $this->assertEquals($this->cmsTemplateNameParser->getValue($name), $expected['value']);
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getParameters
-     */
     #[DataProvider('getValidNameTests')]
     public function testGetParameters(string $name, array $expected): void
     {
         $this->assertEquals($this->cmsTemplateNameParser->getParameters($name), $expected['parameters']);
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Loader\CmsTemplateNameParser::getKey
-     */
     #[DataProvider('getValidNameTests')]
     public function testGetKey(string $name, array $expected): void
     {
@@ -85,7 +70,7 @@ final class CmsTemplateNameParserTest extends TestCase
         ];
 
         return array_map(
-            fn ($name) => [$name, ['valid' => false]],
+            static fn ($name) => [$name, ['valid' => false]],
             $invalidNames
         );
     }

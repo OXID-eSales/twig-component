@@ -23,19 +23,54 @@ class PhpFunctionsExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('count', 'count', ['deprecated' => true, 'alternative' => 'length']),
-            new TwigFunction('empty', 'empty', ['deprecated' => true, 'alternative' => 'length']),
-            new TwigFunction('isset', [$this, 'twigIsset', ['deprecated' => true, 'alternative' => 'is defined']])
+            new TwigFunction(
+                'count',
+                'count',
+                [
+                    'deprecated' => true,
+                    'alternative' => 'length',
+                ]
+            ),
+            new TwigFunction(
+                'empty',
+                [
+                    $this,
+                    'emptyWrapper',
+                    [
+                        'deprecated' => true,
+                        'alternative' => 'length',
+                    ],
+                ]
+            ),
+            new TwigFunction(
+                'isset',
+                [
+                    $this,
+                    'twigIsset',
+                    [
+                        'deprecated' => true,
+                        'alternative' => 'is defined',
+                    ],
+                ]
+            )
         ];
     }
 
     /**
-     * @param null $value
-     *
-     * @return bool
+     * isset wrapper, isset is a language construct and can't be called as a function in callback
+     * @link https://www.php.net/manual/en/functions.variable-functions.php
      */
     public function twigIsset($value = null): bool
     {
         return isset($value);
+    }
+
+    /**
+     * empty is a language construct and can't be called as a function callback
+     * @link https://www.php.net/manual/en/functions.variable-functions.php
+     */
+    public function emptyWrapper(mixed $value = null): bool
+    {
+        return empty($value);
     }
 }

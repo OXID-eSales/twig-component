@@ -30,9 +30,6 @@ final class FormatPriceExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Extensions\FormatPriceExtension::formatPrice
-     */
     #[DataProvider('priceProvider')]
     public function testFormatPrice($template, $expected): void
     {

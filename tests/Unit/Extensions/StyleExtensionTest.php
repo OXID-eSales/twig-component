@@ -18,9 +18,6 @@ use Twig\Loader\LoaderInterface;
 
 final class StyleExtensionTest extends TestCase
 {
-    /**
-     * @covers \OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\StyleLogic::collectStyleSheets
-     */
     #[DataProvider('dataProvider')]
     public function testCollectStyleSheets(array $params, bool $isDynamic): void
     {
@@ -40,7 +37,6 @@ final class StyleExtensionTest extends TestCase
 
     private function getTwigEnvironment($isDynamic): Environment
     {
-        /** @var LoaderInterface $loader */
         $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
         $env = new Environment($loader, []);
         $env->addGlobal('__oxid_include_dynamic', $isDynamic);
@@ -49,10 +45,10 @@ final class StyleExtensionTest extends TestCase
 
     private function getStyleExtensionMock(array $params, bool $isDynamic): StyleExtension
     {
-        /** @var StyleLogic $styleLogic */
         $styleLogic = $this->getMockBuilder(StyleLogic::class)->disableOriginalConstructor()->getMock();
         $styleLogic->method('collectStyleSheets')->willReturn([]);
         $styleLogic->expects($this->once())->method('collectStyleSheets')->with($params, $isDynamic);
+
         return new StyleExtension($styleLogic);
     }
 }

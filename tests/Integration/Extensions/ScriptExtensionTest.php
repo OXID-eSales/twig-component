@@ -24,9 +24,6 @@ final class ScriptExtensionTest extends AbstractExtensionTestCase
         $this->extension = new ScriptExtension(new ScriptLogic());
     }
 
-    /**
-     * @covers \OxidEsales\Twig\Extensions\ScriptExtension::script
-     */
     #[DataProvider('getScriptTests')]
     public function testScript(string $template, string $expected): void
     {

@@ -11,13 +11,9 @@ namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
 use OxidEsales\Twig\Extensions\PhpFunctionsExtension;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Twig\Extension\AbstractExtension;
 
 final class PhpFunctionsExtensionTest extends AbstractExtensionTestCase
 {
-    /** @var PhpFunctionsExtension */
-    protected AbstractExtension $extension;
-
     public function setUp(): void
     {
         parent::setUp();
@@ -30,6 +26,7 @@ final class PhpFunctionsExtensionTest extends AbstractExtensionTestCase
             ['{{ count({0:0, 1:1, 2:2}) }}', 3],
             ['{{ empty({0:0, 1:1}) }}', false],
             ['{{ empty({}) }}', true],
+            ['{{ empty() }}', true],
             ['{{ isset(foo) }}', false],
             ["{% set foo = 'bar' %} {{ isset(foo) }}", true],
         ];

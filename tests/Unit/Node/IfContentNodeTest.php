@@ -11,64 +11,58 @@ namespace OxidEsales\Twig\Tests\Unit\Node;
 
 use OxidEsales\Twig\Extensions\IfContentExtension;
 use OxidEsales\Twig\Node\IfContentNode;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Node\Expression\AssignNameExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\TextNode;
+use Twig\Test\NodeTestCase;
 
-final class IfContentNodeTest extends AbstractOxidTwigTestCase
+use function sprintf;
+
+final class IfContentNodeTest extends NodeTestCase
 {
-    public function testConstructor(): void
+    private const EXPECTED_IDENT_NODE_SOURCE = <<<EOF
+// line 1
+\$context["foo"] = \$this->extensions['%s']->getContent("oxsomething", null);
+if(\$context["foo"]) { \nyield "Lorem Ipsum";\n } \nunset(\$context["foo"]);
+EOF;
+    private const EXPECTED_OXID_NODE_SOURCE = <<<EOF
+// line 1
+\$context["foo"] = \$this->extensions['%s']->getContent(null, "oxsomething");
+if(\$context["foo"]) { \nyield "Lorem Ipsum";\n } \nunset(\$context["foo"]);
+EOF;
+
+    public static function compileDataProvider(): array
     {
-        $body = new TextNode('Lorem Ipsum', 1);
-        $variable = new AssignNameExpression('foo', 1);
-        $node = new IfContentNode($body, [], $variable, 1);
+        $body = new TextNode(data: 'Lorem Ipsum', lineno: 1);
+        $referenceExpression = new ConstantExpression(value: 'oxsomething', lineno: 1);
+        $variable = new AssignNameExpression(name: 'foo', lineno: 1);
 
-        $this->assertEquals($body, $node->getNode('body'));
-        $this->assertEquals($variable, $node->getNode('variable'));
-
-        $expr = new ConstantExpression("oxsomething", 1);
-
-        $node = new IfContentNode($body, ['ident' => $expr], $variable, 1);
-        $this->assertEquals($expr, $node->getNode('ident'));
-        $this->assertFalse($node->hasNode('oxid'));
-
-        $node = new IfContentNode($body, ['oxid' => $expr], $variable, 1);
-        $this->assertEquals($expr, $node->getNode('oxid'));
-        $this->assertFalse($node->hasNode('ident'));
+        return [
+            [
+                new IfContentNode(
+                    body: $body,
+                    reference: ['ident' => $referenceExpression],
+                    variable: $variable,
+                    lineno: 1
+                ),
+                sprintf(self::EXPECTED_IDENT_NODE_SOURCE, IfContentExtension::class)
+            ],
+            [
+                new IfContentNode(
+                    $body,
+                    ['oxid' => $referenceExpression],
+                    $variable,
+                    1
+                ),
+                sprintf(self::EXPECTED_OXID_NODE_SOURCE, IfContentExtension::class)
+            ],
+        ];
     }
 
-    public static function getOxidTwigTests(): array
+    #[DataProvider('compileDataProvider')]
+    public function testCompile($node, $source, $environment = null, $isPattern = false): void
     {
-        $ifContentExtensionClass = IfContentExtension::class;
-
-        $tests = [];
-
-        $body = new TextNode('Lorem Ipsum', 1);
-        $variable = new AssignNameExpression('foo', 1);
-        $expr = new ConstantExpression("oxsomething", 1);
-        $node = new IfContentNode($body, ['ident' => $expr], $variable, 1);
-        $tests[] = [$node, <<<EOF
-// line 1
-\$context["foo"] = \$this->extensions['$ifContentExtensionClass']->getContent("oxsomething", null);
-if(\$context["foo"]) { 
-echo "Lorem Ipsum";
- } 
-unset(\$context["foo"]);
-EOF
-        ];
-
-        $node = new IfContentNode($body, ['oxid' => $expr], $variable, 1);
-        $tests[] = [$node, <<<EOF
-// line 1
-\$context["foo"] = \$this->extensions['$ifContentExtensionClass']->getContent(null, "oxsomething");
-if(\$context["foo"]) { 
-echo "Lorem Ipsum";
- } 
-unset(\$context["foo"]);
-EOF
-        ];
-
-
-        return $tests;
+        $this->assertNodeCompilation($source, $node, $environment, $isPattern);
     }
 }

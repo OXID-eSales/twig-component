@@ -28,7 +28,7 @@ final class CaptureTokenParserTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        /** @var LoaderInterface $loader */
+
         $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
         $this->environment = new Environment($loader, ['cache' => false]);
 
@@ -38,29 +38,20 @@ final class CaptureTokenParserTest extends TestCase
         $this->parser = new Parser($this->environment);
     }
 
-    /**
-     * @covers \OxidEsales\Twig\TokenParser\CaptureTokenParser::getTag
-     */
     public function testGetTag(): void
     {
         $this->assertEquals('capture', $this->captureTokenParser->getTag());
     }
 
-    /**
-     * @covers \OxidEsales\Twig\TokenParser\CaptureTokenParser::decideBlockEnd
-     */
     public function testDecideBlockEnd(): void
     {
         $token = new Token(Token::NAME_TYPE, 'foo', 1);
-        $this->assertEquals(false, $this->captureTokenParser->decideBlockEnd($token));
+        $this->assertFalse($this->captureTokenParser->decideBlockEnd($token));
 
         $token = new Token(Token::NAME_TYPE, 'endcapture', 1);
-        $this->assertEquals(true, $this->captureTokenParser->decideBlockEnd($token));
+        $this->assertTrue($this->captureTokenParser->decideBlockEnd($token));
     }
 
-    /**
-     * @covers \OxidEsales\Twig\TokenParser\CaptureTokenParser::parse
-     */
     #[DataProvider('templateSourceCodeProvider')]
     public function testParse(string $source): void
     {
@@ -82,15 +73,12 @@ final class CaptureTokenParserTest extends TestCase
     public static function templateSourceCodeProvider(): array
     {
         return [
-            ["{% capture name = \"foo\" %}Lorem Ipsum{% endcapture %}"],
-            ["{% capture assign = \"foo\" %}Lorem Ipsum{% endcapture %}"],
-            ["{% capture append = \"foo\" %}Lorem Ipsum{% endcapture %}"],
+            ['{% capture name = "foo" %}Lorem Ipsum{% endcapture %}'],
+            ['{% capture assign = "foo" %}Lorem Ipsum{% endcapture %}'],
+            ['{% capture append = "foo" %}Lorem Ipsum{% endcapture %}'],
         ];
     }
 
-    /**
-     * @covers \OxidEsales\Twig\TokenParser\CaptureTokenParser::parse
-     */
     public function testTwigErrorSyntaxIsThrown(): void
     {
         $source = '{% capture %}foo{% /endcapture %}';
@@ -100,12 +88,9 @@ final class CaptureTokenParserTest extends TestCase
         $this->parser->parse($stream);
     }
 
-    /**
-     * @covers \OxidEsales\Twig\TokenParser\CaptureTokenParser::parse
-     */
     public function testParseException(): void
     {
-        $source = "{% capture foo = \"foo\" %}Lorem Ipsum{% endcapture %}";
+        $source = '{% capture foo = "foo" %}Lorem Ipsum{% endcapture %}';
         $stream = $this->environment->tokenize(new Source($source, 'index'));
 
         $this->expectException(SyntaxError::class);
