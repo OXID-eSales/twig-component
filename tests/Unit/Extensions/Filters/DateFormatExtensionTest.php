@@ -12,6 +12,7 @@ namespace OxidEsales\Twig\Tests\Unit\Extensions\Filters;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\DateFormatHelper;
 use OxidEsales\Twig\Extensions\Filters\DateFormatExtension;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
 final class DateFormatExtensionTest extends TestCase
@@ -49,6 +50,7 @@ final class DateFormatExtensionTest extends TestCase
     }
 
     #[DataProvider('provider')]
+    #[IgnoreDeprecations]
     public function testDateFormat($string, $format, $default_date, $expectedDate): void
     {
         $actualDate = $this->dateFormatExtension->dateFormat($string, $format, $default_date);

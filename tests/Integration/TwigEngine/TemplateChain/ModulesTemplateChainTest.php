@@ -13,10 +13,11 @@ use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterf
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateNotInChainException;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
 use Twig\Error\LoaderError;
 
-/** @runTestsInSeparateProcesses */
+#[RunTestsInSeparateProcesses]
 final class ModulesTemplateChainTest extends TestCase
 {
     use ContainerTrait;

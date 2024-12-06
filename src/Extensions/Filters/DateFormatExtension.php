@@ -13,6 +13,9 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\DateForm
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
+/**
+ * @deprecated in next major version, use twig date filter
+ */
 class DateFormatExtension extends AbstractExtension
 {
     public function __construct(private DateFormatHelper $dateFormatHelper)

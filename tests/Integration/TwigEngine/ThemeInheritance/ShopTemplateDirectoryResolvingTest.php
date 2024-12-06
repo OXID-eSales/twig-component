@@ -12,11 +12,10 @@ namespace OxidEsales\Twig\Tests\Integration\TwigEngine\ThemeInheritance;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @runTestsInSeparateProcesses
- */
+#[RunTestsInSeparateProcesses]
 final class ShopTemplateDirectoryResolvingTest extends TestCase
 {
     use ContainerTrait;

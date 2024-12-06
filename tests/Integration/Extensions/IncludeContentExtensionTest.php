@@ -63,13 +63,13 @@ final class IncludeContentExtensionTest extends AbstractExtensionTestCase
 
         $contentFactoryMock
             ->method('getContent')
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 ['ident', 'german', $deContentMock],
                 ['ident', 'english', $enContentMock],
                 ['ident', 'twig_code', $twigContentMock],
                 ['ident', 'dynamic_content', $dynamicContentMock],
                 ['ident', 'not_active', $notActiveContentMock]
-            ]));
+            ]);
 
         $this->extension = new IncludeContentExtension($contentFactoryMock);
     }

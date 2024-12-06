@@ -15,9 +15,10 @@ use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
 
-/** @runTestsInSeparateProcesses */
+#[RunTestsInSeparateProcesses]
 final class ModulesTemplateChainSortingTest extends TestCase
 {
     use ContainerTrait;

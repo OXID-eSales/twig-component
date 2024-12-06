@@ -9,6 +9,9 @@
 ### Removed
 - PHPUnit v10 support
 
+### Deprecated
+- `DateFormatExtension` will be replaced by twig date filter
+
 ## v2.5.0 - 2024-10-14
 
 ### Removed

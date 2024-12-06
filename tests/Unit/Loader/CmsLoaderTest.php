@@ -61,16 +61,14 @@ final class CmsLoaderTest extends TestCase
 
         $contentFactoryMock
             ->method('getContent')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        ['ident', 'valid', $validContentMock],
-                        ['oxid', 'english', $englishContentMock],
-                        ['ident', 'field', $fieldContentMock],
-                        ['oxid', 'notFresh', $notFreshContentMock],
-                        ['ident', 'notValid', $notValidContentMock]
-                    ]
-                )
+            ->willReturnMap(
+                [
+                    ['ident', 'valid', $validContentMock],
+                    ['oxid', 'english', $englishContentMock],
+                    ['ident', 'field', $fieldContentMock],
+                    ['oxid', 'notFresh', $notFreshContentMock],
+                    ['ident', 'notValid', $notValidContentMock]
+                ]
             );
 
         /** @var ContentFactory $contentFactoryMock */
