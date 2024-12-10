@@ -5,3 +5,4 @@
 ### Removed
 - `SmartyCycleExtension` was removed
 - Short template names (without file extensions `".html.twig"`) are no longer supported.
+- Deprecated `DateFormatExtension`

@@ -157,11 +157,6 @@ services:
       - '@OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\FormatDateLogic'
     tags: ['twig.extension']
 
-  OxidEsales\Twig\Extensions\Filters\DateFormatExtension:
-    arguments:
-      - '@OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\DateFormatHelper'
-    tags: ['twig.extension']
-
   OxidEsales\Twig\Extensions\Filters\TranslateExtension:
     arguments:
       - '@OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\TranslateFilterLogic'
