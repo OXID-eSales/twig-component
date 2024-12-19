@@ -1,6 +1,8 @@
 install:
+  git:
+    sdk_ref: b-8.0.x
   method: script
-  script: 'source/vendor/oxid-esales/oxideshop-ce/.github/oxid-esales/install.sh'
+  script: 'source/vendor/oxid-esales/twig-component/.github/oxid-esales/install.sh'
   composer:
     early: 'skip'
     transform: |
