@@ -16,7 +16,6 @@ use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
 use PHPUnit\Framework\TestCase;
 use Twig\Error\LoaderError;
 
-/** @runTestsInSeparateProcesses */
 final class ModulesTemplateChainTest extends TestCase
 {
     use ContainerTrait;
@@ -45,8 +44,8 @@ final class ModulesTemplateChainTest extends TestCase
         parent::setUp();
 
         $this->initFixtures(__DIR__);
-        $this->setShopSourceFixture();
         $this->setThemeFixture(self::THEME);
+        $this->reloadTestContainer();
     }
 
     protected function tearDown(): void
@@ -77,6 +76,7 @@ final class ModulesTemplateChainTest extends TestCase
     public function testRenderWithModulesSingeTemplate(): void
     {
         $this->setupModuleFixture('module1');
+        $this->reloadTestContainer();
 
         $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::TEMPLATE_NO_EXTENDS);
 
@@ -86,8 +86,7 @@ final class ModulesTemplateChainTest extends TestCase
     public function testRenderWithActiveModuleExtendingShop(): void
     {
         $this->setupModuleFixture('module1');
-        $this->setShopSourceFixture();
-        $this->setThemeFixture(self::THEME);
+        $this->reloadTestContainer();
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_WITH_EXTENDS);
 
@@ -98,8 +97,7 @@ final class ModulesTemplateChainTest extends TestCase
     public function testRenderWithActiveModuleExtendingShopAndNonHtmlTemplate(): void
     {
         $this->setupModuleFixture('module1');
-        $this->setShopSourceFixture();
-        $this->setThemeFixture(self::THEME);
+        $this->reloadTestContainer();
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_WITH_NON_HTML_FILE);
 
@@ -110,8 +108,8 @@ final class ModulesTemplateChainTest extends TestCase
     public function testRenderWithActiveModuleAndMissingThemeTemplateWillUseTemplateFromDefaultTheme(): void
     {
         $this->setupModuleFixture('module1');
-        $this->setShopSourceFixture();
         $this->setThemeFixture(self::THEME_2);
+        $this->reloadTestContainer();
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_WITH_EXTENDS);
 
@@ -123,8 +121,7 @@ final class ModulesTemplateChainTest extends TestCase
     {
         $this->setupModuleFixture('module1');
         $this->deactivateModuleFixture('module1');
-        $this->setShopSourceFixture();
-        $this->setThemeFixture(self::THEME);
+        $this->reloadTestContainer();
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_WITH_EXTENDS);
 
@@ -136,8 +133,7 @@ final class ModulesTemplateChainTest extends TestCase
     {
         $this->setupModuleFixture('module1');
         $this->setupModuleFixture('module2');
-        $this->setShopSourceFixture();
-        $this->setThemeFixture(self::THEME);
+        $this->reloadTestContainer();
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_WITH_EXTENDS);
 
@@ -151,8 +147,7 @@ final class ModulesTemplateChainTest extends TestCase
         $this->setupModuleFixture('module1');
         $this->setupModuleFixture('module2');
         $this->setupModuleFixture('module3');
-        $this->setShopSourceFixture();
-        $this->setThemeFixture(self::THEME);
+        $this->reloadTestContainer();
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_WITH_EXTENDS);
 
@@ -168,8 +163,7 @@ final class ModulesTemplateChainTest extends TestCase
         $this->setupModuleFixture('module2');
         $this->setupModuleFixture('module3');
         $this->deactivateModuleFixture('module2');
-        $this->setShopSourceFixture();
-        $this->setThemeFixture(self::THEME);
+        $this->reloadTestContainer();
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_WITH_EXTENDS);
 
@@ -198,8 +192,7 @@ final class ModulesTemplateChainTest extends TestCase
     public function testRenderWithIncludeAndModuleWillRenderModuleTemplate(): void
     {
         $this->setupModuleFixture('module1');
-        $this->setShopSourceFixture();
-        $this->setThemeFixture(self::THEME);
+        $this->reloadTestContainer();
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_WITH_INCLUDE);
 
@@ -212,8 +205,7 @@ final class ModulesTemplateChainTest extends TestCase
     public function testRenderWithIncludeDynamicAndModuleWillRenderModuleTemplate(): void
     {
         $this->setupModuleFixture('module1');
-        $this->setShopSourceFixture();
-        $this->setThemeFixture(self::THEME);
+        $this->reloadTestContainer();
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_WITH_INCLUDE_DYNAMIC);
 
@@ -234,8 +226,7 @@ final class ModulesTemplateChainTest extends TestCase
     public function testRenderWithInvalidExtendsValue(): void
     {
         $this->setupModuleFixture('module1');
-        $this->setShopSourceFixture();
-        $this->setThemeFixture(self::THEME);
+        $this->reloadTestContainer();
 
         $this->expectException(LoaderError::class);
 

@@ -14,9 +14,6 @@ use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @runTestsInSeparateProcesses
- */
 final class ShopTemplateDirectoryResolvingTest extends TestCase
 {
     use ContainerTrait;
@@ -33,8 +30,8 @@ final class ShopTemplateDirectoryResolvingTest extends TestCase
         parent::setUp();
 
         $this->initFixtures(__DIR__);
-        $this->setShopSourceFixture();
         $this->setThemeFixture(self::PARENT_THEME);
+        $this->reloadTestContainer();
     }
 
     public function testRenderWithParentThemeAndParentTemplate(): void

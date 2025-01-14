@@ -21,6 +21,7 @@ trait TestingFixturesTrait
     use ContainerTrait;
 
     private string $fixtureRoot = __DIR__;
+    private string $currentTheme = 'default';
 
     public function initFixtures(string $fixtureRoot): void
     {
@@ -32,31 +33,42 @@ trait TestingFixturesTrait
     {
         $this->installModuleFixture($moduleId);
         $this->activateModuleFixture($moduleId);
+        $this->destroyTestContainer();
     }
 
     public function uninstallModuleFixture(string $moduleId): void
     {
         $this->get(ModuleInstallerInterface::class)
             ->uninstall($this->getPackageFixture($moduleId));
+        $this->destroyTestContainer();
     }
 
     public function deactivateModuleFixture(string $moduleId): void
     {
         $this->get(ModuleActivationBridgeInterface::class)
             ->deactivate($moduleId, $this->get(BasicContextInterface::class)->getDefaultShopId());
+        $this->destroyTestContainer();
     }
 
     public function setShopSourceFixture(): void
     {
-        $this->createContainer();
-        $this->container->setParameter('oxid_esales.shop_source_directory', "{$this->getFixturesDirectory()}/shop/source/");
-        $this->compileContainer();
+        $this->setParameter(
+            'oxid_esales.shop_source_directory',
+            "{$this->getFixturesDirectory()}/shop/source/"
+        );
+    }
+
+    public function reloadTestContainer(): void
+    {
+        $this->setShopSourceFixture();
+        $this->setThemeFixture($this->currentTheme);
         $this->attachContainerToContainerFactory();
     }
 
     public function setThemeFixture(string $themeId): void
     {
         Registry::getConfig()->setConfigParam('sTheme', $themeId);
+        $this->currentTheme = $themeId;
     }
 
     public function setChildThemeFixture(string $themeId): void
@@ -89,5 +101,10 @@ trait TestingFixturesTrait
     private function getPackageFixture(string $moduleId): OxidEshopPackage
     {
         return new OxidEshopPackage("{$this->getFixturesDirectory()}/$moduleId/");
+    }
+
+    private function destroyTestContainer(): void
+    {
+        $this->container = null;
     }
 }

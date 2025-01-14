@@ -9,16 +9,14 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\TwigEngine\TemplateChainSorting;
 
-use org\bovigo\vfs\vfsStream;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
+use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 
-/** @runTestsInSeparateProcesses */
-final class ModulesTemplateChainSortingTest extends TestCase
+final class ModulesTemplateChainSortingTest extends IntegrationTestCase
 {
     use ContainerTrait;
     use TestingFixturesTrait;
@@ -34,7 +32,7 @@ final class ModulesTemplateChainSortingTest extends TestCase
 
     private BasicContextInterface $context;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -43,11 +41,11 @@ final class ModulesTemplateChainSortingTest extends TestCase
         foreach (self::MODULE_IDS as $moduleId) {
             $this->setupModuleFixture($moduleId);
         }
-        $this->setShopSourceFixture();
         $this->setThemeFixture(self::FIXTURE_THEME);
+        $this->reloadTestContainer();
     }
 
-    protected function tearDown(): void
+    public function tearDown(): void
     {
         foreach (self::MODULE_IDS as $moduleId) {
             $this->uninstallModuleFixture($moduleId);
@@ -260,13 +258,17 @@ final class ModulesTemplateChainSortingTest extends TestCase
 
     private function addTemplateExtensionsSortingToShopConfiguration(string $sorting, string $template): void
     {
-        $templateExtensions = sprintf(
-            $sorting,
-            $template
-        );
         file_put_contents(
-            vfsStream::url("configuration/shops/{$this->context->getDefaultShopId()}/template_extension_chain.yaml"),
-            $templateExtensions
+            $this->get(BasicContextInterface::class)->getShopConfigurationDirectory(
+                $this->get(BasicContextInterface::class)->getDefaultShopId()
+            ) .
+            '/template_extension_chain.yaml',
+            \sprintf(
+                $sorting,
+                $template
+            )
         );
+        $this->destroyTestContainer();
+        $this->reloadTestContainer();
     }
 }

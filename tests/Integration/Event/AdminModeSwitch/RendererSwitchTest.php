@@ -30,17 +30,9 @@ final class RendererSwitchTest extends IntegrationTestCase
         parent::setUp();
 
         $this->initFixtures(__DIR__);
-        $this->setShopSourceFixture();
         $this->setThemeFixture('testTheme');
+        $this->reloadTestContainer();
         Registry::getConfig()->setAdminMode(true);
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        Registry::getConfig()->setAdminMode(false);
-        $this->eventFiredCount = 0;
     }
 
     public function testSendSentNowMailWillSwitchToAppropriateTemplate(): void
