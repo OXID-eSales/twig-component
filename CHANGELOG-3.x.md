@@ -1,6 +1,6 @@
 # Change Log for OXID Twig engine component
 
-## v3.0.0 - unreleased
+## v3.0.0-alpha.1 - 2025-02-03
 
 ### Removed
 - `SmartyCycleExtension` was removed
