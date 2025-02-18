@@ -15,7 +15,7 @@ use Twig\TwigFilter;
 
 class FormatDateExtension extends AbstractExtension
 {
-    public function __construct(private FormatDateLogic $formatDateLogic)
+    public function __construct(private readonly FormatDateLogic $formatDateLogic)
     {
     }
 
@@ -38,7 +38,7 @@ class FormatDateExtension extends AbstractExtension
      *
      * @return string
      */
-    public function formatDate($convObject, string $fieldType = null, bool $passedValue = false): ?string
+    public function formatDate($convObject, ?string $fieldType = null, bool $passedValue = false): ?string
     {
         return $this->formatDateLogic->formdate($convObject, $fieldType, $passedValue);
     }

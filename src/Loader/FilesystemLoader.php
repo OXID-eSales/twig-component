@@ -14,9 +14,9 @@ use OxidEsales\Twig\Resolver\TemplateDirectoryResolverInterface;
 class FilesystemLoader extends \Twig\Loader\FilesystemLoader
 {
     public function __construct(
-        private TemplateDirectoryResolverInterface $templateDirectoryResolver,
+        private readonly TemplateDirectoryResolverInterface $templateDirectoryResolver,
         $paths = [],
-        string $rootPath = null
+        ?string $rootPath = null
     ) {
         parent::__construct(
             $paths,

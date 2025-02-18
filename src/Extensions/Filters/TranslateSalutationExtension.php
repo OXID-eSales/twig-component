@@ -15,7 +15,7 @@ use Twig\TwigFilter;
 
 class TranslateSalutationExtension extends AbstractExtension
 {
-    public function __construct(private TranslateSalutationLogic $translateSalutationLogic)
+    public function __construct(private readonly TranslateSalutationLogic $translateSalutationLogic)
     {
     }
 
@@ -36,9 +36,9 @@ class TranslateSalutationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function translateSalutation(string $ident = null): string
+    public function translateSalutation(?string $ident = null): string
     {
-        if (isset($ident) && is_string($ident)) {
+        if (isset($ident)) {
             return $this->translateSalutationLogic->translateSalutation($ident);
         }
         return '';

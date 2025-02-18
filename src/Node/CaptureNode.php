@@ -30,7 +30,7 @@ class CaptureNode extends Node
      */
     private $variableName;
 
-    public function __construct(string $attributeName, string $variableName, Node $body, int $line, string $tag = null)
+    public function __construct(string $attributeName, string $variableName, Node $body, int $line, ?string $tag = null)
     {
         parent::__construct(
             ['body' => $body],

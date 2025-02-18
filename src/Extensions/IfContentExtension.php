@@ -34,7 +34,7 @@ class IfContentExtension extends AbstractExtension
      *
      * @return mixed
      */
-    public function getContent(string $sIdent = null, string $sOxid = null)
+    public function getContent(?string $sIdent = null, ?string $sOxid = null)
     {
         return $this->ifContentLogic->getContent($sIdent, $sOxid);
     }

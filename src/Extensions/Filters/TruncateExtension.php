@@ -16,7 +16,7 @@ use Twig\TwigFunction;
 
 class TruncateExtension extends AbstractExtension
 {
-    public function __construct(private TruncateLogic $truncateLogic)
+    public function __construct(private readonly TruncateLogic $truncateLogic)
     {
     }
 
@@ -33,7 +33,7 @@ class TruncateExtension extends AbstractExtension
     }
 
     public function truncate(
-        string $string = null,
+        ?string $string = null,
         int $length = 80,
         string $suffix = '...',
         bool $breakWords = false,
