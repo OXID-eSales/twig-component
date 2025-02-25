@@ -45,6 +45,7 @@ Could not read
 Warnings: [1-9][0-9]*
 Errors: [1-9][0-9]*
 Failed: [1-9][0-9]*
+Deprecations: [1-9][0-9]*
 Risky: [1-9][0-9]*
 EOF
 sed -e 's|(.*)\r|$1|' -i failure_pattern.tmp
