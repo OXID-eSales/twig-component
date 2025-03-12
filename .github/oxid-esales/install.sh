@@ -49,12 +49,6 @@ function init() {
 
 init
 
-echo "Copy .env.dist file"
-    docker compose "${install_container_method}" -T \
-      ${install_container_options} \
-      "${install_container_name}" \
-      cp "/var/www/vendor/oxid-esales/oxideshop-ce/.env.dist" "/var/www/.env.dist"
-
 # Run Install Shop
 echo "Running shop setup command (oe:setup:shop):"
 docker compose "${install_container_method}" -T \
