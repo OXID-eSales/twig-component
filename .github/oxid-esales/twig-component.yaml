@@ -1,33 +1,31 @@
 install:
-  method: script
-  script: 'source/vendor/oxid-esales/oxideshop-ce/.github/oxid-esales/install.sh'
   composer:
     early: 'skip'
     transform: |
       {
-          "config": {
-              "github-protocols": ["https"]
-          },
-          "preferred-install": {
-            "oxid-esales/*": "source"
-          },
-          "require": {
-              "oxid-esales/oxideshop-ce": "{{ .Data.global.composer.dev_ref }}",
-              "oxid-esales/twig-component": "dev-{{ .Data.global.git.safe_ref_name }}",
-              "oxid-esales/twig-admin-theme": "{{ .Data.global.composer.dev_ref }}",
-              "oxid-esales/apex-theme": "{{ .Data.global.composer.dev_ref }}"
-          },
-          "require-dev":{
-              "oxid-esales/developer-tools":"{{ .Data.global.composer.dev_ref }}",
-              "mikey179/vfsstream": "~1.6.8",
-              "phpspec/prophecy-phpunit": "^v2.0.1",
-              "phpunit/phpunit": "^9.1.1"
-          },
-          "autoload-dev":{
-              "psr-4":{
-                "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests"
-              }
+        "config": {
+          "github-protocols": ["https"]
+        },
+        "preferred-install": {
+          "oxid-esales/*": "source"
+        },
+        "require": {
+          "oxid-esales/apex-theme": "{{ .Data.install.composer.dev_ref }}",
+          "oxid-esales/oxideshop-ce": "{{ .Data.install.composer.dev_ref }}",
+          "oxid-esales/twig-admin-theme": "{{ .Data.install.composer.dev_ref }}",
+          "oxid-esales/twig-component": "{{ .Data.install.composer.ref_name }}"
+        },
+        "require-dev":{
+          "mikey179/vfsstream": "~1.6.8",
+          "oxid-esales/developer-tools": "{{ .Data.install.composer.dev_ref }}",
+          "phpspec/prophecy-phpunit": "^v2.0.1",
+          "phpunit/phpunit": "^9.1.1"
+        },
+        "autoload-dev":{
+          "psr-4":{
+            "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests"
           }
+        }
       }
 
 runscript:
@@ -47,5 +45,4 @@ sonarcloud:
     testplan: 'skip'
 
 finish:
-  slack_title: 'Twig Component ({{ .Data.global.git.safe_ref_name }}) by {{ .Github.Actor }}'
-  slack_compact: true
+  slack_title: 'Twig Component ({{ .Data.install.git.ref }}) by {{ .Github.Actor }}'
