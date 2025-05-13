@@ -23,7 +23,7 @@ jobs:
             # shellcheck disable=SC2088
             LIMIT70="~/defaults/php8.1_mysql5.7_only.yaml,"
             # shellcheck disable=SC2088
-            LIMIT="~/defaults/php8.2_mysql5.7_only.yaml,"
+            LIMIT="~/defaults/php8.3_mysql8.0_only.yaml,"
           fi
           # shellcheck disable=SC2088
           case "${REF_TO_CHECK}" in
@@ -31,6 +31,7 @@ jobs:
             refs/heads/b-7.1.x*) TESTPLAN="~/defaults/7.1.x.yaml,${LIMIT}~/twig-component.yaml" ;;
             refs/heads/b-7.2.x*) TESTPLAN="~/defaults/7.2.x.yaml,${LIMIT}~/twig-component.yaml" ;;
             refs/heads/b-7.3.x*) TESTPLAN="~/defaults/7.3.x.yaml,${LIMIT}~/twig-component.yaml" ;;
+            refs/heads/b-7.4.x*) TESTPLAN="~/defaults/7.4.x.yaml,${LIMIT}~/twig-component.yaml" ;;
             refs/heads/b-8.0.x*) TESTPLAN="~/defaults/8.0.x.yaml,${LIMIT}~/twig-component.yaml" ;;
             *)
               echo "Can't match ${REF_TO_CHECK} to a version, can't determine test plan."
