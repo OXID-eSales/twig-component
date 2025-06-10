@@ -19,7 +19,11 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "OxidEsales\\Twig\\": "src",
+            "OxidEsales\\Twig\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "OxidEsales\\Twig\\Tests\\": "tests"
         }
     }
