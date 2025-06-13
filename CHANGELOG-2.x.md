@@ -1,6 +1,6 @@
 # Change Log for OXID Twig engine component
 
-## v2.6.0 - Unreleased
+## v2.6.0 - 2025-04-09
 
 ### Added
 - Twig ^v3.14 support
