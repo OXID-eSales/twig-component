@@ -12,7 +12,6 @@
     ],
     "homepage": "https://www.oxid-esales.com",
     "require": {
-        "php": ">=8.2",
         "twig/twig": "^3.14"
     },
     "minimum-stability": "dev",
