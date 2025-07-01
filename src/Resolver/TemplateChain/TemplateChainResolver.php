@@ -13,6 +13,8 @@ use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeFactoryInter
 
 class TemplateChainResolver implements TemplateChainResolverInterface
 {
+    private array $lastChildCache = [];
+
     public function __construct(
         private TemplateChainBuilderInterface $templateChainBuilder,
         private TemplateTypeFactoryInterface $templateTypeFactory,
@@ -30,11 +32,15 @@ class TemplateChainResolver implements TemplateChainResolverInterface
 
     public function getLastChild(string $templateName): string
     {
-        $templateType = $this->templateTypeFactory->createFromTemplateName($templateName);
-        return $this->templateChainBuilder
-            ->getChain($templateType)
-            ->getLastChild()
-            ->getFullyQualifiedName();
+        if (!isset($this->lastChildCache[$templateName])) {
+            $templateType = $this->templateTypeFactory->createFromTemplateName($templateName);
+            $this->lastChildCache[$templateName] = $this->templateChainBuilder
+                ->getChain($templateType)
+                ->getLastChild()
+                ->getFullyQualifiedName();
+        }
+
+        return $this->lastChildCache[$templateName];
     }
 
     public function hasParent(string $templateName): bool
