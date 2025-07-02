@@ -25,7 +25,7 @@ final class IncludeDynamicNodeTest extends NodeTestCase
 if (!empty(\$context["_render4cache"])) {
     echo \$this->extensions['%s']->renderForCache(['file' => "foo.twig"]);
 } else {
-\$this->loadTemplate("foo.twig", null, 1)->display(\$context);
+\$this->load("foo.twig", 1)->display(\$context);
 }
 EOF;
     private const EXPECTED_ACTIVE_CONTEXT_NODE_SOURCE = <<<EOF
@@ -35,7 +35,7 @@ if (!empty(\$context["_render4cache"])) {
     echo \$this->extensions['%s']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
 } else {
     \$parameters = \$this->extensions['%s']->includeDynamicPrefix(\$parameters);
-\$this->loadTemplate("foo.twig", null, 1)->display(array_merge(\$context, \$parameters));
+\$this->load("foo.twig", 1)->display(array_merge(\$context, \$parameters));
 }
 EOF;
     private const EXPECTED_LOCAL_CONTEXT_NODE_SOURCE = <<<EOF
@@ -45,7 +45,7 @@ if (!empty(\$context["_render4cache"])) {
     echo \$this->extensions['%s']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
 } else {
     \$parameters = \$this->extensions['%s']->includeDynamicPrefix(\$parameters);
-\$this->loadTemplate("foo.twig", null, 1)->display(\$parameters);
+\$this->load("foo.twig", 1)->display(\$parameters);
 }
 EOF;
     private const EXPECTED_LOCAL_CONTEXT_IGNORE_MISSING_NODE_SOURCE = <<<EOF
@@ -56,7 +56,7 @@ try {
         echo \$this->extensions['%s']->renderForCache(array_merge(\$parameters, ['file' => "foo.twig"]));
     } else {
         \$parameters = \$this->extensions['%s']->includeDynamicPrefix(\$parameters);
-\$this->loadTemplate("foo.twig", null, 1)->display(\$parameters);
+\$this->load("foo.twig", 1)->display(\$parameters);
     }
 } catch (\Twig\Error\LoaderError \$e) {
     // ignore missing template
