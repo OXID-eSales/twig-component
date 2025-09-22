@@ -1,5 +1,13 @@
 # Change Log for OXID Twig engine component
 
+## v2.8.0 - unreleased
+
+### Added
+- Template Filter to sanitize HTML content
+
+### Changed
+- Extension include_content uses HTML sanitizer
+
 ## v2.7.0 - 2025-10-13
 
 ### Added
