@@ -10,14 +10,14 @@ install:
           "oxid-esales/*": "source"
         },
         "require": {
-          "oxid-esales/apex-theme": "{{ .Data.install.composer.dev_ref }}",
-          "oxid-esales/oxideshop-ce": "{{ .Data.install.composer.dev_ref }}",
-          "oxid-esales/twig-admin-theme": "{{ .Data.install.composer.dev_ref }}",
-          "oxid-esales/twig-component": "{{ .Data.install.composer.ref_name }}"
+          "oxid-esales/apex-theme": "v3.0.0",
+          "oxid-esales/oxideshop-ce": "v7.4.0",
+          "oxid-esales/twig-admin-theme": "v3.0.0",
+          "oxid-esales/twig-component": "v2.7.0"
         },
         "require-dev":{
           "mikey179/vfsstream": "~1.6.8",
-          "oxid-esales/developer-tools": "{{ .Data.install.composer.dev_ref }}",
+          "oxid-esales/developer-tools": "v2.5.0",
           "phpspec/prophecy-phpunit": "^v2.0.1",
           "phpunit/phpunit": "^11.4"
         },

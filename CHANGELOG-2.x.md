@@ -1,6 +1,6 @@
 # Change Log for OXID Twig engine component
 
-## v2.7.0 - unreleased
+## v2.7.0 - 2025-10-13
 
 ### Added
 - Improved template rendering performance

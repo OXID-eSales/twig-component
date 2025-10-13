@@ -1,6 +1,6 @@
 # Twig component
 
-[![Actions Status](https://github.com/OXID-eSales/twig-component/workflows/Build/badge.svg)](https://github.com/OXID-eSales/twig-component/actions)
+[![Actions Status](https://github.com/OXID-eSales/twig-component/actions/workflows/trigger.yaml/badge.svg?branch=b-7.4.x)](https://github.com/OXID-eSales/twig-component/actions/workflows/trigger.yaml)
 
 Includes Twig template engine for OXID eShop
 
