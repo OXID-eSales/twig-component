@@ -62,7 +62,6 @@ trait TestingFixturesTrait
     {
         $this->setShopSourceFixture();
         $this->setThemeFixture($this->currentTheme);
-        $this->attachContainerToContainerFactory();
     }
 
     public function setThemeFixture(string $themeId): void
