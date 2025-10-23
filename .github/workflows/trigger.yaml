@@ -1,6 +1,7 @@
 name: Auto trigger on push or pull requests
 
 on:
+  workflow_dispatch: {}
   pull_request: {}
   push: {}
 
@@ -24,7 +25,7 @@ jobs:
           fi
           # shellcheck disable=SC2088
           case "${REF_TO_CHECK}" in
-            refs/heads/b-7.4.x*) TESTPLAN="~/defaults/7.4.x.yaml,${LIMIT}~/twig-component.yaml" ;;
+            refs/heads/b-7.5.x*) TESTPLAN="~/defaults/7.5.x.yaml,${LIMIT}~/twig-component.yaml" ;;
             *)
               echo "Can't match ${REF_TO_CHECK} to a version, can't determine test plan."
               echo "Branch names should start with b-<major>.<minor>.x"
