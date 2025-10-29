@@ -8,6 +8,9 @@
 ### Changed
 - Extension include_content uses HTML sanitizer
 
+### Fixed
+- Rendering template extensions for module templates
+
 ## v2.7.0 - 2025-10-13
 
 ### Added
