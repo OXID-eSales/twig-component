@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Extensions;
 
+use OxidEsales\EshopCommunity\Internal\Framework\Html\HtmlSanitizerInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory;
 use OxidEsales\Twig\TokenParser\IncludeContentTokenParser;
 use Twig\Error\LoaderError;
@@ -18,8 +19,10 @@ use Twig\TwigFunction;
 
 class IncludeContentExtension extends AbstractExtension
 {
-    public function __construct(private ContentFactory $contentFactory)
-    {
+    public function __construct(
+        private ContentFactory $contentFactory,
+        private readonly HtmlSanitizerInterface $sanitizer
+    ) {
     }
 
     /**
@@ -50,6 +53,6 @@ class IncludeContentExtension extends AbstractExtension
             throw new LoaderError("Template is not active.");
         }
 
-        return $content->oxcontents__oxcontent->value;
+        return $this->sanitizer->sanitize($content->oxcontents__oxcontent->value);
     }
 }
