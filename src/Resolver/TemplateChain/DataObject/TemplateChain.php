@@ -40,13 +40,12 @@ class TemplateChain implements IteratorAggregate
 
     public function remove(TemplateTypeInterface $templateType): void
     {
-        $fullyQualifiedName = $templateType->getFullyQualifiedName();
+        $index = $this->findIndexByFullyQualifiedName(
+            $templateType->getFullyQualifiedName()
+        );
 
-        foreach ($this->chain as $index => $item) {
-            if ($item->getFullyQualifiedName() === $fullyQualifiedName) {
-                array_splice($this->chain, $index, 1);
-                break;
-            }
+        if ($index !== null) {
+            array_splice($this->chain, $index, 1);
         }
     }
 
@@ -59,51 +58,34 @@ class TemplateChain implements IteratorAggregate
 
     public function hasModuleId(string $moduleId): bool
     {
-        foreach ($this->chain as $templateType) {
-            if ($templateType->getNamespace() === $moduleId) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->findIndexByModuleId($moduleId) !== null;
     }
 
-    public function getByModuleId(string $moduleId): TemplateTypeInterface
+    public function getByModuleId(string $moduleId): ?TemplateTypeInterface
     {
-        foreach ($this->chain as $templateType) {
-            if ($templateType->getNamespace() === $moduleId) {
-                return $templateType;
-            }
-        }
+        return $this->findByModuleIdInternal($moduleId);
     }
 
     public function has(TemplateTypeInterface $templateType): bool
     {
-        $fullyQualifiedName = $templateType->getFullyQualifiedName();
-
-        foreach ($this->chain as $item) {
-            if ($item->getFullyQualifiedName() === $fullyQualifiedName) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->findIndexByFullyQualifiedName(
+            $templateType->getFullyQualifiedName()
+        ) !== null;
     }
 
-    public function getParent(TemplateTypeInterface $templateType): TemplateTypeInterface
+    public function getParent(TemplateTypeInterface $templateType): ?TemplateTypeInterface
     {
-        $fullyQualifiedName = $templateType->getFullyQualifiedName();
+        $index = $this->findIndexByFullyQualifiedName($templateType->getFullyQualifiedName());
 
-        foreach ($this->chain as $index => $item) {
-            if ($item->getFullyQualifiedName() === $fullyQualifiedName) {
-                return $this->chain[$index + 1];
-            }
-        }
+        return $index !== null && isset($this->chain[$index + 1])
+            ? $this->chain[$index + 1]
+            : null;
     }
 
     public function getLastChild(): TemplateTypeInterface
     {
         reset($this->chain);
+
         return current($this->chain);
     }
 
@@ -127,14 +109,22 @@ class TemplateChain implements IteratorAggregate
 
     private function findChildInsertPosition(TemplateTypeInterface $parent): int
     {
-        $parentFullyQualifiedName = $parent->getFullyQualifiedName();
+        return $this->findIndexByFullyQualifiedName($parent->getFullyQualifiedName()) ?? 0;
+    }
 
-        foreach ($this->chain as $index => $entry) {
-            if ($entry->getFullyQualifiedName() === $parentFullyQualifiedName) {
-                return $index;
-            }
-        }
+    private function findIndexByFullyQualifiedName(string $fullyQualifiedName): ?int
+    {
+        return array_find_key($this->chain, static fn($item) => $item->getFullyQualifiedName() === $fullyQualifiedName);
+    }
 
-        return 0;
+    private function findIndexByModuleId(string $moduleId): ?int
+    {
+        return array_find_key($this->chain, static fn($item) => $item->getNamespace() === $moduleId);
+    }
+
+    private function findByModuleIdInternal(string $moduleId): ?TemplateTypeInterface
+    {
+        $index = $this->findIndexByModuleId($moduleId);
+        return $index !== null ? $this->chain[$index] : null;
     }
 }

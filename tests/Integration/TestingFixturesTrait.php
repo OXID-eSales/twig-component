@@ -15,6 +15,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleIn
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Bridge\ModuleActivationBridgeInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
+use OxidEsales\EshopCommunity\Tests\TestContainerFactory;
 
 trait TestingFixturesTrait
 {
@@ -62,7 +63,6 @@ trait TestingFixturesTrait
     {
         $this->setShopSourceFixture();
         $this->setThemeFixture($this->currentTheme);
-        $this->attachContainerToContainerFactory();
     }
 
     public function setThemeFixture(string $themeId): void

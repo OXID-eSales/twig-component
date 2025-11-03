@@ -15,6 +15,7 @@ use OxidEsales\EshopCommunity\Core\Registry;
 use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
 use OxidEsales\EshopCommunity\Internal\Domain\Admin\Event\AdminModeChangedEvent;
 use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
+use OxidEsales\EshopCommunity\Tests\TestContainerFactory;
 use OxidEsales\Twig\Tests\Integration\Event\AdminModeSwitch\Fixtures\EmailStub;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -29,6 +30,7 @@ final class RendererSwitchTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        TestContainerFactory::resetContainer();
         $this->initFixtures(__DIR__);
         $this->setThemeFixture('testTheme');
         $this->reloadTestContainer();

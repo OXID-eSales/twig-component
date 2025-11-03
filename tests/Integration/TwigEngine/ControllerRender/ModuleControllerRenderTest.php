@@ -42,7 +42,6 @@ final class ModuleControllerRenderTest extends TestCase
         $this->setFixtureBaseLanguage(0);
         $this->autoloadFixtures();
         $this->stubRequestData();
-        $this->reloadTestContainer();
 
         $this->shopControl = new ShopControl();
     }
@@ -118,10 +117,16 @@ final class ModuleControllerRenderTest extends TestCase
 
     private function switchDebugMode(bool $enable): void
     {
-        $this->destroyTestContainer();
         $this->createContainer();
+        $this->container->setParameter(
+            'oxid_esales.shop_source_directory',
+            "{$this->getFixturesDirectory()}/shop/source/"
+        );
         $this->container->setParameter('oxid_esales.debug_mode', $enable);
-        $this->reloadTestContainer();
+        $this->compileContainer();
+        $this->replaceContainerInstance();
+
+        $this->setThemeFixture($this->currentTheme);
     }
 
     private function autoloadFixtures(): void

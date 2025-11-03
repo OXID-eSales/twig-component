@@ -32,7 +32,7 @@ final class IncludeContentExtensionTest extends AbstractExtensionTestCase
     private MockObject&ContentFactory $contentFactoryMock;
     private string $spamContent = 'not spam<script>alert("spam")</script>';
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -110,7 +110,6 @@ final class IncludeContentExtensionTest extends AbstractExtensionTestCase
     {
         $this->createContainer();
         $this->setParameter('oxid_esales.html_sanitizer_enabled', $sanitizerEnabled);
-        $this->attachContainerToContainerFactory();
 
         $this->extension = new IncludeContentExtension(
             $this->contentFactoryMock,

@@ -21,7 +21,7 @@ final class SanitizeHtmlExtensionTest extends AbstractExtensionTestCase
     private string $unsafeHtml = '<div><script> alert("SPAM MESSAGE") </script></div>';
     private string $safeHtml = '<div></div>';
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->createContainer();
@@ -30,7 +30,6 @@ final class SanitizeHtmlExtensionTest extends AbstractExtensionTestCase
     public function testSanitizerShouldEliminateUnsafeTags(): void
     {
         $this->setParameter('oxid_esales.html_sanitizer_enabled', true);
-        $this->attachContainerToContainerFactory();
         $this->extension = new SanitizeHtmlExtension(ContainerFacade::get(HtmlSanitizerInterface::class));
         $template = "{{ '" . $this->unsafeHtml . "' | sanitize_html }}";
 
@@ -42,7 +41,6 @@ final class SanitizeHtmlExtensionTest extends AbstractExtensionTestCase
     public function testSanitizerWithNullValues(): void
     {
         $this->setParameter('oxid_esales.html_sanitizer_enabled', true);
-        $this->attachContainerToContainerFactory();
         $this->extension = new SanitizeHtmlExtension(ContainerFacade::get(HtmlSanitizerInterface::class));
         $template = "{{ null | sanitize_html }}";
 
@@ -54,7 +52,6 @@ final class SanitizeHtmlExtensionTest extends AbstractExtensionTestCase
     public function testSanitizerShouldPassEverythingWhenDisabled(): void
     {
         $this->setParameter('oxid_esales.html_sanitizer_enabled', false);
-        $this->attachContainerToContainerFactory();
         $this->extension = new SanitizeHtmlExtension(ContainerFacade::get(HtmlSanitizerInterface::class));
         $template = "{{ '" . $this->unsafeHtml . "' | sanitize_html }}";
 
