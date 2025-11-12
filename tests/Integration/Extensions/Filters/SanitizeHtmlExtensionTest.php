@@ -39,6 +39,18 @@ final class SanitizeHtmlExtensionTest extends AbstractExtensionTestCase
         $this->assertEquals($this->safeHtml, $result);
     }
 
+    public function testSanitizerWithNullValues(): void
+    {
+        $this->setParameter('oxid_esales.html_sanitizer_enabled', true);
+        $this->attachContainerToContainerFactory();
+        $this->extension = new SanitizeHtmlExtension(ContainerFacade::get(HtmlSanitizerInterface::class));
+        $template = "{{ null | sanitize_html }}";
+
+        $result = $this->getTemplate($template)->render([]);
+
+        $this->assertEquals('', $result);
+    }
+
     public function testSanitizerShouldPassEverythingWhenDisabled(): void
     {
         $this->setParameter('oxid_esales.html_sanitizer_enabled', false);
