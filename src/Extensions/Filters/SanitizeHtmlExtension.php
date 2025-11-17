@@ -31,8 +31,12 @@ class SanitizeHtmlExtension extends AbstractExtension
         ];
     }
 
-    public function sanitize(string $html): string
+    public function sanitize(?string $html): string
     {
+        if (empty($html)) {
+            return '';
+        }
+
         return $this->sanitizer->sanitize($html);
     }
 }
