@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Extensions;
 
-use OxidEsales\EshopCommunity\Core\Di\ContainerFacade;
 use OxidEsales\EshopCommunity\Internal\Framework\Html\HtmlSanitizerInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory;
 use OxidEsales\Twig\TokenParser\IncludeContentTokenParser;
@@ -22,11 +21,8 @@ class IncludeContentExtension extends AbstractExtension
 {
     public function __construct(
         private ContentFactory $contentFactory,
-        private ?HtmlSanitizerInterface $sanitizer = null
+        private readonly HtmlSanitizerInterface $sanitizer
     ) {
-        if ($this->sanitizer === null && ContainerFacade::has(HtmlSanitizerInterface::class)) {
-            $this->sanitizer = ContainerFacade::get(HtmlSanitizerInterface::class);
-        }
     }
 
     /**
@@ -55,10 +51,6 @@ class IncludeContentExtension extends AbstractExtension
 
         if (!$content->oxcontents__oxactive->value) {
             throw new LoaderError("Template is not active.");
-        }
-
-        if (!$this->sanitizer) {
-            return $content->oxcontents__oxcontent->value;
         }
 
         return $this->sanitizer->sanitize($content->oxcontents__oxcontent->value);
