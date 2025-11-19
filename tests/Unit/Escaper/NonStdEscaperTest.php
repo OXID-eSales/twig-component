@@ -12,19 +12,15 @@ namespace OxidEsales\Twig\Tests\Unit\Escaper;
 use OxidEsales\Twig\Escaper\EscaperInterface;
 use OxidEsales\Twig\Escaper\NonStdEscaper;
 use PHPUnit\Framework\TestCase;
-use Twig\Environment;
 
 final class NonStdEscaperTest extends TestCase
 {
     private EscaperInterface $escaper;
 
-    private Environment $environment;
-
     protected function setUp(): void
     {
         parent::setUp();
         $this->escaper = new NonStdEscaper();
-        $this->environment = $this->createMock(Environment::class);
     }
 
     public function testEscape(): void
@@ -32,7 +28,7 @@ final class NonStdEscaperTest extends TestCase
         $string = 'Zażółć \'gęślą\' <b>jaźń</b>';
         $expected = 'Za&#197;&#188;&#195;&#179;&#197;&#130;&#196;&#135; \'g&#196;&#153;&#197;&#155;l&#196;&#133;\' <b>'
             . 'ja&#197;&#186;&#197;&#132;</b>';
-        $this->assertEquals($expected, $this->escaper->escape($this->environment, $string, 'UTF-8'));
+        $this->assertEquals($expected, $this->escaper->escape($string, 'UTF-8'));
     }
 
     public function testGetStrategy(): void

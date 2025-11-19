@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Escaper;
 
-use Twig\Environment;
-
 /**
  * Escape unescaped single quotes
  */
@@ -26,14 +24,8 @@ class QuotesEscaper implements EscaperInterface
 
     /**
      * Escape unescaped single quotes
-     *
-     * @param Environment $environment
-     * @param string      $string
-     * @param string      $charset
-     *
-     * @return string
      */
-    public function escape(Environment $environment, $string, $charset): string
+    public function escape(string $string, string $charset): string
     {
         return preg_replace("%(?<!\\\\)'%", "\\'", $string);
     }

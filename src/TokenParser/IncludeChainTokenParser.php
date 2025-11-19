@@ -26,7 +26,7 @@ class IncludeChainTokenParser extends IncludeTokenParser
 
     public function parse(Token $token): Node
     {
-        $expression = $this->parser->getExpressionParser()->parseExpression();
+        $expression = $this->parser->parseExpression();
 
         if ($expression instanceof ConstantExpression) {
             $this->replaceValue($expression);

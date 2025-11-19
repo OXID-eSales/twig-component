@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Extensions;
 
+use Twig\DeprecatedCallableInfo;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -27,30 +28,33 @@ class PhpFunctionsExtension extends AbstractExtension
                 'count',
                 'count',
                 [
-                    'deprecated' => true,
-                    'alternative' => 'length',
+                    'deprecation_info' => new DeprecatedCallableInfo(
+                        'oxid-esales/twig-component',
+                        '3.0.0',
+                        'length'
+                    )
                 ]
             ),
             new TwigFunction(
                 'empty',
+                [$this, 'emptyWrapper'],
                 [
-                    $this,
-                    'emptyWrapper',
-                    [
-                        'deprecated' => true,
-                        'alternative' => 'length',
-                    ],
+                    'deprecation_info' => new DeprecatedCallableInfo(
+                        'oxid-esales/twig-component',
+                        '3.0.0',
+                        'length'
+                    )
                 ]
             ),
             new TwigFunction(
                 'isset',
+                [$this, 'twigIsset'],
                 [
-                    $this,
-                    'twigIsset',
-                    [
-                        'deprecated' => true,
-                        'alternative' => 'is defined',
-                    ],
+                    'deprecation_info' => new DeprecatedCallableInfo(
+                        'oxid-esales/twig-component',
+                        '3.0.0',
+                        'is defined'
+                    )
                 ]
             )
         ];

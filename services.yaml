@@ -253,8 +253,8 @@ services:
     class: OxidEsales\Twig\TwigEngine
     arguments:
       $engine: '@twig'
-      $twigExtensions: !tagged twig.extension
-      $twigEscaper: !tagged twig.escaper
+      $twigExtensions: !tagged_iterator twig.extension
+      $twigEscaper: !tagged_iterator twig.escaper
     public: false
 
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface:

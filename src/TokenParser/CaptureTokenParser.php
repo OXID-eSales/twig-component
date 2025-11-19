@@ -33,7 +33,7 @@ class CaptureTokenParser extends AbstractTokenParser
 
         $attributeName = $this->getAttributeName($stream);
         $stream->expect(Token::OPERATOR_TYPE, '=');
-        $variableName = $parser->getExpressionParser()->parseExpression()->getAttribute('value');
+        $variableName = $parser->parseExpression()->getAttribute('value');
         $stream->expect(Token::BLOCK_END_TYPE);
         $body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
         $stream->expect(Token::BLOCK_END_TYPE);

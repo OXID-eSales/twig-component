@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Escaper;
 
-use Twig\Environment;
-
 interface EscaperInterface
 {
     /**
@@ -19,11 +17,8 @@ interface EscaperInterface
     public function getStrategy(): string;
 
     /**
-     * @param Environment $environment
-     * @param string      $string
-     * @param string      $charset
-     *
-     * @return string
+     * Escape a string for the given strategy.
+     * Matches Twig 3.10+ escaper callable signature (no Environment argument).
      */
-    public function escape(Environment $environment, $string, $charset): string;
+    public function escape(string $string, string $charset): string;
 }

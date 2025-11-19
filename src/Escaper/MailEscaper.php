@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Escaper;
 
-use Twig\Environment;
-
 class MailEscaper implements EscaperInterface
 {
     /**
@@ -21,14 +19,7 @@ class MailEscaper implements EscaperInterface
         return 'mail';
     }
 
-    /**
-     * @param Environment $environment
-     * @param string      $string
-     * @param string      $charset
-     *
-     * @return string
-     */
-    public function escape(Environment $environment, $string, $charset): string
+    public function escape(string $string, string $charset): string
     {
         return str_replace(['@', '.'], [' [AT] ', ' [DOT] '], $string);
     }

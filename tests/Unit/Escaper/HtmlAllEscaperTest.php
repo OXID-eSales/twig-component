@@ -13,19 +13,15 @@ use OxidEsales\Twig\Escaper\EscaperInterface;
 use OxidEsales\Twig\Escaper\HtmlAllEscaper;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Twig\Environment;
 
 final class HtmlAllEscaperTest extends TestCase
 {
     private EscaperInterface $escaper;
 
-    private Environment $environment;
-
     protected function setUp(): void
     {
         parent::setUp();
         $this->escaper = new HtmlAllEscaper();
-        $this->environment = $this->createMock(Environment::class);
     }
 
     public static function escapeProvider(): array
@@ -38,7 +34,7 @@ final class HtmlAllEscaperTest extends TestCase
     #[DataProvider('escapeProvider')]
     public function testEscape(string $string, string $expected)
     {
-        $this->assertEquals($expected, $this->escaper->escape($this->environment, $string, 'UTF-8'));
+        $this->assertEquals($expected, $this->escaper->escape($string, 'UTF-8'));
     }
 
     public function testGetStrategy()

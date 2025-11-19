@@ -25,7 +25,7 @@ class IncludeDynamicTokenParser extends IncludeTokenParser
 
     public function parse(Token $token): IncludeDynamicNode
     {
-        $expression = $this->parser->getExpressionParser()->parseExpression();
+        $expression = $this->parser->parseExpression();
 
         if ($expression instanceof ConstantExpression) {
             $this->replaceValue($expression);

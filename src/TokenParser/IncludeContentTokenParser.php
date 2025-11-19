@@ -20,7 +20,7 @@ class IncludeContentTokenParser extends IncludeTokenParser
 {
     public function parse(Token $token): Node
     {
-        $expr = $this->parser->getExpressionParser()->parseExpression();
+        $expr = $this->parser->parseExpression();
 
         list($variables, $only, $ignoreMissing) = $this->parseArguments();
 

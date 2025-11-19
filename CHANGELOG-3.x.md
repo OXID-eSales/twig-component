@@ -2,8 +2,13 @@
 
 ## v3.0.0-alpha.2 - Unreleased
 
+### Removed
+- Deprecated Twig APIs
+
 ### Changed
-- `TemplateChain` DTO `getByModuleId` and `getParent` methods returns `null` when no matching result is found
+- `TemplateChain` DTO `getByModuleId` and `getParent` methods return `null` when no matching result is found
+- Escaper registration uses `EscaperRuntime`
+- Token parsing aligned with Twig deprecations
 
 ## v3.0.0-alpha.1 - 2025-02-03
 

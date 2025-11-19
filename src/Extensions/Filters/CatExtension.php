@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Extensions\Filters;
 
 use Twig\Extension\AbstractExtension;
+use Twig\DeprecatedCallableInfo;
 use Twig\TwigFilter;
 
 class CatExtension extends AbstractExtension
@@ -19,7 +20,15 @@ class CatExtension extends AbstractExtension
      */
     public function getFilters(): array
     {
-        return [new TwigFilter('cat', [$this, 'cat'], ['deprecated' => true, 'alternative' => '~'])];
+        return [
+            new TwigFilter(
+                'cat',
+                [$this, 'cat'],
+                [
+                    'deprecation_info' => new DeprecatedCallableInfo('oxid-esales/twig-component', '3.0.0', '~')
+                ]
+            )
+        ];
     }
 
     /**

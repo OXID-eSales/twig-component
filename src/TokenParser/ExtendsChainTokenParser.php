@@ -32,7 +32,7 @@ class ExtendsChainTokenParser extends AbstractTokenParser
         $this->token = $token;
         $this->validateTagUsage();
         $stream = $this->parser->getStream();
-        $expression = $this->parser->getExpressionParser()->parseExpression();
+        $expression = $this->parser->parseExpression();
 
         if (
             $expression instanceof ConstantExpression
@@ -85,13 +85,6 @@ class ExtendsChainTokenParser extends AbstractTokenParser
         if (!$this->parser->isMainScope()) {
             throw new SyntaxError(
                 'Cannot use "extend" in a macro.',
-                $this->token->getLine(),
-                $stream->getSourceContext()
-            );
-        }
-        if ($this->parser->getParent() !== null) {
-            throw new SyntaxError(
-                'Multiple extends tags are forbidden.',
                 $this->token->getLine(),
                 $stream->getSourceContext()
             );

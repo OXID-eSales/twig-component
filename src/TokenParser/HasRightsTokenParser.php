@@ -65,7 +65,7 @@ class HasRightsTokenParser extends AbstractTokenParser
     private function getVariables(): Node
     {
         $stream = $this->parser->getStream();
-        $variables = $this->parser->getExpressionParser()->parseExpression();
+        $variables = $this->parser->parseExpression();
         $stream->expect(Token::BLOCK_END_TYPE);
 
         return $variables;

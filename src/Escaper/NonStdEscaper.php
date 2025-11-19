@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Escaper;
 
-use Twig\Environment;
-
 /**
  * Escape non-standard chars, such as ms document quotes
  */
@@ -26,14 +24,8 @@ class NonStdEscaper implements EscaperInterface
 
     /**
      * Escape non-standard chars, such as ms document quotes
-     *
-     * @param Environment $environment
-     * @param string      $string
-     * @param string      $charset
-     *
-     * @return string
      */
-    public function escape(Environment $environment, $string, $charset): string
+    public function escape(string $string, string $charset): string
     {
         $return = '';
 

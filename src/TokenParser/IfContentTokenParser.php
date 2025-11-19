@@ -11,7 +11,7 @@ namespace OxidEsales\Twig\TokenParser;
 
 use OxidEsales\Twig\Node\IfContentNode;
 use Twig\Error\SyntaxError;
-use Twig\Node\Expression\AssignNameExpression;
+use Twig\Node\Expression\Variable\AssignContextVariable;
 use Twig\Node\Node;
 use Twig\TokenParser\AbstractTokenParser;
 use Twig\Token;
@@ -33,11 +33,11 @@ class IfContentTokenParser extends AbstractTokenParser
         $reference = [];
 
         if ($stream->nextIf(Token::NAME_TYPE, 'ident')) {
-            $reference['ident'] = $this->parser->getExpressionParser()->parseExpression();
+            $reference['ident'] = $this->parser->parseExpression();
         }
 
         if ($stream->nextIf(Token::NAME_TYPE, 'oxid')) {
-            $reference['oxid'] = $this->parser->getExpressionParser()->parseExpression();
+            $reference['oxid'] = $this->parser->parseExpression();
         }
 
         if (empty($reference)) {
@@ -46,9 +46,9 @@ class IfContentTokenParser extends AbstractTokenParser
 
         if ($stream->nextIf(Token::NAME_TYPE, 'set')) {
             /** @var Node $variable */
-            $variable = $this->parser->getExpressionParser()->parseAssignmentExpression();
+            $variable = $this->parseAssignmentExpression();
         } else {
-            $variable = new AssignNameExpression('oCont', $lineno);
+            $variable = new AssignContextVariable('oCont', $lineno);
         }
 
         $stream->expect(Token::BLOCK_END_TYPE);

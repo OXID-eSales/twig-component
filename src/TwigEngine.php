@@ -14,7 +14,7 @@ use OxidEsales\Twig\Escaper\EscaperInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
-use Twig\Extension\EscaperExtension;
+use Twig\Runtime\EscaperRuntime;
 
 class TwigEngine implements TemplateEngineInterface
 {
@@ -75,7 +75,7 @@ class TwigEngine implements TemplateEngineInterface
     public function addEscaper(EscaperInterface $escaper)
     {
         $this->engine
-            ->getExtension(EscaperExtension::class)
+            ->getRuntime(EscaperRuntime::class)
             ->setEscaper($escaper->getStrategy(), [$escaper, 'escape']);
     }
 }
