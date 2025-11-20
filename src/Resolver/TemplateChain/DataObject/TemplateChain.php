@@ -114,12 +114,22 @@ class TemplateChain implements IteratorAggregate
 
     private function findIndexByFullyQualifiedName(string $fullyQualifiedName): ?int
     {
-        return array_find_key($this->chain, static fn($item) => $item->getFullyQualifiedName() === $fullyQualifiedName);
+        foreach ($this->chain as $key => $templateType) {
+            if ($templateType->getFullyQualifiedName() === $fullyQualifiedName) {
+                return $key;
+            }
+        }
+        return null;
     }
 
     private function findIndexByModuleId(string $moduleId): ?int
     {
-        return array_find_key($this->chain, static fn($item) => $item->getNamespace() === $moduleId);
+        foreach ($this->chain as $key => $templateType) {
+            if ($templateType->getNamespace() === $moduleId) {
+                return $key;
+            }
+        }
+        return null;
     }
 
     private function findByModuleIdInternal(string $moduleId): ?TemplateTypeInterface
