@@ -26,6 +26,7 @@ final class ModulesTemplateChainTest extends TestCase
         'module2',
         'module3',
         'module4',
+        'module5',
     ];
     private const THEME = 'testTheme';
     private const THEME_2 = 'testTheme2';
@@ -155,6 +156,19 @@ final class ModulesTemplateChainTest extends TestCase
         $this->assertStringContainsString('<module-1-extending-shop-test-theme>', $actual);
         $this->assertStringContainsString('<module-2-extending-shop-test-theme>', $actual);
         $this->assertStringContainsString('<module-3-extending-shop-test-theme>', $actual);
+    }
+
+    public function testRenderWithModuleExtensionOnModuleView(): void
+    {
+        $this->setupModuleFixture('module1');
+        $this->setupModuleFixture('module4');
+        $this->setupModuleFixture('module5');
+
+        $actual = $this->get(TemplateEngineInterface::class)->render('@module1/' . self::TEMPLATE_WITH_EXTENDS);
+
+        $this->assertStringContainsString('<module1-content>', $actual);
+        $this->assertStringContainsString('<module-4-extended-content>', $actual);
+        $this->assertStringContainsString('<module-5-extended-content>', $actual);
     }
 
     public function testRenderWith3ModulesAndDeactivation(): void

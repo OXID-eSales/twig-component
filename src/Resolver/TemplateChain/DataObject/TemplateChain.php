@@ -14,8 +14,7 @@ use IteratorAggregate;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
 use Traversable;
 
-use function array_keys;
-use function array_search;
+use function array_splice;
 use function count;
 use function end;
 
@@ -28,12 +27,27 @@ class TemplateChain implements IteratorAggregate
 
     public function append(TemplateTypeInterface $templateType): void
     {
-        $this->chain[$templateType->getFullyQualifiedName()] = $templateType;
+        $parentNamespace = $templateType->getParentNamespace();
+
+        if ($parentNamespace && $this->hasModuleId($parentNamespace)) {
+            $parent = $this->getByModuleId($parentNamespace);
+            $insertPosition = $this->findChildInsertPosition($parent);
+            array_splice($this->chain, $insertPosition, 0, [$templateType]);
+        } else {
+            $this->chain[] = $templateType;
+        }
     }
 
     public function remove(TemplateTypeInterface $templateType): void
     {
-        unset($this->chain[$templateType->getFullyQualifiedName()]);
+        $fullyQualifiedName = $templateType->getFullyQualifiedName();
+
+        foreach ($this->chain as $index => $item) {
+            if ($item->getFullyQualifiedName() === $fullyQualifiedName) {
+                array_splice($this->chain, $index, 1);
+                break;
+            }
+        }
     }
 
     public function appendChain(TemplateChain $chain): void
@@ -50,28 +64,41 @@ class TemplateChain implements IteratorAggregate
                 return true;
             }
         }
+
         return false;
     }
 
     public function getByModuleId(string $moduleId): TemplateTypeInterface
     {
-        foreach ($this->chain as $fullyQualifiedName => $templateType) {
+        foreach ($this->chain as $templateType) {
             if ($templateType->getNamespace() === $moduleId) {
-                return $this->chain[$fullyQualifiedName];
+                return $templateType;
             }
         }
     }
 
     public function has(TemplateTypeInterface $templateType): bool
     {
-        return isset($this->chain[$templateType->getFullyQualifiedName()]);
+        $fullyQualifiedName = $templateType->getFullyQualifiedName();
+
+        foreach ($this->chain as $item) {
+            if ($item->getFullyQualifiedName() === $fullyQualifiedName) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function getParent(TemplateTypeInterface $templateType): TemplateTypeInterface
     {
-        $keys = array_keys($this->chain);
-        $position = array_search($templateType->getFullyQualifiedName(), $keys, true);
-        return $this->chain[$keys[++$position]];
+        $fullyQualifiedName = $templateType->getFullyQualifiedName();
+
+        foreach ($this->chain as $index => $item) {
+            if ($item->getFullyQualifiedName() === $fullyQualifiedName) {
+                return $this->chain[$index + 1];
+            }
+        }
     }
 
     public function getLastChild(): TemplateTypeInterface
@@ -82,7 +109,10 @@ class TemplateChain implements IteratorAggregate
 
     public function hasParent(TemplateTypeInterface $templateType): bool
     {
-        return $templateType->getFullyQualifiedName() !== end($this->chain)->getFullyQualifiedName();
+        $lastItem = end($this->chain);
+        reset($this->chain);
+
+        return $templateType->getFullyQualifiedName() !== $lastItem->getFullyQualifiedName();
     }
 
     public function count(): int
@@ -93,5 +123,18 @@ class TemplateChain implements IteratorAggregate
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->chain);
+    }
+
+    private function findChildInsertPosition(TemplateTypeInterface $parent): int
+    {
+        $parentFullyQualifiedName = $parent->getFullyQualifiedName();
+
+        foreach ($this->chain as $index => $entry) {
+            if ($entry->getFullyQualifiedName() === $parentFullyQualifiedName) {
+                return $index;
+            }
+        }
+
+        return 0;
     }
 }
