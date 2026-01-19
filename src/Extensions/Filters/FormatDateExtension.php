@@ -38,7 +38,7 @@ class FormatDateExtension extends AbstractExtension
      *
      * @return string
      */
-    public function formatDate($convObject, string $fieldType = null, bool $passedValue = false): ?string
+    public function formatDate($convObject, ?string $fieldType = null, bool $passedValue = false): ?string
     {
         return $this->formatDateLogic->formdate($convObject, $fieldType, $passedValue);
     }

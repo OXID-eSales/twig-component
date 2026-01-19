@@ -33,7 +33,7 @@ class TruncateExtension extends AbstractExtension
     }
 
     public function truncate(
-        string $string = null,
+        ?string $string = null,
         int $length = 80,
         string $suffix = '...',
         bool $breakWords = false,

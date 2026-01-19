@@ -36,7 +36,7 @@ class TranslateSalutationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function translateSalutation(string $ident = null): string
+    public function translateSalutation(?string $ident = null): string
     {
         if (isset($ident) && is_string($ident)) {
             return $this->translateSalutationLogic->translateSalutation($ident);

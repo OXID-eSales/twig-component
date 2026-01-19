@@ -29,7 +29,7 @@ class InsertTrackerExtension extends AbstractExtension
      *
      * @return string
      */
-    public function insertTracker(Environment $env = null, $params = []): string
+    public function insertTracker(?Environment $env = null, $params = []): string
     {
         return '';
     }

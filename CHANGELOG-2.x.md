@@ -4,12 +4,16 @@
 
 ### Added
 - Template Filter to sanitize HTML content
+- PHP v8.5 support
 
 ### Changed
 - Extension include_content uses HTML sanitizer
 
 ### Fixed
 - Rendering template extensions for module templates
+
+### Removed
+- PHP v8.2 support
 
 ## v2.7.0 - 2025-10-13
 
