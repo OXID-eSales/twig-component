@@ -41,29 +41,29 @@ final class ScriptExtensionTest extends AbstractExtensionTestCase
             [
                 "{{ script({ add: 'alert();' }) }}" .
                 '{{ script() }}',
-                "<script type='text/javascript'>alert();</script>"
+                "<script>alert();</script>"
             ],
             // Two scripts
             [
                 "{{ script({ add: 'alert(\"one\");' }) }}" .
                 "{{ script({ add: 'alert(\"two\");' }) }}" .
                 '{{ script() }}',
-                "<script type='text/javascript'>alert(\"one\");\n" .
+                "<script>alert(\"one\");\n" .
                 'alert("two");</script>'
             ],
             // Include
             [
                 "{{ script({ include: 'http://someurl/src/js/libs/jquery.min.js' }) }}" .
                 '{{ script() }}',
-                '<script type="text/javascript" src="http://someurl/src/js/libs/jquery.min.js"></script>'
+                '<script src="http://someurl/src/js/libs/jquery.min.js"></script>'
             ],
             // Two includes
             [
                 "{{ script({ include: 'http://someurl/src/js/libs/jquery.min.js' }) }}" .
                 "{{ script({ include: 'http://another/src/js/libs/jquery.min.js' }) }}" .
                 '{{ script() }}',
-                "<script type=\"text/javascript\" src=\"http://someurl/src/js/libs/jquery.min.js\"></script>\n" .
-                '<script type="text/javascript" src="http://another/src/js/libs/jquery.min.js"></script>'
+                "<script src=\"http://someurl/src/js/libs/jquery.min.js\"></script>\n" .
+                '<script src="http://another/src/js/libs/jquery.min.js"></script>'
             ],
             // Two scripts, two includes
             [
@@ -72,9 +72,9 @@ final class ScriptExtensionTest extends AbstractExtensionTestCase
                 "{{ script({ add: 'alert(\"two\");' }) }}" .
                 "{{ script({ include: 'http://another/src/js/libs/jquery.min.js' }) }}" .
                 '{{ script() }}',
-                "<script type=\"text/javascript\" src=\"http://someurl/src/js/libs/jquery.min.js\"></script>\n" .
-                '<script type="text/javascript" src="http://another/src/js/libs/jquery.min.js"></script>' .
-                "<script type='text/javascript'>alert(\"one\");\n" .
+                "<script src=\"http://someurl/src/js/libs/jquery.min.js\"></script>\n" .
+                '<script src="http://another/src/js/libs/jquery.min.js"></script>' .
+                "<script>alert(\"one\");\n" .
                 'alert("two");</script>'
             ],
             // Include widget
@@ -82,7 +82,7 @@ final class ScriptExtensionTest extends AbstractExtensionTestCase
                 "{{ script({ include: 'http://someurl/src/js/libs/jquery.min.js' }) }}" .
                 "{{ script({ widget: 'somewidget', inWidget: true }) }}",
                 <<<HTML
-<script type='text/javascript'>
+<script>
     window.addEventListener('load', function() {
         WidgetsHandler.registerFile('http://someurl/src/js/libs/jquery.min.js', 'somewidget');
     }, false)
@@ -93,7 +93,7 @@ HTML
             [
                 "{{ script({ add: 'alert();' }) }}" .
                 "{{ script({ widget: 'somewidget', inWidget: true }) }}",
-                "<script type='text/javascript'>window.addEventListener('load', function() { WidgetsHandler.registerFunction('alert();', 'somewidget'); }, false )</script>"
+                "<script>window.addEventListener('load', function() { WidgetsHandler.registerFunction('alert();', 'somewidget'); }, false )</script>"
             ]
         ];
     }
