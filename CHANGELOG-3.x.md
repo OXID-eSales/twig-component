@@ -1,6 +1,7 @@
 # Change Log for OXID Twig engine component
 
-## v3.0.0-alpha.2 - Unreleased
+## v8.0.0-alpha.2 - 2026-02-12
+*Compilation release*
 
 ### Removed
 - Deprecated Twig APIs
