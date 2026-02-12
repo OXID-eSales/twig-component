@@ -1,5 +1,8 @@
 # Change Log for OXID Twig engine component
 
+## v8.0.0-alpha.3 - Unreleased
+*Compilation release*
+
 ## v8.0.0-alpha.2 - 2026-02-12
 *Compilation release*
 
