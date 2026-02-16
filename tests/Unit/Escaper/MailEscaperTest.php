@@ -25,7 +25,7 @@ final class MailEscaperTest extends TestCase
     {
         parent::setUp();
         $this->escaper = new MailEscaper();
-        $this->environment = $this->createMock(Environment::class);
+        $this->environment = $this->createStub(Environment::class);
     }
 
     public static function escapeProvider(): array

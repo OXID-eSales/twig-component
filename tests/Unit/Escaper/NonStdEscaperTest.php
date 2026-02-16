@@ -24,7 +24,7 @@ final class NonStdEscaperTest extends TestCase
     {
         parent::setUp();
         $this->escaper = new NonStdEscaper();
-        $this->environment = $this->createMock(Environment::class);
+        $this->environment = $this->createStub(Environment::class);
     }
 
     public function testEscape(): void

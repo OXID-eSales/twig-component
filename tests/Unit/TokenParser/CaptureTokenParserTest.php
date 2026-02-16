@@ -29,7 +29,7 @@ final class CaptureTokenParserTest extends TestCase
     {
         parent::setUp();
 
-        $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
+        $loader = $this->createStub(LoaderInterface::class);
         $this->environment = new Environment($loader, ['cache' => false]);
 
         $this->captureTokenParser = new CaptureTokenParser();
@@ -94,7 +94,9 @@ final class CaptureTokenParserTest extends TestCase
         $stream = $this->environment->tokenize(new Source($source, 'index'));
 
         $this->expectException(SyntaxError::class);
-        $this->expectExceptionMessage("Incorrect attribute name. Possible attribute names are: 'name', 'assign' and 'append'");
+        $this->expectExceptionMessage(
+            "Incorrect attribute name. Possible attribute names are: 'name', 'assign' and 'append'"
+        );
         $this->parser->parse($stream);
     }
 }

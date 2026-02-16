@@ -12,7 +12,6 @@ namespace OxidEsales\Twig\Tests\Integration;
 use org\bovigo\vfs\vfsStream;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use OxidEsales\Twig\TwigEngine;
-use OxidEsales\Twig\TwigEngineConfigurationInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -87,15 +86,6 @@ final class TwigEngineTest extends TestCase
 
     private function getEngine(): TwigEngine
     {
-        /** @var TwigEngineConfigurationInterface $configuration */
-        $configuration = $this->getMockBuilder(TwigEngineConfigurationInterface::class)->getMock();
-        $configuration->method('getParameters')
-            ->willReturn([
-                'template_dir' => [$this->templateDirPath],
-                'is_debug' => 'false',
-                'cache_dir' => 'foo',
-            ]);
-
         $loader = new FilesystemLoader($this->templateDirPath);
 
         $engine = new Environment($loader);

@@ -24,7 +24,7 @@ final class HexEntityEscaperTest extends TestCase
     {
         parent::setUp();
         $this->escaper = new HexEntityEscaper();
-        $this->environment = $this->createMock(Environment::class);
+        $this->environment = $this->createStub(Environment::class);
     }
 
     public function testEscape(): void

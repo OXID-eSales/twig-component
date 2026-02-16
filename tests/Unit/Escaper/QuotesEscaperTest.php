@@ -24,7 +24,7 @@ final class QuotesEscaperTest extends TestCase
     {
         parent::setUp();
         $this->escaper = new QuotesEscaper();
-        $this->environment = $this->createMock(Environment::class);
+        $this->environment = $this->createStub(Environment::class);
     }
 
     public function testEscape(): void

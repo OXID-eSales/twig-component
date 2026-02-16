@@ -24,7 +24,7 @@ final class DecEntityEscaperTest extends TestCase
     {
         parent::setUp();
         $this->escaper = new DecEntityEscaper();
-        $this->environment = $this->createMock(Environment::class);
+        $this->environment = $this->createStub(Environment::class);
     }
 
     public function testEscape(): void

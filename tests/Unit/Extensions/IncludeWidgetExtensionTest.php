@@ -28,7 +28,7 @@ final class IncludeWidgetExtensionTest extends TestCase
 
     public function testIncludeWidget(): void
     {
-        $widgetControl = $this->createMock(WidgetControl::class);
+        $widgetControl = $this->createStub(WidgetControl::class);
         $widgetControl->method('start')->willReturn('html');
         Registry::set(WidgetControl::class, $widgetControl);
 

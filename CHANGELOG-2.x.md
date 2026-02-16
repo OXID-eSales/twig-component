@@ -6,6 +6,7 @@
 - Template Filter to sanitize HTML content
 - PHP v8.5 support
 - Cache template chains to improve rendering performance
+- PHPUnit v12.5 support
 
 ### Changed
 - Extension include_content uses HTML sanitizer
@@ -15,6 +16,7 @@
 
 ### Removed
 - PHP v8.2 support
+- PHPUnit v11 support
 
 ## v2.7.0 - 2025-10-13
 

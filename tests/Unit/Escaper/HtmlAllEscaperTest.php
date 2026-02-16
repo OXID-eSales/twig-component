@@ -25,7 +25,7 @@ final class HtmlAllEscaperTest extends TestCase
     {
         parent::setUp();
         $this->escaper = new HtmlAllEscaper();
-        $this->environment = $this->createMock(Environment::class);
+        $this->environment = $this->createStub(Environment::class);
     }
 
     public static function escapeProvider(): array

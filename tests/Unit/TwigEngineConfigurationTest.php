@@ -19,18 +19,18 @@ final class TwigEngineConfigurationTest extends TestCase
 {
     public function testGetParameters(): void
     {
-        $context = $this->createConfiguredMock(
+        $context = $this->createConfiguredStub(
             ContextInterface::class,
             [
                 'getTemplateCacheDirectory' => 'dummy_cache_dir',
                 'getCurrentShopId' => 1
             ]
         );
-        $twigContext = $this->createConfiguredMock(
+        $twigContext = $this->createConfiguredStub(
             TwigContextInterface::class,
             ['getIsDebug' => true]
         );
-        $twigTemplateCacheService = $this->createConfiguredMock(
+        $twigTemplateCacheService = $this->createConfiguredStub(
             ShopTemplateCacheServiceInterface::class,
             ['getCacheDirectory' => 'dummy_cache_dir']
         );
