@@ -407,17 +407,13 @@ class TemplateChainTest extends TestCase
         string $fullyQualifiedName,
         string $parentNamespace = ''
     ): TemplateTypeInterface {
-        $mock = $this->createMock(TemplateTypeInterface::class);
-
-        $mock->method('getNamespace')
-            ->willReturn($namespace);
-
-        $mock->method('getFullyQualifiedName')
-            ->willReturn($fullyQualifiedName);
-
-        $mock->method('getParentNamespace')
-            ->willReturn($parentNamespace);
-
-        return $mock;
+        return $this->createConfiguredStub(
+            TemplateTypeInterface::class,
+            [
+                'getNamespace' => $namespace,
+                'getFullyQualifiedName' => $fullyQualifiedName,
+                'getParentNamespace' => $parentNamespace,
+            ]
+        );
     }
 }
