@@ -18,6 +18,39 @@ use PHPUnit\Framework\TestCase;
 
 final class TemplateChainResolverTest extends TestCase
 {
+    public function testGetParentWithMultipleCallsWillUseCachedResult(): void
+    {
+        $templateName = 'widget/header.html.twig';
+
+        $templateTypeMock = $this->createMock(TemplateTypeInterface::class);
+        $parentMock = $this->createConfiguredMock(TemplateTypeInterface::class, [
+            'getFullyQualifiedName' => '@my_module/widget/header.html.twig'
+        ]);
+        $templateChainMock = $this->createConfiguredMock(TemplateChain::class, [
+            'getParent' => $parentMock
+        ]);
+
+        $templateTypeFactoryMock = $this->createMock(TemplateTypeFactoryInterface::class);
+        $templateTypeFactoryMock
+            ->expects($this->once())
+            ->method('createFromTemplateName')
+            ->with($templateName)
+            ->willReturn($templateTypeMock);
+
+        $templateChainBuilderMock = $this->createMock(TemplateChainBuilderInterface::class);
+        $templateChainBuilderMock
+            ->expects($this->once())
+            ->method('getChain')
+            ->with($templateTypeMock)
+            ->willReturn($templateChainMock);
+
+        $templateChainResolver = new TemplateChainResolver($templateChainBuilderMock, $templateTypeFactoryMock);
+
+        $templateChainResolver->getParent($templateName);
+        $templateChainResolver->getParent($templateName);
+        $templateChainResolver->getParent($templateName);
+    }
+
     public function testGetLastChildWithMultipleCallsWillUseCachedResult(): void
     {
         $templateName = 'widget/header.html.twig';

@@ -5,6 +5,7 @@
 ### Added
 - Template Filter to sanitize HTML content
 - PHP v8.5 support
+- Cache template chains to improve rendering performance
 
 ### Changed
 - Extension include_content uses HTML sanitizer
