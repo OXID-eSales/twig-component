@@ -9,9 +9,8 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Resolver\TemplateChain;
 
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Dao\ShopConfigurationDaoInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Dao\Chain\TemplateExtensionChainDaoInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ModuleTemplateExtensionChain;
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ShopConfiguration;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\InvalidSortingConfigurationException;
@@ -162,17 +161,49 @@ final class TemplateChainSorterTest extends TestCase
         $this->logger->error(Argument::type('string'))->shouldHaveBeenCalled();
     }
 
+    public function testSortWithMultipleCallsWillUseCachedShopConfiguration(): void
+    {
+        $shopId = 1;
+        $templateModule1 = new ModuleTemplateType('template1', 'module1');
+        $chain = new TemplateChain();
+        $chain->append($templateModule1);
+
+        $moduleTemplateExtensionsChain = new ModuleTemplateExtensionChain([]);
+
+        $templateExtensionChainDao = $this->prophesize(TemplateExtensionChainDaoInterface::class);
+        $templateExtensionChainDao->getChain($shopId)->willReturn($moduleTemplateExtensionsChain)->shouldBeCalledOnce();
+
+        $context = $this->prophesize(ContextInterface::class);
+        $context->getCurrentShopId()->willReturn($shopId);
+
+        $this->sortingConfigurationValidator = $this->prophesize(SortingConfigurationValidatorInterface::class);
+        $this->logger = $this->prophesize(LoggerInterface::class);
+
+        $this->chainSorter = new TemplateChainSorter(
+            $this->sortingConfigurationValidator->reveal(),
+            $templateExtensionChainDao->reveal(),
+            $context->reveal(),
+            $this->logger->reveal(),
+        );
+
+        $chain1 = new TemplateChain();
+        $chain1->append($templateModule1);
+        $this->chainSorter->sort($chain1, $templateModule1);
+
+        $chain2 = new TemplateChain();
+        $chain2->append($templateModule1);
+        $this->chainSorter->sort($chain2, $templateModule1);
+    }
+
     private function prepareChainSortersConfiguration(string $templateName, array $loadOrder): void
     {
         $shopId = 1;
         $moduleTemplateExtensionsChain = new ModuleTemplateExtensionChain([$templateName => $loadOrder]);
 
-        $shopConfiguration = $this->prophesize(ShopConfiguration::class);
-        $shopConfigurationDao = $this->prophesize(ShopConfigurationDaoInterface::class);
+        $templateExtensionChainDao = $this->prophesize(TemplateExtensionChainDaoInterface::class);
         $context = $this->prophesize(ContextInterface::class);
 
-        $shopConfiguration->getModuleTemplateExtensionChain()->willReturn($moduleTemplateExtensionsChain);
-        $shopConfigurationDao->get($shopId)->willReturn($shopConfiguration);
+        $templateExtensionChainDao->getChain($shopId)->willReturn($moduleTemplateExtensionsChain);
         $context->getCurrentShopId()->willReturn($shopId);
 
         $this->logger = $this->prophesize(LoggerInterface::class);
@@ -181,7 +212,7 @@ final class TemplateChainSorterTest extends TestCase
 
         $this->chainSorter = new TemplateChainSorter(
             $this->sortingConfigurationValidator->reveal(),
-            $shopConfigurationDao->reveal(),
+            $templateExtensionChainDao->reveal(),
             $context->reveal(),
             $this->logger->reveal(),
         );

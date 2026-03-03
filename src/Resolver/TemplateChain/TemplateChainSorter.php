@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Dao\ShopConfigurationDaoInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Dao\Chain\TemplateExtensionChainDaoInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ModuleTemplateExtensionChain;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
@@ -18,9 +18,11 @@ use Psr\Log\LoggerInterface;
 
 class TemplateChainSorter implements TemplateChainSorterInterface
 {
+    private array $templateExtensionChainCache = [];
+
     public function __construct(
         private SortingConfigurationValidatorInterface $sortingConfigurationValidator,
-        private ShopConfigurationDaoInterface $shopConfigurationDao,
+        private TemplateExtensionChainDaoInterface $templateExtensionChainDao,
         private ContextInterface $context,
         private LoggerInterface $logger,
     ) {
@@ -28,11 +30,13 @@ class TemplateChainSorter implements TemplateChainSorterInterface
 
     public function sort(TemplateChain $unsortedChain, TemplateTypeInterface $extendedTemplate): TemplateChain
     {
-        $sortingConfiguration = $this->shopConfigurationDao
-            ->get($this->context->getCurrentShopId())
-            ->getModuleTemplateExtensionChain();
+        $shopId = $this->context->getCurrentShopId();
 
-        return $this->getSortedChain($unsortedChain, $sortingConfiguration, $extendedTemplate);
+        if (!isset($this->templateExtensionChainCache[$shopId])) {
+            $this->templateExtensionChainCache[$shopId] = $this->templateExtensionChainDao->getChain($shopId);
+        }
+
+        return $this->getSortedChain($unsortedChain, $this->templateExtensionChainCache[$shopId], $extendedTemplate);
     }
 
     private function getSortedChain(
