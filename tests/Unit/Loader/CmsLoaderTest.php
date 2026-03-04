@@ -13,32 +13,28 @@ use OxidEsales\EshopCommunity\Application\Model\Content;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory;
 use OxidEsales\Twig\Loader\CmsLoader;
 use OxidEsales\Twig\Loader\CmsTemplateNameParser;
-use PHPUnit\Framework\MockObject\MockBuilder;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Twig\Error\LoaderError;
 
 final class CmsLoaderTest extends TestCase
 {
     private CmsLoader $contentTemplateLoader;
-    private MockBuilder $contentMockBuilder;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->contentMockBuilder = $this->getMockBuilder(Content::class)->onlyMethods(['getLanguage']);
 
-        $validContentMock = $this->prepareContentMock(
+        $validContent = $this->prepareContentStub(
             0,
             ['oxactive' => true, 'oxcontent' => "Template code (DE)", 'oxtimestamp' => '2018-10-09 09:32:06']
         );
 
-        $englishContentMock = $this->prepareContentMock(
+        $englishContent = $this->prepareContentStub(
             1,
             ['oxactive' => true, 'oxcontent' => "Template code (EN)", 'oxtimestamp' => '2018-10-09 09:32:06']
         );
 
-        $fieldContentMock = $this->prepareContentMock(
+        $fieldContent = $this->prepareContentStub(
             0,
             [
                 'oxactive' => true,
@@ -47,32 +43,29 @@ final class CmsLoaderTest extends TestCase
             ]
         );
 
-        $notFreshContentMock = $this->prepareContentMock(
+        $notFreshContent = $this->prepareContentStub(
             0,
             ['oxactive' => true, 'oxtimestamp' => '2018-10-09 09:40:25']
         );
 
-        $notValidContentMock = $this->prepareContentMock(0, ['oxactive' => false]);
+        $notValidContent = $this->prepareContentStub(0, ['oxactive' => false]);
 
-        $contentFactoryMock = $this
-            ->getMockBuilder(ContentFactory::class)
-            ->onlyMethods(['getContent'])
-            ->getMock();
+        $contentFactoryStub = $this->createStub(ContentFactory::class);
 
-        $contentFactoryMock
+        $contentFactoryStub
             ->method('getContent')
             ->willReturnMap(
                 [
-                    ['ident', 'valid', $validContentMock],
-                    ['oxid', 'english', $englishContentMock],
-                    ['ident', 'field', $fieldContentMock],
-                    ['oxid', 'notFresh', $notFreshContentMock],
-                    ['ident', 'notValid', $notValidContentMock]
+                    ['ident', 'valid', $validContent],
+                    ['oxid', 'english', $englishContent],
+                    ['ident', 'field', $fieldContent],
+                    ['oxid', 'notFresh', $notFreshContent],
+                    ['ident', 'notValid', $notValidContent]
                 ]
             );
 
-        /** @var ContentFactory $contentFactoryMock */
-        $this->contentTemplateLoader = new CmsLoader(new CmsTemplateNameParser(), $contentFactoryMock);
+        /** @var ContentFactory $contentFactoryStub */
+        $this->contentTemplateLoader = new CmsLoader(new CmsTemplateNameParser(), $contentFactoryStub);
     }
 
     /**
@@ -143,16 +136,22 @@ final class CmsLoaderTest extends TestCase
         );
     }
 
-    private function prepareContentMock(int $language, array $fields): MockObject
+    private function prepareContentStub(int $language, array $fields): Content
     {
-        $mock = $this->contentMockBuilder->getMock();
-        $mock->method('getLanguage')->willReturn($language);
+        $contentStub = $this->createStub(Content::class);
+        $contentStub->method('getLanguage')->willReturn($language);
 
+        $fieldValues = [];
         foreach ($fields as $field => $value) {
             $fieldName = 'oxcontents__' . $field;
-            $mock->$fieldName = (object) ['value' => $value];
+            $fieldValues[$fieldName] = (object) ['value' => $value];
         }
 
-        return $mock;
+        $contentStub->method('__get')
+            ->willReturnCallback(
+                static fn(string $fieldName): ?object => $fieldValues[$fieldName] ?? null
+            );
+
+        return $contentStub;
     }
 }

@@ -54,7 +54,7 @@ final class HasRightsTokenParserTest extends TestCase
 
     public function testParse(): void
     {
-        $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
+        $loader = $this->createStub(LoaderInterface::class);
         $env = new Environment($loader, array('cache' => false, 'autoescape' => false));
         $env->addExtension(new HasRightsExtension(new HasRightsTokenParser(HasRightsNode::class)));
 
@@ -75,14 +75,18 @@ final class HasRightsTokenParserTest extends TestCase
 
     public function testParseException(): void
     {
-        $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
+        $loader = $this->createStub(LoaderInterface::class);
         $env = new Environment($loader, ['cache' => false, 'autoescape' => false]);
         $env->addExtension(new HasRightsExtension(new HasRightsTokenParser(HasRightsNode::class)));
 
         $this->expectException(SyntaxError::class);
-        $this->expectExceptionMessage('Unexpected "foo" tag (expecting closing tag for the "hasrights" tag defined near line 1) in "index" at line 1.');
+        $this->expectExceptionMessage(
+            'Unexpected "foo" tag (expecting closing tag for the "hasrights" tag defined near line 1)'
+            . ' in "index" at line 1.'
+        );
 
-        $env->parse($env->tokenize(new Source('{% hasrights {\'id\' : \'1\'} %}{% foo %}', 'index')));
+        $source = new Source('{% hasrights {\'id\' : \'1\'} %}{% foo %}', 'index');
+        $env->parse($env->tokenize($source));
     }
 
     private function getEnv(): Environment

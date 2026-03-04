@@ -16,8 +16,6 @@ use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentF
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Extensions\IncludeContentExtension;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockBuilder;
-use PHPUnit\Framework\MockObject\MockObject;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Extension\StringLoaderExtension;
@@ -28,25 +26,16 @@ final class IncludeContentExtensionTest extends AbstractExtensionTestCase
 {
     use ContainerTrait;
 
-    private MockBuilder $contentMockBuilder;
-    private MockObject&ContentFactory $contentFactoryMock;
+    private ContentFactory $contentFactoryStub;
     private string $spamContent = 'not spam<script>alert("spam")</script>';
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->contentMockBuilder = $this
-            ->getMockBuilder(Content::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getLanguage']);
+        $this->contentFactoryStub = $this->createStub(ContentFactory::class);
 
-        $this->contentFactoryMock = $this
-            ->getMockBuilder(ContentFactory::class)
-            ->onlyMethods(['getContent'])
-            ->getMock();
-
-        $this->contentFactoryMock
+        $this->contentFactoryStub
             ->method('getContent')
             ->willReturnMap($this->getContentMap());
     }
@@ -112,49 +101,49 @@ final class IncludeContentExtensionTest extends AbstractExtensionTestCase
         $this->setParameter('oxid_esales.html_sanitizer_enabled', $sanitizerEnabled);
 
         $this->extension = new IncludeContentExtension(
-            $this->contentFactoryMock,
+            $this->contentFactoryStub,
             ContainerFacade::get(HtmlSanitizerInterface::class)
         );
     }
 
-    private function prepareContentMock(int $language, array $fields): MockObject
+    private function prepareContent(int $language, array $fields): Content
     {
-        $mock = $this->contentMockBuilder->getMock();
-        $mock->method('getLanguage')->willReturn($language);
+        $content = new Content();
+        $content->setLanguage($language);
 
         foreach ($fields as $field => $value) {
             $property = 'oxcontents__' . $field;
-            $mock->$property = (object)['value' => $value];
+            $content->$property = (object)['value' => $value];
         }
 
-        return $mock;
+        return $content;
     }
 
-    /** Build the content return map for the mock factory */
+    /** Build the content return map for the stub factory */
     private function getContentMap(): array
     {
         return [
-            ['ident', 'german', $this->prepareContentMock(0, [
+            ['ident', 'german', $this->prepareContent(0, [
                 'oxactive' => true,
                 'oxcontent' => 'Template code (DE)',
             ])],
-            ['ident', 'english', $this->prepareContentMock(1, [
+            ['ident', 'english', $this->prepareContent(1, [
                 'oxactive' => true,
                 'oxcontent' => 'Template code (EN)',
             ])],
-            ['ident', 'twig_code', $this->prepareContentMock(0, [
+            ['ident', 'twig_code', $this->prepareContent(0, [
                 'oxactive' => true,
                 'oxcontent' => 'In my_var I have {{ my_var }} value',
             ])],
-            ['ident', 'dynamic_content', $this->prepareContentMock(0, [
+            ['ident', 'dynamic_content', $this->prepareContent(0, [
                 'oxactive' => true,
                 'oxcontent' => 'Dynamic content',
             ])],
-            ['ident', 'not_active', $this->prepareContentMock(0, [
+            ['ident', 'not_active', $this->prepareContent(0, [
                 'oxactive' => false,
                 'oxcontent' => 'Not active content',
             ])],
-            ['ident', 'spam', $this->prepareContentMock(0, [
+            ['ident', 'spam', $this->prepareContent(0, [
                 'oxactive' => true,
                 'oxcontent' => $this->spamContent,
             ])],

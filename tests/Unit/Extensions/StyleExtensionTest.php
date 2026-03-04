@@ -37,7 +37,7 @@ final class StyleExtensionTest extends TestCase
 
     private function getTwigEnvironment($isDynamic): Environment
     {
-        $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
+        $loader = $this->createStub(LoaderInterface::class);
         $env = new Environment($loader, []);
         $env->addGlobal('__oxid_include_dynamic', $isDynamic);
         return $env;

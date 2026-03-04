@@ -23,7 +23,7 @@ install:
           "mikey179/vfsstream": "~1.6.8",
           "oxid-esales/developer-tools": "{{ .Data.install.composer.dev_ref }}",
           "phpspec/prophecy-phpunit": "^v2.0.1",
-          "phpunit/phpunit": "^11.4"
+          "phpunit/phpunit": "^12.5"
         },
         "autoload-dev":{
           "psr-4":{

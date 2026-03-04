@@ -22,12 +22,12 @@ final class TemplateChainResolverTest extends TestCase
     {
         $templateName = 'widget/header.html.twig';
 
-        $templateTypeMock = $this->createMock(TemplateTypeInterface::class);
-        $parentMock = $this->createConfiguredMock(TemplateTypeInterface::class, [
+        $templateTypeStub = $this->createStub(TemplateTypeInterface::class);
+        $parentStub = $this->createConfiguredStub(TemplateTypeInterface::class, [
             'getFullyQualifiedName' => '@my_module/widget/header.html.twig'
         ]);
-        $templateChainMock = $this->createConfiguredMock(TemplateChain::class, [
-            'getParent' => $parentMock
+        $templateChainStub = $this->createConfiguredStub(TemplateChain::class, [
+            'getParent' => $parentStub
         ]);
 
         $templateTypeFactoryMock = $this->createMock(TemplateTypeFactoryInterface::class);
@@ -35,14 +35,14 @@ final class TemplateChainResolverTest extends TestCase
             ->expects($this->once())
             ->method('createFromTemplateName')
             ->with($templateName)
-            ->willReturn($templateTypeMock);
+            ->willReturn($templateTypeStub);
 
         $templateChainBuilderMock = $this->createMock(TemplateChainBuilderInterface::class);
         $templateChainBuilderMock
             ->expects($this->once())
             ->method('getChain')
-            ->with($templateTypeMock)
-            ->willReturn($templateChainMock);
+            ->with($templateTypeStub)
+            ->willReturn($templateChainStub);
 
         $templateChainResolver = new TemplateChainResolver($templateChainBuilderMock, $templateTypeFactoryMock);
 
@@ -55,12 +55,12 @@ final class TemplateChainResolverTest extends TestCase
     {
         $templateName = 'widget/header.html.twig';
 
-        $templateTypeMock = $this->createMock(TemplateTypeInterface::class);
-        $lastChildMock = $this->createConfiguredMock(TemplateTypeInterface::class, [
+        $templateTypeStub = $this->createStub(TemplateTypeInterface::class);
+        $lastChildStub = $this->createConfiguredStub(TemplateTypeInterface::class, [
             'getFullyQualifiedName' => '@my_module/widget/header.html.twig'
         ]);
-        $templateChainMock = $this->createConfiguredMock(TemplateChain::class, [
-            'getLastChild' => $lastChildMock
+        $templateChainStub = $this->createConfiguredStub(TemplateChain::class, [
+            'getLastChild' => $lastChildStub
         ]);
 
         $templateTypeFactoryMock = $this->createMock(TemplateTypeFactoryInterface::class);
@@ -68,14 +68,14 @@ final class TemplateChainResolverTest extends TestCase
             ->expects($this->once())
             ->method('createFromTemplateName')
             ->with($templateName)
-            ->willReturn($templateTypeMock);
+            ->willReturn($templateTypeStub);
 
         $templateChainBuilderMock = $this->createMock(TemplateChainBuilderInterface::class);
         $templateChainBuilderMock
             ->expects($this->once())
             ->method('getChain')
-            ->with($templateTypeMock)
-            ->willReturn($templateChainMock);
+            ->with($templateTypeStub)
+            ->willReturn($templateChainStub);
 
         $templateChainResolver = new TemplateChainResolver($templateChainBuilderMock, $templateTypeFactoryMock);
 

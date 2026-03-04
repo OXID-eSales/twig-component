@@ -25,7 +25,7 @@ final class IfContentTokenParserTest extends TestCase
 
     protected function setUp(): void
     {
-        $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
+        $loader = $this->createStub(LoaderInterface::class);
         $this->environment = new Environment($loader, ['cache' => false]);
 
         $this->ifContentParser = new IfContentTokenParser();
