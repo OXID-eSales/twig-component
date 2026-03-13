@@ -16,6 +16,8 @@ use OxidEsales\Twig\Resolver\TemplateDirectoryResolverInterface;
 
 class TemplateChainBuilder implements TemplateChainBuilderInterface
 {
+    private array $cachedDirectories = [];
+
     public function __construct(
         private TemplateDirectoryResolverInterface $templateDirectoryResolver,
         /** @var ChainAppenderInterface[] */
@@ -29,12 +31,21 @@ class TemplateChainBuilder implements TemplateChainBuilderInterface
     public function getChain(TemplateTypeInterface $templateType): TemplateChain
     {
         $templateChain = new TemplateChain();
-        foreach ($this->templateDirectoryResolver->getTemplateDirectories() as $directory) {
+        foreach ($this->getDirectories() as $directory) {
             /** @var ChainAppenderInterface $chainAppender */
             foreach ($this->chainAppenders as $chainAppender) {
                 $templateChain = $chainAppender->addToChain($templateChain, $templateType, $directory);
             }
         }
         return $templateChain;
+    }
+
+    private function getDirectories(): array
+    {
+        if (!$this->cachedDirectories) {
+            $this->cachedDirectories = $this->templateDirectoryResolver->getTemplateDirectories();
+        }
+
+        return $this->cachedDirectories;
     }
 }

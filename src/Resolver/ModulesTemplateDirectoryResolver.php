@@ -10,8 +10,6 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Resolver;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Facade\ActiveModulesDataProviderInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Module\Path\ModulePathResolverInterface;
-use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
@@ -20,8 +18,6 @@ class ModulesTemplateDirectoryResolver implements TemplateDirectoryResolverInter
 {
     public function __construct(
         private ActiveModulesDataProviderInterface $activeModulesDataProvider,
-        private ModulePathResolverInterface $modulePathResolver,
-        private BasicContextInterface $context,
         private Filesystem $filesystem,
     ) {
     }
@@ -32,15 +28,8 @@ class ModulesTemplateDirectoryResolver implements TemplateDirectoryResolverInter
     public function getTemplateDirectories(): array
     {
         $directories = [];
-        foreach ($this->activeModulesDataProvider->getModuleIds() as $moduleId) {
-            $moduleTemplateDirectory = Path::join(
-                $this->modulePathResolver->getFullModulePathFromConfiguration(
-                    $moduleId,
-                    $this->context->getDefaultShopId()
-                ),
-                'views',
-                'twig',
-            );
+        foreach ($this->activeModulesDataProvider->getModulePaths() as $moduleId => $modulePath) {
+            $moduleTemplateDirectory = Path::join($modulePath, 'views', 'twig');
             if ($this->filesystem->exists($moduleTemplateDirectory)) {
                 $directories[] = new NamespacedDirectory(
                     $moduleId,

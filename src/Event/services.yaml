@@ -8,3 +8,7 @@ services:
       - '@OxidEsales\Twig\Resolver\TemplateDirectoryResolverInterface'
     tags:
       - { name: kernel.event_subscriber }
+
+  OxidEsales\Twig\Event\InvalidateTemplateChainCacheEventSubscriber:
+    tags:
+      - { name: kernel.event_subscriber }

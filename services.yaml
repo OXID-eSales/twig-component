@@ -274,6 +274,9 @@ services:
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolver
 
+  OxidEsales\Twig\Resolver\TemplateChain\Cache\TemplateChainCacheInterface:
+    class: OxidEsales\Twig\Resolver\TemplateChain\Cache\TemplateChainCache
+
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidatorInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainValidator
 
