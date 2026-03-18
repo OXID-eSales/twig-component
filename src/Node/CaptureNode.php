@@ -30,13 +30,15 @@ class CaptureNode extends Node
      */
     private $variableName;
 
+    /**
+     * @deprecated $tag will be removed in next major version, the tag is now automatically set by the Parser.
+     */
     public function __construct(string $attributeName, string $variableName, Node $body, int $line, ?string $tag = null)
     {
         parent::__construct(
             ['body' => $body],
             ['attributeName' => $attributeName, 'variableName' => $variableName],
-            $line,
-            $tag
+            $line
         );
     }
 

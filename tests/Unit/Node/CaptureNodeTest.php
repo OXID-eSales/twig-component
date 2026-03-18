@@ -68,7 +68,6 @@ EOF;
                     variableName: 'foo',
                     body: $body,
                     line: 1,
-                    tag: 'capture'
                 ),
                 self::EXPECTED_NAME_ATTRIBUTE_SOURCE,
             ],
@@ -78,7 +77,6 @@ EOF;
                     variableName: 'foo',
                     body: $body,
                     line: 1,
-                    tag: 'capture'
                 ),
                 self::EXPECTED_ASSIGN_ATTRIBUTE_SOURCE,
             ],
@@ -88,7 +86,6 @@ EOF;
                     variableName: 'foo',
                     body: $body,
                     line: 1,
-                    tag: 'capture'
                 ),
                 self::EXPECTED_APPEND_ATTRIBUTE_SOURCE,
             ]

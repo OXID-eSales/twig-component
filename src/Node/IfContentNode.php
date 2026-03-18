@@ -15,14 +15,17 @@ use Twig\Compiler;
 
 class IfContentNode extends Node
 {
-    public function __construct(Node $body, array $reference, Node $variable, int $lineno, string $tag = 'ifcontent')
+    /**
+     * @deprecated $tag will be removed in next major version, the tag is now automatically set by the Parser.
+     */
+    public function __construct(Node $body, array $reference, Node $variable, int $lineno, ?string $tag = null)
     {
         $nodes = [
                      'body' => $body,
                      'variable' => $variable
                  ] + $reference;
 
-        parent::__construct($nodes, [], $lineno, $tag);
+        parent::__construct($nodes, [], $lineno);
     }
 
     /**

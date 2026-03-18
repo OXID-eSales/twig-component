@@ -14,6 +14,9 @@
 ### Fixed
 - Rendering template extensions for module templates
 
+### Deprecated
+- Node `$tag` constructor parameter
+
 ### Removed
 - PHP v8.2 support
 - PHPUnit v11 support

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit\Loader;
 
-use OxidEsales\EshopCommunity\Application\Model\Content;
+use OxidEsales\Eshop\Application\Model\Content;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory;
 use OxidEsales\Twig\Loader\CmsLoader;
 use OxidEsales\Twig\Loader\CmsTemplateNameParser;

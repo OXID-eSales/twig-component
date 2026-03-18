@@ -12,7 +12,7 @@ namespace OxidEsales\Twig\Tests\Unit\Node;
 use OxidEsales\Twig\Extensions\IfContentExtension;
 use OxidEsales\Twig\Node\IfContentNode;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Twig\Node\Expression\AssignNameExpression;
+use Twig\Node\Expression\Variable\AssignContextVariable;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\TextNode;
 use Twig\Test\NodeTestCase;
@@ -36,7 +36,7 @@ EOF;
     {
         $body = new TextNode(data: 'Lorem Ipsum', lineno: 1);
         $referenceExpression = new ConstantExpression(value: 'oxsomething', lineno: 1);
-        $variable = new AssignNameExpression(name: 'foo', lineno: 1);
+        $variable = new AssignContextVariable(name: 'foo', lineno: 1);
 
         return [
             [
