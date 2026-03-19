@@ -56,7 +56,7 @@ class HasRightsTokenParser extends AbstractTokenParser
             $stream->expect(Token::BLOCK_END_TYPE);
         }
 
-        return new $this->nodeClass($body, $variables, $lineno, $this->getTag());
+        return new $this->nodeClass($body, $variables, $lineno);
     }
 
     /**

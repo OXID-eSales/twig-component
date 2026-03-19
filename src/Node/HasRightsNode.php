@@ -14,9 +14,12 @@ use Twig\Compiler;
 
 class HasRightsNode extends Node
 {
-    public function __construct(Node $body, Node $parameters, int $lineno, $tag = 'hasrights')
+    /**
+     * @deprecated $tag will be removed in next major version, the tag is now automatically set by the Parser.
+     */
+    public function __construct(Node $body, Node $parameters, int $lineno, ?string $tag = null)
     {
-        parent::__construct(['body' => $body, 'parameters' => $parameters], [], $lineno, $tag);
+        parent::__construct(['body' => $body, 'parameters' => $parameters], [], $lineno);
     }
 
     /**

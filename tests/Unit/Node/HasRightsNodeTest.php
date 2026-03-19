@@ -13,7 +13,7 @@ use OxidEsales\Twig\Node\HasRightsNode;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\ConstantExpression;
-use Twig\Node\Node;
+use Twig\Node\Nodes;
 use Twig\Node\TextNode;
 use Twig\Test\NodeTestCase;
 
@@ -59,7 +59,7 @@ EOF;
             ],
             [
                 new HasRightsNode(
-                    body: new Node(
+                    body: new Nodes(
                         nodes: [
                             new TextNode(data: 'Top', lineno: 2),
                             new HasRightsNode(

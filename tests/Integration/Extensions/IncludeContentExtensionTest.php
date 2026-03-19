@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions;
 
-use OxidEsales\EshopCommunity\Application\Model\Content;
+use OxidEsales\Eshop\Application\Model\Content;
 use OxidEsales\EshopCommunity\Core\Di\ContainerFacade;
 use OxidEsales\EshopCommunity\Internal\Framework\Html\HtmlSanitizerInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\ContentFactory;

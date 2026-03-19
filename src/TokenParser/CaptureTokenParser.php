@@ -38,7 +38,7 @@ class CaptureTokenParser extends AbstractTokenParser
         $body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
         $stream->expect(Token::BLOCK_END_TYPE);
 
-        return new CaptureNode($attributeName, $variableName, $body, $token->getLine(), $this->getTag());
+        return new CaptureNode($attributeName, $variableName, $body, $token->getLine());
     }
 
     /**

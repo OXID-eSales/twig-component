@@ -55,7 +55,7 @@ class IfContentTokenParser extends AbstractTokenParser
         $body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
         $stream->expect(Token::BLOCK_END_TYPE);
 
-        return new IfContentNode($body, $reference, $variable, $lineno, $this->getTag());
+        return new IfContentNode($body, $reference, $variable, $lineno);
     }
 
     /**
