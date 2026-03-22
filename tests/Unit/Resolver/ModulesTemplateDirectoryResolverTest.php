@@ -11,151 +11,87 @@ namespace OxidEsales\Twig\Tests\Unit\Resolver;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Facade\ActiveModulesDataProviderInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Path\ModulePathResolverInterface;
-use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
+use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\Twig\Resolver\ModulesTemplateDirectoryResolver;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class ModulesTemplateDirectoryResolverTest extends TestCase
 {
-    use ProphecyTrait;
+    private const SHOP_ID = 1;
 
-    private ModulePathResolverInterface|ObjectProphecy $modulePathResolver;
-    private ObjectProphecy|ContextInterface $context;
-    private ObjectProphecy|ActiveModulesDataProviderInterface $activeModulesDataProvider;
-    private Filesystem|ObjectProphecy $filesystem;
-    private $shopId;
+    private ActiveModulesDataProviderInterface $activeModulesDataProvider;
+    private ModulePathResolverInterface $modulePathResolver;
+    private Filesystem $filesystem;
+    private ModulesTemplateDirectoryResolver $resolver;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->prepareMocks();
+
+        $this->activeModulesDataProvider = $this->createStub(ActiveModulesDataProviderInterface::class);
+        $this->modulePathResolver = $this->createStub(ModulePathResolverInterface::class);
+        $this->filesystem = $this->createStub(Filesystem::class);
+
+        $context = $this->createStub(BasicContextInterface::class);
+        $context->method('getDefaultShopId')->willReturn(self::SHOP_ID);
+
+        $this->resolver = new ModulesTemplateDirectoryResolver(
+            $this->activeModulesDataProvider,
+            $this->modulePathResolver,
+            $context,
+            $this->filesystem,
+        );
     }
 
-    public function testGetTemplateDirectoriesWith0Modules(): void
+    public function testReturnsEmptyWhenNoActiveModules(): void
     {
-        $this->activeModulesDataProvider->getModuleIds()->willReturn([]);
+        $this->activeModulesDataProvider->method('getModuleIds')->willReturn([]);
 
-        $directories = $this->getDirectoryResolver()->getTemplateDirectories();
-
-        $this->assertEmpty($directories);
+        $this->assertEmpty($this->resolver->getTemplateDirectories());
     }
 
-    public function testGetTemplateDirectoriesWith1ModuleAnd0ExistingTemplates(): void
+    public function testSkipsModulesWithoutExistingTemplateDir(): void
     {
-        $moduleId1 = 'module-1';
-        $modulePath1 = 'module-path-1';
-        $moduleTemplateDirectory1 = "$modulePath1/views/twig";
+        $this->activeModulesDataProvider->method('getModuleIds')->willReturn([
+            'module-without-templates',
+            'module-with-templates',
+        ]);
+        $this->modulePathResolver->method('getFullModulePathFromConfiguration')->willReturnMap([
+            ['module-without-templates', self::SHOP_ID, '/path/to/module-without-templates'],
+            ['module-with-templates', self::SHOP_ID, '/path/to/module-with-templates'],
+        ]);
+        $this->filesystem->method('exists')->willReturnMap([
+            ['/path/to/module-without-templates/views/twig', false],
+            ['/path/to/module-with-templates/views/twig', true],
+        ]);
 
-        $this->modulePathResolver
-            ->getFullModulePathFromConfiguration($moduleId1, $this->shopId)
-            ->willReturn($modulePath1);
-
-        $this->activeModulesDataProvider->getModuleIds()->willReturn([$moduleId1]);
-
-        $this->filesystem->exists($moduleTemplateDirectory1)->willReturn(false);
-
-        $directories = $this->getDirectoryResolver()->getTemplateDirectories();
-
-        $this->assertEmpty($directories);
-    }
-
-    public function testGetTemplateDirectoriesWith1ModuleAnd1ExistingTemplate(): void
-    {
-        $moduleId1 = 'module-1';
-        $modulePath1 = 'module-path-1';
-        $moduleTemplateDirectory1 = "$modulePath1/views/twig";
-
-        $this->modulePathResolver
-            ->getFullModulePathFromConfiguration($moduleId1, $this->shopId)
-            ->willReturn($modulePath1);
-
-        $this->activeModulesDataProvider->getModuleIds()->willReturn([$moduleId1]);
-
-        $this->filesystem->exists($moduleTemplateDirectory1)->willReturn(true);
-
-        $directories = $this->getDirectoryResolver()->getTemplateDirectories();
-
-        $this->assertEquals($moduleTemplateDirectory1, $directories[0]->getDirectory());
-    }
-
-    public function testGetTemplateDirectoriesWith2ModulesAnd2ExistingTemplates(): void
-    {
-        $moduleId1 = 'module-1';
-        $moduleId2 = 'module-2';
-        $modulePath1 = 'module-path-1';
-        $modulePath2 = 'module-path-2';
-        $moduleTemplateDirectory1 = "$modulePath1/views/twig";
-        $moduleTemplateDirectory2 = "$modulePath2/views/twig";
-
-        $this->modulePathResolver
-            ->getFullModulePathFromConfiguration($moduleId1, $this->shopId)
-            ->willReturn($modulePath1);
-        $this->modulePathResolver
-            ->getFullModulePathFromConfiguration($moduleId2, $this->shopId)
-            ->willReturn($modulePath2);
-
-        $this->activeModulesDataProvider->getModuleIds()->willReturn([$moduleId1, $moduleId2]);
-
-        $this->filesystem->exists($moduleTemplateDirectory1)->willReturn(true);
-        $this->filesystem->exists($moduleTemplateDirectory2)->willReturn(true);
-
-        $directories = $this->getDirectoryResolver()->getTemplateDirectories();
-
-        $this->assertCount(2, $directories);
-    }
-
-    public function testGetTemplateDirectoriesWith3ModulesAnd1ExistingTemplate(): void
-    {
-        $moduleId1 = 'module-1';
-        $moduleId2 = 'module-2';
-        $moduleId3 = 'module-3';
-        $modulePath1 = 'module-path-1';
-        $modulePath2 = 'module-path-2';
-        $modulePath3 = 'module-path-3';
-        $moduleTemplateDirectory1 = "$modulePath1/views/twig";
-        $moduleTemplateDirectory2 = "$modulePath2/views/twig";
-        $moduleTemplateDirectory3 = "$modulePath3/views/twig";
-
-        $this->modulePathResolver
-            ->getFullModulePathFromConfiguration($moduleId1, $this->shopId)->willReturn($modulePath1);
-        $this->modulePathResolver
-            ->getFullModulePathFromConfiguration($moduleId2, $this->shopId)->willReturn($modulePath2);
-        $this->modulePathResolver
-            ->getFullModulePathFromConfiguration($moduleId3, $this->shopId)->willReturn($modulePath3);
-
-        $this->activeModulesDataProvider->getModuleIds()->willReturn([$moduleId1, $moduleId2, $moduleId3]);
-
-        $this->filesystem->exists($moduleTemplateDirectory1)->willReturn(false);
-        $this->filesystem->exists($moduleTemplateDirectory2)->willReturn(true);
-        $this->filesystem->exists($moduleTemplateDirectory3)->willReturn(false);
-
-        $directories = $this->getDirectoryResolver()->getTemplateDirectories();
+        $directories = $this->resolver->getTemplateDirectories();
 
         $this->assertCount(1, $directories);
-        $this->assertEquals($moduleTemplateDirectory2, $directories[0]->getDirectory());
+        $this->assertSame('module-with-templates', $directories[0]->getNamespace());
+        $this->assertSame('/path/to/module-with-templates/views/twig', $directories[0]->getDirectory());
     }
 
-    private function prepareMocks(): void
+    public function testReturnsAllMatchingDirectoriesInModuleOrder(): void
     {
-        $this->modulePathResolver = $this->prophesize(ModulePathResolverInterface::class);
-        $this->context = $this->prophesize(ContextInterface::class);
-        $this->activeModulesDataProvider = $this->prophesize(ActiveModulesDataProviderInterface::class);
-        $this->filesystem = $this->prophesize(Filesystem::class);
+        $this->activeModulesDataProvider->method('getModuleIds')->willReturn([
+            'first-module',
+            'second-module',
+            'third-module',
+        ]);
+        $this->modulePathResolver->method('getFullModulePathFromConfiguration')->willReturnMap([
+            ['first-module', self::SHOP_ID, '/modules/first'],
+            ['second-module', self::SHOP_ID, '/modules/second'],
+            ['third-module', self::SHOP_ID, '/modules/third'],
+        ]);
+        $this->filesystem->method('exists')->willReturn(true);
 
-        $this->shopId = 1;
-        $this->context->getDefaultShopId()->willReturn($this->shopId);
-    }
+        $directories = $this->resolver->getTemplateDirectories();
 
-    private function getDirectoryResolver(): ModulesTemplateDirectoryResolver
-    {
-        return new ModulesTemplateDirectoryResolver(
-            $this->activeModulesDataProvider->reveal(),
-            $this->modulePathResolver->reveal(),
-            $this->context->reveal(),
-            $this->filesystem->reveal(),
-        );
+        $this->assertCount(3, $directories);
+        $this->assertSame('first-module', $directories[0]->getNamespace());
+        $this->assertSame('second-module', $directories[1]->getNamespace());
+        $this->assertSame('third-module', $directories[2]->getNamespace());
     }
 }

@@ -9,50 +9,60 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain;
 
+use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\TemplateTypeFactoryInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class TemplateChainResolver implements TemplateChainResolverInterface
 {
-    private array $lastChildCache = [];
-    private array $parentCache = [];
-
     public function __construct(
         private TemplateChainBuilderInterface $templateChainBuilder,
         private TemplateTypeFactoryInterface $templateTypeFactory,
+        private TagAwareCacheInterface $cache,
     ) {
     }
 
     public function getParent(string $templateName): string
     {
-        if (!isset($this->parentCache[$templateName])) {
-            $templateType = $this->templateTypeFactory->createFromTemplateName($templateName);
-            $this->parentCache[$templateName] = $this->templateChainBuilder
-                ->getChain($templateType)
-                ->getParent($templateType)
-                ->getFullyQualifiedName();
-        }
+        $templateType = $this->templateTypeFactory->createFromTemplateName($templateName);
 
-        return $this->parentCache[$templateName];
+        return $this->getTemplateChain($templateName)->getParent($templateType)->getFullyQualifiedName();
     }
 
     public function getLastChild(string $templateName): string
     {
-        if (!isset($this->lastChildCache[$templateName])) {
-            $templateType = $this->templateTypeFactory->createFromTemplateName($templateName);
-            $this->lastChildCache[$templateName] = $this->templateChainBuilder
-                ->getChain($templateType)
-                ->getLastChild()
-                ->getFullyQualifiedName();
-        }
-
-        return $this->lastChildCache[$templateName];
+        return $this->getTemplateChain($templateName)->getLastChild()->getFullyQualifiedName();
     }
 
     public function hasParent(string $templateName): bool
     {
         $templateType = $this->templateTypeFactory->createFromTemplateName($templateName);
-        return $this->templateChainBuilder
-            ->getChain($templateType)
-            ->hasParent($templateType);
+
+        return $this->getTemplateChain($templateName)->hasParent($templateType);
+    }
+
+    private function getTemplateChain(string $templateName): TemplateChain
+    {
+        return $this->cache->get(
+            $this->getCacheKey($templateName),
+            function (ItemInterface $item) use ($templateName): TemplateChain {
+                $item->tag('oxid_esales.cache.twig.template_chain');
+
+                return $this->createTemplateChain($templateName);
+            }
+        );
+    }
+
+    private function createTemplateChain(string $templateName): TemplateChain
+    {
+        $templateType = $this->templateTypeFactory->createFromTemplateName($templateName);
+
+        return $this->templateChainBuilder->getChain($templateType);
+    }
+
+    private function getCacheKey(string $templateName): string
+    {
+        return 'twig_template_chain_' . sha1($templateName);
     }
 }
