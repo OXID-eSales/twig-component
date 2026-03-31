@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Resolver\TemplateChain\TemplateType;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Resolver\TemplateFileResolverInterface;
+use OxidEsales\Twig\Loader\CmsTemplateNameParser;
+use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\CmsTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleExtensionTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopExtensionTemplateType;
@@ -29,11 +31,16 @@ class TemplateTypeFactory implements TemplateTypeFactoryInterface
 
     public function __construct(
         private TemplateFileResolverInterface $templateFileResolver,
+        private CmsTemplateNameParser $cmsTemplateNameParser,
     ) {
     }
 
     public function createFromTemplateName(string $templateName): TemplateTypeInterface
     {
+        if ($this->cmsTemplateNameParser->isValidName($templateName)) {
+            return new CmsTemplateType($templateName);
+        }
+
         $templateName = $this->getFullNameWithFileExtension($templateName);
         $this->validateTemplateFilename($templateName);
 

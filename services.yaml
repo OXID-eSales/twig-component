@@ -321,10 +321,13 @@ services:
         - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ModuleTemplateHandler'
         - '@OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ModuleExtensionTemplateHandler'
 
+  OxidEsales\Twig\Resolver\TemplateChain\CmsTemplateChainBuilder: ~
+
   OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilderInterface:
     class: OxidEsales\Twig\Resolver\TemplateChain\TemplateChainBuilderAggregate
     arguments:
       -
+        - '@OxidEsales\Twig\Resolver\TemplateChain\CmsTemplateChainBuilder'
         - '@oxid_esales.twig.resolver.template_chain.modules_template_chain_builder'
         - '@oxid_esales.twig.resolver.template_chain.shop_template_chain_builder'
 
