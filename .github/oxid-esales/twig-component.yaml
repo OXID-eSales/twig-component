@@ -10,10 +10,10 @@ install:
           "oxid-esales/*": "source"
         },
         "require": {
-          "oxid-esales/apex-theme": "{{ .Data.install.composer.dev_ref }}",
-          "oxid-esales/oxideshop-ce": "{{ .Data.install.composer.dev_ref }}",
-          "oxid-esales/twig-admin-theme": "{{ .Data.install.composer.dev_ref }}",
-          "oxid-esales/twig-component": "{{ .Data.install.composer.ref_name }}"
+          "oxid-esales/apex-theme": "~v3.1.0",
+          "oxid-esales/oxideshop-ce": "~v7.5.0",
+          "oxid-esales/twig-admin-theme": "~v3.1.0",
+          "oxid-esales/twig-component": "~v2.8.0"
         },
         "require-dev":{
           "mikey179/vfsstream": "~1.6.8",
