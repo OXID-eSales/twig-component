@@ -32,6 +32,17 @@ services:
     calls:
       - [addGlobal, ['twig', {capture: {}}]]
       - [addGlobal, ['oView', {}]]
+      - [addRuntimeLoader, ['@twig.runtime_loader']]
+
+  twig.runtime_loader.locator:
+    class: Symfony\Component\DependencyInjection\ServiceLocator
+    arguments: [[]]
+    tags: ['container.service_locator']
+
+  twig.runtime_loader:
+    class: Twig\RuntimeLoader\ContainerRuntimeLoader
+    arguments:
+      - '@twig.runtime_loader.locator'
 
   OxidEsales\Twig\Loader\CmsTemplateNameParser:
 
