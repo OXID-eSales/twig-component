@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Event;
 
+use OxidEsales\EshopCommunity\Internal\Framework\Cache\Event\ClearShopCacheEvent;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ModuleConfiguration;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Event\ModuleConfigurationChangedEvent;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Event\ThemeSettingChangedEvent;
@@ -82,6 +83,19 @@ final class InvalidateTemplateChainCacheEventSubscriberTest extends TestCase
 
         $this->eventDispatcher->dispatch(
             new ThemeActivatedEvent($this->shopId, 'test-theme')
+        );
+
+        $this->expectException(TemplateChainCacheNotFoundException::class);
+
+        $this->cache->get(self::TEMPLATE_NAME);
+    }
+
+    public function testClearShopCacheEventInvalidatesTemplateChainCache(): void
+    {
+        $this->putCacheEntry();
+
+        $this->eventDispatcher->dispatch(
+            new ClearShopCacheEvent($this->shopId)
         );
 
         $this->expectException(TemplateChainCacheNotFoundException::class);
