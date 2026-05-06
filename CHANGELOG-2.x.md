@@ -1,5 +1,10 @@
 # Change Log for OXID Twig engine component
 
+## v2.8.1 - unreleased
+
+### Fixed
+- Clear template chain cache when clearing shop cache
+
 ## v2.8.0 - 2026-04-08
 
 ### Added
