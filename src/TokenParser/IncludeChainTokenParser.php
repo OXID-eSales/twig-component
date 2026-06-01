@@ -9,46 +9,25 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\TokenParser;
 
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\NonTemplateFilenameException;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\IncludeNode;
 use Twig\Node\Node;
 use Twig\Token;
-use Twig\TokenParser\IncludeTokenParser;
 
-class IncludeChainTokenParser extends IncludeTokenParser
+class IncludeChainTokenParser extends AbstractIncludeChainTokenParser
 {
-    public function __construct(
-        private TemplateChainResolverInterface $templateChainResolver
-    ) {
-    }
-
     public function parse(Token $token): Node
     {
         $expression = $this->parser->getExpressionParser()->parseExpression();
 
         if ($expression instanceof ConstantExpression) {
-            $this->replaceValue($expression);
+            $expression = $this->createRuntimeResolutionExpression(
+                $expression->getAttribute('value'),
+                $token->getLine()
+            );
         }
 
         [$variables, $only, $ignoreMissing] = $this->parseArguments();
         return new IncludeNode($expression, $variables, $only, $ignoreMissing, $token->getLine(), $this->getTag());
-    }
-
-    private function replaceValue(ConstantExpression $expression): void
-    {
-        $includeTagValue = $expression->getAttribute('value');
-        $expression->setAttribute('value', $this->resolveTemplateNameToRender($includeTagValue));
-    }
-
-    private function resolveTemplateNameToRender(string $templateName): string
-    {
-        try {
-            $renderedTemplate = $this->templateChainResolver->getLastChild($templateName);
-        } catch (NonTemplateFilenameException) {
-            $renderedTemplate = $templateName;
-        }
-        return $renderedTemplate;
     }
 }

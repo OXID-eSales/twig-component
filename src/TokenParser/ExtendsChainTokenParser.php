@@ -1,25 +1,25 @@
 <?php
 
+/**
+ * Copyright © OXID eSales AG. All rights reserved.
+ * See LICENSE file for license details.
+ */
+
 declare(strict_types=1);
 
 namespace OxidEsales\Twig\TokenParser;
 
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
+use OxidEsales\Twig\Extensions\TemplateChainExtension;
 use Twig\Error\SyntaxError;
 use Twig\Node\Expression\ConstantExpression;
+use Twig\Node\Expression\FunctionExpression;
 use Twig\Node\Node;
 use Twig\Token;
 use Twig\TokenParser\AbstractTokenParser;
-use Twig\TokenParser\ExtendsTokenParser;
 
 class ExtendsChainTokenParser extends AbstractTokenParser
 {
     private ?Token $token = null;
-
-    public function __construct(
-        private TemplateChainResolverInterface $templateChainResolver,
-    ) {
-    }
 
     /**
      * @param Token $token
@@ -34,11 +34,14 @@ class ExtendsChainTokenParser extends AbstractTokenParser
         $stream = $this->parser->getStream();
         $expression = $this->parser->getExpressionParser()->parseExpression();
 
-        if (
-            $expression instanceof ConstantExpression
-            && $this->templateChainResolver->hasParent($this->getTemplateName())
-        ) {
-            $this->replaceValue($expression);
+        if ($expression instanceof ConstantExpression) {
+            $fallback = $expression->getAttribute('value');
+            $this->getTemplateChainExtension()->assertValidTemplateName($fallback);
+            $expression = $this->createRuntimeResolutionExpression(
+                $this->getTemplateName(),
+                $fallback,
+                $token->getLine()
+            );
         }
 
         $this->parser->setParent($expression);
@@ -50,16 +53,6 @@ class ExtendsChainTokenParser extends AbstractTokenParser
     public function getTag(): string
     {
         return 'extends';
-    }
-
-    private function replaceValue(ConstantExpression $expression): void
-    {
-        $this->checkInitialExpressionValueIsAValidTemplateName($expression);
-        /** Initial expression value never used and is overwritten immediately! */
-        $this->overwriteExpressionValue(
-            $expression,
-            $this->getParentTemplateName()
-        );
     }
 
     private function getTemplateName(): string
@@ -98,30 +91,21 @@ class ExtendsChainTokenParser extends AbstractTokenParser
         }
     }
 
-    private function checkInitialExpressionValueIsAValidTemplateName(ConstantExpression $expression): void
+    private function getTemplateChainExtension(): TemplateChainExtension
     {
-        $templateName = $expression->getAttribute('value');
-        $this->tryToBuildTemplateChain($templateName);
+        return $this->parser->getEnvironment()->getExtension(TemplateChainExtension::class);
     }
 
-    private function tryToBuildTemplateChain(string $templateName): void
+    private function createRuntimeResolutionExpression(string $currentTemplateName, string $fallback, int $line): FunctionExpression
     {
-        $this->templateChainResolver->getLastChild($templateName);
-    }
-
-    private function getParentTemplateName(): string
-    {
-        $currentTemplateName = $this->parser->getStream()
-            ->getSourceContext()
-            ->getName();
-        return $this->templateChainResolver->getParent($currentTemplateName);
-    }
-
-    private function overwriteExpressionValue(ConstantExpression $expression, string $templateName): void
-    {
-        $expression->setAttribute(
-            'value',
-            $templateName
+        $twigFunction = $this->parser->getEnvironment()->getFunction('oxid_resolve_parent');
+        return new FunctionExpression(
+            $twigFunction,
+            new Node([
+                new ConstantExpression($currentTemplateName, $line),
+                new ConstantExpression($fallback, $line),
+            ]),
+            $line
         );
     }
 }

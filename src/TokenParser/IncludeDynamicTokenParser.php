@@ -10,25 +10,20 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\TokenParser;
 
 use OxidEsales\Twig\Node\IncludeDynamicNode;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\NonTemplateFilenameException;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Token;
-use Twig\TokenParser\IncludeTokenParser;
 
-class IncludeDynamicTokenParser extends IncludeTokenParser
+class IncludeDynamicTokenParser extends AbstractIncludeChainTokenParser
 {
-    public function __construct(
-        private TemplateChainResolverInterface $templateChainResolver
-    ) {
-    }
-
     public function parse(Token $token): IncludeDynamicNode
     {
         $expression = $this->parser->getExpressionParser()->parseExpression();
 
         if ($expression instanceof ConstantExpression) {
-            $this->replaceValue($expression);
+            $expression = $this->createRuntimeResolutionExpression(
+                $expression->getAttribute('value'),
+                $token->getLine()
+            );
         }
 
         [$variables, $only, $ignoreMissing] = $this->parseArguments();
@@ -46,21 +41,5 @@ class IncludeDynamicTokenParser extends IncludeTokenParser
     public function getTag(): string
     {
         return 'include_dynamic';
-    }
-
-    private function replaceValue(ConstantExpression $expression): void
-    {
-        $includeTagValue = $expression->getAttribute('value');
-        $expression->setAttribute('value', $this->resolveTemplateNameToRender($includeTagValue));
-    }
-
-    private function resolveTemplateNameToRender(string $templateName): string
-    {
-        try {
-            $renderedTemplate = $this->templateChainResolver->getLastChild($templateName);
-        } catch (NonTemplateFilenameException) {
-            $renderedTemplate = $templateName;
-        }
-        return $renderedTemplate;
     }
 }

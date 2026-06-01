@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Extensions;
 
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\IncludeDynamicLogic;
-use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use OxidEsales\Twig\TokenParser\IncludeChainTokenParser;
 use OxidEsales\Twig\TokenParser\IncludeDynamicTokenParser;
 use Twig\Extension\AbstractExtension;
@@ -20,7 +19,6 @@ class IncludeExtension extends AbstractExtension
 {
     public function __construct(
         private IncludeDynamicLogic $includeDynamicLogic,
-        private TemplateChainResolverInterface $templateChainResolver
     ) {
     }
 
@@ -30,12 +28,8 @@ class IncludeExtension extends AbstractExtension
     public function getTokenParsers(): array
     {
         return [
-            new IncludeChainTokenParser(
-                $this->templateChainResolver,
-            ),
-            new IncludeDynamicTokenParser(
-                $this->templateChainResolver
-            ),
+            new IncludeChainTokenParser(),
+            new IncludeDynamicTokenParser(),
         ];
     }
 
