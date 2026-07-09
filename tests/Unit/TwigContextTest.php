@@ -11,6 +11,8 @@ namespace OxidEsales\Twig\Tests\Unit;
 
 use OxidEsales\Eshop\Core\Config;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Exception\InvalidThemeNameException;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\Exception\ActiveThemeNotFoundException;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\ThemeStateServiceInterface;
 use OxidEsales\Twig\TwigContext;
 use OxidEsales\Twig\TwigContextInterface;
 use PHPUnit\Framework\TestCase;
@@ -23,50 +25,43 @@ final class TwigContextTest extends TestCase
 
     private TwigContextInterface $twigContext;
     private Config|ObjectProphecy $config;
+    private ThemeStateServiceInterface|ObjectProphecy $themeStateService;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->config = $this->prophesize(Config::class);
+        $this->themeStateService = $this->prophesize(ThemeStateServiceInterface::class);
         $this->twigContext = new TwigContext(
             $this->config->reveal(),
+            $this->themeStateService->reveal(),
             ''
         );
     }
 
     public function testGetActiveThemeIdWithNoFrontendThemeWillThrow(): void
     {
+        $shopId = 1;
         $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn(null);
-        $this->config->getConfigParam('sTheme')->willReturn(null);
+        $this->config->getShopId()->willReturn($shopId);
+        $this->themeStateService->getActiveThemeId($shopId)->willThrow(ActiveThemeNotFoundException::class);
 
         $this->expectException(InvalidThemeNameException::class);
 
         $this->twigContext->getActiveThemeId();
     }
 
-    public function testGetActiveThemeIdWithParentFrontendTheme(): void
+    public function testGetActiveThemeIdWithFrontendTheme(): void
     {
-        $parentThemeId = 123;
+        $shopId = 1;
+        $themeId = 'theme-id';
         $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn(null);
-        $this->config->getConfigParam('sTheme')->willReturn($parentThemeId);
+        $this->config->getShopId()->willReturn($shopId);
+        $this->themeStateService->getActiveThemeId($shopId)->willReturn($themeId);
 
-        $themeId = $this->twigContext->getActiveThemeId();
+        $result = $this->twigContext->getActiveThemeId();
 
-        $this->assertEquals($parentThemeId, $themeId);
-    }
-
-    public function testGetActiveThemeIdWithChildFrontendTheme(): void
-    {
-        $childThemeId = 123;
-        $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn($childThemeId);
-        $this->config->getConfigParam('sTheme')->willReturn(null);
-
-        $themeId = $this->twigContext->getActiveThemeId();
-
-        $this->assertEquals($childThemeId, $themeId);
+        $this->assertEquals($themeId, $result);
     }
 
     public function testGetActiveThemeIdWithEmptyAdminThemeWillThrow(): void
@@ -83,7 +78,11 @@ final class TwigContextTest extends TestCase
         $adminThemeId = 'theme-id';
         $this->config->isAdmin()->willReturn(true);
 
-        $themeId = (new TwigContext($this->config->reveal(), $adminThemeId))->getActiveThemeId();
+        $themeId = (new TwigContext(
+            $this->config->reveal(),
+            $this->themeStateService->reveal(),
+            $adminThemeId
+        ))->getActiveThemeId();
 
         $this->assertEquals($adminThemeId, $themeId);
     }

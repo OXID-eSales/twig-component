@@ -9,19 +9,25 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\TwigEngine\TemplateChain;
 
+use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
 use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateChainResolverInterface;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ModuleTemplateType;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopTemplateType;
+use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 final class TemplateChainResolverCacheTest extends IntegrationTestCase
 {
+    use ContainerTrait;
+    use TestingFixturesTrait;
+
     private const TEMPLATE_NAME = 'layout/base.html.twig';
     private const TEMPLATE_WITH_MODULE = 'some-template.html.twig';
     private const MODULE_ID = 'testModule';
     private const MODULE_TEMPLATE = '@' . self::MODULE_ID . '/' . self::TEMPLATE_WITH_MODULE;
+    private const FIXTURE_THEME = 'apex';
 
     private TemplateChainResolverInterface $resolver;
     private TagAwareCacheInterface $cache;
@@ -29,6 +35,8 @@ final class TemplateChainResolverCacheTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->setThemeFixture(self::FIXTURE_THEME);
 
         $this->resolver = $this->get(TemplateChainResolverInterface::class);
         $this->cache = $this->get(TagAwareCacheInterface::class);
