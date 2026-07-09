@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Resolver;
 
 use OxidEsales\Eshop\Core\Config;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\Exception\ActiveThemeNotFoundException;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\ThemeStateServiceInterface;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use Twig\Loader\FilesystemLoader;
 
@@ -19,6 +21,7 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
 
     public function __construct(
         private Config $config,
+        private ThemeStateServiceInterface $themeStateService,
     ) {
     }
 
@@ -97,9 +100,18 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
             false,
             null,
             null,
-            $this->config->getConfigParam('sTheme'),
+            $this->getActiveThemeId(),
             true,
             true
         );
+    }
+
+    private function getActiveThemeId(): string
+    {
+        try {
+            return $this->themeStateService->getActiveThemeId($this->config->getShopId());
+        } catch (ActiveThemeNotFoundException) {
+            return '';
+        }
     }
 }

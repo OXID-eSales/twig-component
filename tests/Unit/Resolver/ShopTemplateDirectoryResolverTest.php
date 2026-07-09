@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\Resolver;
 
 use OxidEsales\Eshop\Core\Config;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\ThemeStateServiceInterface;
 use OxidEsales\Twig\Resolver\ShopTemplateDirectoryResolver;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -21,14 +22,17 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
 
     private ShopTemplateDirectoryResolver $shopTemplateDirectoryResolver;
     private Config|ObjectProphecy $config;
+    private ThemeStateServiceInterface|ObjectProphecy $themeStateService;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->config = $this->prophesize(Config::class);
+        $this->themeStateService = $this->prophesize(ThemeStateServiceInterface::class);
         $this->shopTemplateDirectoryResolver = new ShopTemplateDirectoryResolver(
             $this->config->reveal(),
+            $this->themeStateService->reveal(),
         );
     }
 
@@ -67,11 +71,13 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
 
     public function testGetTemplateDirectoriesWithThemeInheritanceAndMissingDirectories(): void
     {
+        $shopId = 1;
         $childTheme = 'child-theme';
         $parentTheme = 'parent-theme';
         $this->config->isAdmin()->willReturn(false);
         $this->config->getConfigParam('sCustomTheme')->willReturn($childTheme);
-        $this->config->getConfigParam('sTheme')->willReturn($parentTheme);
+        $this->config->getShopId()->willReturn($shopId);
+        $this->themeStateService->getActiveThemeId($shopId)->willReturn($parentTheme);
         $this->config->getDir(
             null,
             'tpl',
@@ -101,13 +107,15 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
 
     public function testGetTemplateDirectoriesWithThemeInheritance(): void
     {
+        $shopId = 1;
         $childTheme = 'child-theme';
         $parentTheme = 'parent-theme';
         $childThemeDir = 'child/theme/dir';
         $parentThemeDir = 'parent/theme/dir';
         $this->config->isAdmin()->willReturn(false);
         $this->config->getConfigParam('sCustomTheme')->willReturn($childTheme);
-        $this->config->getConfigParam('sTheme')->willReturn($parentTheme);
+        $this->config->getShopId()->willReturn($shopId);
+        $this->themeStateService->getActiveThemeId($shopId)->willReturn($parentTheme);
         $this->config->getDir(
             null,
             'tpl',
