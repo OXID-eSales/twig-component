@@ -13,7 +13,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Event\Modu
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Event\FinalizingModuleActivationEvent;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Event\FinalizingModuleDeactivationEvent;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Event\ModuleSetupEvent;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\Event\ThemeSettingChangedEvent;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Event\ThemeConfigurationChangedEvent;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Event\ThemeActivatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
@@ -25,7 +25,7 @@ final class InvalidateTemplateChainCacheEventSubscriber implements EventSubscrib
     }
 
     public function invalidateTemplateChainCache(
-        ModuleSetupEvent|ModuleConfigurationChangedEvent|ThemeSettingChangedEvent|ThemeActivatedEvent $event
+        ModuleSetupEvent|ModuleConfigurationChangedEvent|ThemeConfigurationChangedEvent|ThemeActivatedEvent $event
     ): void {
         $this->cache->invalidateTags(['oxid_esales.cache.twig.template_chain']);
     }
@@ -33,11 +33,11 @@ final class InvalidateTemplateChainCacheEventSubscriber implements EventSubscrib
     public static function getSubscribedEvents(): array
     {
         return [
-            FinalizingModuleActivationEvent::class   => 'invalidateTemplateChainCache',
+            FinalizingModuleActivationEvent::class => 'invalidateTemplateChainCache',
             FinalizingModuleDeactivationEvent::class => 'invalidateTemplateChainCache',
-            ModuleConfigurationChangedEvent::class   => 'invalidateTemplateChainCache',
-            ThemeSettingChangedEvent::class          => 'invalidateTemplateChainCache',
-            ThemeActivatedEvent::class              => 'invalidateTemplateChainCache',
+            ModuleConfigurationChangedEvent::class => 'invalidateTemplateChainCache',
+            ThemeConfigurationChangedEvent::class => 'invalidateTemplateChainCache',
+            ThemeActivatedEvent::class => 'invalidateTemplateChainCache',
         ];
     }
 }
