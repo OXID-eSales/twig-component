@@ -3,6 +3,9 @@
 ## v8.0.0-alpha.3 - Unreleased
 *Compilation release*
 
+### Changed
+- Template chain cache is invalidated on `ThemeConfigurationChangedEvent`
+
 ### Removed
 - PHP v8.3 support
 
