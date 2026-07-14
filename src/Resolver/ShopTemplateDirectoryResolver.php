@@ -10,7 +10,11 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Resolver;
 
 use OxidEsales\Eshop\Core\Config;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\MetaData\Exception\ParentThemeNotFoundException;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\MetaData\ThemeParentProviderInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\CustomThemeProviderInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\Exception\ActiveThemeNotFoundException;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\Exception\CustomThemeNotFoundException;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\ThemeStateServiceInterface;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use Twig\Loader\FilesystemLoader;
@@ -22,6 +26,8 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
     public function __construct(
         private Config $config,
         private ThemeStateServiceInterface $themeStateService,
+        private CustomThemeProviderInterface $customThemeProvider,
+        private ThemeParentProviderInterface $themeParentProvider,
     ) {
     }
 
@@ -82,13 +88,18 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
 
     private function getTemplateDirectoryForChildTheme(): string
     {
+        $customThemeId = $this->getCustomThemeId();
+        if (!$customThemeId) {
+            return '';
+        }
+
         return (string)$this->config->getDir(
             null,
             self::SHOP_VIEWS_TEMPLATES_DIRECTORY_NAME,
             false,
             null,
             null,
-            $this->config->getConfigParam('sCustomTheme')
+            $customThemeId
         );
     }
 
@@ -100,7 +111,7 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
             false,
             null,
             null,
-            $this->getActiveThemeId(),
+            $this->getParentThemeId(),
             true,
             true
         );
@@ -111,6 +122,29 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
         try {
             return $this->themeStateService->getActiveThemeId($this->config->getShopId());
         } catch (ActiveThemeNotFoundException) {
+            return '';
+        }
+    }
+
+    private function getParentThemeId(): string
+    {
+        $activeThemeId = $this->getActiveThemeId();
+        if (!$activeThemeId) {
+            return '';
+        }
+
+        try {
+            return $this->themeParentProvider->getParentThemeId($activeThemeId, $this->config->getShopId());
+        } catch (ParentThemeNotFoundException | \InvalidArgumentException) {
+            return $activeThemeId;
+        }
+    }
+
+    private function getCustomThemeId(): string
+    {
+        try {
+            return $this->customThemeProvider->getCustomThemeId($this->config->getShopId());
+        } catch (CustomThemeNotFoundException) {
             return '';
         }
     }

@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\Resolver;
 
 use OxidEsales\Eshop\Core\Config;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\MetaData\ThemeParentProviderInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\CustomThemeProviderInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\ThemeStateServiceInterface;
 use OxidEsales\Twig\Resolver\ShopTemplateDirectoryResolver;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +25,8 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
     private ShopTemplateDirectoryResolver $shopTemplateDirectoryResolver;
     private Config|ObjectProphecy $config;
     private ThemeStateServiceInterface|ObjectProphecy $themeStateService;
+    private CustomThemeProviderInterface|ObjectProphecy $customThemeProvider;
+    private ThemeParentProviderInterface|ObjectProphecy $themeParentProvider;
 
     public function setUp(): void
     {
@@ -30,9 +34,13 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
 
         $this->config = $this->prophesize(Config::class);
         $this->themeStateService = $this->prophesize(ThemeStateServiceInterface::class);
+        $this->customThemeProvider = $this->prophesize(CustomThemeProviderInterface::class);
+        $this->themeParentProvider = $this->prophesize(ThemeParentProviderInterface::class);
         $this->shopTemplateDirectoryResolver = new ShopTemplateDirectoryResolver(
             $this->config->reveal(),
             $this->themeStateService->reveal(),
+            $this->customThemeProvider->reveal(),
+            $this->themeParentProvider->reveal(),
         );
     }
 
@@ -75,9 +83,10 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
         $childTheme = 'child-theme';
         $parentTheme = 'parent-theme';
         $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn($childTheme);
         $this->config->getShopId()->willReturn($shopId);
-        $this->themeStateService->getActiveThemeId($shopId)->willReturn($parentTheme);
+        $this->customThemeProvider->getCustomThemeId($shopId)->willReturn($childTheme);
+        $this->themeStateService->getActiveThemeId($shopId)->willReturn($childTheme);
+        $this->themeParentProvider->getParentThemeId($childTheme, $shopId)->willReturn($parentTheme);
         $this->config->getDir(
             null,
             'tpl',
@@ -113,9 +122,10 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
         $childThemeDir = 'child/theme/dir';
         $parentThemeDir = 'parent/theme/dir';
         $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn($childTheme);
         $this->config->getShopId()->willReturn($shopId);
-        $this->themeStateService->getActiveThemeId($shopId)->willReturn($parentTheme);
+        $this->customThemeProvider->getCustomThemeId($shopId)->willReturn($childTheme);
+        $this->themeStateService->getActiveThemeId($shopId)->willReturn($childTheme);
+        $this->themeParentProvider->getParentThemeId($childTheme, $shopId)->willReturn($parentTheme);
         $this->config->getDir(
             null,
             'tpl',

@@ -19,6 +19,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Theme\Setup\Service\ThemeActiva
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\EshopCommunity\Tests\TestContainerFactory;
+use Symfony\Component\Filesystem\Path;
 
 trait TestingFixturesTrait
 {
@@ -81,7 +82,16 @@ trait TestingFixturesTrait
 
     public function setChildThemeFixture(string $themeId): void
     {
-        Registry::getConfig()->setConfigParam('sCustomTheme', $themeId);
+        $context = $this->get(BasicContextInterface::class);
+        $shopId = $context->getDefaultShopId();
+        $themePath = "{$this->getFixturesDirectory()}/shop/source/Application/views/$themeId";
+
+        $themeConfiguration = (new ThemeConfiguration())
+            ->setId($themeId)
+            ->setSource(Path::makeRelative($themePath, $context->getShopRootPath()));
+        $this->get(ThemeConfigurationDaoInterface::class)->save($themeConfiguration, $shopId);
+        $this->get(ThemeActivationServiceInterface::class)->activate($themeId, $shopId);
+        $this->currentTheme = $themeId;
     }
 
     public function setFixtureBaseLanguage(int $languageId): void
