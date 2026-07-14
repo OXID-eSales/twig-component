@@ -11,6 +11,9 @@ namespace OxidEsales\Twig\Tests\Integration\TwigEngine\ControllerRender;
 
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\ShopControl;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\Dao\ThemeConfigurationDaoInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\DataObject\ThemeConfiguration;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Setting\Setting;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
 use PHPUnit\Framework\TestCase;
@@ -39,6 +42,7 @@ final class ModuleControllerRenderTest extends TestCase
         $this->initFixtures(__DIR__);
         $this->setupModuleFixture('module1');
         $this->setThemeFixture(self::THEME);
+        $this->installThemeConfiguration();
         $this->setFixtureBaseLanguage(0);
         $this->autoloadFixtures();
         $this->stubRequestData();
@@ -53,6 +57,28 @@ final class ModuleControllerRenderTest extends TestCase
         }
 
         parent::tearDown();
+    }
+
+    private function installThemeConfiguration(): void
+    {
+        $settings = [
+            ['sDefaultListDisplayType', 'str', 'infogrid'],
+            ['aNrofCatArticles', 'arr', ['10']],
+            ['aNrofCatArticlesInGrid', 'arr', ['10']],
+            ['blShowBirthdayFields', 'bool', true],
+            ['bl_showCompareList', 'bool', true],
+            ['bl_showGiftWrapping', 'bool', true],
+            ['bl_showVouchers', 'bool', true],
+            ['bl_showWishlist', 'bool', true],
+            ['iNewBasketItemMessage', 'select', '0'],
+        ];
+
+        $configuration = (new ThemeConfiguration())->setId(self::THEME)->setActivated(true);
+        foreach ($settings as [$name, $type, $value]) {
+            $configuration->addThemeSetting((new Setting())->setName($name)->setType($type)->setValue($value));
+        }
+
+        $this->get(ThemeConfigurationDaoInterface::class)->save($configuration, $this->shopID);
     }
 
     public function testRenderWithExistingTemplate(): void
