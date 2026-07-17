@@ -12,9 +12,8 @@ namespace OxidEsales\Twig\Resolver;
 use OxidEsales\Eshop\Core\Config;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\MetaData\Exception\ParentThemeNotFoundException;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\MetaData\ThemeParentProviderInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\CustomThemeProviderInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\ActiveTheme;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\Exception\ActiveThemeNotFoundException;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\Exception\CustomThemeNotFoundException;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\ThemeStateServiceInterface;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use Twig\Loader\FilesystemLoader;
@@ -26,7 +25,6 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
     public function __construct(
         private Config $config,
         private ThemeStateServiceInterface $themeStateService,
-        private CustomThemeProviderInterface $customThemeProvider,
         private ThemeParentProviderInterface $themeParentProvider,
     ) {
     }
@@ -88,8 +86,8 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
 
     private function getTemplateDirectoryForChildTheme(): string
     {
-        $customThemeId = $this->getCustomThemeId();
-        if (!$customThemeId) {
+        $childThemeId = $this->getChildThemeId();
+        if (!$childThemeId) {
             return '';
         }
 
@@ -99,7 +97,7 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
             false,
             null,
             null,
-            $customThemeId
+            $childThemeId
         );
     }
 
@@ -117,18 +115,18 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
         );
     }
 
-    private function getActiveThemeId(): string
+    private function getActiveTheme(): ?ActiveTheme
     {
         try {
-            return $this->themeStateService->getActiveThemeId($this->config->getShopId());
+            return $this->themeStateService->getActiveTheme($this->config->getShopId());
         } catch (ActiveThemeNotFoundException) {
-            return '';
+            return null;
         }
     }
 
     private function getParentThemeId(): string
     {
-        $activeThemeId = $this->getActiveThemeId();
+        $activeThemeId = $this->getActiveTheme()?->getId() ?? '';
         if (!$activeThemeId) {
             return '';
         }
@@ -140,12 +138,10 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
         }
     }
 
-    private function getCustomThemeId(): string
+    private function getChildThemeId(): string
     {
-        try {
-            return $this->customThemeProvider->getCustomThemeId($this->config->getShopId());
-        } catch (CustomThemeNotFoundException) {
-            return '';
-        }
+        $activeTheme = $this->getActiveTheme();
+
+        return $activeTheme?->isChildTheme() ? $activeTheme->getId() : '';
     }
 }
