@@ -14,7 +14,7 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\DataObject\OxidE
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Bridge\ModuleActivationBridgeInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\Dao\ThemeConfigurationDaoInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\DataObject\ThemeConfiguration;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Install\Service\ThemeConfigurationInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Setup\Service\ThemeActivationServiceInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
@@ -71,27 +71,38 @@ trait TestingFixturesTrait
 
     public function setThemeFixture(string $themeId): void
     {
-        $shopId = $this->get(BasicContextInterface::class)->getDefaultShopId();
-        $themeConfigurationDao = $this->get(ThemeConfigurationDaoInterface::class);
-        if (!$themeConfigurationDao->exists($themeId, $shopId)) {
-            $themeConfigurationDao->save((new ThemeConfiguration())->setId($themeId), $shopId);
-        }
-        $this->get(ThemeActivationServiceInterface::class)->activate($themeId, $shopId);
-        $this->currentTheme = $themeId;
+        $this->installThemeFixture($themeId);
     }
 
     public function setChildThemeFixture(string $themeId): void
+    {
+        $this->installThemeFixture($themeId);
+    }
+
+    private function installThemeFixture(string $themeId): void
     {
         $context = $this->get(BasicContextInterface::class);
         $shopId = $context->getDefaultShopId();
         $themePath = "{$this->getFixturesDirectory()}/shop/source/Application/views/$themeId";
 
-        $themeConfiguration = (new ThemeConfiguration())
-            ->setId($themeId)
-            ->setSource(Path::makeRelative($themePath, $context->getShopRootPath()));
-        $this->get(ThemeConfigurationDaoInterface::class)->save($themeConfiguration, $shopId);
+        if (!$this->isThemeConfiguredFromSource($themeId, $shopId, $themePath)) {
+            $this->get(ThemeConfigurationInstallerInterface::class)->install($themePath);
+        }
         $this->get(ThemeActivationServiceInterface::class)->activate($themeId, $shopId);
         $this->currentTheme = $themeId;
+    }
+
+    private function isThemeConfiguredFromSource(string $themeId, int $shopId, string $themePath): bool
+    {
+        $themeConfigurationDao = $this->get(ThemeConfigurationDaoInterface::class);
+        if (!$themeConfigurationDao->exists($themeId, $shopId)) {
+            return false;
+        }
+
+        $context = $this->get(BasicContextInterface::class);
+        $expectedSource = Path::makeRelative(realpath($themePath), $context->getShopRootPath());
+
+        return $themeConfigurationDao->get($themeId, $shopId)->getSource() === $expectedSource;
     }
 
     public function setFixtureBaseLanguage(int $languageId): void

@@ -14,12 +14,14 @@ use OxidEsales\Eshop\Core\ShopControl;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\Dao\ThemeConfigurationDaoInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\DataObject\ThemeConfiguration;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Setting\Setting;
+use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Filesystem\Path;
 
 final class ModuleControllerRenderTest extends TestCase
 {
@@ -73,7 +75,13 @@ final class ModuleControllerRenderTest extends TestCase
             ['iNewBasketItemMessage', 'select', '0'],
         ];
 
-        $configuration = (new ThemeConfiguration())->setId(self::THEME)->setActivated(true);
+        $themePath = "{$this->getFixturesDirectory()}/shop/source/Application/views/" . self::THEME;
+        $context = $this->get(BasicContextInterface::class);
+
+        $configuration = (new ThemeConfiguration())
+            ->setId(self::THEME)
+            ->setSource(Path::makeRelative($themePath, $context->getShopRootPath()))
+            ->setActivated(true);
         foreach ($settings as [$name, $type, $value]) {
             $configuration->addThemeSetting((new Setting())->setName($name)->setType($type)->setValue($value));
         }

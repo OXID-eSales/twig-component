@@ -10,12 +10,14 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Resolver;
 
 use OxidEsales\Eshop\Core\Config;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\MetaData\Exception\ParentThemeNotFoundException;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\MetaData\ThemeParentProviderInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\Exception\ThemeConfigurationNotFoundException;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Path\ThemePathResolverInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\ActiveTheme;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\Exception\ActiveThemeNotFoundException;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\ThemeStateServiceInterface;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
 use Twig\Loader\FilesystemLoader;
 
 class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterface
@@ -25,7 +27,8 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
     public function __construct(
         private Config $config,
         private ThemeStateServiceInterface $themeStateService,
-        private ThemeParentProviderInterface $themeParentProvider,
+        private ThemePathResolverInterface $themePathResolver,
+        private Filesystem $filesystem,
     ) {
     }
 
@@ -54,14 +57,12 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
                 $this->getTemplateDirectoryForAdminTheme()
             );
         } else {
-            $shopTemplateDirectories = $this->addDirectory(
-                $shopTemplateDirectories,
-                $this->getTemplateDirectoryForChildTheme()
-            );
-            $shopTemplateDirectories = $this->addDirectory(
-                $shopTemplateDirectories,
-                $this->getTemplateDirectoryForParentTheme()
-            );
+            foreach ($this->getActiveThemeChain() as $themeId) {
+                $shopTemplateDirectories = $this->addDirectory(
+                    $shopTemplateDirectories,
+                    $this->getTemplateDirectoryForTheme($themeId)
+                );
+            }
         }
 
         return $shopTemplateDirectories;
@@ -84,35 +85,20 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
         );
     }
 
-    private function getTemplateDirectoryForChildTheme(): string
+    private function getTemplateDirectoryForTheme(string $themeId): string
     {
-        $childThemeId = $this->getChildThemeId();
-        if (!$childThemeId) {
+        try {
+            $themePath = $this->themePathResolver->getFullThemePathFromConfiguration(
+                $themeId,
+                $this->config->getShopId()
+            );
+        } catch (ThemeConfigurationNotFoundException) {
             return '';
         }
 
-        return (string)$this->config->getDir(
-            null,
-            self::SHOP_VIEWS_TEMPLATES_DIRECTORY_NAME,
-            false,
-            null,
-            null,
-            $childThemeId
-        );
-    }
+        $templateDirectory = Path::join($themePath, self::SHOP_VIEWS_TEMPLATES_DIRECTORY_NAME);
 
-    private function getTemplateDirectoryForParentTheme(): string
-    {
-        return (string)$this->config->getDir(
-            null,
-            self::SHOP_VIEWS_TEMPLATES_DIRECTORY_NAME,
-            false,
-            null,
-            null,
-            $this->getParentThemeId(),
-            true,
-            true
-        );
+        return $this->filesystem->exists($templateDirectory) ? $templateDirectory : '';
     }
 
     private function getActiveTheme(): ?ActiveTheme
@@ -124,24 +110,9 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
         }
     }
 
-    private function getParentThemeId(): string
+    /** @return string[] */
+    private function getActiveThemeChain(): array
     {
-        $activeThemeId = $this->getActiveTheme()?->getId() ?? '';
-        if (!$activeThemeId) {
-            return '';
-        }
-
-        try {
-            return $this->themeParentProvider->getParentThemeId($activeThemeId, $this->config->getShopId());
-        } catch (ParentThemeNotFoundException | \InvalidArgumentException) {
-            return $activeThemeId;
-        }
-    }
-
-    private function getChildThemeId(): string
-    {
-        $activeTheme = $this->getActiveTheme();
-
-        return $activeTheme?->isChildTheme() ? $activeTheme->getId() : '';
+        return $this->getActiveTheme()?->getChain()->getThemeIds() ?? [];
     }
 }
