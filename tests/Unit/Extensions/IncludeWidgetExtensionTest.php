@@ -14,6 +14,7 @@ use OxidEsales\Eshop\Core\WidgetControl;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\TemplateLogic\IncludeWidgetLogic;
 use OxidEsales\Twig\Extensions\IncludeWidgetExtension;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 final class IncludeWidgetExtensionTest extends TestCase
 {
@@ -29,7 +30,7 @@ final class IncludeWidgetExtensionTest extends TestCase
     public function testIncludeWidget(): void
     {
         $widgetControl = $this->createStub(WidgetControl::class);
-        $widgetControl->method('start')->willReturn('html');
+        $widgetControl->method('buildWidgetResponse')->willReturn(new Response('html'));
         Registry::set(WidgetControl::class, $widgetControl);
 
         $actual = $this->includeWidgetExtension->includeWidget(['cl' => 'oxwTagCloud', 'blShowTags' => 1]);

@@ -56,9 +56,7 @@ final class ModuleControllerRenderTest extends IntegrationTestCase
 
     public function testRenderWithExistingTemplate(): void
     {
-        ob_start();
-        $this->shopControl->start('module1_controller', '');
-        $output = ob_get_clean();
+        $output = $this->shopControl->buildResponse('module1_controller', '')->getContent();
 
         $this->assertStringContainsString('Module 1 Header', $output);
         $this->assertStringContainsString((new \DateTime())->format('Y-m-d'), $output);
@@ -68,9 +66,7 @@ final class ModuleControllerRenderTest extends IntegrationTestCase
     {
         $this->switchDebugMode(true);
 
-        ob_start();
-        $this->shopControl->start('module1_controller_missing_template', '');
-        $output = ob_get_clean();
+        $output = $this->shopControl->buildResponse('module1_controller_missing_template', '')->getContent();
 
         $this->assertStringContainsString(
             \htmlspecialchars('Template "@module1/module_controller_missing_template" nicht gefunden'),
@@ -82,9 +78,7 @@ final class ModuleControllerRenderTest extends IntegrationTestCase
     {
         $this->switchDebugMode(false);
 
-        ob_start();
-        $this->shopControl->start('module1_controller_missing_template', '');
-        $output = ob_get_clean();
+        $output = $this->shopControl->buildResponse('module1_controller_missing_template', '')->getContent();
 
         $this->assertStringNotContainsString(
             \htmlspecialchars('Template "@module1/module_controller_missing_template" nicht gefunden'),
@@ -98,9 +92,7 @@ final class ModuleControllerRenderTest extends IntegrationTestCase
         Registry::set('logger', $logger->reveal());
         $this->switchDebugMode(true);
 
-        ob_start();
-        $this->shopControl->start('module1_controller_missing_template', '');
-        ob_get_clean();
+        $this->shopControl->buildResponse('module1_controller_missing_template', '');
 
         $logger->error(
             Argument::containingString('module_controller_missing_template'),
