@@ -1,5 +1,0 @@
-id: vendorChildTheme
-title: 'Vendor Child Theme'
-parentTheme: vendorParentTheme
-parentVersions:
-  - '1.0.0'
