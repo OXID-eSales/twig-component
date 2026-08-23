@@ -88,7 +88,7 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
             false,
             null,
             null,
-            $this->config->getConfigParam('sCustomTheme')
+            $this->getActiveThemeId()
         );
     }
 
@@ -100,7 +100,7 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
             false,
             null,
             null,
-            $this->getActiveThemeId(),
+            $this->getBaseThemeId(),
             true,
             true
         );
@@ -110,6 +110,15 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
     {
         try {
             return $this->themeStateService->getActiveThemeId($this->config->getShopId());
+        } catch (ActiveThemeNotFoundException) {
+            return '';
+        }
+    }
+
+    private function getBaseThemeId(): string
+    {
+        try {
+            return $this->themeStateService->getBaseThemeId($this->config->getShopId());
         } catch (ActiveThemeNotFoundException) {
             return '';
         }
