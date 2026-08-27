@@ -14,11 +14,12 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\DataObject\OxidE
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Bridge\ModuleActivationBridgeInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\Dao\ThemeConfigurationDaoInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\DataObject\ThemeConfiguration;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Install\Service\ThemeConfigurationInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Setup\Service\ThemeActivationServiceInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\EshopCommunity\Tests\TestContainerFactory;
+use Symfony\Component\Filesystem\Path;
 
 trait TestingFixturesTrait
 {
@@ -71,17 +72,20 @@ trait TestingFixturesTrait
     public function setThemeFixture(string $themeId): void
     {
         $shopId = $this->get(BasicContextInterface::class)->getDefaultShopId();
-        $themeConfigurationDao = $this->get(ThemeConfigurationDaoInterface::class);
-        if (!$themeConfigurationDao->exists($themeId, $shopId)) {
-            $themeConfigurationDao->save((new ThemeConfiguration())->setId($themeId), $shopId);
+
+        if (!$this->get(ThemeConfigurationDaoInterface::class)->exists($themeId, $shopId)) {
+            $this->get(ThemeConfigurationInstallerInterface::class)->install(
+                Path::join($this->getFixturesDirectory(), 'shop/source/Application/views', $themeId)
+            );
         }
+
         $this->get(ThemeActivationServiceInterface::class)->activate($themeId, $shopId);
         $this->currentTheme = $themeId;
     }
 
     public function setChildThemeFixture(string $themeId): void
     {
-        Registry::getConfig()->setConfigParam('sCustomTheme', $themeId);
+        $this->setThemeFixture($themeId);
     }
 
     public function setFixtureBaseLanguage(int $languageId): void

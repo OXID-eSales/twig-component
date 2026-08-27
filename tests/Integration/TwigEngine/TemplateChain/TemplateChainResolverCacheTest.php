@@ -36,6 +36,7 @@ final class TemplateChainResolverCacheTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        $this->initFixtures(__DIR__);
         $this->setThemeFixture(self::FIXTURE_THEME);
 
         $this->resolver = $this->get(TemplateChainResolverInterface::class);

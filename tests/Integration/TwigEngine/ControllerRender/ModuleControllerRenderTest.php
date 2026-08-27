@@ -12,7 +12,6 @@ namespace OxidEsales\Twig\Tests\Integration\TwigEngine\ControllerRender;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\ShopControl;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\Dao\ThemeConfigurationDaoInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\DataObject\ThemeConfiguration;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Setting\Setting;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
@@ -62,23 +61,24 @@ final class ModuleControllerRenderTest extends TestCase
     private function installThemeConfiguration(): void
     {
         $settings = [
-            ['sDefaultListDisplayType', 'str', 'infogrid'],
-            ['aNrofCatArticles', 'arr', ['10']],
-            ['aNrofCatArticlesInGrid', 'arr', ['10']],
-            ['blShowBirthdayFields', 'bool', true],
-            ['bl_showCompareList', 'bool', true],
-            ['bl_showGiftWrapping', 'bool', true],
-            ['bl_showVouchers', 'bool', true],
-            ['bl_showWishlist', 'bool', true],
-            ['iNewBasketItemMessage', 'select', '0'],
+            ['defaultListDisplayType', 'str', 'infogrid'],
+            ['numberOfCategoryProducts', 'arr', ['10']],
+            ['numberOfCategoryProductsInGrid', 'arr', ['10']],
+            ['showBirthdayFields', 'bool', true],
+            ['showCompareList', 'bool', true],
+            ['showGiftWrapping', 'bool', true],
+            ['showVouchers', 'bool', true],
+            ['showWishlist', 'bool', true],
+            ['newBasketItemMessage', 'select', '0'],
         ];
 
-        $configuration = (new ThemeConfiguration())->setId(self::THEME)->setActivated(true);
+        $themeConfigurationDao = $this->get(ThemeConfigurationDaoInterface::class);
+        $configuration = $themeConfigurationDao->get(self::THEME, $this->shopID);
         foreach ($settings as [$name, $type, $value]) {
             $configuration->addThemeSetting((new Setting())->setName($name)->setType($type)->setValue($value));
         }
 
-        $this->get(ThemeConfigurationDaoInterface::class)->save($configuration, $this->shopID);
+        $themeConfigurationDao->save($configuration, $this->shopID);
     }
 
     public function testRenderWithExistingTemplate(): void

@@ -16,7 +16,7 @@ install:
         "require": {
           "oxid-esales/oxideshop-composer-plugin": "dev-b-8.0.x-move-theme-settings-to-yaml-OXDEV-8895 as dev-b-8.0.x",
           "oxid-esales/apex-theme": "dev-b-8.0.x-move-theme-settings-to-yaml-OXDEV-8895",
-          "oxid-esales/oxideshop-ce": "dev-b-8.0.x-move-theme-settings-to-yaml-OXDEV-8895",
+          "oxid-esales/oxideshop-ce": "{{ .Data.install.composer.ref_name }}",
           "oxid-esales/twig-admin-theme": "{{ .Data.install.composer.dev_ref }}",
           "oxid-esales/twig-component": "{{ .Data.install.composer.ref_name }}"
         },

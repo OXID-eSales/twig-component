@@ -75,9 +75,9 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
         $childTheme = 'child-theme';
         $parentTheme = 'parent-theme';
         $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn($childTheme);
         $this->config->getShopId()->willReturn($shopId);
-        $this->themeStateService->getActiveThemeId($shopId)->willReturn($parentTheme);
+        $this->themeStateService->getActiveThemeId($shopId)->willReturn($childTheme);
+        $this->themeStateService->getBaseThemeId($shopId)->willReturn($parentTheme);
         $this->config->getDir(
             null,
             'tpl',
@@ -113,9 +113,9 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
         $childThemeDir = 'child/theme/dir';
         $parentThemeDir = 'parent/theme/dir';
         $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn($childTheme);
         $this->config->getShopId()->willReturn($shopId);
-        $this->themeStateService->getActiveThemeId($shopId)->willReturn($parentTheme);
+        $this->themeStateService->getActiveThemeId($shopId)->willReturn($childTheme);
+        $this->themeStateService->getBaseThemeId($shopId)->willReturn($parentTheme);
         $this->config->getDir(
             null,
             'tpl',
