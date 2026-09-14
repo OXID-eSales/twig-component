@@ -12,14 +12,14 @@ namespace OxidEsales\Twig;
 use OxidEsales\Eshop\Core\Config;
 use OxidEsales\EshopCommunity\Core\Di\ContainerFacade;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Exception\InvalidThemeNameException;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Facade\ActiveThemeProviderInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\Exception\ActiveThemeNotFoundException;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\ThemeStateServiceInterface;
 
 class TwigContext implements TwigContextInterface
 {
     public function __construct(
         private Config $config,
-        private ThemeStateServiceInterface $themeStateService,
+        private ActiveThemeProviderInterface $activeThemeProvider,
         private string $activeAdminTheme,
     ) {
     }
@@ -31,19 +31,24 @@ class TwigContext implements TwigContextInterface
 
     public function getActiveThemeId(): string
     {
-        $themeId = $this->config->isAdmin() ? $this->activeAdminTheme : $this->getActiveFrontendThemeId();
-        if (!$themeId) {
-            throw new InvalidThemeNameException('Theme ID is not configured.');
+        return $this->config->isAdmin() ? $this->getActiveAdminThemeId() : $this->getActiveFrontendThemeId();
+    }
+
+    private function getActiveAdminThemeId(): string
+    {
+        if (!$this->activeAdminTheme) {
+            throw new InvalidThemeNameException('Admin theme ID is not configured.');
         }
-        return $themeId;
+
+        return $this->activeAdminTheme;
     }
 
     private function getActiveFrontendThemeId(): string
     {
         try {
-            return $this->themeStateService->getActiveThemeId($this->config->getShopId());
-        } catch (ActiveThemeNotFoundException) {
-            return '';
+            return $this->activeThemeProvider->getActiveThemeId($this->config->getShopId());
+        } catch (ActiveThemeNotFoundException $exception) {
+            throw new InvalidThemeNameException('No active theme found.', previous: $exception);
         }
     }
 }
