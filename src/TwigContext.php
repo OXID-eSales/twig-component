@@ -9,36 +9,44 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig;
 
-use OxidEsales\Eshop\Core\Config;
-use OxidEsales\EshopCommunity\Core\Di\ContainerFacade;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Exception\InvalidThemeNameException;
+use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 
-class TwigContext implements TwigContextInterface
+readonly class TwigContext implements TwigContextInterface
 {
     public function __construct(
-        private Config $config,
-        private string $activeAdminTheme,
+        private ContextInterface $context,
+        private bool $debugMode,
+        private string $activeThemeId,
+        private string $adminThemeName,
     ) {
     }
 
     public function getIsDebug(): bool
     {
-        return ContainerFacade::getParameter('oxid_esales.debug_mode');
+        return $this->debugMode;
     }
 
     public function getActiveThemeId(): string
     {
-        $themeId = $this->config->isAdmin() ? $this->activeAdminTheme : $this->getActiveFrontendThemeId();
-        if (!$themeId) {
-            throw new InvalidThemeNameException('Theme ID is not configured.');
+        return $this->context->isAdmin() ? $this->getAdminThemeName() : $this->getActiveFrontendThemeId();
+    }
+
+    private function getAdminThemeName(): string
+    {
+        if ($this->adminThemeName === '') {
+            throw new InvalidThemeNameException('Admin theme name is not configured.');
         }
-        return $themeId;
+
+        return $this->adminThemeName;
     }
 
     private function getActiveFrontendThemeId(): string
     {
-        $theme = $this->config->getConfigParam('sCustomTheme') ?: $this->config->getConfigParam('sTheme');
+        if ($this->activeThemeId === '') {
+            throw new InvalidThemeNameException('No active theme found.');
+        }
 
-        return (string)$theme;
+        return $this->activeThemeId;
     }
 }

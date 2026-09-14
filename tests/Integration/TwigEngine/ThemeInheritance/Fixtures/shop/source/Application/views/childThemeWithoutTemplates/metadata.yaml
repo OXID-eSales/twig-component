@@ -1,0 +1,4 @@
+id: childThemeWithoutTemplates
+parentTheme: parentTheme
+parentVersions:
+  - '1.0.0'

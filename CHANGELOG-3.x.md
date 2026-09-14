@@ -3,6 +3,9 @@
 ## v8.0.0-alpha.3 - Unreleased
 *Compilation release*
 
+### Changed
+- Replace `sTheme` and `sCustomTheme` config parameters with `oxid_esales.theme.active` container parameter
+
 ### Removed
 - PHP v8.3 support
 

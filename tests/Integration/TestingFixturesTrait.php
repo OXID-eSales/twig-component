@@ -13,6 +13,8 @@ use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\DataObject\OxidEshopPackage;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Bridge\ModuleActivationBridgeInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\Service\ThemeActivationServiceInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Install\Service\ThemeConfigurationInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\EshopCommunity\Tests\TestContainerFactory;
@@ -53,27 +55,26 @@ trait TestingFixturesTrait
 
     public function setShopSourceFixture(): void
     {
-        $this->setParameter(
-            'oxid_esales.shop_source_directory',
-            "{$this->getFixturesDirectory()}/shop/source/"
-        );
+        $this->setParameter('oxid_esales.shop_source_directory', $this->getShopSourceFixtureDirectory());
     }
 
     public function reloadTestContainer(): void
     {
-        $this->setShopSourceFixture();
         $this->setThemeFixture($this->currentTheme);
     }
 
     public function setThemeFixture(string $themeId): void
     {
-        Registry::getConfig()->setConfigParam('sTheme', $themeId);
+        $this->installThemeFixture($themeId);
+        $this->get(ThemeActivationServiceInterface::class)
+            ->activate($themeId, $this->get(BasicContextInterface::class)->getDefaultShopId());
         $this->currentTheme = $themeId;
+        $this->setShopSourceFixture();
     }
 
-    public function setChildThemeFixture(string $themeId): void
+    public function installThemeFixture(string $themeId): void
     {
-        Registry::getConfig()->setConfigParam('sCustomTheme', $themeId);
+        $this->get(ThemeConfigurationInstallerInterface::class)->install($this->getThemeFixtureDirectory($themeId));
     }
 
     public function setFixtureBaseLanguage(int $languageId): void
@@ -84,6 +85,16 @@ trait TestingFixturesTrait
     private function getFixturesDirectory(): string
     {
         return "$this->fixtureRoot/Fixtures";
+    }
+
+    private function getShopSourceFixtureDirectory(): string
+    {
+        return "{$this->getFixturesDirectory()}/shop/source/";
+    }
+
+    private function getThemeFixtureDirectory(string $themeId): string
+    {
+        return "{$this->getShopSourceFixtureDirectory()}Application/views/$themeId";
     }
 
     private function installModuleFixture(string $moduleId): void

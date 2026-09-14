@@ -12,13 +12,13 @@ namespace OxidEsales\Twig\Tests\Integration\TwigEngine\ControllerRender;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\ShopControl;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
+use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
-use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Log\LoggerInterface;
 
-final class ModuleControllerRenderTest extends TestCase
+final class ModuleControllerRenderTest extends IntegrationTestCase
 {
     use ContainerTrait;
     use TestingFixturesTrait;
@@ -29,10 +29,9 @@ final class ModuleControllerRenderTest extends TestCase
     ];
     private const THEME = 'testTheme';
 
-    private int $shopID = 1;
     private ShopControl $shopControl;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -46,7 +45,7 @@ final class ModuleControllerRenderTest extends TestCase
         $this->shopControl = new ShopControl();
     }
 
-    protected function tearDown(): void
+    public function tearDown(): void
     {
         foreach (self::MODULE_IDS as $moduleId) {
             $this->uninstallModuleFixture($moduleId);
@@ -117,16 +116,13 @@ final class ModuleControllerRenderTest extends TestCase
 
     private function switchDebugMode(bool $enable): void
     {
+        $this->setThemeFixture($this->currentTheme);
+
         $this->createContainer();
-        $this->container->setParameter(
-            'oxid_esales.shop_source_directory',
-            "{$this->getFixturesDirectory()}/shop/source/"
-        );
+        $this->container->setParameter('oxid_esales.shop_source_directory', $this->getShopSourceFixtureDirectory());
         $this->container->setParameter('oxid_esales.debug_mode', $enable);
         $this->compileContainer();
         $this->replaceContainerInstance();
-
-        $this->setThemeFixture($this->currentTheme);
     }
 
     private function autoloadFixtures(): void

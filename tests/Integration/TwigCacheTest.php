@@ -10,12 +10,12 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Integration;
 
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
+use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
 use OxidEsales\EshopCommunity\Tests\TestContainerFactory;
-use PHPUnit\Framework\TestCase;
 use Twig\Cache\FilesystemCache;
 use Twig\Cache\NullCache;
 
-final class TwigCacheTest extends TestCase
+final class TwigCacheTest extends IntegrationTestCase
 {
     use ContainerTrait;
 
@@ -39,6 +39,5 @@ final class TwigCacheTest extends TestCase
         $this->container = (new TestContainerFactory())->create();
         $this->container->setParameter('oxid_esales.templating.disable_twig_template_caching', true);
         $this->container->compile();
-        $this->get('oxid_esales.module.install.service.launched_shop_project_configuration_generator')->generate();
     }
 }

@@ -16,7 +16,9 @@ services:
   OxidEsales\Twig\TwigContextInterface:
     class: OxidEsales\Twig\TwigContext
     arguments:
-      $activeAdminTheme: '%oxid_esales.theme.admin.name%'
+      $debugMode: '%oxid_esales.debug_mode%'
+      $activeThemeId: '%oxid_esales.theme.active%'
+      $adminThemeName: '%oxid_esales.theme.admin.name%'
 
   OxidEsales\Twig\TwigEngineConfigurationInterface:
     class: OxidEsales\Twig\TwigEngineConfiguration

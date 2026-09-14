@@ -10,62 +10,51 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Resolver;
 
 use OxidEsales\Eshop\Core\Config;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\Exception\ActiveThemeNotFoundException;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Facade\ActiveThemeProviderInterface;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use Twig\Loader\FilesystemLoader;
 
-class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterface
+readonly class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterface
 {
     private const SHOP_VIEWS_TEMPLATES_DIRECTORY_NAME = 'tpl';
 
     public function __construct(
         private Config $config,
+        private ActiveThemeProviderInterface $activeThemeProvider,
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTemplateDirectories(): array
     {
-        $directories = [];
-        foreach ($this->getShopViewsTemplateDirectories() as $shopTemplateDirectory) {
-            $directories[] = new NamespacedDirectory(
-                FilesystemLoader::MAIN_NAMESPACE,
-                $shopTemplateDirectory
-            );
-        }
-
-        return $directories;
+        return array_map(
+            static fn (string $directory) => new NamespacedDirectory(FilesystemLoader::MAIN_NAMESPACE, $directory),
+            array_values(array_filter($this->getShopViewsTemplateDirectories()))
+        );
     }
 
+    /** @return string[] */
     private function getShopViewsTemplateDirectories(): array
     {
-        $shopTemplateDirectories = [];
         if ($this->config->isAdmin()) {
-            $shopTemplateDirectories = $this->addDirectory(
-                $shopTemplateDirectories,
-                $this->getTemplateDirectoryForAdminTheme()
-            );
-        } else {
-            $shopTemplateDirectories = $this->addDirectory(
-                $shopTemplateDirectories,
-                $this->getTemplateDirectoryForChildTheme()
-            );
-            $shopTemplateDirectories = $this->addDirectory(
-                $shopTemplateDirectories,
-                $this->getTemplateDirectoryForParentTheme()
-            );
+            return [$this->getTemplateDirectoryForAdminTheme()];
         }
 
-        return $shopTemplateDirectories;
+        return array_map($this->getTemplateDirectoryForTheme(...), $this->getActiveThemeIds());
     }
 
-    private function addDirectory(array $directories, string $directory): array
+    /** @return string[] */
+    private function getActiveThemeIds(): array
     {
-        if ($directory) {
-            $directories[] = $directory;
+        try {
+            $activeTheme = $this->activeThemeProvider->getActiveTheme();
+        } catch (ActiveThemeNotFoundException) {
+            return [];
         }
-        return $directories;
+
+        return $activeTheme->hasParentTheme()
+            ? [$activeTheme->getId(), $activeTheme->getParentThemeId()]
+            : [$activeTheme->getId()];
     }
 
     private function getTemplateDirectoryForAdminTheme(): string
@@ -77,7 +66,7 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
         );
     }
 
-    private function getTemplateDirectoryForChildTheme(): string
+    private function getTemplateDirectoryForTheme(string $themeId): string
     {
         return (string)$this->config->getDir(
             null,
@@ -85,19 +74,7 @@ class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterfac
             false,
             null,
             null,
-            $this->config->getConfigParam('sCustomTheme')
-        );
-    }
-
-    private function getTemplateDirectoryForParentTheme(): string
-    {
-        return (string)$this->config->getDir(
-            null,
-            self::SHOP_VIEWS_TEMPLATES_DIRECTORY_NAME,
-            false,
-            null,
-            null,
-            $this->config->getConfigParam('sTheme'),
+            $themeId,
             true,
             true
         );

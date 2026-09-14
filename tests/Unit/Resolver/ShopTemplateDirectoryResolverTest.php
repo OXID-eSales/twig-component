@@ -10,130 +10,96 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\Resolver;
 
 use OxidEsales\Eshop\Core\Config;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\DataObject\ActiveTheme;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\Exception\ActiveThemeNotFoundException;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Facade\ActiveThemeProviderInterface;
+use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use OxidEsales\Twig\Resolver\ShopTemplateDirectoryResolver;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
+use Twig\Loader\FilesystemLoader;
 
 final class ShopTemplateDirectoryResolverTest extends TestCase
 {
-    use ProphecyTrait;
+    private const CHILD_THEME_ID = 'childTheme';
+    private const PARENT_THEME_ID = 'parentTheme';
 
-    private ShopTemplateDirectoryResolver $shopTemplateDirectoryResolver;
-    private Config|ObjectProphecy $config;
-
-    public function setUp(): void
+    public function testReturnsAdminThemeDirectoryInAdmin(): void
     {
-        parent::setUp();
+        $config = $this->createConfig(isAdmin: true);
+        $config->method('getDir')->willReturn('admin/tpl');
+        $resolver = new ShopTemplateDirectoryResolver($config, $this->createStub(ActiveThemeProviderInterface::class));
 
-        $this->config = $this->prophesize(Config::class);
-        $this->shopTemplateDirectoryResolver = new ShopTemplateDirectoryResolver(
-            $this->config->reveal(),
+        $this->assertEquals(
+            [new NamespacedDirectory(FilesystemLoader::MAIN_NAMESPACE, 'admin/tpl')],
+            $resolver->getTemplateDirectories()
         );
     }
 
-    public function testGetTemplateDirectoriesWithMissingDirectory(): void
+    public function testReturnsChildThemeDirectoryBeforeParentThemeDirectory(): void
     {
-        $this->config->isAdmin()->willReturn(true);
-        $this->config->getDir(
-            null,
-            'tpl',
-            true,
-        )
-            ->willReturn(false);
+        $resolver = new ShopTemplateDirectoryResolver(
+            $this->createFrontendConfig([
+                self::CHILD_THEME_ID => 'child/tpl',
+                self::PARENT_THEME_ID => 'parent/tpl',
+            ]),
+            $this->createActiveThemeProvider(new ActiveTheme(self::CHILD_THEME_ID, self::PARENT_THEME_ID))
+        );
 
-        $directories = $this->shopTemplateDirectoryResolver->getTemplateDirectories();
-
-        $this->assertEmpty($directories);
+        $this->assertEquals(
+            [
+                new NamespacedDirectory(FilesystemLoader::MAIN_NAMESPACE, 'child/tpl'),
+                new NamespacedDirectory(FilesystemLoader::MAIN_NAMESPACE, 'parent/tpl'),
+            ],
+            $resolver->getTemplateDirectories()
+        );
     }
 
-    public function testGetTemplateDirectoriesWithAdminTheme(): void
+    public function testSkipsThemesWithoutTemplateDirectory(): void
     {
-        $adminThemeDir = 'admin/theme/dir';
-        $this->config->isAdmin()->willReturn(true);
+        $resolver = new ShopTemplateDirectoryResolver(
+            $this->createFrontendConfig([self::PARENT_THEME_ID => 'parent/tpl']),
+            $this->createActiveThemeProvider(new ActiveTheme(self::CHILD_THEME_ID, self::PARENT_THEME_ID))
+        );
 
-        $this->config->getDir(
-            null,
-            'tpl',
-            true,
-        )
-            ->willReturn($adminThemeDir);
-
-        $directories = $this->shopTemplateDirectoryResolver->getTemplateDirectories();
-
-        $this->assertCount(1, $directories);
-        $this->assertEquals($adminThemeDir, $directories[0]->getDirectory());
+        $this->assertEquals(
+            [new NamespacedDirectory(FilesystemLoader::MAIN_NAMESPACE, 'parent/tpl')],
+            $resolver->getTemplateDirectories()
+        );
     }
 
-    public function testGetTemplateDirectoriesWithThemeInheritanceAndMissingDirectories(): void
+    public function testReturnsNothingWithoutActiveTheme(): void
     {
-        $childTheme = 'child-theme';
-        $parentTheme = 'parent-theme';
-        $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn($childTheme);
-        $this->config->getConfigParam('sTheme')->willReturn($parentTheme);
-        $this->config->getDir(
-            null,
-            'tpl',
-            false,
-            null,
-            null,
-            $childTheme
-        )
-            ->willReturn(false);
+        $activeThemeProvider = $this->createStub(ActiveThemeProviderInterface::class);
+        $activeThemeProvider->method('getActiveTheme')->willThrowException(new ActiveThemeNotFoundException());
+        $resolver = new ShopTemplateDirectoryResolver($this->createFrontendConfig([]), $activeThemeProvider);
 
-        $this->config->getDir(
-            null,
-            'tpl',
-            false,
-            null,
-            null,
-            $parentTheme,
-            true,
-            true
-        )
-            ->willReturn(false);
-
-        $directories = $this->shopTemplateDirectoryResolver->getTemplateDirectories();
-
-        $this->assertEmpty($directories);
+        $this->assertSame([], $resolver->getTemplateDirectories());
     }
 
-    public function testGetTemplateDirectoriesWithThemeInheritance(): void
+    private function createConfig(bool $isAdmin): Config
     {
-        $childTheme = 'child-theme';
-        $parentTheme = 'parent-theme';
-        $childThemeDir = 'child/theme/dir';
-        $parentThemeDir = 'parent/theme/dir';
-        $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn($childTheme);
-        $this->config->getConfigParam('sTheme')->willReturn($parentTheme);
-        $this->config->getDir(
-            null,
-            'tpl',
-            false,
-            null,
-            null,
-            $childTheme
-        )
-            ->willReturn($childThemeDir);
+        $config = $this->createStub(Config::class);
+        $config->method('isAdmin')->willReturn($isAdmin);
 
-        $this->config->getDir(
-            null,
-            'tpl',
-            false,
-            null,
-            null,
-            $parentTheme,
-            true,
-            true
-        )
-            ->willReturn($parentThemeDir);
+        return $config;
+    }
 
-        $directories = $this->shopTemplateDirectoryResolver->getTemplateDirectories();
+    /** @param array<string, string> $templateDirectoriesByThemeId */
+    private function createFrontendConfig(array $templateDirectoriesByThemeId): Config
+    {
+        $config = $this->createConfig(isAdmin: false);
+        $config->method('getDir')->willReturnCallback(
+            fn ($file, $dir, $admin, $lang, $shop, $themeId) => $templateDirectoriesByThemeId[$themeId] ?? false
+        );
 
-        $this->assertCount(2, $directories);
-        $this->assertEquals($childThemeDir, $directories[0]->getDirectory());
-        $this->assertEquals($parentThemeDir, $directories[1]->getDirectory());
+        return $config;
+    }
+
+    private function createActiveThemeProvider(ActiveTheme $activeTheme): ActiveThemeProviderInterface
+    {
+        $activeThemeProvider = $this->createStub(ActiveThemeProviderInterface::class);
+        $activeThemeProvider->method('getActiveTheme')->willReturn($activeTheme);
+
+        return $activeThemeProvider;
     }
 }

@@ -12,8 +12,8 @@ namespace OxidEsales\Twig\Tests\Integration\Event;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ModuleConfiguration;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Event\ModuleConfigurationChangedEvent;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Event\FinalizingModuleDeactivationEvent;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\Event\ThemeActivatedEvent;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\Event\ThemeSettingChangedEvent;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\Event\ThemeActivatedEvent;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\Event\ThemeConfigurationChangedEvent;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -52,12 +52,12 @@ final class InvalidateTemplateChainCacheEventSubscriberTest extends IntegrationT
         $this->assertFalse($this->cache->getItem(self::CACHE_KEY)->isHit());
     }
 
-    public function testThemeSettingChangedEventInvalidatesTemplateChainCache(): void
+    public function testThemeConfigurationChangedEventInvalidatesTemplateChainCache(): void
     {
         $this->putTaggedCacheEntry();
 
         $this->eventDispatcher->dispatch(
-            new ThemeSettingChangedEvent('sTheme', $this->shopId, 'apex')
+            new ThemeConfigurationChangedEvent($this->shopId, 'apex')
         );
 
         $this->assertFalse($this->cache->getItem(self::CACHE_KEY)->isHit());

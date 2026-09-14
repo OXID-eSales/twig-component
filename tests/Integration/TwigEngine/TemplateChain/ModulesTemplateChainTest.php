@@ -11,12 +11,12 @@ namespace OxidEsales\Twig\Tests\Integration\TwigEngine\TemplateChain;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
+use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateNotInChainException;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
-use PHPUnit\Framework\TestCase;
 use Twig\Error\LoaderError;
 
-final class ModulesTemplateChainTest extends TestCase
+final class ModulesTemplateChainTest extends IntegrationTestCase
 {
     use ContainerTrait;
     use TestingFixturesTrait;
@@ -40,7 +40,7 @@ final class ModulesTemplateChainTest extends TestCase
     private const TEMPLATE_WITH_INCLUDE_DYNAMIC = 'template-with-include-dynamic.html.twig';
     private const TEMPLATE_INCLUDE_NON_TEMPLATE_FILE = 'template-include-non-template-file.html.twig';
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -49,7 +49,7 @@ final class ModulesTemplateChainTest extends TestCase
         $this->reloadTestContainer();
     }
 
-    protected function tearDown(): void
+    public function tearDown(): void
     {
         foreach (self::MODULE_IDS as $moduleId) {
             $this->uninstallModuleFixture($moduleId);

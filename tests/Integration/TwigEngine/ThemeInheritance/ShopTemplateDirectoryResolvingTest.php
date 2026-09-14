@@ -11,21 +11,26 @@ namespace OxidEsales\Twig\Tests\Integration\TwigEngine\ThemeInheritance;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\TemplateEngineInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
+use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
+use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
+use OxidEsales\Twig\Resolver\ShopTemplateDirectoryResolver;
 use OxidEsales\Twig\Tests\Integration\TestingFixturesTrait;
-use PHPUnit\Framework\TestCase;
+use Twig\Loader\FilesystemLoader;
 
-final class ShopTemplateDirectoryResolvingTest extends TestCase
+final class ShopTemplateDirectoryResolvingTest extends IntegrationTestCase
 {
     use ContainerTrait;
     use TestingFixturesTrait;
 
     private const PARENT_THEME = 'parentTheme';
     private const CHILD_THEME = 'childTheme';
+    private const CHILD_THEME_WITHOUT_TEMPLATES = 'childThemeWithoutTemplates';
+    private const PARENT_THEME_TEMPLATE_DIRECTORY = '/Fixtures/shop/source/Application/views/parentTheme/tpl/';
     private const TEMPLATE_IN_PARENT_THEME = 'template-in-parent-theme.html.twig';
     private const TEMPLATE_IN_CHILD_THEME = 'template-in-child-theme.html.twig';
     private const TEMPLATE_IN_BOTH_THEMES = 'template-in-both-themes.html.twig';
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -43,7 +48,7 @@ final class ShopTemplateDirectoryResolvingTest extends TestCase
 
     public function testRenderWithChildThemeAndParentTemplate(): void
     {
-        $this->setChildThemeFixture(self::CHILD_THEME);
+        $this->setThemeFixture(self::CHILD_THEME);
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_IN_PARENT_THEME);
 
@@ -52,7 +57,7 @@ final class ShopTemplateDirectoryResolvingTest extends TestCase
 
     public function testRenderWithChildThemeAndChildTemplate(): void
     {
-        $this->setChildThemeFixture(self::CHILD_THEME);
+        $this->setThemeFixture(self::CHILD_THEME);
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_IN_CHILD_THEME);
 
@@ -68,10 +73,22 @@ final class ShopTemplateDirectoryResolvingTest extends TestCase
 
     public function testRenderWithChildThemeAndSharedTemplate(): void
     {
-        $this->setChildThemeFixture(self::CHILD_THEME);
+        $this->setThemeFixture(self::CHILD_THEME);
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_IN_BOTH_THEMES);
 
         $this->assertStringContainsString('<both-themes-template-child-theme-template-contents>', $actual);
+    }
+
+    public function testChildThemeWithoutTemplatesResolvesParentThemeDirectoryOnce(): void
+    {
+        $this->setThemeFixture(self::CHILD_THEME_WITHOUT_TEMPLATES);
+
+        $directories = $this->get(ShopTemplateDirectoryResolver::class)->getTemplateDirectories();
+
+        $this->assertEquals(
+            [new NamespacedDirectory(FilesystemLoader::MAIN_NAMESPACE, __DIR__ . self::PARENT_THEME_TEMPLATE_DIRECTORY)],
+            $directories
+        );
     }
 }

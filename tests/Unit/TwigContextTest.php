@@ -9,82 +9,59 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Unit;
 
-use OxidEsales\Eshop\Core\Config;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Exception\InvalidThemeNameException;
+use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\TwigContext;
-use OxidEsales\Twig\TwigContextInterface;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 
 final class TwigContextTest extends TestCase
 {
-    use ProphecyTrait;
+    private const THEME_ID = 'theme-id';
 
-    private TwigContextInterface $twigContext;
-    private Config|ObjectProphecy $config;
-
-    public function setUp(): void
+    public function testGetIsDebugReturnsConfiguredDebugMode(): void
     {
-        parent::setUp();
-        $this->config = $this->prophesize(Config::class);
-        $this->twigContext = new TwigContext(
-            $this->config->reveal(),
-            ''
-        );
+        $twigContext = new TwigContext($this->createContext(isAdmin: false), true, self::THEME_ID, '');
+
+        $this->assertTrue($twigContext->getIsDebug());
     }
 
     public function testGetActiveThemeIdWithNoFrontendThemeWillThrow(): void
     {
-        $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn(null);
-        $this->config->getConfigParam('sTheme')->willReturn(null);
+        $twigContext = new TwigContext($this->createContext(isAdmin: false), false, '', '');
 
         $this->expectException(InvalidThemeNameException::class);
 
-        $this->twigContext->getActiveThemeId();
+        $twigContext->getActiveThemeId();
     }
 
-    public function testGetActiveThemeIdWithParentFrontendTheme(): void
+    public function testGetActiveThemeIdWithFrontendThemeReturnsActiveTheme(): void
     {
-        $parentThemeId = 123;
-        $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn(null);
-        $this->config->getConfigParam('sTheme')->willReturn($parentThemeId);
+        $twigContext = new TwigContext($this->createContext(isAdmin: false), false, self::THEME_ID, '');
 
-        $themeId = $this->twigContext->getActiveThemeId();
-
-        $this->assertEquals($parentThemeId, $themeId);
-    }
-
-    public function testGetActiveThemeIdWithChildFrontendTheme(): void
-    {
-        $childThemeId = 123;
-        $this->config->isAdmin()->willReturn(false);
-        $this->config->getConfigParam('sCustomTheme')->willReturn($childThemeId);
-        $this->config->getConfigParam('sTheme')->willReturn(null);
-
-        $themeId = $this->twigContext->getActiveThemeId();
-
-        $this->assertEquals($childThemeId, $themeId);
+        $this->assertSame(self::THEME_ID, $twigContext->getActiveThemeId());
     }
 
     public function testGetActiveThemeIdWithEmptyAdminThemeWillThrow(): void
     {
-        $this->config->isAdmin()->willReturn(true);
+        $twigContext = new TwigContext($this->createContext(isAdmin: true), false, self::THEME_ID, '');
 
         $this->expectException(InvalidThemeNameException::class);
 
-        $this->twigContext->getActiveThemeId();
+        $twigContext->getActiveThemeId();
     }
 
-    public function testGetActiveThemeIdWithNonEmptyAdminTheme(): void
+    public function testGetActiveThemeIdWithAdminThemeReturnsConfiguredAdminTheme(): void
     {
-        $adminThemeId = 'theme-id';
-        $this->config->isAdmin()->willReturn(true);
+        $twigContext = new TwigContext($this->createContext(isAdmin: true), false, 'frontend-theme', self::THEME_ID);
 
-        $themeId = (new TwigContext($this->config->reveal(), $adminThemeId))->getActiveThemeId();
+        $this->assertSame(self::THEME_ID, $twigContext->getActiveThemeId());
+    }
 
-        $this->assertEquals($adminThemeId, $themeId);
+    private function createContext(bool $isAdmin): ContextInterface
+    {
+        $context = $this->createStub(ContextInterface::class);
+        $context->method('isAdmin')->willReturn($isAdmin);
+
+        return $context;
     }
 }

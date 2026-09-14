@@ -1,0 +1,30 @@
+themeSettings:
+  defaultListDisplayType:
+    type: str
+    value: infogrid
+  numberOfCategoryProducts:
+    type: arr
+    value:
+      - '10'
+  numberOfCategoryProductsInGrid:
+    type: arr
+    value:
+      - '10'
+  showBirthdayFields:
+    type: bool
+    value: true
+  showCompareList:
+    type: bool
+    value: true
+  showGiftWrapping:
+    type: bool
+    value: true
+  showVouchers:
+    type: bool
+    value: true
+  showWishlist:
+    type: bool
+    value: true
+  newBasketItemMessage:
+    type: select
+    value: '0'
