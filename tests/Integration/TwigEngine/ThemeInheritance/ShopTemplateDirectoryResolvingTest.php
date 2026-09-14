@@ -43,7 +43,7 @@ final class ShopTemplateDirectoryResolvingTest extends TestCase
 
     public function testRenderWithChildThemeAndParentTemplate(): void
     {
-        $this->setChildThemeFixture(self::CHILD_THEME);
+        $this->setThemeFixture(self::CHILD_THEME);
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_IN_PARENT_THEME);
 
@@ -52,7 +52,7 @@ final class ShopTemplateDirectoryResolvingTest extends TestCase
 
     public function testRenderWithChildThemeAndChildTemplate(): void
     {
-        $this->setChildThemeFixture(self::CHILD_THEME);
+        $this->setThemeFixture(self::CHILD_THEME);
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_IN_CHILD_THEME);
 
@@ -68,7 +68,7 @@ final class ShopTemplateDirectoryResolvingTest extends TestCase
 
     public function testRenderWithChildThemeAndSharedTemplate(): void
     {
-        $this->setChildThemeFixture(self::CHILD_THEME);
+        $this->setThemeFixture(self::CHILD_THEME);
 
         $actual = $this->get(TemplateEngineInterface::class)->render(self::TEMPLATE_IN_BOTH_THEMES);
 
