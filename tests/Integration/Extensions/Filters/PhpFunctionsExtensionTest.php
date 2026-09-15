@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Tests\Integration\Extensions\Filters;
 
+use OxidEsales\Eshop\Application\Controller\Admin\DiscountCategoriesAjax;
 use OxidEsales\Twig\Extensions\Filters\PhpFunctionsExtension;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -33,14 +34,16 @@ final class PhpFunctionsExtensionTest extends TestCase
             ["{{ 'Mon, 21 Jan 2019 15:35:00 GMT'|strtotime }}", 1_548_084_900],
             ['{{ {0:0, 1:1}|is_array  }}', true],
             ["{{ 'foo'|is_array  }}", false],
-            ["{{ 'discount_categories_ajax'|oxNew is null  }}", false]
+            ['{{ className|oxNew is null  }}', false]
         ];
     }
 
     #[DataProvider('dummyTemplateProvider')]
     public function testIfPhpFunctionsAreCallable(string $template, $expected): void
     {
-        $this->assertEquals($expected, $this->getTemplate($template)->render([]));
+        $rendered = $this->getTemplate($template)->render(['className' => DiscountCategoriesAjax::class]);
+
+        $this->assertEquals($expected, $rendered);
     }
 
     private function getTemplate(string $template): Template
