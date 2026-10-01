@@ -33,7 +33,7 @@ final class PhpFunctionsExtensionTest extends TestCase
             ["{{ 'Mon, 21 Jan 2019 15:35:00 GMT'|strtotime }}", 1_548_084_900],
             ['{{ {0:0, 1:1}|is_array  }}', true],
             ["{{ 'foo'|is_array  }}", false],
-            ["{{ 'discount_categories_ajax'|oxNew is null  }}", false]
+            ["{{ 'OxidEsales\\\\Eshop\\\\Application\\\\Controller\\\\Admin\\\\DiscountCategoriesAjax'|oxNew is null  }}", false]
         ];
     }
 
