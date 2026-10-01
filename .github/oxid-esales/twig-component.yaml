@@ -15,13 +15,13 @@ install:
         },
         "require": {
           "oxid-esales/apex-theme": "{{ .Data.install.composer.dev_ref }}",
-          "oxid-esales/oxideshop-ce": "{{ .Data.install.composer.dev_ref }}",
+          "oxid-esales/oxideshop-ce": "dev-b-8.0.x-php-unit-13-OXDEV-10592",
           "oxid-esales/twig-admin-theme": "{{ .Data.install.composer.dev_ref }}",
           "oxid-esales/twig-component": "{{ .Data.install.composer.ref_name }}"
         },
         "require-dev":{
           "mikey179/vfsstream": "~1.6.8",
-          "oxid-esales/developer-tools": "{{ .Data.install.composer.dev_ref }}",
+          "oxid-esales/developer-tools": "dev-b-8.0.x-php-unit-13-OXDEV-10592",
           "phpspec/prophecy-phpunit": "^v2.0.1",
           "phpunit/phpunit": "^13.0"
         },
