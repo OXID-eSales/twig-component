@@ -10,16 +10,15 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\Resolver;
 
 use OxidEsales\Eshop\Core\Config;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\DataObject\ActiveTheme;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\Exception\ActiveThemeNotFoundException;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Facade\ActiveThemeProviderInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\ActiveTheme;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\Exception\ActiveThemeNotFoundException;
 use OxidEsales\Twig\Resolver\ShopTemplateDirectoryResolver;
 use PHPUnit\Framework\TestCase;
 use Twig\Loader\FilesystemLoader;
 
 final class ShopTemplateDirectoryResolverTest extends TestCase
 {
-    private const SHOP_ID = 1;
     private const CHILD_THEME_ID = 'childTheme';
     private const PARENT_THEME_ID = 'parentTheme';
     private const PARENT_THEME_DIRECTORY = 'views/parentTheme/tpl';
@@ -117,7 +116,6 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
         $requestedThemes = [];
         $config = $this->createStub(Config::class);
         $config->method('isAdmin')->willReturn(false);
-        $config->method('getShopId')->willReturn(self::SHOP_ID);
         $config->method('getDir')->willReturnCallback(
             function ($file, $dir, $admin, $lang, $shop, $theme, $absolute, $ignoreParent) use (&$requestedThemes) {
                 $requestedThemes[$theme] = $ignoreParent;
@@ -140,7 +138,6 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
         $activeThemeProvider
             ->expects($this->once())
             ->method('getActiveTheme')
-            ->with(self::SHOP_ID)
             ->willReturn(new ActiveTheme(self::PARENT_THEME_ID));
         $resolver = new ShopTemplateDirectoryResolver($this->createFrontendConfig(), $activeThemeProvider);
 
@@ -161,7 +158,6 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
     {
         $config = $this->createStub(Config::class);
         $config->method('isAdmin')->willReturn(false);
-        $config->method('getShopId')->willReturn(self::SHOP_ID);
         $config->method('getDir')->willReturnCallback(
             fn ($file, $dir, $admin, $lang, $shop, $theme) => $directoriesByThemeId[$theme] ?? false
         );

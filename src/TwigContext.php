@@ -12,14 +12,12 @@ namespace OxidEsales\Twig;
 use OxidEsales\Eshop\Core\Config;
 use OxidEsales\EshopCommunity\Core\Di\ContainerFacade;
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Exception\InvalidThemeNameException;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\Facade\ActiveThemeProviderInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\State\Exception\ActiveThemeNotFoundException;
 
 class TwigContext implements TwigContextInterface
 {
     public function __construct(
         private Config $config,
-        private ActiveThemeProviderInterface $activeThemeProvider,
+        private string $activeThemeId,
         private string $activeAdminTheme,
     ) {
     }
@@ -45,10 +43,10 @@ class TwigContext implements TwigContextInterface
 
     private function getActiveFrontendThemeId(): string
     {
-        try {
-            return $this->activeThemeProvider->getActiveThemeId($this->config->getShopId());
-        } catch (ActiveThemeNotFoundException $exception) {
-            throw new InvalidThemeNameException('No active theme found.', previous: $exception);
+        if ($this->activeThemeId === '') {
+            throw new InvalidThemeNameException('No active theme found.');
         }
+
+        return $this->activeThemeId;
     }
 }
