@@ -13,8 +13,8 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Event\Modu
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Event\FinalizingModuleActivationEvent;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Event\FinalizingModuleDeactivationEvent;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Event\ModuleSetupEvent;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\Event\ThemeConfigurationChangedEvent;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\Event\ThemeActivatedEvent;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\Event\ThemeActivatedEvent;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Configuration\Event\ThemeConfigurationChangedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 

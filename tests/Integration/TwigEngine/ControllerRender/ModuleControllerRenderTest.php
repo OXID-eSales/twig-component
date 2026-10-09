@@ -116,6 +116,8 @@ final class ModuleControllerRenderTest extends TestCase
 
     private function switchDebugMode(bool $enable): void
     {
+        $this->setThemeFixture($this->currentTheme);
+
         $this->createContainer();
         $this->container->setParameter(
             'oxid_esales.shop_source_directory',
@@ -124,8 +126,6 @@ final class ModuleControllerRenderTest extends TestCase
         $this->container->setParameter('oxid_esales.debug_mode', $enable);
         $this->compileContainer();
         $this->replaceContainerInstance();
-
-        $this->setThemeFixture($this->currentTheme);
     }
 
     private function autoloadFixtures(): void

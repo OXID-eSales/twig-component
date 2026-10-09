@@ -13,8 +13,8 @@ use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\DataObject\OxidEshopPackage;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Install\Service\ModuleInstallerInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Bridge\ModuleActivationBridgeInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\Service\ThemeActivationServiceInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Install\Service\ThemeConfigurationInstallerInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Theme\Setup\Service\ThemeActivationServiceInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\BasicContextInterface;
 use OxidEsales\EshopCommunity\Tests\ContainerTrait;
 use OxidEsales\EshopCommunity\Tests\TestContainerFactory;
@@ -63,7 +63,6 @@ trait TestingFixturesTrait
 
     public function reloadTestContainer(): void
     {
-        $this->setShopSourceFixture();
         $this->setThemeFixture($this->currentTheme);
     }
 
@@ -74,6 +73,7 @@ trait TestingFixturesTrait
             ->install("{$this->getFixturesDirectory()}/shop/source/Application/views/$themeId");
         $this->get(ThemeActivationServiceInterface::class)->activate($themeId, $shopId);
         $this->currentTheme = $themeId;
+        $this->setShopSourceFixture();
     }
 
     public function setFixtureBaseLanguage(int $languageId): void
