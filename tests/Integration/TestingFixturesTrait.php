@@ -55,10 +55,7 @@ trait TestingFixturesTrait
 
     public function setShopSourceFixture(): void
     {
-        $this->setParameter(
-            'oxid_esales.shop_source_directory',
-            "{$this->getFixturesDirectory()}/shop/source/"
-        );
+        $this->setParameter('oxid_esales.shop_source_directory', $this->getShopSourceFixtureDirectory());
     }
 
     public function reloadTestContainer(): void
@@ -68,12 +65,16 @@ trait TestingFixturesTrait
 
     public function setThemeFixture(string $themeId): void
     {
-        $shopId = $this->get(BasicContextInterface::class)->getDefaultShopId();
-        $this->get(ThemeConfigurationInstallerInterface::class)
-            ->install("{$this->getFixturesDirectory()}/shop/source/Application/views/$themeId");
-        $this->get(ThemeActivationServiceInterface::class)->activate($themeId, $shopId);
+        $this->installThemeFixture($themeId);
+        $this->get(ThemeActivationServiceInterface::class)
+            ->activate($themeId, $this->get(BasicContextInterface::class)->getDefaultShopId());
         $this->currentTheme = $themeId;
         $this->setShopSourceFixture();
+    }
+
+    public function installThemeFixture(string $themeId): void
+    {
+        $this->get(ThemeConfigurationInstallerInterface::class)->install($this->getThemeFixtureDirectory($themeId));
     }
 
     public function setFixtureBaseLanguage(int $languageId): void
@@ -84,6 +85,16 @@ trait TestingFixturesTrait
     private function getFixturesDirectory(): string
     {
         return "$this->fixtureRoot/Fixtures";
+    }
+
+    private function getShopSourceFixtureDirectory(): string
+    {
+        return "{$this->getFixturesDirectory()}/shop/source/";
+    }
+
+    private function getThemeFixtureDirectory(string $themeId): string
+    {
+        return "{$this->getShopSourceFixtureDirectory()}Application/views/$themeId";
     }
 
     private function installModuleFixture(string $moduleId): void

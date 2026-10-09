@@ -119,10 +119,7 @@ final class ModuleControllerRenderTest extends TestCase
         $this->setThemeFixture($this->currentTheme);
 
         $this->createContainer();
-        $this->container->setParameter(
-            'oxid_esales.shop_source_directory',
-            "{$this->getFixturesDirectory()}/shop/source/"
-        );
+        $this->container->setParameter('oxid_esales.shop_source_directory', $this->getShopSourceFixtureDirectory());
         $this->container->setParameter('oxid_esales.debug_mode', $enable);
         $this->compileContainer();
         $this->replaceContainerInstance();
