@@ -57,7 +57,7 @@ final class InvalidateTemplateChainCacheEventSubscriberTest extends IntegrationT
         $this->putTaggedCacheEntry();
 
         $this->eventDispatcher->dispatch(
-            new ThemeConfigurationChangedEvent('apex', $this->shopId)
+            new ThemeConfigurationChangedEvent($this->shopId, 'apex')
         );
 
         $this->assertFalse($this->cache->getItem(self::CACHE_KEY)->isHit());
