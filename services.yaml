@@ -2,7 +2,6 @@ imports:
   - { resource: src/Event/services.yaml }
 
 parameters:
-  oxid_esales.theme.admin.name: 'admin_twig'
   oxid_esales.templating.engine_template_extension: 'html.twig'
   oxid_esales.templating.disable_twig_template_caching: false
 
@@ -18,7 +17,6 @@ services:
     arguments:
       $debugMode: '%oxid_esales.debug_mode%'
       $activeThemeId: '%oxid_esales.theme.active%'
-      $adminThemeName: '%oxid_esales.theme.admin.name%'
 
   OxidEsales\Twig\TwigEngineConfigurationInterface:
     class: OxidEsales\Twig\TwigEngineConfiguration
@@ -275,6 +273,8 @@ services:
   OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleTemplateHandler:
 
   OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ShopTemplateChainAppender:
+    arguments:
+      $adminUiName: '%oxid_esales.admin_ui.name%'
 
   OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions\ShopTemplateHandler:
     arguments:

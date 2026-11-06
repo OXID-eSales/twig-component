@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions;
 
+use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ChainAppenderInterface;
@@ -21,6 +22,8 @@ class ShopTemplateChainAppender implements ChainAppenderInterface
     public function __construct(
         private TwigContextInterface $twigContext,
         private ChainAppenderInterface $chainAppender,
+        private ContextInterface $context,
+        private string $adminUiName,
     ) {
     }
 
@@ -43,9 +46,14 @@ class ShopTemplateChainAppender implements ChainAppenderInterface
     private function getThemeIdsOrderedByLoadPriority(): array
     {
         return [
-            $this->twigContext->getActiveThemeId(),
+            $this->getExtensionFolderName(),
             $this->getFallbackThemeId(),
         ];
+    }
+
+    private function getExtensionFolderName(): string
+    {
+        return $this->context->isAdmin() ? $this->adminUiName : $this->twigContext->getActiveThemeId();
     }
 
     private function getFallbackThemeId(): string
