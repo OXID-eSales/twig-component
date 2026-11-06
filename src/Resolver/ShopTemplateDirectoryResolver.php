@@ -10,9 +10,11 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Resolver;
 
 use OxidEsales\Eshop\Core\Config;
+use OxidEsales\EshopCommunity\Internal\Framework\AdminUi\AdminUiPathProviderInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\Exception\ActiveThemeNotFoundException;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Facade\ActiveThemeProviderInterface;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
+use Symfony\Component\Filesystem\Path;
 use Twig\Loader\FilesystemLoader;
 
 readonly class ShopTemplateDirectoryResolver implements TemplateDirectoryResolverInterface
@@ -22,6 +24,7 @@ readonly class ShopTemplateDirectoryResolver implements TemplateDirectoryResolve
     public function __construct(
         private Config $config,
         private ActiveThemeProviderInterface $activeThemeProvider,
+        private AdminUiPathProviderInterface $adminUiPathProvider,
     ) {
     }
 
@@ -37,7 +40,7 @@ readonly class ShopTemplateDirectoryResolver implements TemplateDirectoryResolve
     private function getShopViewsTemplateDirectories(): array
     {
         if ($this->config->isAdmin()) {
-            return [$this->getTemplateDirectoryForAdminTheme()];
+            return [$this->getTemplateDirectoryForAdminUi()];
         }
 
         return array_map($this->getTemplateDirectoryForTheme(...), $this->getActiveThemeIds());
@@ -57,13 +60,9 @@ readonly class ShopTemplateDirectoryResolver implements TemplateDirectoryResolve
             : [$activeTheme->getId()];
     }
 
-    private function getTemplateDirectoryForAdminTheme(): string
+    private function getTemplateDirectoryForAdminUi(): string
     {
-        return (string)$this->config->getDir(
-            null,
-            self::SHOP_VIEWS_TEMPLATES_DIRECTORY_NAME,
-            true,
-        );
+        return Path::join($this->adminUiPathProvider->getAbsolutePath(), self::SHOP_VIEWS_TEMPLATES_DIRECTORY_NAME);
     }
 
     private function getTemplateDirectoryForTheme(string $themeId): string

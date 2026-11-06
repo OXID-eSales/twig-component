@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\Resolver;
 
 use OxidEsales\Eshop\Core\Config;
+use OxidEsales\EshopCommunity\Internal\Framework\AdminUi\AdminUiPathProviderInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\DataObject\ActiveTheme;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\Exception\ActiveThemeNotFoundException;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Facade\ActiveThemeProviderInterface;
@@ -23,14 +24,18 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
     private const CHILD_THEME_ID = 'childTheme';
     private const PARENT_THEME_ID = 'parentTheme';
 
-    public function testReturnsAdminThemeDirectoryInAdmin(): void
+    public function testReturnsAdminUiTemplateDirectoryInAdmin(): void
     {
-        $config = $this->createConfig(isAdmin: true);
-        $config->method('getDir')->willReturn('admin/tpl');
-        $resolver = new ShopTemplateDirectoryResolver($config, $this->createStub(ActiveThemeProviderInterface::class));
+        $adminUiPathProvider = $this->createStub(AdminUiPathProviderInterface::class);
+        $adminUiPathProvider->method('getAbsolutePath')->willReturn('/admin-ui');
+        $resolver = new ShopTemplateDirectoryResolver(
+            $this->createConfig(isAdmin: true),
+            $this->createStub(ActiveThemeProviderInterface::class),
+            $adminUiPathProvider
+        );
 
         $this->assertEquals(
-            [new NamespacedDirectory(FilesystemLoader::MAIN_NAMESPACE, 'admin/tpl')],
+            [new NamespacedDirectory(FilesystemLoader::MAIN_NAMESPACE, '/admin-ui/tpl')],
             $resolver->getTemplateDirectories()
         );
     }
@@ -42,7 +47,8 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
                 self::CHILD_THEME_ID => 'child/tpl',
                 self::PARENT_THEME_ID => 'parent/tpl',
             ]),
-            $this->createActiveThemeProvider(new ActiveTheme(self::CHILD_THEME_ID, self::PARENT_THEME_ID))
+            $this->createActiveThemeProvider(new ActiveTheme(self::CHILD_THEME_ID, self::PARENT_THEME_ID)),
+            $this->createStub(AdminUiPathProviderInterface::class)
         );
 
         $this->assertEquals(
@@ -58,7 +64,8 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
     {
         $resolver = new ShopTemplateDirectoryResolver(
             $this->createFrontendConfig([self::PARENT_THEME_ID => 'parent/tpl']),
-            $this->createActiveThemeProvider(new ActiveTheme(self::CHILD_THEME_ID, self::PARENT_THEME_ID))
+            $this->createActiveThemeProvider(new ActiveTheme(self::CHILD_THEME_ID, self::PARENT_THEME_ID)),
+            $this->createStub(AdminUiPathProviderInterface::class)
         );
 
         $this->assertEquals(
@@ -71,7 +78,11 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
     {
         $activeThemeProvider = $this->createStub(ActiveThemeProviderInterface::class);
         $activeThemeProvider->method('getActiveTheme')->willThrowException(new ActiveThemeNotFoundException());
-        $resolver = new ShopTemplateDirectoryResolver($this->createFrontendConfig([]), $activeThemeProvider);
+        $resolver = new ShopTemplateDirectoryResolver(
+            $this->createFrontendConfig([]),
+            $activeThemeProvider,
+            $this->createStub(AdminUiPathProviderInterface::class)
+        );
 
         $this->assertSame([], $resolver->getTemplateDirectories());
     }
