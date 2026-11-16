@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ModuleExtensions;
 
+use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use OxidEsales\Twig\Resolver\TemplateChain\DataObject\TemplateChain;
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateHandler\ChainAppenderInterface;
@@ -16,11 +17,15 @@ use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\ShopExtension
 use OxidEsales\Twig\Resolver\TemplateChain\TemplateType\DataObject\TemplateTypeInterface;
 use OxidEsales\Twig\TwigContextInterface;
 
-class ShopTemplateChainAppender implements ChainAppenderInterface
+readonly class ShopTemplateChainAppender implements ChainAppenderInterface
 {
+    private const FALLBACK_EXTENSION_FOLDER_NAME = 'default';
+
     public function __construct(
         private TwigContextInterface $twigContext,
         private ChainAppenderInterface $chainAppender,
+        private ContextInterface $context,
+        private string $adminUiName,
     ) {
     }
 
@@ -29,9 +34,9 @@ class ShopTemplateChainAppender implements ChainAppenderInterface
         TemplateTypeInterface $templateType,
         NamespacedDirectory $directory
     ): TemplateChain {
-        foreach ($this->getThemeIdsOrderedByLoadPriority() as $theme) {
+        foreach ($this->getExtensionFolderNamesOrderedByLoadPriority() as $extensionFolderName) {
             $countBefore = $templateChain->count();
-            $extension = $this->getExtension($templateType, $directory, $theme);
+            $extension = $this->getExtension($templateType, $directory, $extensionFolderName);
             $templateChain = $this->chainAppender->addToChain($templateChain, $extension, $directory);
             if ($this->isTemplateAddedToTheChain($templateChain, $countBefore)) {
                 break;
@@ -40,28 +45,33 @@ class ShopTemplateChainAppender implements ChainAppenderInterface
         return $templateChain;
     }
 
-    private function getThemeIdsOrderedByLoadPriority(): array
+    /** @return string[] */
+    private function getExtensionFolderNamesOrderedByLoadPriority(): array
     {
         return [
-            $this->twigContext->getActiveThemeId(),
-            $this->getFallbackThemeId(),
+            $this->getExtensionFolderName(),
+            self::FALLBACK_EXTENSION_FOLDER_NAME,
         ];
     }
 
-    private function getFallbackThemeId(): string
+    private function getExtensionFolderName(): string
     {
-        return 'default';
+        if ($this->context->isAdmin()) {
+            return $this->adminUiName;
+        }
+
+        return $this->twigContext->getActiveThemeId();
     }
 
     private function getExtension(
         TemplateTypeInterface $template,
         NamespacedDirectory $directory,
-        string $theme
+        string $extensionFolderName
     ): ShopExtensionTemplateType {
         return new ShopExtensionTemplateType(
             $template->getName(),
             $directory->getNamespace(),
-            $theme
+            $extensionFolderName
         );
     }
 

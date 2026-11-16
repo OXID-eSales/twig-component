@@ -10,12 +10,14 @@ declare(strict_types=1);
 namespace OxidEsales\Twig\Tests\Unit\Resolver;
 
 use OxidEsales\Eshop\Core\Config;
+use OxidEsales\EshopCommunity\Internal\Framework\AdminUi\Service\AdminUiDirectoryResolverInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\DataObject\ActiveTheme;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Activation\Exception\ActiveThemeNotFoundException;
 use OxidEsales\EshopCommunity\Internal\Framework\Theme\Facade\ActiveThemeProviderInterface;
 use OxidEsales\Twig\Resolver\DataObject\NamespacedDirectory;
 use OxidEsales\Twig\Resolver\ShopTemplateDirectoryResolver;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Filesystem\Filesystem;
 use Twig\Loader\FilesystemLoader;
 
 final class ShopTemplateDirectoryResolverTest extends TestCase
@@ -23,14 +25,26 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
     private const CHILD_THEME_ID = 'childTheme';
     private const PARENT_THEME_ID = 'parentTheme';
 
-    public function testReturnsAdminThemeDirectoryInAdmin(): void
+    public function testReturnsTemplateDirectoriesOfAdminUiInAdmin(): void
     {
-        $config = $this->createConfig(isAdmin: true);
-        $config->method('getDir')->willReturn('admin/tpl');
-        $resolver = new ShopTemplateDirectoryResolver($config, $this->createStub(ActiveThemeProviderInterface::class));
+        $adminUiDirectoryResolver = $this->createStub(AdminUiDirectoryResolverInterface::class);
+        $adminUiDirectoryResolver->method('getDirectories')->willReturn([
+            __DIR__ . '/Fixtures/adminUiOverlay',
+            __DIR__ . '/Fixtures/adminUiWithoutTemplates',
+            __DIR__ . '/Fixtures/adminUi',
+        ]);
+        $resolver = new ShopTemplateDirectoryResolver(
+            $this->createConfig(isAdmin: true),
+            $this->createStub(ActiveThemeProviderInterface::class),
+            $adminUiDirectoryResolver,
+            new Filesystem(),
+        );
 
         $this->assertEquals(
-            [new NamespacedDirectory(FilesystemLoader::MAIN_NAMESPACE, 'admin/tpl')],
+            [
+                new NamespacedDirectory(FilesystemLoader::MAIN_NAMESPACE, __DIR__ . '/Fixtures/adminUiOverlay/tpl'),
+                new NamespacedDirectory(FilesystemLoader::MAIN_NAMESPACE, __DIR__ . '/Fixtures/adminUi/tpl'),
+            ],
             $resolver->getTemplateDirectories()
         );
     }
@@ -42,7 +56,9 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
                 self::CHILD_THEME_ID => 'child/tpl',
                 self::PARENT_THEME_ID => 'parent/tpl',
             ]),
-            $this->createActiveThemeProvider(new ActiveTheme(self::CHILD_THEME_ID, self::PARENT_THEME_ID))
+            $this->createActiveThemeProvider(new ActiveTheme(self::CHILD_THEME_ID, self::PARENT_THEME_ID)),
+            $this->createStub(AdminUiDirectoryResolverInterface::class),
+            new Filesystem(),
         );
 
         $this->assertEquals(
@@ -58,7 +74,9 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
     {
         $resolver = new ShopTemplateDirectoryResolver(
             $this->createFrontendConfig([self::PARENT_THEME_ID => 'parent/tpl']),
-            $this->createActiveThemeProvider(new ActiveTheme(self::CHILD_THEME_ID, self::PARENT_THEME_ID))
+            $this->createActiveThemeProvider(new ActiveTheme(self::CHILD_THEME_ID, self::PARENT_THEME_ID)),
+            $this->createStub(AdminUiDirectoryResolverInterface::class),
+            new Filesystem(),
         );
 
         $this->assertEquals(
@@ -71,7 +89,12 @@ final class ShopTemplateDirectoryResolverTest extends TestCase
     {
         $activeThemeProvider = $this->createStub(ActiveThemeProviderInterface::class);
         $activeThemeProvider->method('getActiveTheme')->willThrowException(new ActiveThemeNotFoundException());
-        $resolver = new ShopTemplateDirectoryResolver($this->createFrontendConfig([]), $activeThemeProvider);
+        $resolver = new ShopTemplateDirectoryResolver(
+            $this->createFrontendConfig([]),
+            $activeThemeProvider,
+            $this->createStub(AdminUiDirectoryResolverInterface::class),
+            new Filesystem(),
+        );
 
         $this->assertSame([], $resolver->getTemplateDirectories());
     }

@@ -10,15 +10,12 @@ declare(strict_types=1);
 namespace OxidEsales\Twig;
 
 use OxidEsales\EshopCommunity\Internal\Framework\Templating\Exception\InvalidThemeNameException;
-use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
 
 readonly class TwigContext implements TwigContextInterface
 {
     public function __construct(
-        private ContextInterface $context,
         private bool $debugMode,
         private string $activeThemeId,
-        private string $adminThemeName,
     ) {
     }
 
@@ -28,20 +25,6 @@ readonly class TwigContext implements TwigContextInterface
     }
 
     public function getActiveThemeId(): string
-    {
-        return $this->context->isAdmin() ? $this->getAdminThemeName() : $this->getActiveFrontendThemeId();
-    }
-
-    private function getAdminThemeName(): string
-    {
-        if ($this->adminThemeName === '') {
-            throw new InvalidThemeNameException('Admin theme name is not configured.');
-        }
-
-        return $this->adminThemeName;
-    }
-
-    private function getActiveFrontendThemeId(): string
     {
         if ($this->activeThemeId === '') {
             throw new InvalidThemeNameException('No active theme found.');

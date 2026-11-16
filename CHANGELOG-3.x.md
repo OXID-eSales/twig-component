@@ -5,9 +5,12 @@
 
 ### Changed
 - Replace `sTheme` and `sCustomTheme` config parameters with `oxid_esales.theme.active` container parameter
+- Admin templates are read from the admin UI directories instead of `Application/views/admin_twig`
+- `TwigContextInterface::getActiveThemeId()` returns the storefront theme in the admin area as well
 
 ### Removed
 - PHP v8.3 support
+- DI parameter `oxid_esales.theme.admin.name`, use `oxid_esales.admin_ui.name` instead
 
 ## v8.0.0-alpha.2 - 2026-02-12
 *Compilation release*
